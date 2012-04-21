@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListItem">
+
+    <RelativeLayout style="@style/Stretch">
+
+    <TextView style="@style/ListInfo"
+      android:id="@+id/text_postal_record_date"
+          android:layout_alignParentLeft="true" />
+
+    <TextView style="@style/ListInfo"
+           android:id="@+id/text_postal_record_time"
+           android:layout_alignParentRight="true" />
+
+  </RelativeLayout>
+
+  <RelativeLayout style="@style/Stretch"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <LinearLayout style="@style/Wrap"
+      android:orientation="vertical"
+      android:paddingRight="@dimen/status_icon_size">
+
+      <TextView style="@style/ListTitle"
+        android:id="@+id/text_postal_record_status" />
+
+      <TextView style="@style/ListSubTitle"
+        android:id="@+id/text_postal_record_loc" />
+
+    </LinearLayout>
+
+    <ImageView style="@style/Wrap"
+      android:id="@+id/img_postal_record_status"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:contentDescription="@string/desc_status" />
+
+  </RelativeLayout>
+
+  <TextView style="@style/ListInfo"
+    android:id="@+id/text_postal_record_info"
+    android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListItem">
+
+  <RelativeLayout style="@style/Stretch">
+
+    <TextView style="@style/ListInfo"
+      android:id="@+id/text_postal_item_cod"
+          android:layout_alignParentLeft="true" />
+
+        <TextView style="@style/ListInfo"
+          android:id="@+id/text_postal_item_date"
+          android:layout_alignParentRight="true" />
+
+  </RelativeLayout>
+
+  <RelativeLayout style="@style/Stretch"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <CheckBox style="@style/Star"
+      android:id="@+id/star_chkbox"
+      android:onClick="onFavClick"
+      android:focusable="false" />
+
+    <LinearLayout style="@style/Wrap"
+      android:orientation="vertical"
+      android:layout_toRightOf="@+id/star_chkbox"
+      android:paddingRight="@dimen/status_icon_size">
+
+      <TextView style="@style/ListTitle"
+        android:id="@+id/text_postal_item_desc" />
+
+      <TextView style="@style/ListSubTitle"
+        android:id="@+id/text_postal_item_loc" />
+
+    </LinearLayout>
+
+    <ImageView style="@style/Wrap"
+      android:id="@+id/img_postal_item_status"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:contentDescription="@string/desc_status" />
+
+  </RelativeLayout>
+
+  <TextView style="@style/ListInfo"
+    android:id="@+id/text_postal_item_info" />
+
+</LinearLayout>

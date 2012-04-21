@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/rename_opt"
+        android:title="@string/opt_rename_item" />
+
+    <item android:id="@+id/fav_opt" />
+
+    <item android:id="@+id/delete_opt"
+        android:title="@string/opt_delete_item" />
+
+</menu>

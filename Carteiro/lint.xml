@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="TextFields">
+        <ignore path="res\layout\add.xml" />
+        <ignore path="res\layout\item_desc_dialog.xml" />
+    </issue>
+</lint>

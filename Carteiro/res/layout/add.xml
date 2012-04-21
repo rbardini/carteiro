@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container.Inner.Center">
+
+  <EditText style="@style/TrkCodeField"
+    android:id="@+id/trk_code_fld"
+    android:textColor="@color/foreground1" />
+
+  <EditText style="@style/ItemDescField"
+    android:id="@+id/item_desc_fld"
+    android:textColor="@color/foreground1" />
+
+  <RelativeLayout style="@style/Stretch">
+
+    <CheckBox style="@style/Star.Add"
+      android:id="@+id/star_chkbox" />
+
+    <Button style="@style/Wrap"
+      android:id="@+id/add_item_btn"
+      android:text="@string/add_btn"
+      android:layout_alignParentRight="true"
+      android:onClick="onAddPostalItemClick" />
+
+  </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/refresh_opt"
+        android:title="@string/opt_refresh_item" />
+
+    <item android:id="@+id/rename_opt"
+        android:title="@string/opt_rename_item" />
+
+    <item android:id="@+id/fav_opt" />
+
+    <item android:id="@+id/place_opt"
+        android:title="@string/opt_view_place" />
+
+    <item android:id="@+id/share_opt"
+        android:title="@string/opt_share_status" />
+
+    <item android:id="@+id/websro_opt"
+        android:title="@string/opt_open_websro" />
+
+    <item android:id="@+id/delete_opt"
+        android:title="@string/opt_delete_item" />
+
+</menu>

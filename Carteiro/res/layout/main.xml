@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container"
+    xmlns:app="http://schemas.android.com/apk/res/com.rbardini.carteiro">
+
+  <com.viewpagerindicator.TitlePageIndicator style="@style/Stretch"
+    android:id="@+id/indicator"
+    android:background="@color/highlight"
+    app:footerColor="@color/divider"
+    app:textColor="@color/divider"
+    app:selectedColor="@color/foreground1"
+    app:selectedBold="false" />
+
+  <android.support.v4.view.ViewPager style="@style/Stretch"
+      android:id="@+id/postal_list_pager" />
+
+</LinearLayout>

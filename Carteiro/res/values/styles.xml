@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- Variation on the light theme with dark action bar -->
+  <style name="Theme.Carteiro" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+            <item name="windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/background</item>
+    <item name="android:colorBackground">@color/background</item>
+        <item name="android:fadeScrollbars">true</item>
+    <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionButtonStyle">@style/ActionButton</item>
+        <item name="actionButtonStyle">@style/ActionButton</item>
+        <item name="android:textViewStyle">@style/TextView</item>
+        <item name="android:buttonStyle">@style/Button</item>
+        <item name="android:checkboxStyle">@style/CheckBox</item>
+        <item name="android:listViewStyle">@style/ListView</item>
+        <item name="android:listSeparatorTextViewStyle">@style/ListSeparatorTextView</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
+    <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView</item>
+    <item name="android:selectableItemBackground">@drawable/selector_background</item>
+    </style>
+
+    <!-- Global -->
+    <style name="Wrap">
+      <item name="android:layout_width">wrap_content</item>
+      <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="Fill">
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:layout_height">fill_parent</item>
+    </style>
+    <style name="Stretch">
+      <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Layout -->
+    <style name="Container" parent="@style/Fill">
+    <item name="android:orientation">vertical</item>
+    </style>
+    <style name="Container.Inner">
+      <item name="android:padding">15dp</item>
+    </style>
+    <style name="Container.Inner.Center">
+      <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Action Bar -->
+  <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+    <item name="background">@color/foreground1</item>
+    <item name="android:background">@color/foreground1</item>
+    <item name="backgroundStacked">@color/foreground1</item>
+    <item name="android:backgroundStacked">@color/foreground1</item>
+    <item name="backgroundSplit">@color/foreground1</item>
+    <item name="android:backgroundSplit">@color/foreground1</item>
+  </style>
+
+    <!-- Widget -->
+    <style name="TextView" parent="@android:style/Widget.TextView">
+      <item name="android:textColor">@color/foreground1</item>
+    </style>
+    <style name="Button" parent="@android:style/Widget.Button">
+      <item name="android:background">@drawable/btn_default</item>
+      <item name="android:textColor">@color/foreground1</item>
+      <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+    </style>
+    <style name="ActionButton" parent="Widget.Sherlock.ActionButton">
+        <item name="android:background">@drawable/selector_background</item>
+    </style>
+    <style name="CheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+      <item name="android:textColor">@color/foreground1</item>
+    </style>
+    <style name="PopupMenu" parent="Widget.Sherlock.PopupMenu">
+    <item name="android:popupBackground">@color/foreground1</item>
+  </style>
+    <style name="DropDownListView" parent="Widget.Sherlock.ListView.DropDown">
+    <item name="android:listSelector">@drawable/selector_background</item>
+  </style>
+
+    <!-- Custom Widgets -->
+    <style name="AddButton" parent="@style/Wrap">
+      <item name="android:src">@android:drawable/ic_input_add</item>
+    </style>
+    <style name="TrkCodeField" parent="@style/Stretch">
+    <item name="android:hint">@string/hint_tracking_code</item>
+    <item name="android:textSize">@dimen/text_size_big</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:maxLength">13</item>
+    <item name="android:inputType">textCapCharacters|textNoSuggestions</item>
+    <item name="android:selectAllOnFocus">true</item>
+    </style>
+    <style name="ItemDescField" parent="@style/Stretch">
+      <item name="android:hint">@string/hint_item_description</item>
+      <item name="android:textSize">@dimen/text_size_big</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:inputType">textCapSentences</item>
+    <item name="android:selectAllOnFocus">true</item>
+    </style>
+    <style name="Star">
+      <item name="android:layout_width">27dp</item>
+      <item name="android:layout_height">27dp</item>
+      <item name="android:button">@drawable/btn_star</item>
+    </style>
+    <style name="Star.Add">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_alignParentLeft">true</item>
+    <item name="android:layout_alignBaseline">@+id/add_item_btn</item>
+    <item name="android:paddingLeft">28dp</item>
+    <item name="android:text">@string/checkbox_add_favorite</item>
+    <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+    <style name="EmptyText" parent="@style/Fill">
+      <item name="android:gravity">center</item>
+    <item name="android:text">@string/text_empty_list</item>
+    </style>
+
+    <!-- List -->
+    <style name="ListView" parent="@android:style/Widget.ListView">
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:layout_height">fill_parent</item>
+      <item name="android:divider">@color/divider</item>
+      <item name="android:dividerHeight">1px</item>
+      <item name="android:cacheColorHint">@color/background</item>
+    <item name="android:listSelector">@drawable/selector_background</item>
+  </style>
+  <style name="ListSeparatorTextView" parent="@android:style/Widget.TextView">
+      <item name="android:background">@color/divider</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">5sp</item>
+  </style>
+    <style name="ListItem" parent="@style/Stretch">
+      <item name="android:orientation">vertical</item>
+      <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+    <item name="android:paddingLeft">10dip</item>
+    <item name="android:paddingRight">10dip</item>
+    <item name="android:paddingTop">8dip</item>
+    <item name="android:paddingBottom">8dip</item>
+    </style>
+    <style name="ListTitle" parent="@style/Wrap">
+      <item name="android:textSize">@dimen/text_size_big</item>
+      <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ListSubTitle" parent="@style/Wrap">
+      <item name="android:hint">@string/text_unknown_location</item>
+    <item name="android:textColorHint">@color/foreground1</item>
+    </style>
+    <style name="ListInfo" parent="@style/Wrap">
+      <item name="android:textSize">@dimen/text_size_tiny</item>
+      <item name="android:textColor">@color/foreground2</item>
+    </style>
+</resources>
