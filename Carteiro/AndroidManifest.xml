@@ -35,6 +35,14 @@
 
         <activity android:name=".ui.AddActivity"
       android:label="@string/title_add">
+
+            <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="http" android:host="websro.correios.com.br" android:pathPrefix="/sro_bin" />
+      </intent-filter>
+
         </activity>
 
         <activity android:name=".ui.RecordActivity"

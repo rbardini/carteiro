@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -57,6 +58,8 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         pi = (PostalItem) getLastCustomNonConfigurationInstance();
         progress = new ProgressDialog(this);
         dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
+
+        handleIntent();
     }
 
     @Override
@@ -102,6 +105,12 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         }
       }
     }
+
+    @Override
+  protected void onNewIntent(Intent intent) {
+    setIntent(intent);
+    handleIntent();
+  }
 
     @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,6 +165,26 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       task = new InsertPostalItem(dh).execute(pi);
       } catch(Exception e) {
         UIUtils.showToast(this, e.getMessage());
+      }
+    }
+
+    private void handleIntent() {
+      Intent intent = getIntent();
+      if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+        Uri data = intent.getData();
+        String cod = data.getQueryParameter("P_COD_UNI");
+        if (cod == null) { cod = data.getQueryParameter("P_COD_LIS"); }
+        if (cod != null) {
+          try {
+            validateCod(cod);
+            trkCode.setText(cod);
+                itemDesc.requestFocus();
+            } catch (Exception e) {
+              UIUtils.showToast(this, e.getMessage());
+            }
+        } else {
+          UIUtils.showToast(this, getString(R.string.msg_alert_cod_not_found));
+        }
       }
     }
 
