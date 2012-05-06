@@ -297,7 +297,7 @@ public final class PostalUtils {
     String info = pi.getInfo(), loc = pi.getLoc();
 
     if (info != null && info.startsWith("Endereço")) {
-      loc = info.substring(11)+loc.substring(loc.lastIndexOf(" - "));
+      loc = info.substring(10)+loc.substring(loc.lastIndexOf(" - "));
     }
     if (loc.charAt(loc.length()-3) == '/') {
       loc += " BRASIL";
