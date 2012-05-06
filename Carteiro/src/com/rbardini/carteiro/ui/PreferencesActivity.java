@@ -94,7 +94,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openURL(PreferencesActivity.this, getString(R.string.app_url));
+        UIUtils.openMarket(PreferencesActivity.this);
         return true;
       }
     });

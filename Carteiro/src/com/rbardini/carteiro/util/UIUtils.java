@@ -22,6 +22,10 @@ public final class UIUtils {
         context.startActivity(intent);
     }
 
+  public static void openMarket(Context context) {
+        openURL(context, "market://details?id="+context.getPackageName());
+    }
+
     public static void showToast(Context context, String msg) {
       Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
     }

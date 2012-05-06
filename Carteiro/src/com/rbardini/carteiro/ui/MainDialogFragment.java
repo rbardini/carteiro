@@ -40,7 +40,7 @@ public class MainDialogFragment extends DialogFragment {
                       if (retry) {
                           ((MainActivity) activity).checkLicense();
                       } else {
-                        UIUtils.openURL(activity, "http://market.android.com/details?id="+activity.getPackageName());
+                        UIUtils.openMarket(activity);
                       }
                   }
               });
