@@ -221,6 +221,12 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       @Override
     protected void onPreExecute() {
         progress.setMessage(getString(R.string.title_tracking_obj));
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+        public void onCancel(DialogInterface dialog) {
+            cancel(true);
+          }
+        });
         progress.show();
       }
 
@@ -287,6 +293,15 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       } else {
         returnToParent(pi);
       }
+
+      task = null;
+    }
+
+    @Override
+    protected void onCancelled(PostalItem pi) {
+      if (progress.isShowing()) {
+        progress.dismiss();
+          }
 
       task = null;
     }
