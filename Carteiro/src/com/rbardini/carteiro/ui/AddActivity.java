@@ -244,10 +244,10 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
               dh.insertPostalRecord(pr);
         }
             dh.setTransactionSuccessful();
-            if (pi.getStatus().equals(PostalUtils.Status.ENTREGUE) || pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
+            if (pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
               throw new Exception(getString(R.string.title_alert_delivered_item));
             }
-            if (pi.getStatus().equals(PostalUtils.Status.DISTRIBUIDO_AO_REMETENTE) || pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
+            if (pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
               throw new Exception(getString(R.string.title_alert_returned_item));
             }
       } catch (Exception e) {
