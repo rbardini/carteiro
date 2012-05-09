@@ -184,16 +184,15 @@ public class DatabaseHelper {
     String[] selectionArgs = null;
 
     if (((flags & Category.FAVORITES) != 0) && (flags & Category.UNDELIVERED) != 0) {
-      //selection = "fav = ? AND status != ?";
-      selection = "fav = ? AND status NOT IN (?, ?, ?)";
-      selectionArgs = new String[] {"1", Status.ENTREGUE, Status.ENTREGA_EFETUADA, Status.DISTRIBUIDO_AO_REMETENTE};
+      selection = "fav = ? AND status NOT IN (?, ?)";
+      selectionArgs = new String[] {"1", Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
     } else {
       if ((flags & Category.FAVORITES) != 0) {
         selection = "fav = ?";
         selectionArgs = new String[] {"1"};
       } else if ((flags & Category.UNDELIVERED) != 0) {
-        selection = "status NOT IN (?, ?, ?)";
-        selectionArgs = new String[] {Status.ENTREGUE, Status.ENTREGA_EFETUADA, Status.DISTRIBUIDO_AO_REMETENTE};
+        selection = "status NOT IN (?, ?)";
+        selectionArgs = new String[] {Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
       }
     }
 
