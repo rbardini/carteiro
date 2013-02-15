@@ -5,8 +5,8 @@
   <com.viewpagerindicator.TitlePageIndicator style="@style/Stretch"
     android:id="@+id/indicator"
     android:background="@color/highlight"
+    android:textColor="@color/divider"
     app:footerColor="@color/divider"
-    app:textColor="@color/divider"
     app:selectedColor="@color/foreground1"
     app:selectedBold="false" />
 

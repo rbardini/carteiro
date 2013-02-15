@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.util.PostalUtils.Category;
-import com.viewpagerindicator.TitleProvider;
 
-public class MainPagerAdapter extends FragmentPagerAdapter implements TitleProvider {
+public class MainPagerAdapter extends FragmentPagerAdapter {
   public static final int[] category = {Category.RETURNED, Category.UNKNOWN, Category.IRREGULAR, Category.ALL,
                       Category.FAVORITES, Category.AVAILABLE, Category.DELIVERED};
 
@@ -32,9 +31,9 @@ public class MainPagerAdapter extends FragmentPagerAdapter implements TitleProvi
   }
 
   @Override
-  public String getTitle(int position) {
-    return titles[position];
-  }
+    public CharSequence getPageTitle(int position) {
+      return titles[position];
+    }
 
   @Override
   public int getCount() {
