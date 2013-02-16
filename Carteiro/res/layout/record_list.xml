@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.handmark.pulltorefresh.library.PullToRefreshListView style="@style/ListView"
-      android:id="@+id/pull_to_refresh_listview" />
+      android:id="@+id/pull_to_refresh_listview"
+      app:ptrHeaderBackground="@drawable/ptr_header_background"
+      app:ptrDrawable="@drawable/ptr_rotate" />
 
   <TextView style="@style/EmptyText"
       android:id="@android:id/empty" />

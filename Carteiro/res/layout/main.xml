@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container"
-    xmlns:app="http://schemas.android.com/apk/res/com.rbardini.carteiro">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.viewpagerindicator.TitlePageIndicator style="@style/Stretch"
     android:id="@+id/indicator"
