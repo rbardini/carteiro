@@ -45,6 +45,7 @@ public class MainDialogFragment extends DialogFragment {
                   }
               });
               builder.setNegativeButton(R.string.continue_btn, null);
+              setCancelable(false);
               break;
     }
 
