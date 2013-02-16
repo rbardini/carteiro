@@ -3,7 +3,7 @@
     <string name="app_name">Carteiro</string>
     <string name="app_url">http://carteiroapp.com/</string>
 
-    <string name="websro_url">http://m.correios.com.br/movel/buscaObjetos.do?numero=%s&#038;metodo=buscar</string>
+    <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
 
     <!-- Buttons -->
   <string name="positive_btn">OK</string>
