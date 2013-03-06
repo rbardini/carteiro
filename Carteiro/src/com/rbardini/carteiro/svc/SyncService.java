@@ -2,6 +2,7 @@ package com.rbardini.carteiro.svc;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.alfredlibrary.AlfredException;
@@ -88,8 +89,9 @@ public class SyncService extends IntentService {
         try {
           List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
           RegistroRastreamento lastReg = dh.getLastPostalRecord(cod).getReg();
-          if (!lastReg.equals(list.get(0))) {
+          if (!lastReg.equals(list.get(0))) { // An update! Delete all previous records and add the new ones
             dh.beginTransaction();
+            dh.deletePostalRecords(cod);
             for (int i=0, length=list.size(); i<length; i++) {
               dh.insertPostalRecord(new PostalRecord(cod, length-i-1, list.get(i)));
             }
@@ -144,7 +146,7 @@ public class SyncService extends IntentService {
     if (count == 0) { return; }
     if (count == 1) {
       PostalItem pi = (PostalItem) postalItems.toArray()[0];
-      ticker = String.format(getString(R.string.notf_tckr_single_obj), pi.getSafeDesc(), pi.getStatus().toLowerCase());
+      ticker = String.format(getString(R.string.notf_tckr_single_obj), pi.getSafeDesc(), pi.getStatus().toLowerCase(Locale.getDefault()));
       title = pi.getSafeDesc();
       desc = pi.getStatus();
       intent = new Intent(this, RecordActivity.class);

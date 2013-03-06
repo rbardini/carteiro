@@ -149,6 +149,15 @@ public class DatabaseHelper {
     return rows;
   }
 
+  public int deletePostalRecords(String cod) {
+    int rows = db.delete(POSTAL_RECORD_TABLE, "cod=?", new String[] {cod});
+    if (rows != 0 && backupAvailable) {
+      bm.dataChanged();
+    }
+
+    return rows;
+  }
+
   public int deleteAll(String table) {
     int rows = db.delete(table, null, null);
     if (rows != 0 && backupAvailable) {
