@@ -37,6 +37,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     }
 
     setAboutPreference();
+    setVersionPreference();
   }
 
   @Override
@@ -83,15 +84,39 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     }
 
   private void setAboutPreference() {
-    Preference about = findPreference(Preferences.ABOUT);
+    findPreference(Preferences.BLOG).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        UIUtils.openURL(PreferencesActivity.this, getString(R.string.blog_url));
+        return true;
+      }
+    });
+    findPreference(Preferences.FACEBOOK).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        UIUtils.openURL(PreferencesActivity.this, getString(R.string.facebook_url));
+        return true;
+      }
+    });
+    findPreference(Preferences.FEEDBACK).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        UIUtils.openURL(PreferencesActivity.this, getString(R.string.feedback_url));
+        return true;
+      }
+    });
+  }
+
+  private void setVersionPreference() {
+    Preference pref = findPreference(Preferences.VERSION);
     try {
       String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-      about.setTitle(String.format(getString(R.string.pref_about_title), getString(R.string.app_name), version));
+      pref.setTitle(String.format(getString(R.string.pref_version_title), getString(R.string.app_name), version));
     } catch (NameNotFoundException e) {
-      about.setTitle(getString(R.string.app_name));
+      pref.setTitle(getString(R.string.app_name));
     }
-    about.setSummary(String.format(getString(R.string.pref_about_summary), new Date().getYear()+1900));
-    about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    pref.setSummary(String.format(getString(R.string.pref_version_summary), new Date().getYear()+1900));
+    pref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         UIUtils.openMarket(PreferencesActivity.this);
@@ -122,6 +147,9 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     public static final String RINGTONE = "ringtone";
     public static final String LIGHTS = "lights";
     public static final String VIBRATE = "vibrate";
-    public static final String ABOUT = "about";
+    public static final String BLOG = "blog";
+    public static final String FACEBOOK = "facebook";
+    public static final String FEEDBACK = "feedback";
+    public static final String VERSION = "version";
   }
 }

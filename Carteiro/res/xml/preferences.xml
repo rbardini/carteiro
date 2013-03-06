@@ -2,12 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container">
 
   <PreferenceCategory android:title="@string/pref_general_category">
-
     <CheckBoxPreference android:key="autoSync"
       android:title="@string/pref_auto_sync_title"
       android:summary="@string/pref_auto_sync_summary"
       android:defaultValue="true" />
-
     <ListPreference android:key="refreshInterval"
       android:title="@string/pref_refresh_interval_title"
       android:summary="@string/pref_refresh_interval_summary"
@@ -15,75 +13,62 @@
       android:entryValues="@array/vals_refresh_interval"
       android:defaultValue="3600000"
       android:dependency="autoSync" />
-
     <CheckBoxPreference android:key="syncFavoritesOnly"
       android:title="@string/pref_sync_favorites_only_title"
       android:summary="@string/pref_sync_favorites_only_summary"
       android:defaultValue="false"
       android:dependency="autoSync" />
-
     <CheckBoxPreference android:key="dontSyncDeliveredItems"
       android:title="@string/pref_dont_sync_delivered_items_title"
       android:summary="@string/pref_dont_sync_delivered_items_summary"
       android:defaultValue="false"
       android:dependency="autoSync" />
-
     <CheckBoxPreference android:key="notify"
       android:title="@string/pref_activate_notifications_title"
       android:summary="@string/pref_activate_notifications_summary"
       android:defaultValue="true" />
-
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/pref_notification_category">
-
       <CheckBoxPreference android:key="notifyAll"
       android:title="@string/category_all"
       android:summary="@string/pref_notify_all_summary"
       android:defaultValue="true"
       android:dependency="notify"
       android:disableDependentsState="true" />
-
       <CheckBoxPreference android:key="notifyFavorites"
       android:title="@string/category_favorites"
       android:summary="@string/pref_notify_favorites_summary"
       android:defaultValue="true"
       android:dependency="notifyAll" />
-
     <CheckBoxPreference android:key="notifyAvailable"
       android:title="@string/category_available"
       android:summary="@string/pref_notify_available_summary"
       android:defaultValue="true"
       android:dependency="notifyAll" />
-
     <CheckBoxPreference android:key="notifyDelivered"
       android:title="@string/category_delivered"
       android:summary="@string/pref_notify_delivered_summary"
       android:defaultValue="true"
       android:dependency="notifyAll" />
-
     <CheckBoxPreference android:key="notifyIrregular"
       android:title="@string/category_irregular"
       android:summary="@string/pref_notify_irregular_summary"
       android:defaultValue="true"
       android:dependency="notifyAll" />
-
     <CheckBoxPreference android:key="notifyUnknown"
       android:title="@string/category_unknown"
       android:summary="@string/pref_notify_unknown_summary"
       android:defaultValue="true"
       android:dependency="notifyAll" />
-
     <CheckBoxPreference android:key="notifyReturned"
       android:title="@string/category_returned"
       android:summary="@string/pref_notify_returned_summary"
       android:defaultValue="true"
       android:dependency="notifyAll" />
-
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/pref_indication_category">
-
       <RingtonePreference android:key="ringtone"
         android:title="@string/pref_ringtone_title"
       android:summary="@string/pref_ringtone_summary"
@@ -91,27 +76,34 @@
       android:showDefault="true"
       android:showSilent="true"
       android:dependency="notify" />
-
       <CheckBoxPreference android:key="lights"
       android:title="@string/pref_lights_title"
       android:summary="@string/pref_lights_summary"
       android:defaultValue="true"
       android:dependency="notify" />
-
     <CheckBoxPreference android:key="vibrate"
       android:title="@string/pref_vibrate_title"
       android:summary="@string/pref_vibrate_summary"
       android:defaultValue="true"
       android:dependency="notify" />
-
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/pref_about_category">
+    <Preference android:key="blog"
+      android:title="@string/pref_blog_title"
+      android:summary="@string/pref_blog_summary" />
+    <Preference android:key="facebook"
+      android:title="@string/pref_facebook_title"
+      android:summary="@string/pref_facebook_summary" />
+    <Preference android:key="feedback"
+      android:title="@string/pref_feedback_title"
+      android:summary="@string/pref_feedback_summary" />
+  </PreferenceCategory>
 
-    <Preference android:key="about"
+  <PreferenceCategory android:title="@string/pref_version_category">
+    <Preference android:key="version"
       android:title="@string/app_name"
-      android:summary="@string/pref_about_summary" />
-
+      android:summary="@string/pref_version_summary" />
   </PreferenceCategory>
 
 </PreferenceScreen>
