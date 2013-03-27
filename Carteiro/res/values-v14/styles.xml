@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Variation on the light theme with dark action bar -->
+  <style name="Theme.Carteiro" parent="Theme.Sherlock.Light.DarkActionBar">
+    <!-- Light.DarkActionBar specific -->
+    <item name="android:actionBarWidgetTheme">@style/Theme.Carteiro.Widget</item>
+
+    <item name="android:windowBackground">@color/background</item>
+    <item name="android:colorBackground">@color/background</item>
+    <item name="android:fadeScrollbars">true</item>
+    <item name="android:textViewStyle">@style/TextView</item>
+    <item name="android:buttonStyle">@style/Button</item>
+    <item name="android:checkboxStyle">@style/CheckBox</item>
+    <item name="android:listViewStyle">@style/ListView</item>
+    <item name="android:listSeparatorTextViewStyle">@style/ListSeparatorTextView</item>
+    <item name="android:actionBarStyle">@style/ActionBar</item>
+    <item name="android:actionButtonStyle">@style/ActionButton</item>
+    <item name="android:popupMenuStyle">@style/PopupMenu</item>
+    <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
+    <item name="android:selectableItemBackground">@drawable/list_selector</item>
+    <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
+    <item name="android:actionBarItemBackground">@drawable/list_selector</item>
+    <item name="android:editTextBackground">@drawable/edit_text</item>
+    <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector</item>
+  </style>
+
+  <!-- Action Bar -->
+  <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+    <item name="android:background">@color/foreground1</item>
+    <item name="android:backgroundStacked">@color/foreground1</item>
+    <item name="android:backgroundSplit">@color/foreground1</item>
+  </style>
+</resources>
