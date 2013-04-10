@@ -32,6 +32,8 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 public class AddActivity extends SherlockFragmentActivity implements AddDialogFragment.OnAddDialogActionListener {
+  private CarteiroApplication app;
+
   private EditText trkCode;
   private EditText itemDesc;
   private CheckBox fav;
@@ -45,9 +47,11 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.add);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
+        app = (CarteiroApplication) getApplication();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         trkCode = (EditText) findViewById(R.id.trk_code_fld);
@@ -145,7 +149,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
 
     @Override
   public void onConfirmAddPostalItem(PostalItem pi) {
-      returnToParent(pi);
+      onPostalItemAdded(pi);
   }
 
   @Override
@@ -154,7 +158,6 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
     this.pi = null;
   }
 
-    @SuppressWarnings("unused")
   public void onAddPostalItemClick(View v) {
       String cod = trkCode.getText().toString();
       String desc = itemDesc.getText().toString();
@@ -164,7 +167,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         pi = new PostalItem(cod, (!desc.equals("") ? desc : null), fav.isChecked());
       task = new InsertPostalItem(dh).execute(pi);
       } catch(Exception e) {
-        UIUtils.showToast(this, e.getMessage());
+        trkCode.setError(e.getMessage());
       }
     }
 
@@ -202,11 +205,14 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
     }
   }
 
-  protected void returnToParent(PostalItem pi) {
-       Intent intent = new Intent();
-       intent.putExtra("postalItem", pi);
-       setResult(RESULT_OK, intent);
-       finish();
+  protected void onPostalItemAdded(PostalItem pi) {
+    app.setUpdatedList();
+
+    Intent intent = new Intent(this, RecordActivity.class);
+    intent.putExtra("postalItem", pi);
+    intent.putExtra("isNew", true);
+    startActivity(intent);
+    finish();
     }
 
     private class InsertPostalItem extends AsyncTask<Object, Void, PostalItem> {
@@ -291,7 +297,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
           UIUtils.showToast(AddActivity.this, error);
         }
       } else {
-        returnToParent(pi);
+        onPostalItemAdded(pi);
       }
 
       task = null;

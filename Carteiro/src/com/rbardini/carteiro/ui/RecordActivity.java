@@ -1,5 +1,7 @@
 package com.rbardini.carteiro.ui;
 
+import java.util.Locale;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -132,7 +134,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_status_subject));
         share.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_status_text),
-            pi.getFullDesc(), pi.getStatus().toLowerCase(), UIUtils.getRelativeTime(pi.getDate())));
+            pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
         startActivity(Intent.createChooser(share, getString(R.string.share_title)));
         return true;
 
@@ -219,6 +221,10 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     }
 
         setTitleBar();
+
+        if (extras.getBoolean("isNew")) {
+          UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
+        }
   }
 
   private void updateRefreshStatus() {

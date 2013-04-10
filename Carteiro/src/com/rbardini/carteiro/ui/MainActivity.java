@@ -149,19 +149,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     }
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (requestCode) {
-      case ADD_REQUEST:
-        if (resultCode == RESULT_OK) {
-          PostalItem pi = (PostalItem) data.getExtras().getSerializable("postalItem");
-          UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
-          refreshList();
-        }
-        break;
-    }
-    }
-
   @Override @TargetApi(11)
   public boolean onCreateOptionsMenu(Menu menu) {
     getSupportMenuInflater().inflate(R.menu.main_actions, menu);
@@ -190,7 +177,8 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.add_opt:
-        startActivityForResult(new Intent(this, AddActivity.class), ADD_REQUEST);
+        Intent intent = new Intent(this, AddActivity.class);
+        startActivity(intent);
         return true;
 
       case R.id.search_opt:
