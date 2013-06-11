@@ -85,7 +85,7 @@ public class SyncService extends IntentService {
             cods = dh.getPostalItemCodes(flags);
       }
       for (String cod : cods) {
-        //Log.i(TAG, "Syncing "+cod+"...");
+        Log.i(TAG, "Syncing "+cod+"...");
         try {
           List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
           RegistroRastreamento lastReg = dh.getLastPostalRecord(cod).getReg();
@@ -101,9 +101,9 @@ public class SyncService extends IntentService {
             update = true;
           }
         } catch (AlfredException e) {
-          // "O sistema dos Correios não possui dados sobre o objeto informado"
+          Log.w(TAG, String.valueOf(e.getMessage()));
         } catch (Exception e) {
-          Log.e(TAG, e.getMessage());
+          Log.e(TAG, String.valueOf(e.getMessage()));
         }
       }
       if (update && prefs.getBoolean(Preferences.NOTIFY, true)) {
