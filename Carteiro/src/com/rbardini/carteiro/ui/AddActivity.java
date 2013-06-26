@@ -14,6 +14,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -31,7 +34,9 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
-public class AddActivity extends SherlockFragmentActivity implements AddDialogFragment.OnAddDialogActionListener {
+public class AddActivity extends SherlockFragmentActivity implements AddDialogFragment.OnAddDialogActionListener, TextWatcher {
+  private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+
   private CarteiroApplication app;
 
   private EditText trkCode;
@@ -62,6 +67,8 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         pi = (PostalItem) getLastCustomNonConfigurationInstance();
         progress = new ProgressDialog(this);
         dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
+
+        trkCode.addTextChangedListener(this);
 
         handleIntent();
     }
@@ -312,4 +319,16 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       task = null;
     }
     }
+
+    @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+      int length = s.length();
+        trkCode.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
+    }
+
+  @Override
+  public void afterTextChanged(Editable s) {}
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 }
