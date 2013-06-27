@@ -10,6 +10,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -60,9 +61,9 @@ public class PostalRecordFragment extends ListFragment {
     listAdapter = new PostalRecordListAdapter(activity, list);
     setListAdapter(listAdapter);
     listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);
-        listView.setOnRefreshListener(new OnRefreshListener() {
+        listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
           @Override
-          public void onRefresh(PullToRefreshBase refreshView) {
+          public void onRefresh(PullToRefreshBase<ListView> refreshView) {
             if (!CarteiroApplication.state.syncing) {
               Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
               intent.putExtra("cods", new String[] {pi.getCod()});

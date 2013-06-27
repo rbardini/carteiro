@@ -73,7 +73,7 @@ public class PostalRecordListAdapter extends BaseAdapter {
 
     // Bind the data efficiently with the holder
     holder.date.setText(DateUtils.formatDateTime(context, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY));
-    holder.time.setText(DateUtils.formatDateTime(context, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_12HOUR));
+    holder.time.setText(DateUtils.formatDateTime(context, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
     holder.status.setText(pr.getStatus());
     holder.loc.setText(pr.getLoc());
     String info = pr.getInfo();

@@ -2,6 +2,7 @@ package com.rbardini.carteiro.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -95,9 +96,9 @@ public class PostalListFragment extends ListFragment {
     setListAdapter(listAdapter);
     listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);
     registerForContextMenu(listView.getRefreshableView());
-    listView.setOnRefreshListener(new OnRefreshListener() {
+    listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
       @Override
-      public void onRefresh(PullToRefreshBase refreshView) {
+      public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         if (!CarteiroApplication.state.syncing) {
               Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
               List<String> cods = new ArrayList<String>();
@@ -176,7 +177,7 @@ public class PostalListFragment extends ListFragment {
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_status_subject));
         share.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_status_text),
-            pi.getFullDesc(), pi.getStatus().toLowerCase(), UIUtils.getRelativeTime(pi.getDate())));
+            pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
         startActivity(Intent.createChooser(share, getString(R.string.share_title)));
         return true;
 

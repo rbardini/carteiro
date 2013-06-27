@@ -15,7 +15,8 @@
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
     android:theme="@style/Theme.Carteiro"
-    android:backupAgent=".svc.BackupAgent">
+    android:backupAgent=".svc.BackupAgent"
+    android:allowBackup="true">
 
     <meta-data android:name="com.google.android.backup.api_key"
       android:value="AEdPqrEAAAAIpMwL3ExpHhp_HZW5m5j70OJXOjyAW90IHa1DCA" />

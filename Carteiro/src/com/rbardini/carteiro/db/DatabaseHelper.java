@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.SearchManager;
@@ -32,7 +33,7 @@ public class DatabaseHelper {
   public static final String DB_NAME = "carteiro.db";
   public static final int DB_VERSION = 1;
 
-  public static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  public static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
   private static final String POSTAL_ITEM_TABLE = "Postal_Item";
   private static final String POSTAL_RECORD_TABLE = "Postal_Record";
@@ -86,7 +87,7 @@ public class DatabaseHelper {
 
   public boolean insertPostalItem(PostalItem pi) {
     ContentValues cv = new ContentValues();
-    cv.put("cod", pi.getCod().toUpperCase());
+    cv.put("cod", pi.getCod().toUpperCase(Locale.getDefault()));
     cv.put("desc", pi.getDesc());
     cv.put("fav", pi.isFav() ? 1 : 0);
 
@@ -103,7 +104,7 @@ public class DatabaseHelper {
 
   public boolean insertPostalRecord(PostalRecord pr) {
     ContentValues cv = new ContentValues();
-    cv.put("cod", pr.getCod().toUpperCase());
+    cv.put("cod", pr.getCod().toUpperCase(Locale.getDefault()));
     cv.put("pos", pr.getPos());
     if (pr.getDate() != null) { cv.put("date", iso8601.format(pr.getDate())); }
     cv.put("status", pr.getStatus());

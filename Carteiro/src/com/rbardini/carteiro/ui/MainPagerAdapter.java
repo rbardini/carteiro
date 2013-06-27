@@ -1,5 +1,7 @@
 package com.rbardini.carteiro.ui;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,13 +22,13 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     super(fm);
 
     titles = new String[] {
-      context.getString(R.string.category_returned).toUpperCase(),
-      context.getString(R.string.category_unknown).toUpperCase(),
-      context.getString(R.string.category_irregular).toUpperCase(),
-      context.getString(R.string.category_all).toUpperCase(),
-      context.getString(R.string.category_favorites).toUpperCase(),
-      context.getString(R.string.category_available).toUpperCase(),
-      context.getString(R.string.category_delivered).toUpperCase()
+      context.getString(R.string.category_returned).toUpperCase(Locale.getDefault()),
+      context.getString(R.string.category_unknown).toUpperCase(Locale.getDefault()),
+      context.getString(R.string.category_irregular).toUpperCase(Locale.getDefault()),
+      context.getString(R.string.category_all).toUpperCase(Locale.getDefault()),
+      context.getString(R.string.category_favorites).toUpperCase(Locale.getDefault()),
+      context.getString(R.string.category_available).toUpperCase(Locale.getDefault()),
+      context.getString(R.string.category_delivered).toUpperCase(Locale.getDefault())
     };
   }
 
