@@ -23,7 +23,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.PostalItem;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncService;

@@ -14,7 +14,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rbardini.carteiro.PostalItem;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 

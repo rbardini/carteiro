@@ -26,8 +26,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.PostalItem;
-import com.rbardini.carteiro.PostalRecord;
+import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.ui.MainActivity;

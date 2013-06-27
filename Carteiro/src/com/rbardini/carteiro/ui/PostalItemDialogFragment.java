@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.rbardini.carteiro.PostalItem;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 
 public class PostalItemDialogFragment extends DialogFragment {

@@ -29,7 +29,7 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.PostalItem;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;

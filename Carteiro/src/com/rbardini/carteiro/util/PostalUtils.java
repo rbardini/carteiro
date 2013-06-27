@@ -3,7 +3,7 @@ package com.rbardini.carteiro.util;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.rbardini.carteiro.PostalItem;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 
 public final class PostalUtils {

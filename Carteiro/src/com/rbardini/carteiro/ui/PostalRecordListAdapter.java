@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rbardini.carteiro.PostalRecord;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 

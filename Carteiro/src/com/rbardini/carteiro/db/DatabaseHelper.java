@@ -21,8 +21,8 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.rbardini.carteiro.PostalItem;
-import com.rbardini.carteiro.PostalRecord;
+import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;

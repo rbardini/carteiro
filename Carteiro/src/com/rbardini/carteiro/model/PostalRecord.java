@@ -1,56 +1,50 @@
-package com.rbardini.carteiro;
+package com.rbardini.carteiro.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 
-public class PostalItem implements Serializable {
+public class PostalRecord implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String cod;
-  private String desc;
+  private int pos;
   private Date date;
   private String loc;
   private String info;
   private String status;
-  private boolean fav;
 
-  public PostalItem() {}
+  public PostalRecord() {}
 
-  public PostalItem(String cod, String desc, boolean fav) {
+  public PostalRecord(String cod, int pos) {
     this.cod = cod;
-    this.desc = desc;
-    this.fav = fav;
+    this.pos = pos;
   }
 
-  public PostalItem(String cod, String desc, RegistroRastreamento rr, boolean fav) {
+  public PostalRecord(String cod, int pos, RegistroRastreamento rr) {
     this.cod = cod;
-    this.desc = desc;
+    this.pos = pos;
     this.date = rr.getDataHora();
     this.loc = rr.getLocal();
     this.info = rr.getDetalhe();
     this.status = rr.getAcao();
-    this.fav = fav;
   }
 
-  public PostalItem(String cod, String desc, Date date, String loc, String info, String status, boolean fav) {
+  public PostalRecord(String cod, int pos, Date date, String status, String loc, String info) {
     this.cod = cod;
-    this.desc = desc;
+    this.pos = pos;
     this.date = date;
+    this.status = status;
     this.loc = loc;
     this.info = info;
-    this.status = status;
-    this.fav = fav;
   }
 
   public String getCod() { return cod; }
   public void setCod(String cod) { this.cod = cod; }
 
-  public String getDesc() { return desc; }
-  public String getSafeDesc() { return (desc != null) ? desc : cod; }
-  public String getFullDesc() { return (desc != null) ? desc + " (" + cod + ")" : cod; }
-  public void setDesc(String desc) { this.desc = desc; }
+  public int getPos() { return pos; }
+  public void setPos(int pos) { this.pos = pos; }
 
   public Date getDate() { return date; }
   public void setDate(Date date) { this.date = date; }
@@ -60,15 +54,10 @@ public class PostalItem implements Serializable {
 
   public String getInfo() { return info; }
   public String getSafeInfo() { return (info != null) ? info : status; }
-  public String getFullInfo() { return status + ((info != null) ? ". " + info : ""); }
   public void setInfo(String info) { this.info = info; }
 
   public String getStatus() { return status; }
   public void setStatus(String status) { this.status = status; }
-
-  public boolean isFav() { return fav; }
-  public void setFav(boolean fav) { this.fav = fav; }
-  public boolean toggleFav() { return this.fav = !this.fav; }
 
   public RegistroRastreamento getReg() {
     RegistroRastreamento rr = new RegistroRastreamento();
@@ -90,9 +79,13 @@ public class PostalItem implements Serializable {
     if (this == obj) {
       return true;
     }
-    if (obj instanceof PostalItem) {
-      PostalItem pi = (PostalItem) obj;
-      return cod == null ? pi.getCod() == null : cod.equals(pi.getCod());
+    if (obj instanceof PostalRecord) {
+      PostalRecord pr = (PostalRecord) obj;
+      return (cod == null ? pr.getCod() == null : cod.equals(pr.getCod())) &&
+           (date == null ? pr.getDate() == null : date.equals(pr.getDate())) &&
+           (loc == null ? pr.getLoc() == null : loc.equals(pr.getLoc())) &&
+           (info == null ? pr.getInfo() == null : info.equals(pr.getInfo())) &&
+           (status == null ? pr.getStatus() == null : status.equals(pr.getStatus()));
     }
     return false;
   }
