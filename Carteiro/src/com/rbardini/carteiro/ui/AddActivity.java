@@ -277,7 +277,8 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
           dh.endTransaction();
         }
 
-      return pi;
+      // Get fresh information from the database, including possible defaults for empty fields
+      return dh.getPostalItem(pi.getCod());
     }
 
     @Override
