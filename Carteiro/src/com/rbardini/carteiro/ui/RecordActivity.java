@@ -13,6 +13,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.ShareActionProvider;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
@@ -26,8 +27,8 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   private ActionBar actionBar;
 
   private PostalItem pi;
-
   private PostalRecordFragment recordFragment;
+  private ShareActionProvider mShareActionProvider;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,14 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
 
-    handleIntent();
+    Object retained = getLastCustomNonConfigurationInstance();
+    if (retained != null) {
+      pi = (PostalItem) retained;
+    } else {
+      handleNewIntent();
+    }
+
+    initialize();
   }
 
   @Override
@@ -60,9 +68,15 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   }
 
   @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+      return pi;
+    }
+
+  @Override
   protected void onNewIntent(Intent intent) {
     setIntent(intent);
-    handleIntent();
+    handleNewIntent();
+    initialize();
   }
 
   @Override
@@ -91,6 +105,10 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getSupportMenuInflater().inflate(R.menu.record_actions, menu);
+
+    mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.share_opt).getActionProvider();
+    mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+    setShareIntent();
 
     if (pi.isFav()) {
       menu.findItem(R.id.fav_opt).setIcon(R.drawable.ic_action_star);
@@ -129,15 +147,6 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         openContextMenu(findViewById(R.id.hidden_edit_opt));
         return true;
 
-      case R.id.share_opt:
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_status_subject));
-        share.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_status_text),
-            pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
-        startActivity(Intent.createChooser(share, getString(R.string.share_title)));
-        return true;
-
       case R.id.websro_opt:
         UIUtils.openURL(this, String.format(getString(R.string.websro_url), pi.getCod()));
         return true;
@@ -152,8 +161,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     this.getMenuInflater().inflate(R.menu.record_edit_context, menu);
 
     menu.setHeaderTitle(pi.getSafeDesc());
-    menu.findItem(R.id.fav_opt)
-      .setTitle(String.format(getString(R.string.opt_toggle_fav), getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as)));
+    menu.findItem(R.id.fav_opt).setTitle(String.format(getString(R.string.opt_toggle_fav), getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as)));
   }
 
   @Override
@@ -166,7 +174,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
       case R.id.fav_opt:
         app.getDatabaseHelper().togglePostalItemFav(pi.getCod());
         pi.toggleFav();
-        invalidateOptionsMenu();
+        supportInvalidateOptionsMenu();
         app.setUpdatedList();
         return true;
 
@@ -185,6 +193,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     app.setUpdatedList();
     this.pi.setDesc(desc);
     setTitleBar();
+    setShareIntent();
   }
 
   @Override
@@ -204,15 +213,26 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     }
   }
 
-  private void handleIntent() {
-    Bundle extras = getIntent().getExtras();
+  private void handleNewIntent() {
+    Intent intent = getIntent();
+    Bundle extras = intent.getExtras();
+
         if (extras != null) {
           pi = (PostalItem) extras.getSerializable("postalItem");
         } else {
           finish();
         }
 
-        if (recordFragment == null) {
+        if (extras.getBoolean("isNew")) {
+          UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
+          intent.removeExtra("isNew");
+        }
+
+        intent.removeExtra("postalItem");
+  }
+
+  private void initialize() {
+    if (recordFragment == null) {
           recordFragment = PostalRecordFragment.newInstance(pi);
         getSupportFragmentManager().beginTransaction().replace(R.id.record_list, recordFragment).commit();
     } else {
@@ -221,10 +241,19 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     }
 
         setTitleBar();
+        setShareIntent();
+  }
 
-        if (extras.getBoolean("isNew")) {
-          UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
-        }
+  private void setShareIntent() {
+    if (mShareActionProvider != null) {
+      Intent shareIntent = new Intent(Intent.ACTION_SEND);
+      shareIntent.setType("text/plain");
+      shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_status_subject));
+      shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_status_text),
+          pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
+
+      mShareActionProvider.setShareIntent(shareIntent);
+    }
   }
 
   private void updateRefreshStatus() {
@@ -232,6 +261,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
       recordFragment.setRefreshing();
     } else {
       recordFragment.onRefreshComplete();
+      setShareIntent();
     }
   }
 }

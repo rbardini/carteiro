@@ -48,7 +48,8 @@
 
     <activity android:name=".ui.RecordActivity"
       android:label="@string/title_record"
-      android:launchMode="singleTop">
+      android:launchMode="singleTop"
+      android:uiOptions="splitActionBarWhenNarrow">
     </activity>
 
     <activity android:name=".ui.SearchActivity"
