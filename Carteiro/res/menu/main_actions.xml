@@ -4,21 +4,22 @@
   <item android:id="@+id/add_opt"
     android:icon="@drawable/ic_action_item_add"
     android:title="@string/add_opt"
-    android:showAsAction="ifRoom|withText" />
+    android:showAsAction="ifRoom" />
 
   <item android:id="@+id/search_opt"
     android:icon="@drawable/ic_action_search"
     android:title="@string/search_opt"
-    android:showAsAction="ifRoom|withText" />
+    android:showAsAction="ifRoom" />
 
   <item android:id="@+id/share_opt"
     android:icon="@drawable/ic_action_share"
     android:title="@string/share_opt"
-    android:showAsAction="never|withText" />
+    android:showAsAction="ifRoom"
+    android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider" />
 
   <item android:id="@+id/preferences_opt"
     android:icon="@drawable/ic_action_settings"
     android:title="@string/preferences_opt"
-    android:showAsAction="never|withText" />
+    android:showAsAction="never" />
 
 </menu>

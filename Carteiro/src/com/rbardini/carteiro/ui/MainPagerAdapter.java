@@ -17,6 +17,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
   private static String[] titles;
   private static Object currentView;
+  private OnPostPageChangeListener mListener;
+
+  public interface OnPostPageChangeListener {
+      void onPostPageSelected(int position);
+  }
 
   public MainPagerAdapter(Context context, FragmentManager fm) {
     super(fm);
@@ -55,9 +60,17 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
   @Override
   public void setPrimaryItem(ViewGroup container, int position, Object object) {
     currentView = object;
+
+    if (mListener != null) {
+      mListener.onPostPageSelected(position);
+    }
   }
 
   public Object getCurrentView() {
     return currentView;
+  }
+
+  public void setOnPostPageChangeListener(OnPostPageChangeListener listener) {
+    mListener = listener;
   }
 }

@@ -2,12 +2,12 @@ package com.rbardini.carteiro.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings.Secure;
@@ -23,6 +23,7 @@ import android.widget.SearchView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.ShareActionProvider;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
@@ -33,6 +34,7 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.ui.MainPagerAdapter.OnPostPageChangeListener;
 import com.rbardini.carteiro.util.UIUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -46,6 +48,7 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   private CarteiroApplication app;
   private FragmentManager fragManager;
   private MainPagerAdapter pagerAdapter;
+  private ShareActionProvider mShareActionProvider;
 
   private Handler handler;
   private LicenseCheckerCallback licenseCheckerCallback;
@@ -61,6 +64,10 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     app = (CarteiroApplication) getApplication();
     fragManager = getSupportFragmentManager();
     pagerAdapter = new MainPagerAdapter(this, fragManager);
+    pagerAdapter.setOnPostPageChangeListener(new OnPostPageChangeListener() {
+      @Override
+      public void onPostPageSelected(int position) { setShareIntent(); }
+    });
 
     ViewPager viewPager = (ViewPager) findViewById(R.id.postal_list_pager);
     TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
@@ -153,6 +160,10 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   public boolean onCreateOptionsMenu(Menu menu) {
     getSupportMenuInflater().inflate(R.menu.main_actions, menu);
 
+    mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.share_opt).getActionProvider();
+    mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+    setShareIntent();
+
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
       SearchView searchView = (SearchView) searchViewButton.getActionView();
@@ -185,20 +196,12 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
         onSearchRequested();
         return true;
 
+      // Workaround for ActionBarSherlock issue #724
       case R.id.share_opt:
-        List<PostalItem> list = ((PostalListFragment) pagerAdapter.getCurrentView()).getList();
-        String text = "";
-        for (int i=0; i<list.size(); i++) {
-          PostalItem pi = list.get(i);
-          text += String.format(getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod()));
-          if (pi.getDesc() != null) { text += String.format(getString(R.string.text_send_list_line_2, pi.getDesc())); }
-          text += String.format(getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate())));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+          Intent shareIntent = buildShareIntent();
+          startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
         }
-        Intent export = new Intent(Intent.ACTION_SEND);
-        export.setType("text/plain");
-        export.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_send_list));
-        export.putExtra(Intent.EXTRA_TEXT, text);
-        startActivity(Intent.createChooser(export, getString(R.string.title_send_list)));
         return true;
 
       case R.id.preferences_opt:
@@ -229,6 +232,36 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     refreshList();
     }
 
+  private void setShareIntent() {
+    if (mShareActionProvider != null) {
+      Intent shareIntent = buildShareIntent();
+      mShareActionProvider.setShareIntent(shareIntent);
+    }
+  }
+
+  private Intent buildShareIntent() {
+    List<PostalItem> list = ((PostalListFragment) pagerAdapter.getCurrentView()).getList();
+    Intent shareIntent = null;
+
+    if (list.size() > 0) {
+      // TODO Move shareable postal list template string to UIUtils
+      String text = "";
+      for (int i=0; i<list.size(); i++) {
+        PostalItem pi = list.get(i);
+        text += String.format(getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod()));
+        if (pi.getDesc() != null) { text += String.format(getString(R.string.text_send_list_line_2, pi.getDesc())); }
+        text += String.format(getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate())));
+      }
+
+      shareIntent = new Intent(Intent.ACTION_SEND);
+      shareIntent.setType("text/plain");
+      shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_send_list));
+      shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+    }
+
+    return shareIntent;
+  }
+
   private void updateRefreshStatus() {
     List<Fragment> fragments = getViewPagerFragments(pagerAdapter);
     if (CarteiroApplication.state.syncing) {
@@ -239,11 +272,13 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       for (Fragment f : fragments) {
         ((PostalListFragment) f).onRefreshComplete();
       }
+      setShareIntent();
     }
   }
 
   public void refreshList() {
     pagerAdapter.notifyDataSetChanged();
+    setShareIntent();
   }
 
   private List<Fragment> getViewPagerFragments(FragmentPagerAdapter adapter) {
