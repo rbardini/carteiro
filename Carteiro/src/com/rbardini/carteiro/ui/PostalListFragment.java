@@ -2,10 +2,8 @@ package com.rbardini.carteiro.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -24,11 +22,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 public class PostalListFragment extends ListFragment {
@@ -160,25 +157,15 @@ public class PostalListFragment extends ListFragment {
         return true;
 
       case R.id.place_opt:
-        if (pi.getLoc() == null) {
-          UIUtils.showToast(activity, getString(R.string.text_unknown_location));
-        } else {
-          Intent place = new Intent(Intent.ACTION_VIEW, Uri.parse(PostalUtils.getLocation(pi, true)));
-          try {
-            startActivity(place);
-          } catch (Exception e) {
-            UIUtils.showToast(activity, e.getMessage());
-          }
+        try {
+          UIUtils.locateItem(activity, pi);
+        } catch (Exception e) {
+          UIUtils.showToast(activity, e.getMessage());
         }
         return true;
 
       case R.id.share_opt:
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_status_subject));
-        share.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_status_text),
-            pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
-        startActivity(Intent.createChooser(share, getString(R.string.share_title)));
+        UIUtils.shareItem(activity, pi);
         return true;
 
       case R.id.websro_opt:

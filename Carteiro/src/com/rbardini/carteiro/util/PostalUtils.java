@@ -1,10 +1,14 @@
 package com.rbardini.carteiro.util;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.rbardini.carteiro.model.PostalItem;
+import android.content.Context;
+import android.content.Intent;
+
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalItem;
 
 public final class PostalUtils {
   public static final class Category {
@@ -330,5 +334,13 @@ public final class PostalUtils {
     }
 
     return loc;
+  }
+
+  public static Intent getShareIntent(Context context, PostalItem pi) {
+    return new Intent(Intent.ACTION_SEND)
+      .setType("text/plain")
+      .putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.share_status_subject))
+      .putExtra(Intent.EXTRA_TEXT, String.format(context.getString(R.string.share_status_text),
+        pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
   }
 }

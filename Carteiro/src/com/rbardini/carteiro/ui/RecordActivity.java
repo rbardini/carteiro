@@ -1,9 +1,6 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.Locale;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -15,8 +12,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.ShareActionProvider;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
@@ -131,15 +128,10 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         return true;
 
       case R.id.place_opt:
-        if (pi.getLoc() == null) {
-          UIUtils.showToast(this, getString(R.string.text_unknown_location));
-        } else {
-          Intent place = new Intent(Intent.ACTION_VIEW, Uri.parse(PostalUtils.getLocation(pi, true)));
-          try {
-            startActivity(place);
-          } catch (Exception e) {
-            UIUtils.showToast(this, e.getMessage());
-          }
+        try {
+          UIUtils.locateItem(this, pi);
+        } catch (Exception e) {
+          UIUtils.showToast(this, e.getMessage());
         }
         return true;
 
@@ -246,13 +238,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
   private void setShareIntent() {
     if (mShareActionProvider != null) {
-      Intent shareIntent = new Intent(Intent.ACTION_SEND);
-      shareIntent.setType("text/plain");
-      shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_status_subject));
-      shareIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_status_text),
-          pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
-
-      mShareActionProvider.setShareIntent(shareIntent);
+      mShareActionProvider.setShareIntent(PostalUtils.getShareIntent(this, pi));
     }
   }
 
