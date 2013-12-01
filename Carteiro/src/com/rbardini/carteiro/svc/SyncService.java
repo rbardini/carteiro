@@ -1,9 +1,9 @@
 package com.rbardini.carteiro.svc;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import org.alfredlibrary.AlfredException;
 import org.alfredlibrary.utilitarios.correios.Rastreamento;
@@ -23,16 +23,18 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.text.Html;
 import android.util.Log;
 
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
+import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.ui.MainActivity;
 import com.rbardini.carteiro.ui.PreferencesActivity.Preferences;
 import com.rbardini.carteiro.ui.RecordActivity;
+import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 
@@ -130,12 +132,13 @@ public class SyncService extends IntentService {
   }
 
   private void showNotification(SharedPreferences prefs, int flags) {
-    Set<String> updatedCods = app.getUpdatedCods();
+    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
     HashSet<PostalItem> postalItems = new HashSet<PostalItem>();
     String ticker, title, desc;
+    long date;
     Intent intent;
 
-    for (String cod : updatedCods) {
+    for (String cod : app.getUpdatedCods()) {
       PostalItem pi = dh.getPostalItem(cod);
       if (notifiable(pi, flags)) {
         postalItems.add(pi);
@@ -149,32 +152,55 @@ public class SyncService extends IntentService {
       ticker = String.format(getString(R.string.notf_tckr_single_obj), pi.getSafeDesc(), pi.getStatus().toLowerCase(Locale.getDefault()));
       title = pi.getSafeDesc();
       desc = pi.getStatus();
-      intent = new Intent(this, RecordActivity.class);
-      intent.putExtra("postalItem", pi);
+      date = pi.getDate().getTime();
+      intent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi);
+
+      NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle(notificationBuilder);
+
+      Intent locateIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("locate");
+      Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("share");
+
+      notificationBuilder
+        .setSubText(pi.getLoc())
+        .addAction(R.drawable.ic_action_place, getString(R.string.place_opt), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+        .addAction(R.drawable.ic_action_share, getString(R.string.share_opt), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+      notificationStyle.bigText(pi.getFullInfo());
     } else {
-      ticker = String.format(getString(R.string.notf_tckr_multi_obj), count);
-      title = getString(R.string.notf_title_multi_obj);
-      desc = String.format(getString(R.string.notf_desc_multi_obj), count);
+      Iterator<PostalItem> iterator = postalItems.iterator();
+      ticker = title = String.format(getString(R.string.notf_tckr_multi_obj), count);
+      desc = "";
+      date = System.currentTimeMillis();
       intent = new Intent(this, MainActivity.class);
+
+      NotificationCompat.InboxStyle notificationStyle = new NotificationCompat.InboxStyle(notificationBuilder);
+      notificationBuilder.setNumber(count);
+      int deliveredCount = 0;
+      while (iterator.hasNext()) {
+        PostalItem pi = (PostalItem) iterator.next();
+        notificationStyle.addLine(Html.fromHtml(String.format(getString(R.string.notf_line_multi_obj), pi.getSafeDesc(), pi.getStatus())));
+        desc += pi.getSafeDesc() + (iterator.hasNext() ? ", " : "");
+        if (PostalUtils.Status.getCategory(pi.getStatus()) == PostalUtils.Category.DELIVERED) deliveredCount++;
+      }
+      notificationStyle.setSummaryText(String.format(getString(R.string.notf_summ_multi_obj), deliveredCount));
     }
 
     PendingIntent pending = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+    notificationBuilder
       .setSmallIcon(R.drawable.ic_stat_notify)
       .setTicker(ticker)
-      .setNumber(count)
       .setContentTitle(title)
       .setContentText(desc)
       .setContentIntent(pending)
-      .setWhen(System.currentTimeMillis())
+      .setWhen(date)
       .setAutoCancel(true)
       .setSound(Uri.parse(prefs.getString(Preferences.RINGTONE, "DEFAULT_SOUND")));
-    if (prefs.getBoolean(Preferences.LIGHTS, true)) { builder.setLights(Color.YELLOW, 300, 1000); }
-    if (prefs.getBoolean(Preferences.VIBRATE, true)) { builder.setDefaults(Notification.DEFAULT_VIBRATE); }
+
+    if (prefs.getBoolean(Preferences.LIGHTS, true)) notificationBuilder.setLights(Color.YELLOW, 300, 1000);
+    if (prefs.getBoolean(Preferences.VIBRATE, true)) notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
 
     NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    nm.notify(R.string.app_name, builder.getNotification());
+    nm.notify(R.string.app_name, notificationBuilder.build());
   }
 
   private boolean notifiable(PostalItem pi, int flags) {

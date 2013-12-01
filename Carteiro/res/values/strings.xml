@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Carteiro</string>
-    <string name="app_url">http://carteiroapp.com/</string>
+  <string name="app_name">Carteiro</string>
+  <string name="app_url">http://carteiroapp.com/</string>
 
-    <string name="blog_url">http://blog.carteiroapp.com/</string>
-    <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
-    <string name="feedback_url">http://feedback.carteiroapp.com/</string>
+  <string name="blog_url">http://blog.carteiroapp.com/</string>
+  <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
+  <string name="feedback_url">http://feedback.carteiroapp.com/</string>
 
-    <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
+  <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
 
-    <!-- Buttons -->
+  <!-- Buttons -->
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancelar</string>
   <string name="add_btn">Adicionar</string>
@@ -26,11 +26,11 @@
   <string name="share_opt">Compartilhar</string>
   <string name="preferences_opt">Configurações</string>
   <string name="search_opt">Pesquisar</string>
-    <string name="edit_opt">Editar</string>
-    <string name="websro_opt">SRO Correios</string>
-    <string name="fav_opt">Favorito</string>
-    <string name="scan_opt">Escanear</string>
-    <string name="place_opt">Localização</string>
+  <string name="edit_opt">Editar</string>
+  <string name="websro_opt">SRO Correios</string>
+  <string name="fav_opt">Favorito</string>
+  <string name="scan_opt">Escanear</string>
+  <string name="place_opt">Localização</string>
 
   <!-- ViewPager Indicator -->
   <string name="category_returned">Devolvidos</string>
@@ -68,15 +68,15 @@
   <string name="msg_alert_cod_not_found">Código de rastreamento não encontrado. Verifique se a página possui informações sobre o objeto.</string>
 
   <!-- Unlicensed messages -->
-    <string name="unlicensed_dialog_title">Aplicativo não licenciado</string>
-    <string name="unlicensed_dialog_body">Este aplicativo não está licenciado. Por favor, adquira-o no Google Play para receber atualizações e apoiar seu desenvolvimento.</string>
-    <string name="unlicensed_dialog_retry_body">Não foi possível validar a licença. Verifique se há uma conexão de rede.</string>
+  <string name="unlicensed_dialog_title">Aplicativo não licenciado</string>
+  <string name="unlicensed_dialog_body">Este aplicativo não está licenciado. Por favor, adquira-o no Google Play para receber atualizações e apoiar seu desenvolvimento.</string>
+  <string name="unlicensed_dialog_retry_body">Não foi possível validar a licença. Verifique se há uma conexão de rede.</string>
 
   <!-- Notifications -->
-  <string name="notf_tckr_single_obj">%1$s %2$s</string>
+  <string name="notf_tckr_single_obj">%1$s: %2$s</string>
   <string name="notf_tckr_multi_obj">%d objetos atualizados</string>
-  <string name="notf_title_multi_obj">Objetos atualizados</string>
-  <string name="notf_desc_multi_obj">%d novas atualizações</string>
+  <string name="notf_line_multi_obj"><![CDATA[<font color="#CCCCCC">%1$s</font> %2$s]]></string>
+  <string name="notf_summ_multi_obj">%s objetos entregues</string>
 
   <!-- Postal List -->
   <string name="text_empty_list">Nenhum objeto encontrado.</string>
@@ -168,5 +168,5 @@
   <string name="search_desc">Código e descrição dos seus objetos rastreados</string>
 
   <!-- Content Description -->
-    <string name="desc_status">Status</string>
+  <string name="desc_status">Status</string>
 </resources>

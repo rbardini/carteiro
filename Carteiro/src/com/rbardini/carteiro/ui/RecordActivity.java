@@ -1,5 +1,6 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -218,6 +219,22 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         if (extras.getBoolean("isNew")) {
           UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
           intent.removeExtra("isNew");
+        }
+
+        String action = intent.getAction();
+        if (action != null) {
+            if (action.equals("locate")) {
+                try {
+                    UIUtils.locateItem(this, pi);
+                } catch (Exception e) {
+                    UIUtils.showToast(this, e.getMessage());
+                }
+            } else if (action.equals("share")) {
+                UIUtils.shareItem(this, pi);
+            }
+
+            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            nm.cancel(R.string.app_name);
         }
 
         intent.removeExtra("postalItem");
