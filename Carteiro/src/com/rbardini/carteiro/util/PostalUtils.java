@@ -70,6 +70,7 @@ public final class PostalUtils {
       map.put(AVAILABLE, new String[] {
           Status.AGUARDANDO_RETIRADA,
           Status.SAIU_PARA_ENTREGA,
+          Status.SAIU_PARA_ENTREGA_DESTINATARIO,
           Status.DISPONIVEL_EM_CAIXA_POSTAL,
           Status.DISPONIVEL_NA_CAIXA_POSTAL,
           Status.DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL
@@ -132,6 +133,7 @@ public final class PostalUtils {
     // Available
     public static final String AGUARDANDO_RETIRADA = "Aguardando retirada";
     public static final String SAIU_PARA_ENTREGA = "Saiu para entrega";
+    public static final String SAIU_PARA_ENTREGA_DESTINATARIO = "Saiu para entrega ao destinatário";
     public static final String DISPONIVEL_EM_CAIXA_POSTAL = "Disponível em caixa postal";
     public static final String DISPONIVEL_NA_CAIXA_POSTAL = "Disponível na caixa postal";
     public static final String DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL = "Disponível para retirada na caixa postal";
@@ -215,6 +217,7 @@ public final class PostalUtils {
       // Available
       map.put(AGUARDANDO_RETIRADA, Category.AVAILABLE);
       map.put(SAIU_PARA_ENTREGA, Category.AVAILABLE);
+      map.put(SAIU_PARA_ENTREGA_DESTINATARIO, Category.AVAILABLE);
       map.put(DISPONIVEL_EM_CAIXA_POSTAL, Category.AVAILABLE);
       map.put(DISPONIVEL_NA_CAIXA_POSTAL, Category.AVAILABLE);
       map.put(DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL, Category.AVAILABLE);
@@ -272,6 +275,7 @@ public final class PostalUtils {
       // Available
       map.put(AGUARDANDO_RETIRADA, R.drawable.ic_postal_aguardando_retirada);
       map.put(SAIU_PARA_ENTREGA, R.drawable.ic_postal_saiu_entrega);
+      map.put(SAIU_PARA_ENTREGA_DESTINATARIO, R.drawable.ic_postal_saiu_entrega);
       map.put(DISPONIVEL_EM_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
       map.put(DISPONIVEL_NA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
       map.put(DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
