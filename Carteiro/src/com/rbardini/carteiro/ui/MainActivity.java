@@ -200,7 +200,9 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       case R.id.share_opt:
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
           Intent shareIntent = buildShareIntent();
-          startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
+          if (shareIntent != null) {
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
+          }
         }
         return true;
 
