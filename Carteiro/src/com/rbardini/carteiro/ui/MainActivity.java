@@ -1,6 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.TargetApi;
@@ -12,9 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings.Secure;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -247,37 +244,16 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   }
 
   private void updateRefreshStatus() {
-    List<Fragment> fragments = getViewPagerFragments(pagerAdapter);
     if (CarteiroApplication.state.syncing) {
-      for (Fragment f : fragments) {
-        ((PostalListFragment) f).setRefreshing();
-      }
+      pagerAdapter.setRefreshing();
     } else {
-      for (Fragment f : fragments) {
-        ((PostalListFragment) f).onRefreshComplete();
-      }
+      pagerAdapter.onRefreshComplete();
     }
   }
 
   public void refreshList() {
     pagerAdapter.notifyDataSetChanged();
     setShareIntent();
-  }
-
-  private List<Fragment> getViewPagerFragments(FragmentPagerAdapter adapter) {
-    List<Fragment> list = new ArrayList<Fragment>();
-    int count = adapter.getCount();
-
-    for (int i=0; i<count; i++) {
-      Fragment fragment = fragManager.findFragmentByTag("android:switcher:"+R.id.postal_list_pager+":"+i);
-      if(fragment != null) {
-        if(fragment.getView() != null) {
-          list.add(fragment);
-        }
-      }
-    }
-
-    return list;
   }
 
   protected void checkLicense() {
