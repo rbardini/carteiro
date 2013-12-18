@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
@@ -166,7 +167,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
   }
 
   public void onAddPostalItemClick(View v) {
-      String cod = trkCode.getText().toString();
+      String cod = trkCode.getText().toString().toUpperCase(Locale.getDefault());
       String desc = itemDesc.getText().toString();
 
       try {
