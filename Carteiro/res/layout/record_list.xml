@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.handmark.pulltorefresh.library.PullToRefreshListView style="@style/ListView"
-      android:id="@+id/pull_to_refresh_listview"
-      app:ptrHeaderBackground="@color/highlight"
-      app:ptrDrawable="@drawable/ptr_rotate" />
+    android:id="@+id/pull_to_refresh_listview"
+    android:listSelector="@android:color/transparent"
+    app:ptrHeaderBackground="@color/highlight"
+    app:ptrDrawable="@drawable/ptr_rotate" />
 
   <TextView style="@style/EmptyText"
-      android:id="@android:id/empty" />
+    android:id="@android:id/empty" />
 
 </LinearLayout>

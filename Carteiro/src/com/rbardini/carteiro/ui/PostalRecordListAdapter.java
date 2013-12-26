@@ -86,16 +86,6 @@ public class PostalRecordListAdapter extends BaseAdapter {
     return convertView;
   }
 
-  @Override
-  public boolean areAllItemsEnabled() {
-    return true;
-  }
-
-  @Override
-  public boolean isEnabled(int position) {
-    return false;
-  }
-
   private static class ViewHolder {
     private TextView date, time, status, loc, info;
     private ImageView icon;
