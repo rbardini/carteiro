@@ -196,7 +196,7 @@ public class SyncService extends IntentService {
       .setAutoCancel(true)
       .setSound(Uri.parse(prefs.getString(Preferences.RINGTONE, "DEFAULT_SOUND")));
 
-    if (prefs.getBoolean(Preferences.LIGHTS, true)) notificationBuilder.setLights(Color.YELLOW, 300, 1000);
+    if (prefs.getBoolean(Preferences.LIGHTS, true)) notificationBuilder.setLights(Color.YELLOW, 1000, 1200);
     if (prefs.getBoolean(Preferences.VIBRATE, true)) notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
 
     NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
