@@ -16,7 +16,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
                       Category.FAVORITES, Category.AVAILABLE, Category.DELIVERED};
 
   private static String[] titles;
-  private static Object currentView;
+  private static PostalListFragment currentView;
   private OnPostPageChangeListener mListener;
 
   public interface OnPostPageChangeListener {
@@ -59,14 +59,16 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
   @Override
   public void setPrimaryItem(ViewGroup container, int position, Object object) {
-    currentView = object;
+    if (object != currentView) {
+      currentView = (PostalListFragment) object;
 
-    if (mListener != null) {
-      mListener.onPostPageSelected(position);
+      if (mListener != null) {
+        mListener.onPostPageSelected(position);
+      }
     }
   }
 
-  public Object getCurrentView() {
+  public PostalListFragment getCurrentView() {
     return currentView;
   }
 

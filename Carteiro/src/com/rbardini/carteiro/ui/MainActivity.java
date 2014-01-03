@@ -2,6 +2,7 @@ package com.rbardini.carteiro.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.SearchManager;
@@ -30,11 +31,12 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.ui.MainPagerAdapter.OnPostPageChangeListener;
+import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -177,9 +179,9 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     try {
-      int listSize = ((PostalListFragment) pagerAdapter.getCurrentView()).getList().size();
-      menu.findItem(R.id.share_opt).setEnabled(listSize > 0 ? true : false);
-    } catch(Exception e) {}
+      int listSize = pagerAdapter.getCurrentView().getList().size();
+      menu.findItem(R.id.share_opt).setEnabled(listSize > 0);
+    } catch (Exception e) {}
 
     return super.onPrepareOptionsMenu(menu);
   }
@@ -236,32 +238,12 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
 
   private void setShareIntent() {
     if (mShareActionProvider != null) {
-      Intent shareIntent = buildShareIntent();
-      mShareActionProvider.setShareIntent(shareIntent);
+      mShareActionProvider.setShareIntent(buildShareIntent());
     }
   }
 
   private Intent buildShareIntent() {
-    List<PostalItem> list = ((PostalListFragment) pagerAdapter.getCurrentView()).getList();
-    Intent shareIntent = null;
-
-    if (list.size() > 0) {
-      // TODO Move shareable postal list template string to UIUtils
-      String text = "";
-      for (int i=0; i<list.size(); i++) {
-        PostalItem pi = list.get(i);
-        text += String.format(getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod()));
-        if (pi.getDesc() != null) { text += String.format(getString(R.string.text_send_list_line_2, pi.getDesc())); }
-        text += String.format(getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate())));
-      }
-
-      shareIntent = new Intent(Intent.ACTION_SEND);
-      shareIntent.setType("text/plain");
-      shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_send_list));
-      shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-    }
-
-    return shareIntent;
+    return PostalUtils.getShareIntent(this, pagerAdapter.getCurrentView().getList());
   }
 
   private void updateRefreshStatus() {
@@ -274,7 +256,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       for (Fragment f : fragments) {
         ((PostalListFragment) f).onRefreshComplete();
       }
-      setShareIntent();
     }
   }
 

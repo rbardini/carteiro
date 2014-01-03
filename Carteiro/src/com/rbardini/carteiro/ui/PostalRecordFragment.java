@@ -42,6 +42,18 @@ public class PostalRecordFragment extends ListFragment {
   }
 
   @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    activity = getActivity();
+    dh = ((CarteiroApplication) activity.getApplication()).getDatabaseHelper();
+
+    pi = (PostalItem) getArguments().getSerializable("postalItem");
+    list = new ArrayList<PostalRecord>();
+    updateList();
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.record_list, container, false);
 
@@ -52,12 +64,6 @@ public class PostalRecordFragment extends ListFragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    activity = getActivity();
-    dh = ((CarteiroApplication) activity.getApplication()).getDatabaseHelper();
-
-    pi = (PostalItem) getArguments().getSerializable("postalItem");
-        list = new ArrayList<PostalRecord>();
-        updateList();
     listAdapter = new PostalRecordListAdapter(activity, list);
     setListAdapter(listAdapter);
     listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);

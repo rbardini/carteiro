@@ -1,5 +1,6 @@
 package com.rbardini.carteiro.util;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -346,5 +347,26 @@ public final class PostalUtils {
       .putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.share_status_subject))
       .putExtra(Intent.EXTRA_TEXT, String.format(context.getString(R.string.share_status_text),
         pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
+  }
+
+  public static Intent getShareIntent(Context context, List<PostalItem> list) {
+    Intent shareIntent = null;
+
+    if (list.size() > 0) {
+      String text = "";
+      for (int i=0; i<list.size(); i++) {
+        PostalItem pi = list.get(i);
+        text += String.format(context.getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod()));
+        if (pi.getDesc() != null) { text += String.format(context.getString(R.string.text_send_list_line_2, pi.getDesc())); }
+        text += String.format(context.getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate())));
+      }
+
+      shareIntent = new Intent(Intent.ACTION_SEND);
+      shareIntent.setType("text/plain");
+      shareIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.subject_send_list));
+      shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+    }
+
+    return shareIntent;
   }
 }

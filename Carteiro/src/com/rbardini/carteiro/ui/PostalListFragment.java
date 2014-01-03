@@ -61,6 +61,23 @@ public class PostalListFragment extends ListFragment {
   }
 
   @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    activity = getActivity();
+    app = (CarteiroApplication) activity.getApplication();
+    dh = app.getDatabaseHelper();
+
+    pi = null;
+    Bundle arguments = getArguments();
+    setPosition(arguments.getInt("position"));
+    setQuery(arguments.getString("query"));
+
+    list = new ArrayList<PostalItem>();
+    updateList();
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.postal_list, container, false);
 
@@ -71,24 +88,6 @@ public class PostalListFragment extends ListFragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    activity = getActivity();
-    app = (CarteiroApplication) activity.getApplication();
-    handler = new Handler();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        listAdapter.notifyDataSetChanged();
-        handler.postDelayed(this, DateUtils.MINUTE_IN_MILLIS);
-      }
-    }, DateUtils.MINUTE_IN_MILLIS);
-    dh = app.getDatabaseHelper();
-
-    pi = null;
-    setPosition(getArguments().getInt("position"));
-    setQuery(getArguments().getString("query"));
-
-    list = new ArrayList<PostalItem>();
-    updateList();
     listAdapter = new PostalItemListAdapter(activity, list, app.getUpdatedCods());
     setListAdapter(listAdapter);
     listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);
@@ -107,6 +106,15 @@ public class PostalListFragment extends ListFragment {
             }
       }
     });
+
+    handler = new Handler();
+    handler.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        listAdapter.notifyDataSetChanged();
+        handler.postDelayed(this, DateUtils.MINUTE_IN_MILLIS);
+      }
+    }, DateUtils.MINUTE_IN_MILLIS);
   }
 
   @Override
