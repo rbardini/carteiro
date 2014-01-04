@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-import org.alfredlibrary.utilitarios.texto.Texto;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -28,12 +27,14 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
+import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
+import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
+import com.rbardini.carteiro.util.validator.TrackingCodeValidator;
 
 public class AddActivity extends SherlockFragmentActivity implements AddDialogFragment.OnAddDialogActionListener, TextWatcher {
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
@@ -65,7 +66,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         fav = (CheckBox) findViewById(R.id.star_chkbox);
         fragManager = getSupportFragmentManager();
 
-        pi = (PostalItem) getLastCustomNonConfigurationInstance();
+        pi = (PostalItem) getLastCustomNonConfigurationInstance(); // TODO Use savedInstanceState
         progress = new ProgressDialog(this);
         dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
@@ -109,8 +110,8 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       if (scanResult != null) {
         try {
           String contents = data.getStringExtra("SCAN_RESULT");
-            validateCod(contents);
-            trkCode.setText(contents);
+            String cod = parseCod(contents);
+            trkCode.setText(cod);
             itemDesc.requestFocus();
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
@@ -171,7 +172,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       String desc = itemDesc.getText().toString();
 
       try {
-        validateCod(cod);
+        cod = parseCod(cod);
         pi = new PostalItem(cod, (!desc.equals("") ? desc : null), fav.isChecked());
       task = new InsertPostalItem(dh).execute(pi);
       } catch(Exception e) {
@@ -187,7 +188,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         if (cod == null) { cod = data.getQueryParameter("P_COD_LIS"); }
         if (cod != null) {
           try {
-            validateCod(cod);
+            cod = parseCod(cod);
             trkCode.setText(cod);
                 itemDesc.requestFocus();
             } catch (Exception e) {
@@ -199,18 +200,37 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       }
     }
 
-    private void validateCod(String cod) throws Exception {
-      if (cod == null || cod.equals("")) {
-        throw new Exception(getString(R.string.msg_alert_no_cod));
-    } else if (cod.length() != 13) {
-      throw new Exception(getString(R.string.msg_alert_short_cod));
-    } else if (!"".equals(Texto.manterNumeros(cod.substring(0, 1)))
-          || !"".equals(Texto.manterNumeros(cod.substring(11, 13)))
-          || Texto.manterNumeros(cod.substring(2, 11)).length() != 9) {
-      throw new Exception(getString(R.string.msg_alert_wrong_cod));
-    } else if (dh.isPostalItem(cod)) {
-      throw new Exception(String.format(getString(R.string.toast_item_already_exists), cod));
-    }
+    private String parseCod(String cod) throws Exception {
+      TrackingCodeValidation validation = TrackingCodeValidator.validate(cod);
+      String error;
+
+      if (validation.isValid()) {
+        if (dh.isPostalItem(cod)) {
+          error = getString(R.string.toast_item_already_exists, cod);
+          throw new Exception(error);
+        }
+        return validation.getCod();
+      }
+
+      switch (validation.getResult()) {
+        case EMPTY:
+          error = getString(R.string.msg_alert_empty_cod);
+          break;
+        case WRONG_LENGTH:
+          error = getString(R.string.msg_alert_wrong_length_cod);
+          break;
+        case BAD_FORMAT:
+          error = getString(R.string.msg_alert_bad_format_cod);
+          break;
+        case INVALID_CHECK_DIGIT:
+          error = getString(R.string.msg_alert_invalid_dv_cod);
+          break;
+        default:
+          error = getString(R.string.msg_alert_default_error_cod);
+          break;
+      }
+
+      throw new Exception(error);
   }
 
   protected void onPostalItemAdded(PostalItem pi) {
