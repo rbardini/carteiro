@@ -1,7 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.SearchManager;
@@ -69,8 +67,11 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     });
 
     ViewPager viewPager = (ViewPager) findViewById(R.id.postal_list_pager);
-    TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setCurrentItem(3);
+
+        TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
         indicator.setOnPageChangeListener(new OnPageChangeListener() {
       @Override
@@ -82,7 +83,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       @Override
       public void onPageScrollStateChanged(int state) {}
     });
-        viewPager.setCurrentItem(3);
 
         String deviceId = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
         handler = new Handler();
