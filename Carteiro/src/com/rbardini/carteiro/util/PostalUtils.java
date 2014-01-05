@@ -29,6 +29,7 @@ public final class PostalUtils {
 
       map.put(RETURNED, new String[] {
           Status.EM_DEVOLUCAO,
+          Status.ESTORNADO,
           Status.DISTRIBUIDO_AO_REMETENTE,
           Status.DEVOLVIDO_AO_REMETENTE
       });
@@ -92,6 +93,7 @@ public final class PostalUtils {
   public static final class Status {
     // Returned
     public static final String EM_DEVOLUCAO = "Em devolução";
+    public static final String ESTORNADO = "Estornado";
     public static final String DISTRIBUIDO_AO_REMETENTE = "Distribuido ao Remetente";
     public static final String DEVOLVIDO_AO_REMETENTE = "Devolvido ao remetente";
 
@@ -146,6 +148,7 @@ public final class PostalUtils {
     // Other
     public static final String POSTADO = "Postado";
     public static final String POSTAGEM_DH = "Postagem - DH";
+    public static final String POSTADO_DEPOIS_HORARIO_LIMITE = "Postado depois do horário limite da agência";
     public static final String ENCAMINHADO = "Encaminhado";
     public static final String MAL_ENCAMINHADO = "Mal encaminhado";
     public static final String RECEBIDO = "Recebido na unidade de distribuição";
@@ -176,6 +179,7 @@ public final class PostalUtils {
 
       // Returned
       map.put(EM_DEVOLUCAO, Category.RETURNED);
+      map.put(ESTORNADO, Category.RETURNED);
       map.put(DISTRIBUIDO_AO_REMETENTE, Category.RETURNED);
       map.put(DEVOLVIDO_AO_REMETENTE, Category.RETURNED);
 
@@ -235,6 +239,7 @@ public final class PostalUtils {
 
       // Returned
       map.put(EM_DEVOLUCAO, R.drawable.ic_postal_em_devolucao);
+      map.put(ESTORNADO, R.drawable.ic_postal_em_devolucao);
       map.put(DISTRIBUIDO_AO_REMETENTE, R.drawable.ic_postal_distribuido_ao_remetente);
       map.put(DEVOLVIDO_AO_REMETENTE, R.drawable.ic_postal_em_devolucao);
 
@@ -288,6 +293,7 @@ public final class PostalUtils {
       // Other
       map.put(POSTADO, R.drawable.ic_postal_postado);
       map.put(POSTAGEM_DH, R.drawable.ic_postal_postado);
+      map.put(POSTADO_DEPOIS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
       map.put(RECEBIDO, R.drawable.ic_postal_recebido);
       map.put(CONFERIDO, R.drawable.ic_postal_conferido);
       map.put(ENCAMINHADO, R.drawable.ic_postal_encaminhado);
