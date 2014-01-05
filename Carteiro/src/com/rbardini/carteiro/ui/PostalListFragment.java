@@ -122,8 +122,7 @@ public class PostalListFragment extends ListFragment {
     super.onListItemClick(l, v, position, id);
 
     pi = list.get(position-1);
-    Intent intent = new Intent(activity, RecordActivity.class);
-    intent.putExtra("postalItem", pi);
+    Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi);
     startActivity(intent);
   }
 
@@ -149,8 +148,7 @@ public class PostalListFragment extends ListFragment {
     switch (item.getItemId()) {
       case R.id.refresh_opt:
         if (!CarteiroApplication.state.syncing) {
-              Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
-              refresh.putExtra("cods", new String[] {pi.getCod()});
+              Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class).putExtra("cods", new String[] {pi.getCod()});
                   activity.startService(refresh);
             }
         return true;
@@ -177,7 +175,8 @@ public class PostalListFragment extends ListFragment {
         return true;
 
       case R.id.websro_opt:
-        UIUtils.openURL(activity, String.format(getString(R.string.websro_url), pi.getCod()));
+        Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi).setAction("webSRO");
+        startActivity(intent);
         return true;
 
       case R.id.delete_opt:

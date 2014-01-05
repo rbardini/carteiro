@@ -23,6 +23,8 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncService;
 
 public class PostalRecordFragment extends ListFragment {
+  public static final String TAG = "PostalRecordFragment";
+
   private FragmentActivity activity;
   private DatabaseHelper dh;
 
@@ -44,6 +46,8 @@ public class PostalRecordFragment extends ListFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    setRetainInstance(true);
 
     activity = getActivity();
     dh = ((CarteiroApplication) activity.getApplication()).getDatabaseHelper();

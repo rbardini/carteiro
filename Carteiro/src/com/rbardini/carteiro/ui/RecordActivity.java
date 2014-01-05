@@ -3,6 +3,9 @@ package com.rbardini.carteiro.ui;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -11,6 +14,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.widget.ShareActionProvider;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
@@ -23,31 +27,46 @@ import com.rbardini.carteiro.util.UIUtils;
 public class RecordActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
   private ActionBar actionBar;
+  private FragmentManager mFragManager;
 
   private PostalItem pi;
+  private boolean onlyWebSRO;
   private PostalRecordFragment recordFragment;
+  private WebSROFragment webSROFragment;
   private ShareActionProvider mShareActionProvider;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.record);
+    requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+    setContentView(R.layout.record);
+    setSupportProgressBarIndeterminateVisibility(false);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
     registerForContextMenu(findViewById(R.id.hidden_edit_opt));
 
-        app = (CarteiroApplication) getApplication();
+    app = (CarteiroApplication) getApplication();
+
     actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
 
-    Object retained = getLastCustomNonConfigurationInstance();
-    if (retained != null) {
-      pi = (PostalItem) retained;
+    mFragManager = getSupportFragmentManager();
+    mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
+      @Override
+      public void onBackStackChanged() {
+        supportInvalidateOptionsMenu();
+      }
+    });
+
+    if (savedInstanceState != null) {
+      pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
+      onlyWebSRO = savedInstanceState.getBoolean("onlyWebSRO");
     } else {
       handleNewIntent();
     }
 
-    initialize();
+    initialize(savedInstanceState == null);
   }
 
   @Override
@@ -66,15 +85,18 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   }
 
   @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-      return pi;
-    }
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    savedInstanceState.putSerializable("postalItem", pi);
+    savedInstanceState.putSerializable("onlyWebSRO", onlyWebSRO);
+
+    super.onSaveInstanceState(savedInstanceState);
+  }
 
   @Override
   protected void onNewIntent(Intent intent) {
     setIntent(intent);
     handleNewIntent();
-    initialize();
+    initialize(false);
   }
 
   @Override
@@ -102,14 +124,16 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getSupportMenuInflater().inflate(R.menu.record_actions, menu);
+    if (getCurrentFragment() instanceof PostalRecordFragment) {
+      getSupportMenuInflater().inflate(R.menu.record_actions, menu);
 
-    mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.share_opt).getActionProvider();
-    mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-    setShareIntent();
+      mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.share_opt).getActionProvider();
+      mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+      setShareIntent();
 
-    if (pi.isFav()) {
-      menu.findItem(R.id.fav_opt).setIcon(R.drawable.ic_action_star);
+      if (pi.isFav()) {
+        menu.findItem(R.id.fav_opt).setIcon(R.drawable.ic_action_star);
+      }
     }
 
     return super.onCreateOptionsMenu(menu);
@@ -141,7 +165,17 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         return true;
 
       case R.id.websro_opt:
-        UIUtils.openURL(this, String.format(getString(R.string.websro_url), pi.getCod()));
+        if (webSROFragment == null) {
+          webSROFragment = WebSROFragment.newInstance(pi.getCod());
+        }
+
+        mFragManager
+          .beginTransaction()
+          .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+          .replace(R.id.record_list, webSROFragment, WebSROFragment.TAG)
+          .addToBackStack(null)
+          .commit();
+
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -151,7 +185,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
-    this.getMenuInflater().inflate(R.menu.record_edit_context, menu);
+    getMenuInflater().inflate(R.menu.record_edit_context, menu);
 
     menu.setHeaderTitle(pi.getSafeDesc());
     menu.findItem(R.id.fav_opt).setTitle(String.format(getString(R.string.opt_toggle_fav), getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as)));
@@ -161,7 +195,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   public boolean onContextItemSelected(android.view.MenuItem item) {
     switch (item.getItemId()) {
       case R.id.rename_opt:
-        PostalItemDialogFragment.newInstance(R.id.rename_opt, pi).show(getSupportFragmentManager(), PostalItemDialogFragment.TAG);
+        PostalItemDialogFragment.newInstance(R.id.rename_opt, pi).show(mFragManager, PostalItemDialogFragment.TAG);
         return true;
 
       case R.id.fav_opt:
@@ -172,12 +206,22 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         return true;
 
       case R.id.delete_opt:
-        PostalItemDialogFragment.newInstance(R.id.delete_opt, pi).show(getSupportFragmentManager(), PostalItemDialogFragment.TAG);
+        PostalItemDialogFragment.newInstance(R.id.delete_opt, pi).show(mFragManager, PostalItemDialogFragment.TAG);
         return true;
 
       default:
         return super.onContextItemSelected(item);
     }
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (webSROFragment != null && webSROFragment.isVisible() && webSROFragment.canGoBack()) {
+      webSROFragment.goBack();
+      return;
+    }
+
+    super.onBackPressed();
   }
 
   @Override
@@ -206,6 +250,10 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     }
   }
 
+  private Fragment getCurrentFragment() {
+    return mFragManager.findFragmentById(R.id.record_list);
+  }
+
   private void handleNewIntent() {
     Intent intent = getIntent();
     Bundle extras = intent.getExtras();
@@ -231,6 +279,8 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
                 }
             } else if (action.equals("share")) {
                 UIUtils.shareItem(this, pi);
+            } else if (action.equals("webSRO")) {
+              onlyWebSRO = true;
             }
 
             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -240,11 +290,15 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         intent.removeExtra("postalItem");
   }
 
-  private void initialize() {
-    if (recordFragment == null) {
-          recordFragment = PostalRecordFragment.newInstance(pi);
-        getSupportFragmentManager().beginTransaction().replace(R.id.record_list, recordFragment).commit();
+  private void initialize(boolean isNewInstance) {
+    if (onlyWebSRO) {
+      webSROFragment = WebSROFragment.newInstance(pi.getCod());
+      mFragManager.beginTransaction().replace(R.id.record_list, webSROFragment, WebSROFragment.TAG).commit();
+    } else if (isNewInstance) {
+      recordFragment = PostalRecordFragment.newInstance(pi);
+      mFragManager.beginTransaction().replace(R.id.record_list, recordFragment, PostalRecordFragment.TAG).commit();
     } else {
+      recordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
       recordFragment.setPostalItem(pi);
       recordFragment.refreshList();
     }
@@ -260,11 +314,13 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   }
 
   private void updateRefreshStatus() {
-    if (CarteiroApplication.state.syncing) {
-      recordFragment.setRefreshing();
-    } else {
-      recordFragment.onRefreshComplete();
-      setShareIntent();
+    if (recordFragment != null) {
+      if (CarteiroApplication.state.syncing) {
+        recordFragment.setRefreshing();
+      } else {
+        recordFragment.onRefreshComplete();
+        setShareIntent();
+      }
     }
   }
 }
