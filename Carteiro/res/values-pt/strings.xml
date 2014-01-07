@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Carteiro</string>
+  <string name="app_url">http://carteiroapp.com/</string>
+
+  <string name="blog_url">http://blog.carteiroapp.com/</string>
+  <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
+  <string name="feedback_url">http://feedback.carteiroapp.com/</string>
+
+  <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
+
+  <!-- Buttons -->
+  <string name="positive_btn">OK</string>
+  <string name="negative_btn">Cancelar</string>
+  <string name="add_btn">Adicionar</string>
+  <string name="rename_btn">Renomear</string>
+  <string name="delete_btn">Excluir</string>
+  <string name="install_btn">Instalar</string>
+  <string name="quit_btn">Sair</string>
+  <string name="retry_btn">Tentar novamente</string>
+  <string name="buy_btn">Comprar</string>
+  <string name="continue_btn">Continuar</string>
+
+  <!-- Options Menu -->
+  <string name="add_opt">Adicionar</string>
+  <string name="share_opt">Compartilhar</string>
+  <string name="preferences_opt">Configurações</string>
+  <string name="search_opt">Pesquisar</string>
+  <string name="edit_opt">Editar</string>
+  <string name="websro_opt">SRO Correios</string>
+  <string name="fav_opt">Favorito</string>
+  <string name="scan_opt">Escanear</string>
+  <string name="place_opt">Localizar</string>
+
+  <!-- ViewPager Indicator -->
+  <string name="category_returned">Devolvidos</string>
+  <string name="category_unknown">Desconhecidos</string>
+  <string name="category_irregular">Irregulares</string>
+  <string name="category_all">Todos</string>
+  <string name="category_favorites">Favoritos</string>
+  <string name="category_available">Disponíveis</string>
+  <string name="category_delivered">Entregues</string>
+
+  <!-- Add Activity -->
+  <string name="title_add">Adicionar objeto</string>
+
+  <string name="hint_tracking_code">Código de rastreamento</string>
+  <string name="hint_item_description">Descrição do objeto</string>
+  <string name="checkbox_add_favorite">Marcar como favorito</string>
+
+  <string name="title_tracking_obj">Rastreando objeto&#8230;</string>
+  <string name="title_alert_not_found">Adicionar objeto não encontrado?</string>
+  <string name="title_alert_net_error">Adicionar objeto offline?</string>
+  <string name="title_alert_delivered_item">Adicionar objeto entregue?</string>
+  <string name="title_alert_returned_item">Adicionar objeto devolvido?</string>
+
+  <string name="msg_alert_empty_cod">Informe o código de rastreamento do objeto.</string>
+  <string name="msg_alert_wrong_length_cod">O código de rastreamento deve ter 13 dígitos.</string>
+  <string name="msg_alert_bad_format_cod">Código de rastreamento fora do padrão.\nExemplo válido: SS123456789BR</string>
+  <string name="msg_alert_invalid_dv_cod">Código de rastreamento inválido: dígito verificador não confere.</string>
+  <string name="msg_alert_default_error_cod">Código de rastreamento inválido.</string>
+  <string name="msg_alert_not_found">Verifique se o código %s está correto.\n\nSe o objeto foi postado recentemente, é natural que seus dados ainda não estejam no sistema.</string>
+  <string name="msg_alert_net_error">Os Correios podem estar offline ou uma conexão de rede não foi encontrada.\n\nNovas tentativas de contato serão feitas durante as sincronizações agendadas.</string>
+  <string name="msg_alert_delivered_item">O objeto já foi entregue ao seu destinatário. Novas mudanças de status são improváveis.</string>
+  <string name="msg_alert_returned_item">O objeto já foi devolvido ao seu remetente. Novas mudanças de status são improváveis.</string>
+
+  <string name="title_alert_barcode_install">Instalar Barcode Scanner?</string>
+  <string name="msg_alert_barcode_install">O aplicativo é necessário para a leitura de códigos de barra e QR codes.</string>
+
+  <string name="msg_alert_cod_not_found">Código de rastreamento não encontrado. Verifique se a página possui informações sobre o objeto.</string>
+
+  <!-- Unlicensed messages -->
+  <string name="unlicensed_dialog_title">Aplicativo não licenciado</string>
+  <string name="unlicensed_dialog_body">Este aplicativo não está licenciado. Por favor, adquira-o no Google Play para receber atualizações e apoiar seu desenvolvimento.</string>
+  <string name="unlicensed_dialog_retry_body">Não foi possível validar a licença. Verifique se há uma conexão de rede.</string>
+
+  <!-- Notifications -->
+  <string name="notf_tckr_single_obj">%1$s: %2$s</string>
+  <string name="notf_tckr_multi_obj">%d objetos atualizados</string>
+  <string name="notf_line_multi_obj"><![CDATA[<font color="#CCCCCC">%1$s</font> %2$s]]></string>
+  <plurals name="notf_summ_multi_obj">
+    <item quantity="one">1 objeto entregue</item>
+    <item quantity="other">%d objetos entregues</item>
+  </plurals>
+
+  <!-- Postal List -->
+  <string name="text_empty_list">Não há objetos.</string>
+  <string name="text_unknown_location">Localização desconhecida</string>
+
+  <string name="title_send_list">Enviar via</string>
+  <string name="subject_send_list">Lista de objetos rastreados</string>
+  <string name="text_send_list_line_1">%s &#9734;\n</string>
+  <string name="text_send_list_line_1_fav">%s &#9733;\n</string>
+  <string name="text_send_list_line_2">%s\n</string>
+  <string name="text_send_list_line_3">%1$s, %2$s\n\n</string>
+
+  <!--  Toasts -->
+  <string name="toast_item_added">%s adicionado.</string>
+  <string name="toast_item_renamed">%1$s renomeado para %2$s.</string>
+  <string name="toast_item_deleted">%s excluído.</string>
+  <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
+  <string name="toast_sync_error">Erro de sincronização: %s</string>
+
+  <!-- Context Menu -->
+  <string name="opt_refresh_item">Atualizar</string>
+  <string name="opt_rename_item">Renomear</string>
+  <string name="opt_toggle_fav">%s favorito</string>
+    <string name="label_mark_as">Marcar como</string>
+    <string name="label_unmark_as">Desmarcar como</string>
+  <string name="opt_view_place">Ver localização no mapa</string>
+  <string name="opt_share_status">Compartilhar status</string>
+  <string name="opt_open_websro">Abrir SRO dos Correios</string>
+  <string name="opt_delete_item">Excluir</string>
+
+  <!-- Dialogs -->
+  <string name="title_alert_delete">Excluir %s?</string>
+  <string name="msg_alert_delete">O histórico do objeto também será apagado.</string>
+
+  <!-- Record Activity -->
+  <string name="title_record">Histórico do objeto</string>
+  <string name="share_title">Compartilhar via</string>
+  <string name="share_status_subject">Status do objeto</string>
+  <string name="share_status_text">%1$s %2$s, %3$s #carteiroapp</string>
+
+  <!-- Preferences Activity -->
+  <string name="title_preferences">Configurações</string>
+
+  <string name="pref_general_category">Configurações gerais</string>
+  <string name="pref_auto_sync_title">Sincronização automática</string>
+  <string name="pref_auto_sync_summary">Sincronizar objetos automaticamente</string>
+  <string name="pref_refresh_interval_title">Intervalo de sincronização</string>
+  <string name="pref_refresh_interval_summary">Sincronizar a cada %s</string>
+  <string-array name="array_refresh_interval">
+    <item>15 minutos</item>
+    <item>30 minutos</item>
+    <item>1 hora</item>
+    <item>3 horas</item>
+    <item>6 horas</item>
+    <item>1 dia</item>
+  </string-array>
+  <string name="pref_sync_favorites_only_title">Sincronizar apenas favoritos</string>
+  <string name="pref_sync_favorites_only_summary">Sincronizar apenas objetos marcados como favoritos</string>
+  <string name="pref_dont_sync_delivered_items_title">Não sincronizar objetos entregues</string>
+  <string name="pref_dont_sync_delivered_items_summary">Ignorar objetos já entregues ou devolvidos ao sincronizar</string>
+  <string name="pref_activate_notifications_title">Notificações</string>
+  <string name="pref_activate_notifications_summary">Ativar notificações do sistema</string>
+
+  <string name="pref_notification_category">Configurações de notificação</string>
+  <string name="pref_notify_all_summary">Notificar atualizações de todos os objetos</string>
+  <string name="pref_notify_favorites_summary">Notificar atualizações de objetos marcados como favoritos</string>
+  <string name="pref_notify_available_summary">Notificar atualizações de objetos à retirar ou em entrega</string>
+  <string name="pref_notify_delivered_summary">Notificar atualizações de objetos entregues</string>
+  <string name="pref_notify_irregular_summary">Notificar atualizações de objetos com problemas ou em tratamento</string>
+  <string name="pref_notify_unknown_summary">Notificar atualizações de objetos não encontrados ou indeterminados</string>
+  <string name="pref_notify_returned_summary">Notificar atualizações de objetos devolvidos ou em devolução</string>
+
+  <string name="pref_indication_category">Configurações de indicação</string>
+  <string name="pref_ringtone_title">Toque de notificação</string>
+  <string name="pref_ringtone_summary">Definir toque de notificação</string>
+  <string name="pref_lights_title">Luz de notificação</string>
+  <string name="pref_lights_summary">Piscar LED ao receber notificações</string>
+  <string name="pref_vibrate_title">Vibrar</string>
+  <string name="pref_vibrate_summary">Vibrar ao receber notificações</string>
+
+  <string name="pref_about_category">Sobre</string>
+  <string name="pref_blog_title">Blog do Carteiro</string>
+  <string name="pref_blog_summary">Fique por dentro do que há de novo</string>
+  <string name="pref_facebook_title">Página no Facebook</string>
+  <string name="pref_facebook_summary">Curta o Carteiro e recomende aos amigos</string>
+  <string name="pref_feedback_title">Feedback &#038; Suporte</string>
+  <string name="pref_feedback_summary">Tire suas dúvidas e sugira melhorias</string>
+
+  <string name="pref_version_category">Versão</string>
+  <string name="pref_version_title">%1$s %2$s</string>
+  <string name="pref_version_summary">© %d Rafael Bardini</string>
+
+  <!-- Search Activity -->
+  <string name="title_search">Objetos</string>
+  <string name="subtitle_search">Resultados da pesquisa</string>
+  <string name="search_hint">Pesquisar objetos</string>
+  <string name="search_desc">Código e descrição dos seus objetos rastreados</string>
+
+  <!-- Content Description -->
+  <string name="desc_status">Status</string>
+</resources>

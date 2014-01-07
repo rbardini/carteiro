@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="array_refresh_interval">
-    <item>15 minutos</item>
-    <item>30 minutos</item>
-    <item>1 hora</item>
-    <item>3 horas</item>
-    <item>6 horas</item>
-    <item>1 dia</item>
-  </string-array>
-
   <string-array name="vals_refresh_interval">
     <item>900000</item>
     <item>1800000</item>

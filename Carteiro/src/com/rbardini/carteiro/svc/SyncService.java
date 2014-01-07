@@ -181,7 +181,7 @@ public class SyncService extends IntentService {
         desc += pi.getSafeDesc() + (iterator.hasNext() ? ", " : "");
         if (PostalUtils.Status.getCategory(pi.getStatus()) == PostalUtils.Category.DELIVERED) deliveredCount++;
       }
-      notificationStyle.setSummaryText(String.format(getString(R.string.notf_summ_multi_obj), deliveredCount));
+      notificationStyle.setSummaryText(getResources().getQuantityString(R.plurals.notf_summ_multi_obj, deliveredCount, deliveredCount));
     }
 
     PendingIntent pending = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
