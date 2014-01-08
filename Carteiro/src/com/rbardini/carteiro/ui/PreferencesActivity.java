@@ -5,11 +5,16 @@ import java.util.Date;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
+import android.preference.RingtonePreference;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -36,8 +41,19 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
       backupManagerAvailable = false;
     }
 
+    setRefreshIntervalPreference();
+    setNotificationSoundPreference();
     setAboutPreference();
     setVersionPreference();
+
+    Preference ringPref = findPreference(Preferences.RINGTONE);
+    ringPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+      @Override
+      public boolean onPreferenceChange(Preference preference, Object newValue) {
+        setNotificationSoundPreference((RingtonePreference) preference, Uri.parse((String) newValue));
+        return true;
+      }
+    });
   }
 
   @Override
@@ -45,12 +61,12 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     super.onResume();
 
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-    setRefreshIntervalPreference();
   }
 
   @Override
   protected void onPause() {
     super.onPause();
+
     PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
   }
 
@@ -82,6 +98,23 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
         return super.onOptionsItemSelected(item);
     }
     }
+
+  private void setRefreshIntervalPreference() {
+    ListPreference interval = (ListPreference) findPreference(Preferences.REFRESH_INTERVAL);
+    interval.setSummary(String.format(getString(R.string.pref_refresh_interval_summary), interval.getEntry()));
+  }
+
+  private void setNotificationSoundPreference() {
+    RingtonePreference preference = (RingtonePreference) findPreference(Preferences.RINGTONE);
+    Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString(preference.getKey(), ""));
+
+    setNotificationSoundPreference(preference, uri);
+  }
+
+  private void setNotificationSoundPreference(RingtonePreference preference, Uri uri) {
+    Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+    preference.setSummary(ringtone != null ? ringtone.getTitle(this) : getString(R.string.pref_ringtone_summary));
+  }
 
   private void setAboutPreference() {
     findPreference(Preferences.BLOG).setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -123,11 +156,6 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
         return true;
       }
     });
-  }
-
-  private void setRefreshIntervalPreference() {
-    ListPreference interval = (ListPreference) findPreference(Preferences.REFRESH_INTERVAL);
-    interval.setSummary(String.format(getString(R.string.pref_refresh_interval_summary), interval.getEntry()));
   }
 
   public static final class Preferences {
