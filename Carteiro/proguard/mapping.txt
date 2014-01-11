@@ -7067,10 +7067,9 @@ com.handmark.pulltorefresh.library.PullToRefreshBase$State -> com.handmark.pullt
 com.handmark.pulltorefresh.library.PullToRefreshListView -> com.handmark.pulltorefresh.library.PullToRefreshListView:
     com.handmark.pulltorefresh.library.internal.LoadingLayout mHeaderLoadingView -> b
     com.handmark.pulltorefresh.library.internal.LoadingLayout mFooterLoadingView -> c
-    android.widget.FrameLayout mLvHeaderLoadingFrame -> d
-    android.widget.FrameLayout mLvFooterLoadingFrame -> e
-    boolean mListViewExtrasEnabled -> f
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> g
+    android.widget.FrameLayout mLvFooterLoadingFrame -> d
+    boolean mListViewExtrasEnabled -> e
+    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> f
     com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
     void onRefreshing(boolean) -> a
     void onReset() -> c
@@ -7080,7 +7079,6 @@ com.handmark.pulltorefresh.library.PullToRefreshListView -> com.handmark.pulltor
     void handleStyledAttributes(android.content.res.TypedArray) -> a
     android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> a
     android.widget.FrameLayout access$1(com.handmark.pulltorefresh.library.PullToRefreshListView) -> a
-    android.widget.FrameLayout access$2(com.handmark.pulltorefresh.library.PullToRefreshListView) -> b
     int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> r
 com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListView -> com.handmark.pulltorefresh.library.q:
     boolean mAddedLvFooter -> b
@@ -7090,32 +7088,28 @@ com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListView -> com
     void setAdapter(android.widget.ListAdapter) -> setAdapter
     void setEmptyView(android.view.View) -> setEmptyView
     void setEmptyViewInternal(android.view.View) -> setEmptyViewInternal
-com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListView$1 -> com.handmark.pulltorefresh.library.r:
-    com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListView this$1 -> a
-    android.widget.ListAdapter val$adapter -> b
-    boolean areAllItemsEnabled() -> areAllItemsEnabled
-com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListViewSDK9 -> com.handmark.pulltorefresh.library.s:
+com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListViewSDK9 -> com.handmark.pulltorefresh.library.r:
     com.handmark.pulltorefresh.library.PullToRefreshListView this$0 -> b
     boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-com.handmark.pulltorefresh.library.R -> com.handmark.pulltorefresh.library.t:
-com.handmark.pulltorefresh.library.R$anim -> com.handmark.pulltorefresh.library.u:
+com.handmark.pulltorefresh.library.R -> com.handmark.pulltorefresh.library.s:
+com.handmark.pulltorefresh.library.R$anim -> com.handmark.pulltorefresh.library.t:
     int slide_in_from_bottom -> slide_in_from_bottom
     int slide_in_from_top -> slide_in_from_top
     int slide_out_to_bottom -> slide_out_to_bottom
     int slide_out_to_top -> slide_out_to_top
-com.handmark.pulltorefresh.library.R$dimen -> com.handmark.pulltorefresh.library.v:
+com.handmark.pulltorefresh.library.R$dimen -> com.handmark.pulltorefresh.library.u:
     int header_footer_left_right_padding -> header_footer_left_right_padding
     int header_footer_top_bottom_padding -> header_footer_top_bottom_padding
     int indicator_corner_radius -> indicator_corner_radius
     int indicator_internal_padding -> indicator_internal_padding
     int indicator_right_padding -> indicator_right_padding
-com.handmark.pulltorefresh.library.R$drawable -> com.handmark.pulltorefresh.library.w:
+com.handmark.pulltorefresh.library.R$drawable -> com.handmark.pulltorefresh.library.v:
     int default_ptr_flip -> default_ptr_flip
     int default_ptr_rotate -> default_ptr_rotate
     int indicator_arrow -> indicator_arrow
     int indicator_bg_bottom -> indicator_bg_bottom
     int indicator_bg_top -> indicator_bg_top
-com.handmark.pulltorefresh.library.R$id -> com.handmark.pulltorefresh.library.x:
+com.handmark.pulltorefresh.library.R$id -> com.handmark.pulltorefresh.library.w:
     int both -> both
     int disabled -> disabled
     int fl_inner -> fl_inner
@@ -7133,17 +7127,17 @@ com.handmark.pulltorefresh.library.R$id -> com.handmark.pulltorefresh.library.x:
     int rotate -> rotate
     int scrollview -> scrollview
     int webview -> webview
-com.handmark.pulltorefresh.library.R$layout -> com.handmark.pulltorefresh.library.y:
+com.handmark.pulltorefresh.library.R$layout -> com.handmark.pulltorefresh.library.x:
     int pull_to_refresh_header_horizontal -> pull_to_refresh_header_horizontal
     int pull_to_refresh_header_vertical -> pull_to_refresh_header_vertical
-com.handmark.pulltorefresh.library.R$string -> com.handmark.pulltorefresh.library.z:
+com.handmark.pulltorefresh.library.R$string -> com.handmark.pulltorefresh.library.y:
     int pull_to_refresh_from_bottom_pull_label -> pull_to_refresh_from_bottom_pull_label
     int pull_to_refresh_from_bottom_refreshing_label -> pull_to_refresh_from_bottom_refreshing_label
     int pull_to_refresh_from_bottom_release_label -> pull_to_refresh_from_bottom_release_label
     int pull_to_refresh_pull_label -> pull_to_refresh_pull_label
     int pull_to_refresh_refreshing_label -> pull_to_refresh_refreshing_label
     int pull_to_refresh_release_label -> pull_to_refresh_release_label
-com.handmark.pulltorefresh.library.R$styleable -> com.handmark.pulltorefresh.library.aa:
+com.handmark.pulltorefresh.library.R$styleable -> com.handmark.pulltorefresh.library.z:
     int[] PullToRefresh -> PullToRefresh
     int PullToRefresh_ptrAdapterViewBackground -> PullToRefresh_ptrAdapterViewBackground
     int PullToRefresh_ptrAnimationStyle -> PullToRefresh_ptrAnimationStyle
@@ -7305,7 +7299,6 @@ com.rbardini.carteiro.db.DatabaseHelper -> com.rbardini.carteiro.a.a:
     int getPostalList(java.util.List,int) -> a
     int getSearchResults(java.util.List,java.lang.String) -> a
     android.database.Cursor getSearchSuggestions(java.lang.String) -> f
-    com.rbardini.carteiro.model.PostalRecord getLastPostalRecord(java.lang.String) -> g
     int getPostalRecords(java.util.List,java.lang.String) -> b
     java.util.HashMap buildColumnMap() -> e
     java.util.List GetColumns(android.database.sqlite.SQLiteDatabase,java.lang.String) -> b
@@ -7336,7 +7329,18 @@ com.rbardini.carteiro.model.PostalItem -> com.rbardini.carteiro.b.a:
     boolean toggleFav() -> k
     void setReg(org.alfredlibrary.utilitarios.correios.RegistroRastreamento) -> a
     boolean equals(java.lang.Object) -> equals
-com.rbardini.carteiro.model.PostalRecord -> com.rbardini.carteiro.b.b:
+com.rbardini.carteiro.model.PostalItemRecord -> com.rbardini.carteiro.b.b:
+    com.rbardini.carteiro.model.PostalItem pi -> a
+    java.util.List prList -> b
+    com.rbardini.carteiro.model.PostalItem getPostalItem() -> a
+    com.rbardini.carteiro.model.PostalRecord getPostalRecord(int) -> a
+    com.rbardini.carteiro.model.PostalRecord getLatestPostalRecord() -> b
+    java.lang.String getCod() -> c
+    java.lang.String getFullDesc() -> d
+    com.rbardini.carteiro.model.PostalItemRecord loadFrom(com.rbardini.carteiro.db.DatabaseHelper) -> a
+    int size() -> e
+    boolean equals(java.lang.Object) -> equals
+com.rbardini.carteiro.model.PostalRecord -> com.rbardini.carteiro.b.c:
     java.lang.String cod -> a
     int pos -> b
     java.util.Date date -> c
@@ -7363,6 +7367,8 @@ com.rbardini.carteiro.svc.BackupManagerWrapper -> com.rbardini.carteiro.svc.a:
     void checkAvailable() -> a
     void dataChanged() -> b
     void dataChanged(java.lang.String) -> a
+com.rbardini.carteiro.svc.CancelSyncReceiver -> com.rbardini.carteiro.svc.CancelSyncReceiver:
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.rbardini.carteiro.svc.DetachableResultReceiver -> com.rbardini.carteiro.svc.DetachableResultReceiver:
     com.rbardini.carteiro.svc.DetachableResultReceiver$Receiver receiver -> a
     void clearReceiver() -> a
@@ -7380,15 +7386,19 @@ com.rbardini.carteiro.svc.SearchProvider -> com.rbardini.carteiro.svc.SearchProv
     int delete(android.net.Uri,java.lang.String,java.lang.String[]) -> delete
     java.lang.String getType(android.net.Uri) -> getType
 com.rbardini.carteiro.svc.SyncService -> com.rbardini.carteiro.svc.SyncService:
-    com.rbardini.carteiro.CarteiroApplication app -> a
-    com.rbardini.carteiro.db.DatabaseHelper dh -> b
+    boolean SYNC_CANCELED -> a
+    com.rbardini.carteiro.CarteiroApplication app -> b
+    com.rbardini.carteiro.db.DatabaseHelper dh -> c
+    android.app.NotificationManager nm -> d
+    android.content.SharedPreferences prefs -> e
     void onCreate() -> onCreate
     void onHandleIntent(android.content.Intent) -> onHandleIntent
-    void showNotification(android.content.SharedPreferences,int) -> a
+    void showNotification(int) -> a
     boolean notifiable(com.rbardini.carteiro.model.PostalItem,int) -> a
     android.app.PendingIntent getSender(android.content.Context) -> c
     void scheduleSync(android.content.Context) -> a
     void unscheduleSync(android.content.Context) -> b
+    void cancelSync() -> a
 com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     com.rbardini.carteiro.CarteiroApplication app -> a
     android.widget.EditText trkCode -> b
@@ -7399,6 +7409,7 @@ com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     android.app.ProgressDialog progress -> g
     android.os.AsyncTask task -> h
     com.rbardini.carteiro.db.DatabaseHelper dh -> i
+    int[] $SWITCH_TABLE$com$rbardini$carteiro$util$validator$TrackingCodeValidation$Result -> j
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onDestroy() -> onDestroy
@@ -7410,8 +7421,8 @@ com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     void onConfirmAddPostalItem(com.rbardini.carteiro.model.PostalItem) -> a
     void onCancelAddPostalItem(com.rbardini.carteiro.model.PostalItem) -> b
     void onAddPostalItemClick(android.view.View) -> onAddPostalItemClick
-    void handleIntent() -> a
-    void validateCod(java.lang.String) -> a
+    void handleIntent() -> b
+    java.lang.String parseCod(java.lang.String) -> a
     void onPostalItemAdded(com.rbardini.carteiro.model.PostalItem) -> c
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
@@ -7419,6 +7430,7 @@ com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     android.app.ProgressDialog access$0(com.rbardini.carteiro.ui.AddActivity) -> a
     android.support.v4.app.FragmentManager access$1(com.rbardini.carteiro.ui.AddActivity) -> b
     void access$2(com.rbardini.carteiro.ui.AddActivity,android.os.AsyncTask) -> a
+    int[] $SWITCH_TABLE$com$rbardini$carteiro$util$validator$TrackingCodeValidation$Result() -> a
 com.rbardini.carteiro.ui.AddActivity$InsertPostalItem -> com.rbardini.carteiro.ui.a:
     com.rbardini.carteiro.db.DatabaseHelper dh -> b
     java.lang.String error -> c
@@ -7484,7 +7496,6 @@ com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     android.content.Intent buildShareIntent() -> d
     void updateRefreshStatus() -> e
     void refreshList() -> a
-    java.util.List getViewPagerFragments(android.support.v4.app.FragmentPagerAdapter) -> a
     void checkLicense() -> b
     void licenseChecked(boolean,boolean) -> a
     void access$0(com.rbardini.carteiro.ui.MainActivity,boolean,boolean) -> a
@@ -7520,15 +7531,19 @@ com.rbardini.carteiro.ui.MainDialogFragment$1 -> com.rbardini.carteiro.ui.n:
 com.rbardini.carteiro.ui.MainPagerAdapter -> com.rbardini.carteiro.ui.o:
     int[] category -> a
     java.lang.String[] titles -> b
-    java.lang.Object currentView -> c
+    com.rbardini.carteiro.ui.PostalListFragment currentView -> c
     com.rbardini.carteiro.ui.MainPagerAdapter$OnPostPageChangeListener mListener -> d
+    android.support.v4.app.FragmentManager mFragmentManager -> e
     java.lang.CharSequence getPageTitle(int) -> getPageTitle
     int getCount() -> getCount
     android.support.v4.app.Fragment getItem(int) -> getItem
-    int getItemPosition(java.lang.Object) -> getItemPosition
+    void notifyDataSetChanged() -> notifyDataSetChanged
     void setPrimaryItem(android.view.ViewGroup,int,java.lang.Object) -> setPrimaryItem
-    java.lang.Object getCurrentView() -> a
+    com.rbardini.carteiro.ui.PostalListFragment getCurrentView() -> a
     void setOnPostPageChangeListener(com.rbardini.carteiro.ui.MainPagerAdapter$OnPostPageChangeListener) -> a
+    java.util.List getActiveFragments() -> b
+    void setRefreshing() -> c
+    void onRefreshComplete() -> d
 com.rbardini.carteiro.ui.MainPagerAdapter$OnPostPageChangeListener -> com.rbardini.carteiro.ui.p:
     void onPostPageSelected(int) -> a
 com.rbardini.carteiro.ui.PostalItemDialogFragment -> com.rbardini.carteiro.ui.q:
@@ -7594,6 +7609,7 @@ com.rbardini.carteiro.ui.PostalListFragment -> com.rbardini.carteiro.ui.w:
     com.handmark.pulltorefresh.library.PullToRefreshListView listView -> j
     com.rbardini.carteiro.ui.PostalListFragment newInstance(int) -> a
     com.rbardini.carteiro.ui.PostalListFragment newInstance(java.lang.String) -> a
+    void onCreate(android.os.Bundle) -> onCreate
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
@@ -7606,16 +7622,16 @@ com.rbardini.carteiro.ui.PostalListFragment -> com.rbardini.carteiro.ui.w:
     void setRefreshing() -> c
     void onRefreshComplete() -> d
     void refreshList(boolean) -> a
-    com.rbardini.carteiro.ui.PostalItemListAdapter access$0(com.rbardini.carteiro.ui.PostalListFragment) -> a
-    android.os.Handler access$1(com.rbardini.carteiro.ui.PostalListFragment) -> b
-    android.support.v4.app.FragmentActivity access$2(com.rbardini.carteiro.ui.PostalListFragment) -> c
-    java.util.List access$3(com.rbardini.carteiro.ui.PostalListFragment) -> d
+    android.support.v4.app.FragmentActivity access$0(com.rbardini.carteiro.ui.PostalListFragment) -> a
+    java.util.List access$1(com.rbardini.carteiro.ui.PostalListFragment) -> b
+    com.rbardini.carteiro.ui.PostalItemListAdapter access$2(com.rbardini.carteiro.ui.PostalListFragment) -> c
+    android.os.Handler access$3(com.rbardini.carteiro.ui.PostalListFragment) -> d
 com.rbardini.carteiro.ui.PostalListFragment$1 -> com.rbardini.carteiro.ui.x:
     com.rbardini.carteiro.ui.PostalListFragment this$0 -> a
-    void run() -> run
+    void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
 com.rbardini.carteiro.ui.PostalListFragment$2 -> com.rbardini.carteiro.ui.y:
     com.rbardini.carteiro.ui.PostalListFragment this$0 -> a
-    void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
+    void run() -> run
 com.rbardini.carteiro.ui.PostalRecordFragment -> com.rbardini.carteiro.ui.z:
     android.support.v4.app.FragmentActivity activity -> a
     com.rbardini.carteiro.db.DatabaseHelper dh -> b
@@ -7624,6 +7640,7 @@ com.rbardini.carteiro.ui.PostalRecordFragment -> com.rbardini.carteiro.ui.z:
     com.rbardini.carteiro.ui.PostalRecordListAdapter listAdapter -> e
     com.handmark.pulltorefresh.library.PullToRefreshListView listView -> f
     com.rbardini.carteiro.ui.PostalRecordFragment newInstance(com.rbardini.carteiro.model.PostalItem) -> a
+    void onCreate(android.os.Bundle) -> onCreate
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void setPostalItem(com.rbardini.carteiro.model.PostalItem) -> b
@@ -7644,8 +7661,6 @@ com.rbardini.carteiro.ui.PostalRecordListAdapter -> com.rbardini.carteiro.ui.ab:
     com.rbardini.carteiro.model.PostalRecord getItem(int) -> a
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    boolean areAllItemsEnabled() -> areAllItemsEnabled
-    boolean isEnabled(int) -> isEnabled
     java.lang.Object getItem(int) -> getItem
 com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder -> com.rbardini.carteiro.ui.ac:
     android.widget.TextView date -> a
@@ -7673,12 +7688,15 @@ com.rbardini.carteiro.ui.PreferencesActivity -> com.rbardini.carteiro.ui.Prefere
     void onPause() -> onPause
     void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-    void setAboutPreference() -> a
-    void setVersionPreference() -> b
-    void setRefreshIntervalPreference() -> c
+    void setRefreshIntervalPreference() -> a
+    void setNotificationSoundPreference() -> b
+    void setNotificationSoundPreference(android.preference.RingtonePreference,android.net.Uri) -> a
+    void setAboutPreference() -> c
+    void setVersionPreference() -> d
+    void access$0(com.rbardini.carteiro.ui.PreferencesActivity,android.preference.RingtonePreference,android.net.Uri) -> a
 com.rbardini.carteiro.ui.PreferencesActivity$1 -> com.rbardini.carteiro.ui.ad:
     com.rbardini.carteiro.ui.PreferencesActivity this$0 -> a
-    boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
 com.rbardini.carteiro.ui.PreferencesActivity$2 -> com.rbardini.carteiro.ui.ae:
     com.rbardini.carteiro.ui.PreferencesActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
@@ -7688,29 +7706,40 @@ com.rbardini.carteiro.ui.PreferencesActivity$3 -> com.rbardini.carteiro.ui.af:
 com.rbardini.carteiro.ui.PreferencesActivity$4 -> com.rbardini.carteiro.ui.ag:
     com.rbardini.carteiro.ui.PreferencesActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
+com.rbardini.carteiro.ui.PreferencesActivity$5 -> com.rbardini.carteiro.ui.ah:
+    com.rbardini.carteiro.ui.PreferencesActivity this$0 -> a
+    boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
 com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivity:
     com.rbardini.carteiro.CarteiroApplication app -> a
     com.actionbarsherlock.app.ActionBar actionBar -> b
-    com.rbardini.carteiro.model.PostalItem pi -> c
-    com.rbardini.carteiro.ui.PostalRecordFragment recordFragment -> d
-    com.actionbarsherlock.widget.ShareActionProvider mShareActionProvider -> e
+    android.support.v4.app.FragmentManager mFragManager -> c
+    com.rbardini.carteiro.model.PostalItem pi -> d
+    boolean onlyWebSRO -> e
+    com.rbardini.carteiro.ui.PostalRecordFragment recordFragment -> f
+    com.rbardini.carteiro.ui.WebSROFragment webSROFragment -> g
+    com.actionbarsherlock.widget.ShareActionProvider mShareActionProvider -> h
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onPause() -> onPause
-    java.lang.Object onRetainCustomNonConfigurationInstance() -> onRetainCustomNonConfigurationInstance
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     void onNewIntent(android.content.Intent) -> onNewIntent
     void onReceiveResult(int,android.os.Bundle) -> a
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
+    void onBackPressed() -> onBackPressed
     void onRenamePostalItem(java.lang.String,com.rbardini.carteiro.model.PostalItem) -> a
     void onDeletePostalItem(com.rbardini.carteiro.model.PostalItem) -> a
     void setTitleBar() -> a
-    void handleNewIntent() -> b
-    void initialize() -> c
+    android.support.v4.app.Fragment getCurrentFragment() -> b
+    void handleNewIntent() -> c
+    void initialize(boolean) -> a
     void setShareIntent() -> d
     void updateRefreshStatus() -> e
+com.rbardini.carteiro.ui.RecordActivity$1 -> com.rbardini.carteiro.ui.ai:
+    com.rbardini.carteiro.ui.RecordActivity this$0 -> a
+    void onBackStackChanged() -> onBackStackChanged
 com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivity:
     com.rbardini.carteiro.CarteiroApplication app -> a
     com.actionbarsherlock.app.ActionBar actionBar -> b
@@ -7728,9 +7757,21 @@ com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivi
     void onFavClick(android.view.View) -> onFavClick
     void handleIntent() -> a
     void updateRefreshStatus() -> b
+com.rbardini.carteiro.ui.WebSROFragment -> com.rbardini.carteiro.ui.aj:
+    com.actionbarsherlock.app.SherlockFragmentActivity mActivity -> a
+    android.webkit.WebView mWebView -> b
+    com.rbardini.carteiro.ui.WebSROFragment newInstance(java.lang.String) -> a
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    void onPause() -> onPause
+    boolean canGoBack() -> a
+    void goBack() -> b
+com.rbardini.carteiro.ui.WebSROFragment$1 -> com.rbardini.carteiro.ui.ak:
+    com.rbardini.carteiro.ui.WebSROFragment this$0 -> a
+    void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
 com.rbardini.carteiro.util.PostalUtils -> com.rbardini.carteiro.c.a:
     java.lang.String getLocation(com.rbardini.carteiro.model.PostalItem,boolean) -> a
     android.content.Intent getShareIntent(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> a
+    android.content.Intent getShareIntent(android.content.Context,java.util.List) -> a
 com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.b:
     java.util.Map StatusesMap -> a
     java.util.TreeMap buildStatusesMap() -> a
@@ -7750,6 +7791,25 @@ com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.d:
     java.lang.CharSequence getRelativeTime(java.util.Date) -> a
     void shareItem(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> a
     void locateItem(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> b
+com.rbardini.carteiro.util.validator.TrackingCodeValidation -> com.rbardini.carteiro.c.a.a:
+    java.lang.String cod -> a
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result res -> b
+    java.lang.String getCod() -> a
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result getResult() -> b
+    boolean isValid() -> c
+com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result -> com.rbardini.carteiro.c.a.b:
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result EMPTY -> a
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result WRONG_LENGTH -> b
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result BAD_FORMAT -> c
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result INVALID_CHECK_DIGIT -> d
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result SUCCESS -> e
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result[] ENUM$VALUES -> f
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result[] values() -> values
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result valueOf(java.lang.String) -> valueOf
+com.rbardini.carteiro.util.validator.TrackingCodeValidator -> com.rbardini.carteiro.c.a.c:
+    int[] NUMERIC_WEIGHTS -> a
+    com.rbardini.carteiro.util.validator.TrackingCodeValidation validate(java.lang.String) -> a
+    boolean validateCheckDigit(java.lang.String) -> b
 com.viewpagerindicator.CirclePageIndicator -> com.viewpagerindicator.CirclePageIndicator:
     float mRadius -> a
     android.graphics.Paint mPaintPageFill -> b
