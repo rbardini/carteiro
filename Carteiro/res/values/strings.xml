@@ -75,6 +75,8 @@
   <string name="unlicensed_dialog_retry_body">Could not validate license. Check if there is a network connection.</string>
 
   <!-- Notifications -->
+  <string name="notf_title_syncing">Syncing items&#8230;</string>
+  <string name="notf_info_syncing">%1$d/%2$d</string>
   <string name="notf_tckr_single_obj">%1$s: %2$s</string>
   <string name="notf_tckr_multi_obj">%d items updated</string>
   <string name="notf_line_multi_obj"><![CDATA[<font color="#CCCCCC">%1$s</font> %2$s]]></string>
@@ -146,6 +148,8 @@
   <string name="pref_activate_notifications_summary">Enable system notifications</string>
 
   <string name="pref_notification_category">Notification settings</string>
+  <string name="pref_notify_sync_title">Ongoing syncs</string>
+  <string name="pref_notify_sync_summary">Notify progress of ongoing syncs</string>
   <string name="pref_notify_all_summary">Notify updates of all items</string>
   <string name="pref_notify_favorites_summary">Notify updates of items marked as favorites</string>
   <string name="pref_notify_available_summary">Notify updates of items to be picked up or out for departure</string>

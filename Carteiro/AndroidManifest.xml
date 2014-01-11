@@ -75,6 +75,8 @@
         android:value=".ui.MainActivity" />
     </activity>
 
+    <service android:name=".svc.SyncService" />
+
     <receiver android:name=".svc.AlarmReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -85,7 +87,7 @@
       </intent-filter>
     </receiver>
 
-    <service android:name=".svc.SyncService" />
+    <receiver android:name=".svc.CancelSyncReceiver" />
 
     <provider android:name=".svc.SearchProvider"
       android:authorities="com.rbardini.carteiro.SearchProvider" />

@@ -165,6 +165,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     public static final String SYNC_FAVORITES_ONLY = "syncFavoritesOnly";
     public static final String DONT_SYNC_DELIVERED_ITEMS = "dontSyncDeliveredItems";
     public static final String NOTIFY = "notify";
+    public static final String NOTIFY_SYNC = "notifySync";
     public static final String NOTIFY_ALL = "notifyAll";
     public static final String NOTIFY_RETURNED = "notifyReturned";
     public static final String NOTIFY_UNKNOWN = "notifyUnknown";

@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.util.Log;
 
@@ -30,6 +31,7 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.ui.MainActivity;
 import com.rbardini.carteiro.ui.PreferencesActivity.Preferences;
@@ -42,11 +44,18 @@ public class SyncService extends IntentService {
   private static final String TAG = "SyncService";
 
   public static final int STATUS_RUNNING = 1;
-    public static final int STATUS_ERROR = 2;
-    public static final int STATUS_FINISHED = 3;
+  public static final int STATUS_ERROR = 2;
+  public static final int STATUS_FINISHED = 3;
 
-    private CarteiroApplication app;
+  public static final int NOTIFICATION_ONGOING_SYNC = 1;
+  public static final int NOTIFICATION_NEW_UPDATE = 2;
+
+  private static boolean SYNC_CANCELED = false;
+
+  private CarteiroApplication app;
   private DatabaseHelper dh;
+  private NotificationManager nm;
+  private SharedPreferences prefs;
 
   public SyncService() {
     super(TAG);
@@ -59,43 +68,76 @@ public class SyncService extends IntentService {
 
     app = (CarteiroApplication) getApplication();
     dh = app.getDatabaseHelper();
+    nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    prefs = PreferenceManager.getDefaultSharedPreferences(this);
   };
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    Log.i(TAG, "Syncing...");
+    Log.i(TAG, "Sync started");
+
     if (!CarteiroApplication.state.syncing) {
       CarteiroApplication.state.syncing = true;
 
-          if (CarteiroApplication.state.receiver != null) {
-            CarteiroApplication.state.receiver.send(STATUS_RUNNING, Bundle.EMPTY);
-          }
-
-          boolean update = false;
-
-          String[] cods = null;
-          Bundle extras = intent.getExtras();
-          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-          int flags;
-
-          if (extras != null && extras.containsKey("cods")) {
-            cods = extras.getStringArray("cods");
-          } else {
-            flags = 0;
-            if (prefs.getBoolean(Preferences.SYNC_FAVORITES_ONLY, false)) { flags |= Category.FAVORITES; }
-            if (prefs.getBoolean(Preferences.DONT_SYNC_DELIVERED_ITEMS, false)) { flags |= Category.UNDELIVERED; }
-            cods = dh.getPostalItemCodes(flags);
+      if (CarteiroApplication.state.receiver != null) {
+        CarteiroApplication.state.receiver.send(STATUS_RUNNING, Bundle.EMPTY);
       }
-      for (String cod : cods) {
-        Log.i(TAG, "Syncing "+cod+"...");
+
+      NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+      boolean shouldNotifySync = prefs.getBoolean(Preferences.NOTIFY_SYNC, true);
+      if (shouldNotifySync) {
+        notificationBuilder
+          .setSmallIcon(R.drawable.ic_stat_sync)
+          .setContentTitle(getString(R.string.notf_title_syncing))
+          .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
+          .addAction(R.drawable.ic_action_cancel, getString(R.string.negative_btn), PendingIntent.getBroadcast(this, 0, new Intent(this, CancelSyncReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT))
+          .setOngoing(true);
+      }
+
+      boolean update = false;
+
+      String[] cods = null;
+      Bundle extras = intent.getExtras();
+      int flags;
+
+      if (extras != null && extras.containsKey("cods")) {
+        cods = extras.getStringArray("cods");
+      } else {
+        flags = 0;
+        if (prefs.getBoolean(Preferences.SYNC_FAVORITES_ONLY, false)) { flags |= Category.FAVORITES; }
+        if (prefs.getBoolean(Preferences.DONT_SYNC_DELIVERED_ITEMS, false)) { flags |= Category.UNDELIVERED; }
+        cods = dh.getPostalItemCodes(flags);
+      }
+
+      SYNC_CANCELED = false;
+      for (int i = 0; i < cods.length; i++) {
+        if (SYNC_CANCELED) {
+          SYNC_CANCELED = false;
+          break;
+        }
+
+        String cod = cods[i];
+
+        Log.i(TAG, "Syncing " + cod + "...");
+        PostalItemRecord pir = new PostalItemRecord(cod).loadFrom(dh);
+
+        if (shouldNotifySync) {
+          notificationBuilder
+            .setTicker(getString(R.string.notf_title_syncing))
+            .setContentText(pir.getFullDesc())
+            .setContentInfo(String.format(getString(R.string.notf_info_syncing), i + 1, cods.length))
+            .setProgress(cods.length, i + 1, false);
+          nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
+        }
+
         try {
           List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
-          RegistroRastreamento lastReg = dh.getLastPostalRecord(cod).getReg();
+          RegistroRastreamento lastReg = pir.getLatestPostalRecord().getReg();
           if (!lastReg.equals(list.get(0))) { // An update! Delete all previous records and add the new ones
             dh.beginTransaction();
             dh.deletePostalRecords(cod);
-            for (int i=0, length=list.size(); i<length; i++) {
-              dh.insertPostalRecord(new PostalRecord(cod, length-i-1, list.get(i)));
+            for (int j = 0, length = list.size(); j < length; j++) {
+              dh.insertPostalRecord(new PostalRecord(cod, length - j - 1, list.get(j)));
             }
             dh.setTransactionSuccessful();
             dh.endTransaction();
@@ -108,6 +150,9 @@ public class SyncService extends IntentService {
           Log.e(TAG, String.valueOf(e.getMessage()));
         }
       }
+
+      nm.cancel(NOTIFICATION_ONGOING_SYNC);
+
       if (update && prefs.getBoolean(Preferences.NOTIFY, true)) {
         flags = 0;
         if (prefs.getBoolean(Preferences.NOTIFY_ALL, false)) {
@@ -120,7 +165,7 @@ public class SyncService extends IntentService {
           if (prefs.getBoolean(Preferences.NOTIFY_UNKNOWN, true)) { flags |= Category.UNKNOWN; }
           if (prefs.getBoolean(Preferences.NOTIFY_RETURNED, true)) { flags |= Category.RETURNED; }
         }
-        if (flags != 0) { showNotification(prefs, flags); }
+        if (flags != 0) { showNotification(flags); }
       }
 
       CarteiroApplication.state.syncing = false;
@@ -128,10 +173,10 @@ public class SyncService extends IntentService {
         CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
       }
     }
-    Log.i(TAG, "Synced");
+    Log.i(TAG, "Sync finished");
   }
 
-  private void showNotification(SharedPreferences prefs, int flags) {
+  private void showNotification(int flags) {
     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
     HashSet<PostalItem> postalItems = new HashSet<PostalItem>();
     String ticker, title, desc;
@@ -184,7 +229,9 @@ public class SyncService extends IntentService {
       notificationStyle.setSummaryText(getResources().getQuantityString(R.plurals.notf_summ_multi_obj, deliveredCount, deliveredCount));
     }
 
-    PendingIntent pending = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+    stackBuilder.addNextIntentWithParentStack(intent);
+    PendingIntent pending = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
 
     notificationBuilder
       .setSmallIcon(R.drawable.ic_stat_notify)
@@ -199,8 +246,7 @@ public class SyncService extends IntentService {
     if (prefs.getBoolean(Preferences.LIGHTS, true)) notificationBuilder.setLights(Color.YELLOW, 1000, 1200);
     if (prefs.getBoolean(Preferences.VIBRATE, true)) notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
 
-    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    nm.notify(R.string.app_name, notificationBuilder.build());
+    nm.notify(NOTIFICATION_NEW_UPDATE, notificationBuilder.build());
   }
 
   private boolean notifiable(PostalItem pi, int flags) {
@@ -225,5 +271,9 @@ public class SyncService extends IntentService {
     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     am.cancel(getSender(context));
     Log.i(TAG, "Syncing unscheduled");
+  }
+
+  public static void cancelSync() {
+    SyncService.SYNC_CANCELED = true;
   }
 }

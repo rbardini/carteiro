@@ -30,13 +30,18 @@
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/pref_notification_category">
-      <CheckBoxPreference android:key="notifyAll"
+    <CheckBoxPreference android:key="notifySync"
+      android:title="@string/pref_notify_sync_title"
+      android:summary="@string/pref_notify_sync_summary"
+      android:defaultValue="true"
+      android:dependency="notify" />
+    <CheckBoxPreference android:key="notifyAll"
       android:title="@string/category_all"
       android:summary="@string/pref_notify_all_summary"
       android:defaultValue="true"
       android:dependency="notify"
       android:disableDependentsState="true" />
-      <CheckBoxPreference android:key="notifyFavorites"
+    <CheckBoxPreference android:key="notifyFavorites"
       android:title="@string/category_favorites"
       android:summary="@string/pref_notify_favorites_summary"
       android:defaultValue="true"
@@ -69,14 +74,14 @@
   </PreferenceCategory>
 
   <PreferenceCategory android:title="@string/pref_indication_category">
-      <RingtonePreference android:key="ringtone"
-        android:title="@string/pref_ringtone_title"
+    <RingtonePreference android:key="ringtone"
+      android:title="@string/pref_ringtone_title"
       android:summary="@string/pref_ringtone_summary"
       android:ringtoneType="notification"
       android:showDefault="true"
       android:showSilent="true"
       android:dependency="notify" />
-      <CheckBoxPreference android:key="lights"
+    <CheckBoxPreference android:key="lights"
       android:title="@string/pref_lights_title"
       android:summary="@string/pref_lights_summary"
       android:defaultValue="true"

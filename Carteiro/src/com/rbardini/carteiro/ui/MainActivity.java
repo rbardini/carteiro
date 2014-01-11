@@ -108,7 +108,7 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     if (app.hasUpdate()) {
       refreshList();
     }
-    ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancelAll();
+    ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(SyncService.NOTIFICATION_NEW_UPDATE);
   }
 
   @Override
