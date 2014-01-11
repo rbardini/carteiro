@@ -18,6 +18,24 @@ public class PostalItem implements Serializable {
 
   public PostalItem() {}
 
+  public PostalItem(String cod) {
+    this.cod = cod;
+    this.desc = null;
+    this.fav = false;
+  }
+
+  public PostalItem(String cod, String desc) {
+    this.cod = cod;
+    this.desc = desc;
+    this.fav = false;
+  }
+
+  public PostalItem(String cod, boolean fav) {
+    this.cod = cod;
+    this.desc = null;
+    this.fav = fav;
+  }
+
   public PostalItem(String cod, String desc, boolean fav) {
     this.cod = cod;
     this.desc = desc;
