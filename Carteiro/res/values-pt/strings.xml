@@ -17,9 +17,6 @@
   <string name="delete_btn">Excluir</string>
   <string name="install_btn">Instalar</string>
   <string name="quit_btn">Sair</string>
-  <string name="retry_btn">Tentar novamente</string>
-  <string name="buy_btn">Comprar</string>
-  <string name="continue_btn">Continuar</string>
 
   <!-- Options Menu -->
   <string name="add_opt">Adicionar</string>
@@ -68,11 +65,6 @@
   <string name="msg_alert_barcode_install">O aplicativo é necessário para a leitura de códigos de barra e QR codes.</string>
 
   <string name="msg_alert_cod_not_found">Código de rastreamento não encontrado. Verifique se a página possui informações sobre o objeto.</string>
-
-  <!-- Unlicensed messages -->
-  <string name="unlicensed_dialog_title">Aplicativo não licenciado</string>
-  <string name="unlicensed_dialog_body">Este aplicativo não está licenciado. Por favor, adquira-o no Google Play para receber atualizações e apoiar seu desenvolvimento.</string>
-  <string name="unlicensed_dialog_retry_body">Não foi possível validar a licença. Verifique se há uma conexão de rede.</string>
 
   <!-- Notifications -->
   <string name="notf_title_syncing">Sincronizando objetos&#8230;</string>

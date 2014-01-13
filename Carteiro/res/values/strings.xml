@@ -17,9 +17,6 @@
   <string name="delete_btn">Delete</string>
   <string name="install_btn">Install</string>
   <string name="quit_btn">Quit</string>
-  <string name="retry_btn">Retry</string>
-  <string name="buy_btn">Buy</string>
-  <string name="continue_btn">Continue</string>
 
   <!-- Options Menu -->
   <string name="add_opt">Add</string>
@@ -68,11 +65,6 @@
   <string name="msg_alert_barcode_install">The app is required to read barcodes and QR codes.</string>
 
   <string name="msg_alert_cod_not_found">Tracking number not found. Check if the page has informations about the item.</string>
-
-  <!-- Unlicensed messages -->
-  <string name="unlicensed_dialog_title">Unlicensed app</string>
-  <string name="unlicensed_dialog_body">This app is not licensed. Please purchase it on Google Play to receive updates and support its development.</string>
-  <string name="unlicensed_dialog_retry_body">Could not validate license. Check if there is a network connection.</string>
 
   <!-- Notifications -->
   <string name="notf_title_syncing">Syncing items&#8230;</string>
