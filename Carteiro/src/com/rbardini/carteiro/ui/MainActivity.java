@@ -1,17 +1,24 @@
 package com.rbardini.carteiro.ui;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SearchView;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -21,19 +28,24 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.ui.MainPagerAdapter.OnPostPageChangeListener;
 import com.rbardini.carteiro.util.PostalUtils;
+import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
-import com.viewpagerindicator.TitlePageIndicator;
 
 public class MainActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
-  public static final int ADD_REQUEST = 1;
 
   private CarteiroApplication app;
-  private FragmentManager fragManager;
-  private MainPagerAdapter pagerAdapter;
+  private ActionBar mActionBar;
+  private FragmentManager mFragmentManager;
+  private NotificationManager mNotificationManager;
+  private DrawerLayout mDrawerLayout;
+  private StickyListHeadersListView mDrawerList;
+  private int[] mDrawerItems;
+  private ActionBarDrawerToggle mDrawerToggle;
   private ShareActionProvider mShareActionProvider;
+  private CharSequence mTitle;
+  private PostalListFragment mCurrentFragment;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -42,30 +54,56 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
     app = (CarteiroApplication) getApplication();
-    fragManager = getSupportFragmentManager();
-    pagerAdapter = new MainPagerAdapter(this, fragManager);
-    pagerAdapter.setOnPostPageChangeListener(new OnPostPageChangeListener() {
+    mActionBar = getSupportActionBar();
+    mFragmentManager = getSupportFragmentManager();
+    mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
-      public void onPostPageSelected(int position) { setShareIntent(); }
+      public void onBackStackChanged() {
+        mCurrentFragment = getCurrentFragment();
+      }
     });
+    mNotificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
 
-    ViewPager viewPager = (ViewPager) findViewById(R.id.postal_list_pager);
-    viewPager.setAdapter(pagerAdapter);
-    viewPager.setOffscreenPageLimit(3);
-    viewPager.setCurrentItem(3);
-
-    TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
-    indicator.setViewPager(viewPager);
-    indicator.setOnPageChangeListener(new OnPageChangeListener() {
+    mActionBar.setDisplayHomeAsUpEnabled(true);
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawerList = (StickyListHeadersListView) findViewById(R.id.nav_drawer);
+    mDrawerList.setAreHeadersSticky(false);
+    mDrawerItems = new int[] {
+      Category.ALL,       Category.FAVORITES, Category.AVAILABLE,
+      Category.DELIVERED, Category.IRREGULAR, Category.UNKNOWN,
+      Category.RETURNED
+    };
+    mDrawerList.setAdapter(new DrawerListAdapter(this, mDrawerItems));
+    mDrawerList.setOnItemClickListener(new OnItemClickListener() {
       @Override
-      public void onPageSelected(int position) { updateRefreshStatus(); }
-
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-      @Override
-      public void onPageScrollStateChanged(int state) {}
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        showCategory(position);
+      }
     });
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+      @Override
+      public void onDrawerClosed(View drawerView) {
+        mActionBar.setTitle(mTitle);
+        supportInvalidateOptionsMenu();
+      }
+
+      @Override
+      public void onDrawerOpened(View drawerView) {
+        mActionBar.setTitle(R.string.app_name);
+        supportInvalidateOptionsMenu();
+      }
+    };
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+    if (savedInstanceState == null) showCategory(0);
+    else mCurrentFragment = getCurrentFragment();
+  }
+
+  @Override
+  protected void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    mDrawerToggle.syncState();
+    if (mDrawerLayout.isDrawerOpen(mDrawerList)) mActionBar.setTitle(R.string.app_name);
   }
 
   @Override
@@ -74,20 +112,23 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
 
     CarteiroApplication.state.receiver.setReceiver(this);
     updateRefreshStatus();
-    if (app.hasUpdate()) {
-      refreshList();
-    }
-    ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(SyncService.NOTIFICATION_NEW_UPDATE);
+    if (app.hasUpdate()) refreshList();
+
+    mNotificationManager.cancel(SyncService.NOTIFICATION_NEW_UPDATE);
   }
 
   @Override
   protected void onPause() {
     super.onPause();
 
-    if (!CarteiroApplication.state.syncing) {
-          app.clearUpdate();
-        }
+    if (!CarteiroApplication.state.syncing) app.clearUpdate();
     CarteiroApplication.state.receiver.clearReceiver();
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    mDrawerToggle.onConfigurationChanged(newConfig);
   }
 
   @Override
@@ -99,9 +140,7 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       }
       case SyncService.STATUS_FINISHED: {
         updateRefreshStatus();
-        if (app.hasUpdate()) {
-          refreshList();
-        }
+        if (app.hasUpdate()) refreshList();
         break;
       }
       case SyncService.STATUS_ERROR: {
@@ -125,7 +164,7 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     if (searchViewButton != null) {
       SearchView searchView = (SearchView) searchViewButton.getActionView();
       SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+      searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
     }
 
     return super.onCreateOptionsMenu(menu);
@@ -133,9 +172,19 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
+    boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
+    menu.findItem(R.id.add_opt).setVisible(!drawerOpen);
+
+    MenuItem searchItem = menu.findItem(R.id.search_view_opt);
+    if (searchItem == null) searchItem = menu.findItem(R.id.search_opt);
+    searchItem.setVisible(!drawerOpen);
+
+    MenuItem shareItem = menu.findItem(R.id.share_opt);
+    shareItem.setVisible(!drawerOpen);
     try {
-      int listSize = pagerAdapter.getCurrentView().getList().size();
-      menu.findItem(R.id.share_opt).setEnabled(listSize > 0);
+      int listSize = mCurrentFragment.getListSize();
+      shareItem.setEnabled(listSize > 0);
     } catch (Exception e) {}
 
     return super.onPrepareOptionsMenu(menu);
@@ -144,6 +193,14 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
+      case android.R.id.home:
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+          mDrawerLayout.closeDrawer(mDrawerList);
+        } else {
+          mDrawerLayout.openDrawer(mDrawerList);
+        }
+        return true;
+
       case R.id.add_opt:
         Intent intent = new Intent(this, AddActivity.class);
         startActivity(intent);
@@ -173,44 +230,80 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   }
 
   @Override
+  public void setTitle(CharSequence title) {
+    mTitle = title;
+    mActionBar.setTitle(mTitle);
+  }
+
+  @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
     app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_renamed), pi.getSafeDesc(), desc));
+    UIUtils.showToast(this, getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc));
     refreshList();
   }
 
   @Override
   public void onDeletePostalItem(PostalItem pi) {
     app.getDatabaseHelper().deletePostalItem(pi.getCod());
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pi.getSafeDesc()));
+    UIUtils.showToast(this, getString(R.string.toast_item_deleted, pi.getSafeDesc()));
     refreshList();
   }
 
   public void onFavClick(View v) {
     app.getDatabaseHelper().togglePostalItemFav((String) v.getTag());
     refreshList();
+  }
+
+  public void setDrawerCategoryChecked(int category) {
+    for (int i=0; i<mDrawerItems.length; i++) {
+      if (mDrawerItems[i] == category) {
+        mDrawerList.setItemChecked(i, true);
+        break;
+      }
+    }
+  }
+
+  private void showCategory(int position) {
+    int category = mDrawerItems[position];
+
+    // Only replace fragment if it is a different category
+    if (mCurrentFragment == null || mCurrentFragment.getCategory() != category) {
+      PostalListFragment newFragment = PostalListFragment.newInstance(category);
+      String name = getString(Category.getTitle(category));
+
+      mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+      FragmentTransaction ft = mFragmentManager
+          .beginTransaction()
+          .setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit, R.anim.fragment_close_enter, R.anim.fragment_open_exit)
+          .replace(R.id.main_container, newFragment, name);
+      if (mCurrentFragment != null && category != Category.ALL) ft.addToBackStack(name);  // Avoid adding empty main container and duplicate "all" category to the back stack
+      ft.commit();
+
+      mCurrentFragment = newFragment;
     }
 
-  private void setShareIntent() {
-    if (mShareActionProvider != null) {
-      mShareActionProvider.setShareIntent(buildShareIntent());
-    }
+    mDrawerLayout.closeDrawer(mDrawerList);
+  }
+
+  private PostalListFragment getCurrentFragment() {
+    return (PostalListFragment) mFragmentManager.findFragmentById(R.id.main_container);
   }
 
   private Intent buildShareIntent() {
-    return PostalUtils.getShareIntent(this, pagerAdapter.getCurrentView().getList());
+    return PostalUtils.getShareIntent(this, mCurrentFragment.getList());
+  }
+
+  private void setShareIntent() {
+    if (mShareActionProvider != null) mShareActionProvider.setShareIntent(buildShareIntent());
   }
 
   private void updateRefreshStatus() {
-    if (CarteiroApplication.state.syncing) {
-      pagerAdapter.setRefreshing();
-    } else {
-      pagerAdapter.onRefreshComplete();
-    }
+    if (CarteiroApplication.state.syncing) mCurrentFragment.setRefreshing();
+    else mCurrentFragment.onRefreshComplete();
   }
 
   public void refreshList() {
-    pagerAdapter.notifyDataSetChanged();
+    mCurrentFragment.refreshList(false);
     setShareIntent();
   }
 }

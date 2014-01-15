@@ -29,14 +29,15 @@
   <string name="scan_opt">Escanear</string>
   <string name="place_opt">Localizar</string>
 
-  <!-- ViewPager Indicator -->
-  <string name="category_returned">Devolvidos</string>
-  <string name="category_unknown">Desconhecidos</string>
-  <string name="category_irregular">Irregulares</string>
+  <!-- Main Navigation Drawer -->
+  <string name="drawer_header_tracking">Rastreamento</string>
   <string name="category_all">Todos</string>
   <string name="category_favorites">Favoritos</string>
   <string name="category_available">Disponíveis</string>
   <string name="category_delivered">Entregues</string>
+  <string name="category_irregular">Irregulares</string>
+  <string name="category_unknown">Desconhecidos</string>
+  <string name="category_returned">Devolvidos</string>
 
   <!-- Add Activity -->
   <string name="title_add">Adicionar objeto</string>
@@ -178,4 +179,6 @@
 
   <!-- Content Description -->
   <string name="desc_status">Status</string>
+  <string name="drawer_open">Abrir menu de navegação</string>
+  <string name="drawer_close">Fechar menu de navegação</string>
 </resources>

@@ -29,14 +29,15 @@
   <string name="scan_opt">Scan</string>
   <string name="place_opt">Locate</string>
 
-  <!-- ViewPager Indicator -->
-  <string name="category_returned">Returned</string>
-  <string name="category_unknown">Unknown</string>
-  <string name="category_irregular">Irregular</string>
+  <!-- Main Drawer -->
+  <string name="drawer_header_tracking">Tracking</string>
   <string name="category_all">All</string>
   <string name="category_favorites">Favorite</string>
   <string name="category_available">Available</string>
   <string name="category_delivered">Delivered</string>
+  <string name="category_irregular">Irregular</string>
+  <string name="category_unknown">Unknown</string>
+  <string name="category_returned">Returned</string>
 
   <!-- Add Activity -->
   <string name="title_add">Add item</string>
@@ -178,4 +179,6 @@
 
   <!-- Content Description -->
   <string name="desc_status">Status</string>
+  <string name="drawer_open">Open navigation drawer</string>
+  <string name="drawer_close">Close navigation drawer</string>
 </resources>

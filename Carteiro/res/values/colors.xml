@@ -4,6 +4,7 @@
   <color name="foreground1">#ff544627</color>
   <color name="foreground2">#ffBD9350</color>
   <color name="highlight">#30FFFFFF</color>
+  <color name="overlay">#ee1E180D</color>
   <color name="divider">#ffDBBB79</color>
 
   <color name="websro">#ffD8E6ED</color>

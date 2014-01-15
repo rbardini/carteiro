@@ -4,25 +4,25 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-
 import android.content.Context;
 import android.content.Intent;
-
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
 
 public final class PostalUtils {
   public static final class Category {
-    public static final int RETURNED = 1;
-    public static final int UNKNOWN = 2;
-    public static final int IRREGULAR = 4;
-    public static final int ALL = 8;
-    public static final int FAVORITES = 16;
-    public static final int AVAILABLE = 32;
-    public static final int DELIVERED = 64;
-    public static final int UNDELIVERED = 128;
+    public static final int RETURNED    = 0x1;
+    public static final int UNKNOWN     = 0x2;
+    public static final int IRREGULAR   = 0x4;
+    public static final int ALL         = 0x8;
+    public static final int FAVORITES   = 0x10;
+    public static final int AVAILABLE   = 0x20;
+    public static final int DELIVERED   = 0x40;
+    public static final int UNDELIVERED = 0x80;
 
     private static final Map<Integer, String[]> StatusesMap = buildStatusesMap();
+    private static final Map<Integer, Integer> TitleMap = buildTitleMap();
+    private static final Map<Integer, Integer> IconMap = buildIconMap();
 
     private static TreeMap<Integer, String[]> buildStatusesMap() {
       TreeMap<Integer, String[]> map = new TreeMap<Integer, String[]>();
@@ -85,8 +85,44 @@ public final class PostalUtils {
       return map;
     }
 
+    private static TreeMap<Integer, Integer> buildIconMap() {
+      TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+
+      map.put(ALL, R.drawable.ic_action_all);
+      map.put(FAVORITES, R.drawable.ic_action_star);
+      map.put(AVAILABLE, R.drawable.ic_action_time);
+      map.put(DELIVERED, R.drawable.ic_action_accept);
+      map.put(IRREGULAR, R.drawable.ic_action_warning);
+      map.put(UNKNOWN, R.drawable.ic_action_help);
+      map.put(RETURNED, R.drawable.ic_action_undo);
+
+      return map;
+    }
+
+    private static TreeMap<Integer, Integer> buildTitleMap() {
+      TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+
+      map.put(ALL, R.string.category_all);
+      map.put(FAVORITES, R.string.category_favorites);
+      map.put(AVAILABLE, R.string.category_available);
+      map.put(DELIVERED, R.string.category_delivered);
+      map.put(IRREGULAR, R.string.category_irregular);
+      map.put(UNKNOWN, R.string.category_unknown);
+      map.put(RETURNED, R.string.category_returned);
+
+      return map;
+    }
+
     public static String[] getStatuses(int category) {
       return StatusesMap.get(category);
+    }
+
+    public static int getTitle(int category) {
+      return TitleMap.get(category);
+    }
+
+    public static int getIcon(int category) {
+      return IconMap.get(category);
     }
   }
 

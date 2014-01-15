@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="?attr/spinnerDropDownItemStyle"
+  android:layout_width="fill_parent"
+  android:layout_height="?attr/dropdownListPreferredItemHeight"
+  android:background="@drawable/activated_background"
+  android:orientation="horizontal"
+  android:paddingLeft="8dp"
+  android:paddingRight="16dp">
+
+  <ImageView
+    android:id="@+id/icon"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:adjustViewBounds="true" />
+
+  <TextView style="@style/Stretch"
+    android:id="@+id/title"
+    android:gravity="center_vertical"
+    android:minHeight="48dp"
+    android:paddingLeft="8dp"
+    android:textAppearance="@android:style/TextAppearance.Medium"
+    android:textColor="@android:color/white" />
+ 
+</LinearLayout>

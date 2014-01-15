@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Stretch">
+
+  <TextView style="?android:attr/listSeparatorTextViewStyle"
+    android:id="@+id/title"
+    android:background="@drawable/list_section_divider_dark"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:textColor="@android:color/white" />
+
+</RelativeLayout>

@@ -2,7 +2,6 @@ package com.rbardini.carteiro.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -26,6 +24,7 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
 public class PostalListFragment extends ListFragment {
@@ -35,17 +34,17 @@ public class PostalListFragment extends ListFragment {
   private DatabaseHelper dh;
 
   private static PostalItem pi;
-  private int position;
+  private int category;
   private String query;
 
   private List<PostalItem> list;
   private PostalItemListAdapter listAdapter;
   private PullToRefreshListView listView;
 
-  public static PostalListFragment newInstance(int position) {
+  public static PostalListFragment newInstance(int category) {
     PostalListFragment f = new PostalListFragment();
     Bundle args = new Bundle();
-    args.putInt("position", position);
+    args.putInt("category", category);
     f.setArguments(args);
 
     return f;
@@ -70,16 +69,21 @@ public class PostalListFragment extends ListFragment {
 
     pi = null;
     Bundle arguments = getArguments();
-    setPosition(arguments.getInt("position"));
+    setCategory(arguments.getInt("category"));
     setQuery(arguments.getString("query"));
 
     list = new ArrayList<PostalItem>();
-    updateList();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.postal_list, container, false);
+    updateList();
+
+    if (activity instanceof MainActivity) {
+      activity.setTitle(Category.getTitle(category));
+      ((MainActivity) activity).setDrawerCategoryChecked(category);
+    }
 
     return v;
   }
@@ -96,14 +100,14 @@ public class PostalListFragment extends ListFragment {
       @Override
       public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         if (!CarteiroApplication.state.syncing) {
-              Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
-              List<String> cods = new ArrayList<String>();
-              for (PostalItem pi : list) {
-                cods.add(pi.getCod());
-              }
-              intent.putExtra("cods", cods.toArray(new String[] {}));
-              activity.startService(intent);
-            }
+          Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
+          List<String> cods = new ArrayList<String>();
+          for (PostalItem pi : list) {
+            cods.add(pi.getCod());
+          }
+          intent.putExtra("cods", cods.toArray(new String[] {}));
+          activity.startService(intent);
+        }
       }
     });
 
@@ -115,6 +119,8 @@ public class PostalListFragment extends ListFragment {
         handler.postDelayed(this, DateUtils.MINUTE_IN_MILLIS);
       }
     }, DateUtils.MINUTE_IN_MILLIS);
+
+    if (CarteiroApplication.state.syncing) setRefreshing();
   }
 
   @Override
@@ -148,9 +154,9 @@ public class PostalListFragment extends ListFragment {
     switch (item.getItemId()) {
       case R.id.refresh_opt:
         if (!CarteiroApplication.state.syncing) {
-              Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class).putExtra("cods", new String[] {pi.getCod()});
-                  activity.startService(refresh);
-            }
+          Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class).putExtra("cods", new String[] {pi.getCod()});
+          activity.startService(refresh);
+        }
         return true;
 
       case R.id.rename_opt:
@@ -189,16 +195,16 @@ public class PostalListFragment extends ListFragment {
   }
 
   public void updateList() {
-    if (query != null) {
-      dh.getSearchResults(list, query);
-    } else {
-      dh.getPostalList(list, MainPagerAdapter.category[position]);
-    }
+    if (query != null) dh.getSearchResults(list, query);
+    else dh.getPostalList(list, category);
   }
 
   public List<PostalItem> getList() { return list; }
-  public void setPosition(int position) { this.position = position; }
+  public int getListSize() { return list.size(); }
+  public void setCategory(int category) { this.category = category; }
   public void setQuery(String query) { this.query = query; }
+  public int getCategory() { return category; }
+  public String getQuery() { return query; }
 
   public void setRefreshing() { listView.setRefreshing(); }
   public void onRefreshComplete() { listView.onRefreshComplete(); }
