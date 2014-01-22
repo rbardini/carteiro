@@ -33,7 +33,7 @@
     <CheckBoxPreference android:key="notifySync"
       android:title="@string/pref_notify_sync_title"
       android:summary="@string/pref_notify_sync_summary"
-      android:defaultValue="true"
+      android:defaultValue="false"
       android:dependency="notify" />
     <CheckBoxPreference android:key="notifyAll"
       android:title="@string/category_all"

@@ -4,11 +4,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 import org.alfredlibrary.AlfredException;
 import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -26,7 +24,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.util.Log;
-
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -84,7 +81,7 @@ public class SyncService extends IntentService {
       }
 
       NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-      boolean shouldNotifySync = prefs.getBoolean(Preferences.NOTIFY_SYNC, true);
+      boolean shouldNotifySync = prefs.getBoolean(Preferences.NOTIFY_SYNC, false);
       if (shouldNotifySync) {
         notificationBuilder
           .setSmallIcon(R.drawable.ic_stat_sync)
@@ -221,7 +218,7 @@ public class SyncService extends IntentService {
       notificationBuilder.setNumber(count);
       int deliveredCount = 0;
       while (iterator.hasNext()) {
-        PostalItem pi = (PostalItem) iterator.next();
+        PostalItem pi = iterator.next();
         notificationStyle.addLine(Html.fromHtml(String.format(getString(R.string.notf_line_multi_obj), pi.getSafeDesc(), pi.getStatus())));
         desc += pi.getSafeDesc() + (iterator.hasNext() ? ", " : "");
         if (PostalUtils.Status.getCategory(pi.getStatus()) == PostalUtils.Category.DELIVERED) deliveredCount++;
