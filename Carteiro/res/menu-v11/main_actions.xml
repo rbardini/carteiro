@@ -15,8 +15,7 @@
   <item android:id="@+id/share_opt"
     android:icon="@drawable/ic_action_share"
     android:title="@string/share_opt"
-    android:showAsAction="ifRoom"
-    android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider" />
+    android:showAsAction="ifRoom" />
 
   <item android:id="@+id/preferences_opt"
     android:icon="@drawable/ic_action_settings"

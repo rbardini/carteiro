@@ -9,19 +9,16 @@ import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
-import com.actionbarsherlock.widget.ShareActionProvider;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 public class RecordActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
@@ -33,7 +30,6 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   private boolean onlyWebSRO;
   private PostalRecordFragment recordFragment;
   private WebSROFragment webSROFragment;
-  private ShareActionProvider mShareActionProvider;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -127,10 +123,6 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     if (getCurrentFragment() instanceof PostalRecordFragment) {
       getSupportMenuInflater().inflate(R.menu.record_actions, menu);
 
-      mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.share_opt).getActionProvider();
-      mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-      setShareIntent();
-
       if (pi.isFav()) {
         menu.findItem(R.id.fav_opt).setIcon(R.drawable.ic_action_star);
       }
@@ -162,6 +154,10 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
       case R.id.edit_opt:
         openContextMenu(findViewById(R.id.hidden_edit_opt));
+        return true;
+
+      case R.id.share_opt:
+        UIUtils.shareItem(this, pi);
         return true;
 
       case R.id.websro_opt:
@@ -230,7 +226,6 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     app.setUpdatedList();
     this.pi.setDesc(desc);
     setTitleBar();
-    setShareIntent();
   }
 
   @Override
@@ -258,36 +253,36 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     Intent intent = getIntent();
     Bundle extras = intent.getExtras();
 
-        if (extras != null) {
-          pi = (PostalItem) extras.getSerializable("postalItem");
-        } else {
-          finish();
-        }
+    if (extras != null) {
+      pi = (PostalItem) extras.getSerializable("postalItem");
+    } else {
+      finish();
+    }
 
-        if (extras.getBoolean("isNew")) {
-          UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
-          intent.removeExtra("isNew");
-        }
+    if (extras.getBoolean("isNew")) {
+      UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
+      intent.removeExtra("isNew");
+    }
 
-        String action = intent.getAction();
-        if (action != null) {
-            if (action.equals("locate")) {
-                try {
-                    UIUtils.locateItem(this, pi);
-                } catch (Exception e) {
-                    UIUtils.showToast(this, e.getMessage());
-                }
-            } else if (action.equals("share")) {
-                UIUtils.shareItem(this, pi);
-            } else if (action.equals("webSRO")) {
-              onlyWebSRO = true;
+    String action = intent.getAction();
+    if (action != null) {
+        if (action.equals("locate")) {
+            try {
+                UIUtils.locateItem(this, pi);
+            } catch (Exception e) {
+                UIUtils.showToast(this, e.getMessage());
             }
-
-            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            nm.cancel(R.string.app_name);
+        } else if (action.equals("share")) {
+            UIUtils.shareItem(this, pi);
+        } else if (action.equals("webSRO")) {
+          onlyWebSRO = true;
         }
 
-        intent.removeExtra("postalItem");
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(R.string.app_name);
+    }
+
+    intent.removeExtra("postalItem");
   }
 
   private void initialize(boolean isNewInstance) {
@@ -303,24 +298,13 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
       recordFragment.refreshList();
     }
 
-        setTitleBar();
-        setShareIntent();
-  }
-
-  private void setShareIntent() {
-    if (mShareActionProvider != null) {
-      mShareActionProvider.setShareIntent(PostalUtils.getShareIntent(this, pi));
-    }
+    setTitleBar();
   }
 
   private void updateRefreshStatus() {
     if (recordFragment != null) {
-      if (CarteiroApplication.state.syncing) {
-        recordFragment.setRefreshing();
-      } else {
-        recordFragment.onRefreshComplete();
-        setShareIntent();
-      }
+      if (CarteiroApplication.state.syncing) recordFragment.setRefreshing();
+      else recordFragment.onRefreshComplete();
     }
   }
 }

@@ -7,7 +7,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +21,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.ShareActionProvider;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
@@ -43,7 +41,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   private StickyListHeadersListView mDrawerList;
   private int[] mDrawerItems;
   private ActionBarDrawerToggle mDrawerToggle;
-  private ShareActionProvider mShareActionProvider;
   private CharSequence mTitle;
   private PostalListFragment mCurrentFragment;
 
@@ -156,10 +153,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   public boolean onCreateOptionsMenu(Menu menu) {
     getSupportMenuInflater().inflate(R.menu.main_actions, menu);
 
-    mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.share_opt).getActionProvider();
-    mShareActionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-    setShareIntent();
-
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
       SearchView searchView = (SearchView) searchViewButton.getActionView();
@@ -210,14 +203,9 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
         onSearchRequested();
         return true;
 
-      // Workaround for ActionBarSherlock issue #724
       case R.id.share_opt:
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-          Intent shareIntent = buildShareIntent();
-          if (shareIntent != null) {
-            startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
-          }
-        }
+        Intent shareIntent = PostalUtils.getShareIntent(this, mCurrentFragment.getList());
+        if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
         return true;
 
       case R.id.preferences_opt:
@@ -289,14 +277,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     return (PostalListFragment) mFragmentManager.findFragmentById(R.id.main_container);
   }
 
-  private Intent buildShareIntent() {
-    return PostalUtils.getShareIntent(this, mCurrentFragment.getList());
-  }
-
-  private void setShareIntent() {
-    if (mShareActionProvider != null) mShareActionProvider.setShareIntent(buildShareIntent());
-  }
-
   private void updateRefreshStatus() {
     if (CarteiroApplication.state.syncing) mCurrentFragment.setRefreshing();
     else mCurrentFragment.onRefreshComplete();
@@ -304,6 +284,5 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
 
   public void refreshList() {
     mCurrentFragment.refreshList(false);
-    setShareIntent();
   }
 }

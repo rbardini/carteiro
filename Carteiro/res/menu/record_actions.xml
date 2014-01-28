@@ -4,23 +4,22 @@
   <item android:id="@+id/fav_opt"
     android:icon="@drawable/ic_action_star_off"
     android:title="@string/fav_opt"
-    android:showAsAction="ifRoom" />
+    android:showAsAction="always" />
 
   <item android:id="@+id/place_opt"
     android:icon="@drawable/ic_action_place"
     android:title="@string/place_opt"
-    android:showAsAction="ifRoom" />
+    android:showAsAction="always" />
 
   <item android:id="@+id/share_opt"
     android:icon="@drawable/ic_action_share"
     android:title="@string/share_opt"
-    android:showAsAction="ifRoom"
-    android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider" />
+    android:showAsAction="never" />
 
   <item android:id="@+id/websro_opt"
     android:icon="@drawable/ic_action_web"
     android:title="@string/websro_opt"
-    android:showAsAction="never" />
+    android:showAsAction="always" />
 
   <item android:id="@+id/edit_opt"
     android:icon="@drawable/ic_action_edit"
