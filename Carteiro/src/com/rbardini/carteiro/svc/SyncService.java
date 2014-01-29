@@ -130,7 +130,11 @@ public class SyncService extends IntentService {
         try {
           List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
           RegistroRastreamento lastReg = pir.getLatestPostalRecord().getReg();
-          if (!lastReg.equals(list.get(0))) { // An update! Delete all previous records and add the new ones
+
+          boolean hasUpdate = !lastReg.equals(list.get(0));
+          boolean listSizeChanged = list.size() != pir.size();
+
+          if (hasUpdate || listSizeChanged) {
             dh.beginTransaction();
             dh.deletePostalRecords(cod);
             for (int j = 0, length = list.size(); j < length; j++) {
@@ -138,8 +142,11 @@ public class SyncService extends IntentService {
             }
             dh.setTransactionSuccessful();
             dh.endTransaction();
-            app.addUpdatedCod(cod);
-            update = true;
+
+            if (hasUpdate) {
+              app.addUpdatedCod(cod);
+              update = true;
+            }
           }
         } catch (AlfredException e) {
           Log.w(TAG, String.valueOf(e.getMessage()));
