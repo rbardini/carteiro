@@ -2,7 +2,6 @@ package com.rbardini.carteiro.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -11,15 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
+import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
 
 public class PostalRecordFragment extends ListFragment {
@@ -53,7 +51,11 @@ public class PostalRecordFragment extends ListFragment {
     dh = ((CarteiroApplication) activity.getApplication()).getDatabaseHelper();
 
     pi = (PostalItem) getArguments().getSerializable("postalItem");
+
     list = new ArrayList<PostalRecord>();
+    listAdapter = new PostalRecordListAdapter(activity, list);
+    setListAdapter(listAdapter);
+
     updateList();
   }
 
@@ -68,8 +70,6 @@ public class PostalRecordFragment extends ListFragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    listAdapter = new PostalRecordListAdapter(activity, list);
-    setListAdapter(listAdapter);
     listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);
         listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
           @Override
