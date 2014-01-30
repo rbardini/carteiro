@@ -3,6 +3,7 @@ package com.rbardini.carteiro.ui;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -130,6 +131,8 @@ public class PostalListFragment extends ListFragment {
     pi = list.get(position-1);
     Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi);
     startActivity(intent);
+
+    v.setBackgroundColor(Color.TRANSPARENT);
   }
 
   @Override
