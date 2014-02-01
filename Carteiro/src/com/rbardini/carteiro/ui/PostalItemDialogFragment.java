@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
-import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalItem;
 
 public class PostalItemDialogFragment extends DialogFragment {
   public static final String TAG = "PostalItemDialogFragment";
@@ -66,7 +65,8 @@ public class PostalItemDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.rename_btn, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int id) {
-            String desc = itemDesc.getText().toString();
+            String desc = itemDesc.getText().toString().trim();
+            if (desc.equals("")) desc = null;
             listener.onRenamePostalItem(desc, pi);
           }
         });

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,7 +20,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
@@ -124,7 +122,8 @@ public class DatabaseHelper {
 
   public int renamePostalItem(String cod, String desc) {
     ContentValues cv = new ContentValues();
-    cv.put("desc", desc);
+    if (desc == null) cv.putNull("desc");
+    else cv.put("desc", desc);
 
     int rows = db.update(POSTAL_ITEM_TABLE, cv, "cod = ?", new String[] {cod});
     if (rows != 0 && backupAvailable) {

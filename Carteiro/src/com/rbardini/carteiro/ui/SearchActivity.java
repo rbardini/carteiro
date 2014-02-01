@@ -7,14 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.rbardini.carteiro.CarteiroApplication;
-import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.UIUtils;
@@ -116,7 +115,12 @@ public class SearchActivity extends SherlockFragmentActivity implements Detachab
   @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
     app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_renamed), pi.getSafeDesc(), desc));
+
+    String toast;
+    if (desc == null) toast = getString(R.string.toast_item_renamed_empty, pi.getCod());
+    else toast = getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc);
+
+    UIUtils.showToast(this, toast);
     listFragment.refreshList(true);
   }
 

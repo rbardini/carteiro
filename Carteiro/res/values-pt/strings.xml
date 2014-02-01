@@ -92,6 +92,7 @@
   <!--  Toasts -->
   <string name="toast_item_added">%s adicionado.</string>
   <string name="toast_item_renamed">%1$s renomeado para %2$s.</string>
+  <string name="toast_item_renamed_empty">Descrição removida de %s.</string>
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_sync_error">Erro de sincronização: %s</string>

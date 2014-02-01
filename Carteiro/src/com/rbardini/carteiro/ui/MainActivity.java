@@ -226,7 +226,12 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
   @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
     app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
-    UIUtils.showToast(this, getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc));
+
+    String toast;
+    if (desc == null) toast = getString(R.string.toast_item_renamed_empty, pi.getCod());
+    else toast = getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc);
+
+    UIUtils.showToast(this, toast);
     refreshList();
   }
 
