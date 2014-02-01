@@ -167,7 +167,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
         mFragManager
           .beginTransaction()
-          .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+          .setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit, R.anim.fragment_close_enter, R.anim.fragment_open_exit)
           .replace(R.id.record_list, webSROFragment, WebSROFragment.TAG)
           .addToBackStack(null)
           .commit();
