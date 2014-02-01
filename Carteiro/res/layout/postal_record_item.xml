@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ListItem">
 
-    <RelativeLayout style="@style/Stretch">
+  <RelativeLayout style="@style/Stretch">
 
     <TextView style="@style/ListInfo"
       android:id="@+id/text_postal_record_date"
-          android:layout_alignParentLeft="true" />
+      android:layout_alignParentLeft="true" />
 
     <TextView style="@style/ListInfo"
-           android:id="@+id/text_postal_record_time"
-           android:layout_alignParentRight="true" />
+      android:id="@+id/text_postal_record_time"
+      android:layout_alignParentRight="true" />
 
   </RelativeLayout>
 
@@ -26,7 +26,11 @@
         android:id="@+id/text_postal_record_status" />
 
       <TextView style="@style/ListSubTitle"
-        android:id="@+id/text_postal_record_loc" />
+        android:id="@+id/text_postal_record_info" />
+
+      <TextView style="@style/ListInfo"
+        android:id="@+id/text_postal_record_loc"
+        android:paddingTop="5dp" />
 
     </LinearLayout>
 
@@ -37,9 +41,5 @@
       android:contentDescription="@string/desc_status" />
 
   </RelativeLayout>
-
-  <TextView style="@style/ListInfo"
-    android:id="@+id/text_postal_record_info"
-    android:visibility="gone" />
 
 </LinearLayout>

@@ -6,11 +6,11 @@
 
     <TextView style="@style/ListInfo"
       android:id="@+id/text_postal_item_cod"
-          android:layout_alignParentLeft="true" />
+      android:layout_alignParentLeft="true" />
 
-        <TextView style="@style/ListInfo"
-          android:id="@+id/text_postal_item_date"
-          android:layout_alignParentRight="true" />
+    <TextView style="@style/ListInfo"
+      android:id="@+id/text_postal_item_date"
+      android:layout_alignParentRight="true" />
 
   </RelativeLayout>
 
@@ -32,7 +32,7 @@
         android:id="@+id/text_postal_item_desc" />
 
       <TextView style="@style/ListSubTitle"
-        android:id="@+id/text_postal_item_loc" />
+        android:id="@+id/text_postal_item_info" />
 
     </LinearLayout>
 
@@ -45,6 +45,6 @@
   </RelativeLayout>
 
   <TextView style="@style/ListInfo"
-    android:id="@+id/text_postal_item_info" />
+    android:id="@+id/text_postal_item_loc" />
 
 </LinearLayout>

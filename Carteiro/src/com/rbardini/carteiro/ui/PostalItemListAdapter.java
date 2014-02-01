@@ -2,7 +2,6 @@ package com.rbardini.carteiro.ui;
 
 import java.util.List;
 import java.util.Set;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.text.format.DateUtils;
@@ -13,16 +12,15 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 
 public class PostalItemListAdapter extends BaseAdapter {
-  private Context context;
-  private LayoutInflater inflater;
-  private List<PostalItem> list;
-  private Set<String> updatedCods;
+  private final Context context;
+  private final LayoutInflater inflater;
+  private final List<PostalItem> list;
+  private final Set<String> updatedCods;
 
   PostalItemListAdapter(Context context, List<PostalItem> list, Set<String> updatedCods) {
     this.context = context;
@@ -88,9 +86,7 @@ public class PostalItemListAdapter extends BaseAdapter {
     holder.fav.setTag(pi.getCod());
 
     if (updatedCods != null) {
-      convertView.setBackgroundColor(
-          updatedCods.contains(pi.getCod()) ? context.getResources().getColor(R.color.highlight) : Color.TRANSPARENT
-      );
+      convertView.setBackgroundColor(updatedCods.contains(pi.getCod()) ? context.getResources().getColor(R.color.highlight) : Color.TRANSPARENT);
     }
 
     return convertView;

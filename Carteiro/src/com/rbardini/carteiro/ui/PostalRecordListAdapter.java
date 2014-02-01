@@ -1,7 +1,6 @@
 package com.rbardini.carteiro.ui;
 
 import java.util.List;
-
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -10,15 +9,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 
 public class PostalRecordListAdapter extends BaseAdapter {
-  private Context context;
-  private LayoutInflater inflater;
-  private List<PostalRecord> list;
+  private final Context context;
+  private final LayoutInflater inflater;
+  private final List<PostalRecord> list;
 
   PostalRecordListAdapter(Context context, List<PostalRecord> list) {
     this.context = context;
@@ -77,10 +75,8 @@ public class PostalRecordListAdapter extends BaseAdapter {
     holder.status.setText(pr.getStatus());
     holder.loc.setText(pr.getLoc());
     String info = pr.getInfo();
-    if (info != null) {
-      holder.info.setText(info);
-      holder.info.setVisibility(View.VISIBLE);
-    }
+    holder.info.setText(info);
+    holder.info.setVisibility(info != null ? View.VISIBLE : View.GONE);
     holder.icon.setImageResource(Status.getIcon(pr.getStatus()));
 
     return convertView;
