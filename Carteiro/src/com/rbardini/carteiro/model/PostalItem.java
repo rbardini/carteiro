@@ -2,8 +2,8 @@ package com.rbardini.carteiro.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
+import com.rbardini.carteiro.util.PostalUtils;
 
 public class PostalItem implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -101,6 +101,10 @@ public class PostalItem implements Serializable {
     this.loc = rr.getLocal();
     this.info = rr.getDetalhe();
     this.status = rr.getAcao();
+  }
+
+  public String getService() {
+    return PostalUtils.Service.getService(cod);
   }
 
   @Override
