@@ -114,6 +114,7 @@
 
   <!-- Record Activity -->
   <string name="title_record">Histórico do objeto</string>
+  <string name="subtitle_record">Via %s</string>
   <string name="share_title">Compartilhar via</string>
   <string name="share_status_subject">Status do objeto</string>
   <string name="share_status_text">%1$s %2$s, %3$s #carteiroapp</string>

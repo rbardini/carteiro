@@ -48,7 +48,6 @@
     <activity android:name=".ui.RecordActivity"
       android:label="@string/title_record"
       android:launchMode="singleTop"
-      android:uiOptions="splitActionBarWhenNarrow"
       android:parentActivityName=".ui.MainActivity">
       <meta-data android:name="android.support.PARENT_ACTIVITY"
         android:value=".ui.MainActivity" />

@@ -5,6 +5,7 @@
     <!-- Light.DarkActionBar specific -->
     <item name=        "actionBarWidgetTheme">@style/Theme.Carteiro.Widget</item>
 
+    <item name="android:windowContentOverlay">@null</item>
     <item name="android:windowBackground">@color/background</item>
     <item name="android:colorBackground">@color/background</item>
     <item name="android:fadeScrollbars">true</item>
@@ -160,5 +161,29 @@
   <style name="ListInfo" parent="@style/Wrap">
     <item name="android:textSize">@dimen/text_size_tiny</item>
     <item name="android:textColor">@color/foreground2</item>
+  </style>
+
+  <!-- Record Activity -->
+  <style name="Record.Header" parent="@style/Stretch">
+    <item name="android:orientation">vertical</item>
+    <item name="android:background">@drawable/header_gradient</item>
+    <item name="android:paddingTop">8dp</item>
+    <item name="android:paddingRight">8dp</item>
+    <item name="android:paddingBottom">16dp</item>
+    <item name="android:paddingLeft">8dp</item>
+  </style>
+  <style name="Record.Heading" parent="@style/Wrap">
+    <item name="android:textColor">@android:color/white</item>
+    <item name="android:shadowColor">@color/foreground1</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">2</item>
+  </style>
+  <style name="Record.Heading.Title">
+    <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+    <item name="android:layout_marginRight">96dp</item>
+  </style>
+  <style name="Record.Heading.Subtitle">
+    <item name="android:textStyle">italic</item>
   </style>
 </resources>

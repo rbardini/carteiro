@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container">
 
-    <LinearLayout style="@style/Container"
-      android:id="@+id/record_list">
+  <LinearLayout style="@style/Record.Header">
+
+    <LinearLayout style="@style/Wrap"
+      android:layout_marginLeft="?attr/actionBarSize"
+      android:orientation="vertical">
+
+      <TextView style="@style/Wrap"
+        android:id="@+id/legend"
+        android:textColor="@color/actionbar" />
+  
+      <TextView style="@style/Record.Heading.Title"
+        android:id="@+id/title" />
+  
+      <TextView style="@style/Record.Heading.Subtitle"
+        android:id="@+id/subtitle" />
+
     </LinearLayout>
 
-    <Button style="@style/Wrap"
-        android:id="@+id/hidden_edit_opt"
-      android:visibility="gone" />
+  </LinearLayout>
+
+  <FrameLayout style="@style/Container"
+    android:id="@+id/record_list" />
+
+  <Button style="@style/Wrap"
+    android:id="@+id/hidden_edit_opt"
+    android:visibility="gone" />
 
 </LinearLayout>

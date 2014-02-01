@@ -1,7 +1,10 @@
 package com.rbardini.carteiro.ui;
 
+import java.util.Locale;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +12,7 @@ import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
+import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -31,11 +35,16 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   private PostalRecordFragment recordFragment;
   private WebSROFragment webSROFragment;
 
+  private TextView mTitle;
+  private TextView mSubtitle;
+  private TextView mLegend;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+    requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
     setContentView(R.layout.record);
     setSupportProgressBarIndeterminateVisibility(false);
@@ -46,6 +55,8 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
     actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setDisplayShowTitleEnabled(false);
+    actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
 
     mFragManager = getSupportFragmentManager();
     mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
@@ -54,6 +65,10 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         supportInvalidateOptionsMenu();
       }
     });
+
+    mTitle = (TextView) findViewById(R.id.title);
+    mSubtitle = (TextView) findViewById(R.id.subtitle);
+    mLegend = (TextView) findViewById(R.id.legend);
 
     if (savedInstanceState != null) {
       pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
@@ -237,12 +252,17 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   }
 
   private void setTitleBar() {
-    if (pi.getDesc() != null) {
-      actionBar.setTitle(pi.getDesc());
-      actionBar.setSubtitle(pi.getCod());
+    boolean hasDesc = pi.getDesc() != null;
+
+    if (hasDesc) {
+      mTitle.setText(pi.getDesc());
+      mLegend.setText(pi.getCod());
     } else {
-      actionBar.setTitle(pi.getCod());
+      mTitle.setText(pi.getCod());
     }
+    mLegend.setVisibility(hasDesc ? View.VISIBLE : View.GONE);
+
+    mSubtitle.setText(getString(R.string.subtitle_record, pi.getService()).toUpperCase(Locale.getDefault()));
   }
 
   private Fragment getCurrentFragment() {

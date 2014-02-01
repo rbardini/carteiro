@@ -5,6 +5,7 @@
     <!-- Light.DarkActionBar specific -->
     <item name=        "actionBarWidgetTheme">@style/Theme.Carteiro.Widget</item>
 
+    <item name="android:windowContentOverlay">@null</item>
     <item name="android:windowBackground">@color/background</item>
     <item name="android:colorBackground">@color/background</item>
     <item name="android:fadeScrollbars">true</item>
