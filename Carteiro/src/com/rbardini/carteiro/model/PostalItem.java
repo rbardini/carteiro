@@ -2,7 +2,9 @@ package com.rbardini.carteiro.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
+import android.content.Context;
 import com.rbardini.carteiro.util.PostalUtils;
 
 public class PostalItem implements Serializable {
@@ -105,6 +107,11 @@ public class PostalItem implements Serializable {
 
   public String getService() {
     return PostalUtils.Service.getService(cod);
+  }
+
+  public int getFlag(Context context) {
+    String resourceName = "flag_" + cod.substring(11, 13).toLowerCase(Locale.getDefault());
+    return context.getResources().getIdentifier(resourceName, "drawable", context.getApplicationInfo().packageName);
   }
 
   @Override

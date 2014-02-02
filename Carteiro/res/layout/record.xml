@@ -15,7 +15,8 @@
         android:id="@+id/title" />
   
       <TextView style="@style/Record.Heading.Subtitle"
-        android:id="@+id/subtitle" />
+        android:id="@+id/subtitle"
+        android:drawablePadding="4dp" />
 
     </LinearLayout>
 

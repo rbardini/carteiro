@@ -263,6 +263,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     mLegend.setVisibility(hasDesc ? View.VISIBLE : View.GONE);
 
     mSubtitle.setText(getString(R.string.subtitle_record, pi.getService()).toUpperCase(Locale.getDefault()));
+    mSubtitle.setCompoundDrawablesWithIntrinsicBounds(pi.getFlag(this), 0, 0, 0);
   }
 
   private Fragment getCurrentFragment() {
