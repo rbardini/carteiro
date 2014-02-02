@@ -3,11 +3,11 @@
 
   <EditText style="@style/TrkCodeField"
     android:id="@+id/trk_code_fld"
-    android:textColor="@color/foreground1" />
+    android:textColor="@color/primary" />
 
   <EditText style="@style/ItemDescField"
     android:id="@+id/item_desc_fld"
-    android:textColor="@color/foreground1" />
+    android:textColor="@color/primary" />
 
   <RelativeLayout style="@style/Stretch">
 

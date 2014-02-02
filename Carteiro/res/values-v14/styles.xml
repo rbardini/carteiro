@@ -27,8 +27,8 @@
 
   <!-- Action Bar -->
   <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-    <item name="android:background">@color/foreground1</item>
-    <item name="android:backgroundStacked">@color/foreground1</item>
-    <item name="android:backgroundSplit">@color/foreground1</item>
+    <item name="android:background">@color/primary</item>
+    <item name="android:backgroundStacked">@color/primary</item>
+    <item name="android:backgroundSplit">@color/primary</item>
   </style>
 </resources>

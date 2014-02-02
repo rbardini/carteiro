@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="background">#ffEBD38D</color>
-  <color name="foreground1">#ff544627</color>
-  <color name="foreground2">#ffBD9350</color>
+  <color name="primary">#ff544627</color>
+  <color name="secondary">#cc544627</color>
+  <color name="aside">#ffBD9350</color>
   <color name="actionbar">#ccFFFFFF</color>
   <color name="highlight">#30FFFFFF</color>
   <color name="overlay">#ee1E180D</color>
