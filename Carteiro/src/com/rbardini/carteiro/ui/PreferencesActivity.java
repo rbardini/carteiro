@@ -1,10 +1,10 @@
 package com.rbardini.carteiro.ui;
 
 import java.util.Date;
-
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -15,7 +15,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.rbardini.carteiro.R;
@@ -26,6 +25,7 @@ import com.rbardini.carteiro.util.UIUtils;
 @SuppressWarnings("deprecation")
 public class PreferencesActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
   private static boolean backupManagerAvailable;
+  private static String unknownRingtoneTitle;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,8 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     addPreferencesFromResource(R.xml.preferences);
 
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    unknownRingtoneTitle = getString(Resources.getSystem().getIdentifier("ringtone_unknown", "string", "android"));
 
     try {
       BackupManagerWrapper.checkAvailable();
@@ -97,7 +99,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
       default:
         return super.onOptionsItemSelected(item);
     }
-    }
+  }
 
   private void setRefreshIntervalPreference() {
     ListPreference interval = (ListPreference) findPreference(Preferences.REFRESH_INTERVAL);
@@ -113,7 +115,12 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
 
   private void setNotificationSoundPreference(RingtonePreference preference, Uri uri) {
     Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
-    preference.setSummary(ringtone != null ? ringtone.getTitle(this) : getString(R.string.pref_ringtone_summary));
+    String ringtoneTitle = null;
+
+    if (ringtone != null) ringtoneTitle = ringtone.getTitle(this);
+    if (ringtoneTitle == null || ringtoneTitle.equals(unknownRingtoneTitle)) ringtoneTitle = getString(R.string.pref_ringtone_summary);
+
+    preference.setSummary(ringtoneTitle);
   }
 
   private void setAboutPreference() {
