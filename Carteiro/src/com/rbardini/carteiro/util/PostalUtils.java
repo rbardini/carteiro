@@ -192,6 +192,7 @@ public final class PostalUtils {
     public static final String DESTINATARIO_AUSENTE = "Destinatário ausente";
     public static final String ENTREGA_PROGRAMADA = "Entrega programada";
     public static final String DISTRIBUICAO_ESPECIAL_AGENDADA = "Distribuição especial agendada";
+    public static final String DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO = "Área com distribuição sujeita a prazo diferenciado";
     public static final String AGUARDANDO_PARTE_LOTE = "Aguardando parte do lote";
     public static final String ENTREGA_CONDICIONADA_COMPOSICAO_LOTE = "Entrega condicionada à composição do lote";
     public static final String ATRASADO = "Atrasado";
@@ -346,6 +347,7 @@ public final class PostalUtils {
       map.put(SAIDA_NAO_EFETUADA, R.drawable.ic_postal_saida_cancelada);
       map.put(ENTREGA_PROGRAMADA, R.drawable.ic_postal_entrega_programada);
       map.put(DISTRIBUICAO_ESPECIAL_AGENDADA, R.drawable.ic_postal_entrega_programada);
+      map.put(DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO, R.drawable.ic_postal_entrega_programada);
       map.put(ENTREGA_NAO_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
       map.put(ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS, R.drawable.ic_postal_entrega_nao_efetuada);
       map.put(EMPRESA_SEM_EXPEDIENTE, R.drawable.ic_postal_empresa_sem_expediente);
