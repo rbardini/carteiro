@@ -2,16 +2,13 @@ package com.rbardini.carteiro;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.ui.PreferencesActivity.Preferences;
 
 public class CarteiroApplication extends Application {
   public static State state;
@@ -28,9 +25,9 @@ public class CarteiroApplication extends Application {
 
     // Schedule sync service on first start
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean(Preferences.ON_BOOT, false) && prefs.getBoolean(Preferences.AUTO_SYNC, true)) {
+        if (!prefs.getBoolean(getString(R.string.pref_key_on_boot), false) && prefs.getBoolean(getString(R.string.pref_key_auto_sync), true)) {
           SyncService.scheduleSync(this);
-          prefs.edit().putBoolean(Preferences.ON_BOOT, true).commit();
+          prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).commit();
         }
   }
 

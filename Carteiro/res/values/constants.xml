@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Carteiro</string>
+  <string name="app_url">http://carteiroapp.com/</string>
+
+  <string name="blog_url">http://blog.carteiroapp.com/</string>
+  <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
+  <string name="twitter_url">http://twitter.com/carteiroapp</string>
+  <string name="gplus_url">http://plus.google.com/communities/102688961399152413062</string>
+  <string name="feedback_url">http://feedback.carteiroapp.com/</string>
+
+  <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
+
+  <!-- Preferences keys -->
+  <string name="pref_key_on_boot">onboot</string>
+  <string name="pref_key_auto_sync">autosync</string>
+  <string name="pref_key_refresh_interval">refreshinterval</string>
+  <string name="pref_key_sync_favorites_only">syncfavoritesonly</string>
+  <string name="pref_key_dont_sync_delivered_items">dontsyncdelivereditems</string>
+  <string name="pref_key_notify">notify</string>
+  <string name="pref_key_notify_sync">notifysync</string>
+  <string name="pref_key_notify_all">notifyall</string>
+  <string name="pref_key_notify_returned">notifyreturned</string>
+  <string name="pref_key_notify_unknown">notifyunknown</string>
+  <string name="pref_key_notify_irregular">notifyirregular</string>
+  <string name="pref_key_notify_favorites">notifyfavorites</string>
+  <string name="pref_key_notify_available">notifyavailable</string>
+  <string name="pref_key_notify_delivered">notifydelivered</string>
+  <string name="pref_key_ringtone">ringtone</string>
+  <string name="pref_key_lights">lights</string>
+  <string name="pref_key_vibrate">vibrate</string>
+  <string name="pref_key_blog">blog</string>
+  <string name="pref_key_facebook">facebook</string>
+  <string name="pref_key_twitter">twitter</string>
+  <string name="pref_key_gplus">gplus</string>
+  <string name="pref_key_feedback">feedback</string>
+  <string name="pref_key_rate">rate</string>
+  <string name="pref_key_version">version</string>
+</resources>

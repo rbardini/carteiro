@@ -31,7 +31,6 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.ui.MainActivity;
-import com.rbardini.carteiro.ui.PreferencesActivity.Preferences;
 import com.rbardini.carteiro.ui.RecordActivity;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
@@ -81,7 +80,7 @@ public class SyncService extends IntentService {
       }
 
       NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-      boolean shouldNotifySync = prefs.getBoolean(Preferences.NOTIFY_SYNC, false);
+      boolean shouldNotifySync = prefs.getBoolean(getString(R.string.pref_key_notify_sync), false);
       if (shouldNotifySync) {
         notificationBuilder
           .setSmallIcon(R.drawable.ic_stat_sync)
@@ -101,8 +100,8 @@ public class SyncService extends IntentService {
         cods = extras.getStringArray("cods");
       } else {
         flags = 0;
-        if (prefs.getBoolean(Preferences.SYNC_FAVORITES_ONLY, false)) { flags |= Category.FAVORITES; }
-        if (prefs.getBoolean(Preferences.DONT_SYNC_DELIVERED_ITEMS, false)) { flags |= Category.UNDELIVERED; }
+        if (prefs.getBoolean(getString(R.string.pref_key_sync_favorites_only), false)) { flags |= Category.FAVORITES; }
+        if (prefs.getBoolean(getString(R.string.pref_key_dont_sync_delivered_items), false)) { flags |= Category.UNDELIVERED; }
         cods = dh.getPostalItemCodes(flags);
       }
 
@@ -157,17 +156,17 @@ public class SyncService extends IntentService {
 
       nm.cancel(NOTIFICATION_ONGOING_SYNC);
 
-      if (update && prefs.getBoolean(Preferences.NOTIFY, true)) {
+      if (update && prefs.getBoolean(getString(R.string.pref_key_notify), true)) {
         flags = 0;
-        if (prefs.getBoolean(Preferences.NOTIFY_ALL, false)) {
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_all), false)) {
           flags |= Category.ALL;
         } else {
-          if (prefs.getBoolean(Preferences.NOTIFY_FAVORITES, true)) { flags |= Category.FAVORITES; }
-          if (prefs.getBoolean(Preferences.NOTIFY_AVAILABLE, true)) { flags |= Category.AVAILABLE; }
-          if (prefs.getBoolean(Preferences.NOTIFY_DELIVERED, true)) { flags |= Category.DELIVERED; }
-          if (prefs.getBoolean(Preferences.NOTIFY_IRREGULAR, true)) { flags |= Category.IRREGULAR; }
-          if (prefs.getBoolean(Preferences.NOTIFY_UNKNOWN, true)) { flags |= Category.UNKNOWN; }
-          if (prefs.getBoolean(Preferences.NOTIFY_RETURNED, true)) { flags |= Category.RETURNED; }
+          if (prefs.getBoolean(getString(R.string.pref_key_notify_favorites), true)) { flags |= Category.FAVORITES; }
+          if (prefs.getBoolean(getString(R.string.pref_key_notify_available), true)) { flags |= Category.AVAILABLE; }
+          if (prefs.getBoolean(getString(R.string.pref_key_notify_delivered), true)) { flags |= Category.DELIVERED; }
+          if (prefs.getBoolean(getString(R.string.pref_key_notify_irregular), true)) { flags |= Category.IRREGULAR; }
+          if (prefs.getBoolean(getString(R.string.pref_key_notify_unknown), true)) { flags |= Category.UNKNOWN; }
+          if (prefs.getBoolean(getString(R.string.pref_key_notify_returned), true)) { flags |= Category.RETURNED; }
         }
         if (flags != 0) { showNotification(flags); }
       }
@@ -245,10 +244,10 @@ public class SyncService extends IntentService {
       .setContentIntent(pending)
       .setWhen(date)
       .setAutoCancel(true)
-      .setSound(Uri.parse(prefs.getString(Preferences.RINGTONE, "DEFAULT_SOUND")));
+      .setSound(Uri.parse(prefs.getString(getString(R.string.pref_key_ringtone), "DEFAULT_SOUND")));
 
-    if (prefs.getBoolean(Preferences.LIGHTS, true)) notificationBuilder.setLights(Color.YELLOW, 1000, 1200);
-    if (prefs.getBoolean(Preferences.VIBRATE, true)) notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+    if (prefs.getBoolean(getString(R.string.pref_key_lights), true)) notificationBuilder.setLights(Color.YELLOW, 1000, 1200);
+    if (prefs.getBoolean(getString(R.string.pref_key_vibrate), true)) notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
 
     nm.notify(NOTIFICATION_NEW_UPDATE, notificationBuilder.build());
   }
@@ -266,7 +265,7 @@ public class SyncService extends IntentService {
 
   public static void scheduleSync(Context context) {
     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    long interval = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(Preferences.REFRESH_INTERVAL, "3600000"));
+    long interval = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_refresh_interval), "3600000"));
     am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+interval, interval, getSender(context));
     Log.i(TAG, "Syncing scheduled");
   }

@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Carteiro</string>
-  <string name="app_url">http://carteiroapp.com/</string>
-
-  <string name="blog_url">http://blog.carteiroapp.com/</string>
-  <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
-  <string name="feedback_url">http://feedback.carteiroapp.com/</string>
-
-  <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
-
   <!-- Buttons -->
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancelar</string>
@@ -162,12 +153,12 @@
   <string name="pref_vibrate_summary">Vibrar ao receber notificações</string>
 
   <string name="pref_about_category">Sobre</string>
-  <string name="pref_blog_title">Blog do Carteiro</string>
-  <string name="pref_blog_summary">Fique por dentro do que há de novo</string>
-  <string name="pref_facebook_title">Página no Facebook</string>
-  <string name="pref_facebook_summary">Curta o Carteiro e recomende aos amigos</string>
-  <string name="pref_feedback_title">Feedback &#038; Suporte</string>
-  <string name="pref_feedback_summary">Tire suas dúvidas e sugira melhorias</string>
+  <string name="pref_blog_title">Visite o blog oficial</string>
+  <string name="pref_facebook_title">Curta o Carteiro no Facebook</string>
+  <string name="pref_twitter_title">Siga o @carteiroapp no Twitter</string>
+  <string name="pref_gplus_title">Participe da comunidade no Google+</string>
+  <string name="pref_feedback_title">Dê seu feedback</string>
+  <string name="pref_rate_title">Avalie o aplicativo</string>
 
   <string name="pref_version_category">Versão</string>
   <string name="pref_version_title">%1$s %2$s</string>

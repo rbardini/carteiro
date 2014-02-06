@@ -48,7 +48,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     setAboutPreference();
     setVersionPreference();
 
-    Preference ringPref = findPreference(Preferences.RINGTONE);
+    Preference ringPref = findPreference(getString(R.string.pref_key_ringtone));
     ringPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
       @Override
       public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -74,13 +74,13 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    if (key.equals(Preferences.AUTO_SYNC)) {
+    if (key.equals(getString(R.string.pref_key_auto_sync))) {
       if (sharedPreferences.getBoolean(key, true)) {
         SyncService.scheduleSync(this);
       } else {
         SyncService.unscheduleSync(this);
       }
-    } else if (key.equals(Preferences.REFRESH_INTERVAL)) {
+    } else if (key.equals(getString(R.string.pref_key_refresh_interval))) {
       setRefreshIntervalPreference();
       SyncService.scheduleSync(this);
     }
@@ -102,12 +102,12 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
   }
 
   private void setRefreshIntervalPreference() {
-    ListPreference interval = (ListPreference) findPreference(Preferences.REFRESH_INTERVAL);
+    ListPreference interval = (ListPreference) findPreference(getString(R.string.pref_key_refresh_interval));
     interval.setSummary(String.format(getString(R.string.pref_refresh_interval_summary), interval.getEntry()));
   }
 
   private void setNotificationSoundPreference() {
-    RingtonePreference preference = (RingtonePreference) findPreference(Preferences.RINGTONE);
+    RingtonePreference preference = (RingtonePreference) findPreference(getString(R.string.pref_key_ringtone));
     Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString(preference.getKey(), ""));
 
     setNotificationSoundPreference(preference, uri);
@@ -124,31 +124,52 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
   }
 
   private void setAboutPreference() {
-    findPreference(Preferences.BLOG).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    findPreference(getString(R.string.pref_key_blog)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         UIUtils.openURL(PreferencesActivity.this, getString(R.string.blog_url));
         return true;
       }
     });
-    findPreference(Preferences.FACEBOOK).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    findPreference(getString(R.string.pref_key_facebook)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         UIUtils.openURL(PreferencesActivity.this, getString(R.string.facebook_url));
         return true;
       }
     });
-    findPreference(Preferences.FEEDBACK).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    findPreference(getString(R.string.pref_key_twitter)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        UIUtils.openURL(PreferencesActivity.this, getString(R.string.twitter_url));
+        return true;
+      }
+    });
+    findPreference(getString(R.string.pref_key_gplus)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        UIUtils.openURL(PreferencesActivity.this, getString(R.string.gplus_url));
+        return true;
+      }
+    });
+    findPreference(getString(R.string.pref_key_feedback)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         UIUtils.openURL(PreferencesActivity.this, getString(R.string.feedback_url));
         return true;
       }
     });
+    findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        UIUtils.openMarket(PreferencesActivity.this);
+        return true;
+      }
+    });
   }
 
   private void setVersionPreference() {
-    Preference pref = findPreference(Preferences.VERSION);
+    Preference pref = findPreference(getString(R.string.pref_key_version));
     try {
       String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
       pref.setTitle(String.format(getString(R.string.pref_version_title), getString(R.string.app_name), version));
@@ -163,29 +184,5 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
         return true;
       }
     });
-  }
-
-  public static final class Preferences {
-    public static final String ON_BOOT = "onBoot";
-    public static final String AUTO_SYNC = "autoSync";
-    public static final String REFRESH_INTERVAL = "refreshInterval";
-    public static final String SYNC_FAVORITES_ONLY = "syncFavoritesOnly";
-    public static final String DONT_SYNC_DELIVERED_ITEMS = "dontSyncDeliveredItems";
-    public static final String NOTIFY = "notify";
-    public static final String NOTIFY_SYNC = "notifySync";
-    public static final String NOTIFY_ALL = "notifyAll";
-    public static final String NOTIFY_RETURNED = "notifyReturned";
-    public static final String NOTIFY_UNKNOWN = "notifyUnknown";
-    public static final String NOTIFY_IRREGULAR = "notifyIrregular";
-    public static final String NOTIFY_FAVORITES = "notifyFavorites";
-    public static final String NOTIFY_AVAILABLE = "notifyAvailable";
-    public static final String NOTIFY_DELIVERED = "notifyDelivered";
-    public static final String RINGTONE = "ringtone";
-    public static final String LIGHTS = "lights";
-    public static final String VIBRATE = "vibrate";
-    public static final String BLOG = "blog";
-    public static final String FACEBOOK = "facebook";
-    public static final String FEEDBACK = "feedback";
-    public static final String VERSION = "version";
   }
 }

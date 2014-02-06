@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.rbardini.carteiro.ui.PreferencesActivity.Preferences;
+import com.rbardini.carteiro.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -17,9 +16,9 @@ public class AlarmReceiver extends BroadcastReceiver {
       !intent.getData().getSchemeSpecificPart().equals(context.getPackageName())) { return; }
 
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    if (prefs.getBoolean(Preferences.AUTO_SYNC, true)) {
+    if (prefs.getBoolean(context.getString(R.string.pref_key_auto_sync), true)) {
       SyncService.scheduleSync(context);
-      prefs.edit().putBoolean(Preferences.ON_BOOT, true).commit();
+      prefs.edit().putBoolean(context.getString(R.string.pref_key_on_boot), true).commit();
     }
   }
 
