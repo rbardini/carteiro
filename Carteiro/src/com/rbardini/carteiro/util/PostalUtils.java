@@ -94,7 +94,7 @@ public final class PostalUtils {
       map.put(DELIVERED, R.drawable.ic_action_accept);
       map.put(IRREGULAR, R.drawable.ic_action_warning);
       map.put(UNKNOWN, R.drawable.ic_action_help);
-      map.put(RETURNED, R.drawable.ic_action_undo);
+      map.put(RETURNED, R.drawable.ic_action_replay);
 
       return map;
     }
