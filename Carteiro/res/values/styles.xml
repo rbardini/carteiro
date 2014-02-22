@@ -23,6 +23,10 @@
     <item name=        "actionBarItemBackground">@drawable/list_selector</item>
 
 
+
+
+
+
   </style>
 
   <!-- Action Bar -->
@@ -69,7 +73,7 @@
   </style>
   <style name="Button" parent="android:Widget.Button">
      <item name="android:background">@drawable/btn_default</item>
-     <item name="android:textColor">@color/primary</item>
+     <item name="android:textColor">@android:color/white</item>
      <item name="android:minHeight">48dip</item>
     <item name="android:minWidth">64dip</item>
   </style>
@@ -79,7 +83,7 @@
   <style name="CheckBox" parent="android:Widget.CompoundButton.CheckBox">
     <item name="android:textColor">@color/primary</item>
   </style>
-  <style name="PopupMenu" parent="Widget.Sherlock.PopupMenu">
+  <style name="PopupMenu" parent="Widget.Sherlock.ListPopupWindow">
     <item name="android:popupBackground">@drawable/menu_dropdown_panel</item>
   </style>
   <style name="DropDownListView" parent="Widget.Sherlock.ListView.DropDown">

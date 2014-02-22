@@ -11,7 +11,7 @@
     android:layout_height="fill_parent"
     android:layout_gravity="start"
     android:choiceMode="singleChoice"
-    android:divider="@color/highlight"
+    android:divider="@color/list_highlight"
     android:dividerHeight="1px"
     android:background="@color/overlay"/>
 

@@ -86,7 +86,7 @@ public class PostalItemListAdapter extends BaseAdapter {
     holder.fav.setTag(pi.getCod());
 
     if (updatedCods != null) {
-      convertView.setBackgroundColor(updatedCods.contains(pi.getCod()) ? context.getResources().getColor(R.color.highlight) : Color.TRANSPARENT);
+      convertView.setBackgroundColor(updatedCods.contains(pi.getCod()) ? context.getResources().getColor(R.color.list_highlight) : Color.TRANSPARENT);
     }
 
     return convertView;

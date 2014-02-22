@@ -4,7 +4,7 @@
 
   <com.handmark.pulltorefresh.library.PullToRefreshListView style="@style/ListView"
       android:id="@+id/pull_to_refresh_listview"
-      app:ptrHeaderBackground="@color/highlight"
+      app:ptrHeaderBackground="@color/list_highlight"
       app:ptrDrawable="@drawable/ptr_rotate" />
 
   <TextView style="@style/EmptyText"
