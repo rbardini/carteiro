@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- Variation on the light theme with dark action bar -->
+  <style name="Theme.Carteiro" parent="Theme.Sherlock.Light.DarkActionBar">
+    <!-- Light.DarkActionBar specific -->
+    <item name=        "actionBarWidgetTheme">@style/Theme.Carteiro.Widget</item>
+
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowBackground">@color/background</item>
+    <item name="android:colorBackground">@color/background</item>
+    <item name="android:fadeScrollbars">true</item>
+    <item name="android:textViewStyle">@style/TextView</item>
+    <item name="android:buttonStyle">@style/Button</item>
+    <item name="android:checkboxStyle">@style/CheckBox</item>
+    <item name="android:listViewStyle">@style/ListView</item>
+    <item name="android:listSeparatorTextViewStyle">@style/ListSeparatorTextView</item>
+    <item name=        "actionBarStyle">@style/ActionBar</item>
+    <item name=        "actionButtonStyle">@style/ActionButton</item>
+    <item name=        "popupMenuStyle">@style/PopupMenu</item>
+    <item name=        "dropDownListViewStyle">@style/DropDownListView</item>
+    <item name=        "selectableItemBackground">@drawable/list_selector</item>
+    <item name=        "activatedBackgroundIndicator">@drawable/activated_background</item>
+    <item name=        "actionBarItemBackground">@drawable/list_selector</item>
+  </style>
+
+</resources>
