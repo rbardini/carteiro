@@ -81,13 +81,10 @@
     <item name="android:inputType">textCapSentences</item>
     <item name="android:selectAllOnFocus">true</item>
   </style>
-  <style name="Star">
-    <item name="android:layout_width">27dp</item>
-    <item name="android:layout_height">27dp</item>
+  <style name="Star" parent="@style/Wrap">
     <item name="android:button">@drawable/btn_star</item>
   </style>
   <style name="Star.Add">
-    <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_alignParentLeft">true</item>
     <item name="android:layout_alignBaseline">@+id/add_item_btn</item>
     <item name="android:text">@string/checkbox_add_favorite</item>
@@ -121,9 +118,9 @@
   <style name="ListItem" parent="@style/Stretch">
     <item name="android:orientation">vertical</item>
     <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
-    <item name="android:paddingLeft">10dp</item>
-    <item name="android:paddingRight">10dp</item>
-    <item name="android:paddingTop">8dip</item>
+    <item name="android:paddingLeft">12dp</item>
+    <item name="android:paddingRight">12dp</item>
+    <item name="android:paddingTop">8dp</item>
     <item name="android:paddingBottom">8dp</item>
   </style>
   <style name="ListTitle" parent="@style/Wrap">

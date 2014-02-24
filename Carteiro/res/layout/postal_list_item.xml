@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ListItem">
+  style="@style/ListItem">
 
   <RelativeLayout style="@style/Stretch">
 
@@ -20,6 +20,8 @@
 
     <CheckBox style="@style/Star"
       android:id="@+id/star_chkbox"
+      android:paddingTop="1dp" android:paddingBottom="1dp"
+      android:layout_marginLeft="-5dp"
       android:onClick="onFavClick"
       android:focusable="false" />
 
