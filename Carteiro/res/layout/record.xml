@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container">
 
-  <LinearLayout style="@style/Record.Header">
+  <RelativeLayout style="@style/Record.Header">
 
     <LinearLayout style="@style/Wrap"
       android:layout_marginLeft="?attr/actionBarSize"
@@ -20,7 +20,7 @@
 
     </LinearLayout>
 
-  </LinearLayout>
+  </RelativeLayout>
 
   <FrameLayout style="@style/Container"
     android:id="@+id/record_list" />

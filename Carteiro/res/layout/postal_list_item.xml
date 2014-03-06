@@ -25,21 +25,28 @@
       android:onClick="onFavClick"
       android:focusable="false" />
 
-    <LinearLayout style="@style/Wrap"
-      android:orientation="vertical"
+    <RelativeLayout style="@style/Wrap"
       android:layout_toRightOf="@+id/star_chkbox"
       android:paddingRight="@dimen/status_icon_size">
+      
+      <LinearLayout style="@style/Wrap"
+        android:orientation="vertical"
+        android:paddingRight="8dp">
+  
+        <TextView style="@style/ListTitle"
+          android:id="@+id/text_postal_item_desc" />
+  
+        <TextView style="@style/ListSubTitle"
+          android:id="@+id/text_postal_item_info" />
+  
+      </LinearLayout>
 
-      <TextView style="@style/ListTitle"
-        android:id="@+id/text_postal_item_desc" />
+    </RelativeLayout>
 
-      <TextView style="@style/ListSubTitle"
-        android:id="@+id/text_postal_item_info" />
-
-    </LinearLayout>
-
-    <ImageView style="@style/Wrap"
+    <ImageView
       android:id="@+id/img_postal_item_status"
+      android:layout_width="@dimen/status_icon_size"
+      android:layout_height="@dimen/status_icon_size"
       android:layout_alignParentRight="true"
       android:layout_centerVertical="true"
       android:contentDescription="@string/desc_status" />

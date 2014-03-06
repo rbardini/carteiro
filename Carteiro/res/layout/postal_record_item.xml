@@ -18,28 +18,34 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <LinearLayout style="@style/Wrap"
-      android:orientation="vertical"
+    <RelativeLayout style="@style/Wrap"
       android:paddingRight="@dimen/status_icon_size">
 
-      <TextView style="@style/ListTitle"
-        android:id="@+id/text_postal_record_status" />
+      <LinearLayout style="@style/Wrap"
+        android:orientation="vertical"
+        android:paddingRight="8dp">
+  
+        <TextView style="@style/ListTitle"
+          android:id="@+id/text_postal_record_status" />
+  
+        <TextView style="@style/ListSubTitle"
+          android:id="@+id/text_postal_record_info" />
 
-      <TextView style="@style/ListSubTitle"
-        android:id="@+id/text_postal_record_info" />
+      </LinearLayout>
 
-      <TextView style="@style/ListInfo"
-        android:id="@+id/text_postal_record_loc"
-        android:paddingTop="5dp" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <ImageView style="@style/Wrap"
+    <ImageView
       android:id="@+id/img_postal_record_status"
+      android:layout_width="@dimen/status_icon_size"
+      android:layout_height="@dimen/status_icon_size"
       android:layout_alignParentRight="true"
       android:layout_centerVertical="true"
       android:contentDescription="@string/desc_status" />
 
   </RelativeLayout>
+
+  <TextView style="@style/ListInfo"
+    android:id="@+id/text_postal_record_loc" />
 
 </LinearLayout>

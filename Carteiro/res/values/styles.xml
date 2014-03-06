@@ -137,7 +137,6 @@
 
   <!-- Record Activity -->
   <style name="Record.Header" parent="@style/Stretch">
-    <item name="android:orientation">vertical</item>
     <item name="android:background">@drawable/header_gradient</item>
     <item name="android:paddingTop">8dp</item>
     <item name="android:paddingRight">8dp</item>
