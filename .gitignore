@@ -1,3 +1,31 @@
-/.metadata
-/ucdetector_reports
-*/.settings
+# Built application files
+*.apk
+*.ap_
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file
+local.properties
+
+# Intellij IDEA
+.idea/dictionaries/
+.idea/libraries/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/datasources.xml
+.idea/dataSources.ids
+
+# External libraries
+pullToRefresh/

@@ -1,0 +1,29 @@
+apply plugin: 'android'
+
+android {
+  compileSdkVersion 19
+  buildToolsVersion "19.0.3"
+
+  defaultConfig {
+    minSdkVersion 7
+    targetSdkVersion 19
+  }
+
+  buildTypes {
+    release {
+      runProguard true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+    }
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+dependencies {
+  compile 'com.android.support:support-v4:+'
+  compile 'com.actionbarsherlock:actionbarsherlock:+@aar'
+  compile 'se.emilsjolander:stickylistheaders:+'
+  compile project(':pullToRefresh')
+}

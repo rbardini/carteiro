@@ -1,0 +1,109 @@
+# view res/layout/main.xml #generated:2
+-keep class android.support.v4.widget.DrawerLayout { <init>(...); }
+
+# view res/layout/abs__screen_action_bar.xml #generated:44
+# view res/layout/abs__screen_action_bar_overlay.xml #generated:27
+# view res/layout/abs__screen_simple.xml #generated:32
+# view res/layout/abs__screen_simple_overlay_action_mode.xml #generated:27
+# view xlarge\res/layout-xlarge/abs__screen_action_bar.xml #generated:44
+# view xlarge\res/layout-xlarge/abs__screen_action_bar_overlay.xml #generated:25
+-keep class com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout { <init>(...); }
+
+# view large\res/layout-large/abs__action_mode_close_item.xml #generated:17
+# view res/layout/abs__action_mode_close_item.xml #generated:17
+-keep class com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout { <init>(...); }
+
+# view res/layout/abs__action_menu_item_layout.xml #generated:17
+-keep class com.actionbarsherlock.internal.view.menu.ActionMenuItemView { <init>(...); }
+
+# view res/layout/abs__action_menu_layout.xml #generated:17
+-keep class com.actionbarsherlock.internal.view.menu.ActionMenuView { <init>(...); }
+
+# view res/layout/abs__popup_menu_item_layout.xml #generated:17
+-keep class com.actionbarsherlock.internal.view.menu.ListMenuItemView { <init>(...); }
+
+# view res/layout/abs__screen_action_bar.xml #generated:27
+# view res/layout/abs__screen_action_bar.xml #generated:51
+# view res/layout/abs__screen_action_bar_overlay.xml #generated:30
+# view res/layout/abs__screen_action_bar_overlay.xml #generated:53
+# view xlarge\res/layout-xlarge/abs__screen_action_bar.xml #generated:27
+# view xlarge\res/layout-xlarge/abs__screen_action_bar_overlay.xml #generated:28
+-keep class com.actionbarsherlock.internal.widget.ActionBarContainer { <init>(...); }
+
+# view res/layout/abs__action_mode_bar.xml #generated:19
+# view res/layout/abs__screen_action_bar.xml #generated:37
+# view res/layout/abs__screen_action_bar_overlay.xml #generated:41
+# view xlarge\res/layout-xlarge/abs__screen_action_bar.xml #generated:37
+# view xlarge\res/layout-xlarge/abs__screen_action_bar_overlay.xml #generated:38
+-keep class com.actionbarsherlock.internal.widget.ActionBarContextView { <init>(...); }
+
+# view res/layout/abs__screen_action_bar.xml #generated:32
+# view res/layout/abs__screen_action_bar_overlay.xml #generated:36
+# view xlarge\res/layout-xlarge/abs__screen_action_bar.xml #generated:32
+# view xlarge\res/layout-xlarge/abs__screen_action_bar_overlay.xml #generated:33
+-keep class com.actionbarsherlock.internal.widget.ActionBarView { <init>(...); }
+
+# view res/layout/abs__action_bar_home.xml #generated:17
+-keep class com.actionbarsherlock.internal.widget.ActionBarView$HomeView { <init>(...); }
+
+# view res/layout/abs__action_menu_item_layout.xml #generated:40
+-keep class com.actionbarsherlock.internal.widget.CapitalizingButton { <init>(...); }
+
+# view res/layout/abs__activity_chooser_view.xml #generated:19
+-keep class com.actionbarsherlock.internal.widget.IcsLinearLayout { <init>(...); }
+
+# view res/layout/abs__action_bar_tab.xml #generated:3
+-keep class com.actionbarsherlock.internal.widget.ScrollingTabContainerView$TabView { <init>(...); }
+
+# view res/layout/abs__action_bar_tab_bar_view.xml #generated:3
+-keep class com.actionbarsherlock.internal.widget.TabsLinearLayout { <init>(...); }
+
+# view res/layout/abs__search_view.xml #generated:84
+-keep class com.actionbarsherlock.widget.SearchView$SearchAutoComplete { <init>(...); }
+
+# view res/layout/postal_list.xml #generated:5
+# view res/layout/record_list.xml #generated:5
+-keep class com.handmark.pulltorefresh.library.PullToRefreshListView { <init>(...); }
+
+# view AndroidManifest.xml #generated:9
+-keep class com.rbardini.carteiro.CarteiroApplication { <init>(...); }
+
+# view AndroidManifest.xml #generated:50
+-keep class com.rbardini.carteiro.svc.AlarmReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:9
+-keep class com.rbardini.carteiro.svc.BackupAgent { <init>(...); }
+
+# view AndroidManifest.xml #generated:60
+-keep class com.rbardini.carteiro.svc.CancelSyncReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:62
+-keep class com.rbardini.carteiro.svc.SearchProvider { <init>(...); }
+
+# view AndroidManifest.xml #generated:48
+-keep class com.rbardini.carteiro.svc.SyncService { <init>(...); }
+
+# view AndroidManifest.xml #generated:22
+-keep class com.rbardini.carteiro.ui.AddActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:15
+-keep class com.rbardini.carteiro.ui.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:44
+-keep class com.rbardini.carteiro.ui.PreferencesActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:32
+-keep class com.rbardini.carteiro.ui.RecordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:36
+-keep class com.rbardini.carteiro.ui.SearchActivity { <init>(...); }
+
+# view res/layout/main.xml #generated:8
+-keep class se.emilsjolander.stickylistheaders.StickyListHeadersListView { <init>(...); }
+
+# onClick res/layout/add.xml #generated:17
+-keepclassmembers class * { *** onAddPostalItemClick(...); }
+
+# onClick res/layout/postal_list_item.xml #generated:21
+-keepclassmembers class * { *** onFavClick(...); }
+
