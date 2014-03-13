@@ -28,6 +28,8 @@
     <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
     <item name="android:editTextBackground">@drawable/edit_text</item>
     <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector</item>
+
+    <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
   </style>
 
 </resources>

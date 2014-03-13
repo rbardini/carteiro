@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Carteiro.iml" filepath="$PROJECT_DIR$/Carteiro.iml" />
       <module fileurl="file://$PROJECT_DIR$/carteiro/carteiro.iml" filepath="$PROJECT_DIR$/carteiro/carteiro.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pullToRefresh/pullToRefresh.iml" filepath="$PROJECT_DIR$/pullToRefresh/pullToRefresh.iml" />
     </modules>
   </component>
 </project>

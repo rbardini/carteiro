@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/carteiro" />
-            <option value="$PROJECT_DIR$/pullToRefresh" />
           </set>
         </option>
       </GradleProjectSettings>

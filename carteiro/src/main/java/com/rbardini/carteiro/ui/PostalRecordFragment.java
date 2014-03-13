@@ -1,7 +1,6 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -9,10 +8,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -20,7 +16,16 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
 
-public class PostalRecordFragment extends ListFragment {
+import java.util.ArrayList;
+import java.util.List;
+
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.AbsDefaultHeaderTransformer;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
+public class PostalRecordFragment extends ListFragment implements OnRefreshListener {
   public static final String TAG = "PostalRecordFragment";
 
   private FragmentActivity activity;
@@ -28,9 +33,9 @@ public class PostalRecordFragment extends ListFragment {
 
   private static PostalItem pi;
 
-  private List<PostalRecord> list;
-  private PostalRecordListAdapter listAdapter;
-  private PullToRefreshListView listView;
+  private List<PostalRecord> mList;
+  private PostalRecordListAdapter mListAdapter;
+  private PullToRefreshLayout mPullToRefreshLayout;
 
   public static PostalRecordFragment newInstance(PostalItem pi) {
     PostalRecordFragment f = new PostalRecordFragment();
@@ -52,9 +57,9 @@ public class PostalRecordFragment extends ListFragment {
 
     pi = (PostalItem) getArguments().getSerializable("postalItem");
 
-    list = new ArrayList<PostalRecord>();
-    listAdapter = new PostalRecordListAdapter(activity, list);
-    setListAdapter(listAdapter);
+    mList = new ArrayList<PostalRecord>();
+    mListAdapter = new PostalRecordListAdapter(activity, mList);
+    setListAdapter(mListAdapter);
 
     updateList();
   }
@@ -70,30 +75,43 @@ public class PostalRecordFragment extends ListFragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);
-        listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-          @Override
-          public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-            if (!CarteiroApplication.state.syncing) {
-              Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
-              intent.putExtra("cods", new String[] {pi.getCod()});
-                  activity.startService(intent);
-            }
-          }
-      });
+    activity = getActivity();
+
+    mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
+    ActionBarPullToRefresh
+        .from(activity)
+        .options(Options.create().headerTransformer(new CustomAbsDefaultHeaderTransformer()).build())
+        .listener(this)
+        .setup(mPullToRefreshLayout);
+  }
+
+  @Override
+  public void onRefreshStarted(View view) {
+    if (!CarteiroApplication.state.syncing) {
+      Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
+      intent.putExtra("cods", new String[] {pi.getCod()});
+      activity.startService(intent);
+    }
   }
 
   public void setPostalItem(PostalItem newPostalItem) { pi = newPostalItem; }
 
-  public void setRefreshing() { listView.setRefreshing(); }
-  public void onRefreshComplete() { listView.onRefreshComplete(); }
+  public void setRefreshing() { mPullToRefreshLayout.setRefreshing(true); }
+  public void onRefreshComplete() { mPullToRefreshLayout.setRefreshComplete(); }
 
   public void updateList() {
-    dh.getPostalRecords(list, pi.getCod());
+    dh.getPostalRecords(mList, pi.getCod());
   }
 
   public void refreshList() {
     updateList();
-    listAdapter.notifyDataSetChanged();
+    mListAdapter.notifyDataSetChanged();
+  }
+
+  private static class CustomAbsDefaultHeaderTransformer extends AbsDefaultHeaderTransformer {
+    @Override
+    protected int getActionBarSize(Context context) {
+      return 0;
+    }
   }
 }

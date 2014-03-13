@@ -17,9 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -28,7 +25,11 @@ import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
-public class PostalListFragment extends ListFragment {
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
+public class PostalListFragment extends ListFragment implements OnRefreshListener {
   private CarteiroApplication app;
   private FragmentActivity activity;
   private Handler handler;
@@ -38,9 +39,9 @@ public class PostalListFragment extends ListFragment {
   private int category;
   private String query;
 
-  private List<PostalItem> list;
-  private PostalItemListAdapter listAdapter;
-  private PullToRefreshListView listView;
+  private List<PostalItem> mList;
+  private PostalItemListAdapter mListAdapter;
+  private PullToRefreshLayout mPullToRefreshLayout;
 
   public static PostalListFragment newInstance(int category) {
     PostalListFragment f = new PostalListFragment();
@@ -73,7 +74,7 @@ public class PostalListFragment extends ListFragment {
     setCategory(arguments.getInt("category"));
     setQuery(arguments.getString("query"));
 
-    list = new ArrayList<PostalItem>();
+    mList = new ArrayList<PostalItem>();
   }
 
   @Override
@@ -93,30 +94,18 @@ public class PostalListFragment extends ListFragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    listAdapter = new PostalItemListAdapter(activity, list, app.getUpdatedCods());
-    setListAdapter(listAdapter);
-    listView = (PullToRefreshListView) getView().findViewById(R.id.pull_to_refresh_listview);
-    registerForContextMenu(listView.getRefreshableView());
-    listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-      @Override
-      public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        if (!CarteiroApplication.state.syncing) {
-          Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
-          List<String> cods = new ArrayList<String>();
-          for (PostalItem pi : list) {
-            cods.add(pi.getCod());
-          }
-          intent.putExtra("cods", cods.toArray(new String[] {}));
-          activity.startService(intent);
-        }
-      }
-    });
+    mListAdapter = new PostalItemListAdapter(activity, mList, app.getUpdatedCods());
+    setListAdapter(mListAdapter);
+    registerForContextMenu(getListView());
+
+    mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
+    ActionBarPullToRefresh.from(activity).allChildrenArePullable().listener(this).setup(mPullToRefreshLayout);
 
     handler = new Handler();
     handler.postDelayed(new Runnable() {
       @Override
       public void run() {
-        listAdapter.notifyDataSetChanged();
+        mListAdapter.notifyDataSetChanged();
         handler.postDelayed(this, DateUtils.MINUTE_IN_MILLIS);
       }
     }, DateUtils.MINUTE_IN_MILLIS);
@@ -128,7 +117,7 @@ public class PostalListFragment extends ListFragment {
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
 
-    pi = list.get(position-1);
+    pi = mList.get(position);
     Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi);
     startActivity(intent);
 
@@ -141,7 +130,7 @@ public class PostalListFragment extends ListFragment {
     activity.getMenuInflater().inflate(R.menu.postal_list_context, menu);
 
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    pi = list.get(info.position-1);
+    pi = mList.get(info.position);
 
     menu.setHeaderTitle(pi.getSafeDesc());
     if (CarteiroApplication.state.syncing) {
@@ -197,24 +186,37 @@ public class PostalListFragment extends ListFragment {
     }
   }
 
-  public void updateList() {
-    if (query != null) dh.getSearchResults(list, query);
-    else dh.getPostalList(list, category);
+  @Override
+  public void onRefreshStarted(View view) {
+    if (!CarteiroApplication.state.syncing) {
+      Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
+      List<String> cods = new ArrayList<String>();
+      for (PostalItem pi : mList) {
+        cods.add(pi.getCod());
+      }
+      intent.putExtra("cods", cods.toArray(new String[] {}));
+      activity.startService(intent);
+    }
   }
 
-  public List<PostalItem> getList() { return list; }
-  public int getListSize() { return list.size(); }
+  public void updateList() {
+    if (query != null) dh.getSearchResults(mList, query);
+    else dh.getPostalList(mList, category);
+  }
+
+  public List<PostalItem> getList() { return mList; }
+  public int getListSize() { return mList.size(); }
   public void setCategory(int category) { this.category = category; }
   public void setQuery(String query) { this.query = query; }
   public int getCategory() { return category; }
   public String getQuery() { return query; }
 
-  public void setRefreshing() { listView.setRefreshing(); }
-  public void onRefreshComplete() { listView.onRefreshComplete(); }
+  public void setRefreshing() { mPullToRefreshLayout.setRefreshing(true); }
+  public void onRefreshComplete() { mPullToRefreshLayout.setRefreshComplete(); }
 
   public void refreshList(boolean propagate) {
     updateList();
-    listAdapter.notifyDataSetChanged();
+    mListAdapter.notifyDataSetChanged();
 
     if (propagate) {
       if (activity instanceof MainActivity) {

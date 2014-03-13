@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
+<uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout style="@style/Fill"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptr_layout">
 
-  <com.handmark.pulltorefresh.library.PullToRefreshListView style="@style/ListView"
-    android:id="@+id/pull_to_refresh_listview"
-    android:listSelector="@android:color/transparent"
-    app:ptrHeaderBackground="@color/list_highlight"
-    app:ptrDrawable="@drawable/ptr_rotate" />
+  <ListView style="@style/ListView"
+      android:id="@android:id/list"
+      android:listSelector="@android:color/transparent" />
 
   <TextView style="@style/EmptyText"
-    android:id="@android:id/empty" />
+      android:id="@android:id/empty" />
 
-</LinearLayout>
+</uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout>

@@ -170,6 +170,11 @@
   <string name="search_hint">Pesquisar objetos</string>
   <string name="search_desc">Código e descrição dos seus objetos rastreados</string>
 
+  <!-- Pull to Refresh -->
+  <string name="ptr_pull_text">Puxe para sincronizar</string>
+  <string name="ptr_release_text">Solte para sincronizar</string>
+  <string name="ptr_refreshing_text">Sincronizando…</string>
+
   <!-- Content Description -->
   <string name="desc_status">Status</string>
   <string name="drawer_open">Abrir menu de navegação</string>

@@ -170,6 +170,11 @@
   <string name="search_hint">Search items</string>
   <string name="search_desc">Number and description of your tracked items</string>
 
+  <!-- Pull to Refresh -->
+  <string name="ptr_pull_text">Pull to sync</string>
+  <string name="ptr_release_text">Release to sync</string>
+  <string name="ptr_refreshing_text">Syncing…</string>
+
   <!-- Content Description -->
   <string name="desc_status">Status</string>
   <string name="drawer_open">Open navigation drawer</string>

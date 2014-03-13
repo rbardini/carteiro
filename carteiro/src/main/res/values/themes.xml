@@ -22,6 +22,8 @@
     <item name=        "selectableItemBackground">@drawable/list_selector</item>
     <item name=        "activatedBackgroundIndicator">@drawable/activated_background</item>
     <item name=        "actionBarItemBackground">@drawable/list_selector</item>
+
+    <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
   </style>
 
 </resources>

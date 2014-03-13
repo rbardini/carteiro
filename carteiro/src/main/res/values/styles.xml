@@ -158,4 +158,10 @@
     <item name="android:textStyle">italic</item>
   </style>
 
+  <style name="Widget.Custom.PtrHeader" parent="android:Widget">
+    <item name="ptrPullText">@string/ptr_pull_text</item>
+    <item name="ptrReleaseText">@string/ptr_release_text</item>
+    <item name="ptrRefreshingText">@string/ptr_refreshing_text</item>
+    <item name="ptrProgressBarColor">@color/aside</item>
+  </style>
 </resources>

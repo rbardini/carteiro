@@ -1,2 +1,1 @@
-include ':pullToRefresh'
 include ':carteiro'
