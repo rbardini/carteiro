@@ -19,6 +19,7 @@ public final class PostalUtils {
     public static final int AVAILABLE   = 0x20;
     public static final int DELIVERED   = 0x40;
     public static final int UNDELIVERED = 0x80;
+    public static final int ARCHIVED    = 0x100;
 
     private static final Map<Integer, String[]> StatusesMap = buildStatusesMap();
     private static final Map<Integer, Integer> TitleMap = buildTitleMap();
@@ -95,6 +96,7 @@ public final class PostalUtils {
       map.put(IRREGULAR, R.drawable.ic_action_warning);
       map.put(UNKNOWN, R.drawable.ic_action_help);
       map.put(RETURNED, R.drawable.ic_action_replay);
+      map.put(ARCHIVED, R.drawable.ic_action_archive);
 
       return map;
     }
@@ -109,6 +111,7 @@ public final class PostalUtils {
       map.put(IRREGULAR, R.string.category_irregular);
       map.put(UNKNOWN, R.string.category_unknown);
       map.put(RETURNED, R.string.category_returned);
+      map.put(ARCHIVED, R.string.category_archived);
 
       return map;
     }

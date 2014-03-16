@@ -29,6 +29,7 @@
   <string name="category_irregular">Irregulares</string>
   <string name="category_unknown">Desconhecidos</string>
   <string name="category_returned">Devolvidos</string>
+  <string name="category_archived">Arquivados</string>
 
   <!-- Add Activity -->
   <string name="title_add">Adicionar objeto</string>
@@ -84,6 +85,8 @@
   <string name="toast_item_added">%s adicionado.</string>
   <string name="toast_item_renamed">%1$s renomeado para %2$s.</string>
   <string name="toast_item_renamed_empty">Descrição removida de %s.</string>
+  <string name="toast_item_archived">%s arquivado.</string>
+  <string name="toast_item_unarchived">%1$s movido para %2$s.</string>
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_sync_error">Erro de sincronização: %s</string>
@@ -97,6 +100,8 @@
   <string name="opt_view_place">Ver localização no mapa</string>
   <string name="opt_share_status">Compartilhar status</string>
   <string name="opt_open_websro">Abrir SRO dos Correios</string>
+  <string name="opt_archive_item">Arquivar</string>
+  <string name="opt_unarchive_item">Mover para %s</string>
   <string name="opt_delete_item">Excluir</string>
 
   <!-- Dialogs -->

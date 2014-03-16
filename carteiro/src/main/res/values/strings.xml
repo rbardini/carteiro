@@ -29,6 +29,7 @@
   <string name="category_irregular">Irregular</string>
   <string name="category_unknown">Unknown</string>
   <string name="category_returned">Returned</string>
+  <string name="category_archived">Archived</string>
 
   <!-- Add Activity -->
   <string name="title_add">Add item</string>
@@ -84,6 +85,8 @@
   <string name="toast_item_added">%s added.</string>
   <string name="toast_item_renamed">%1$s renamed to %2$s.</string>
   <string name="toast_item_renamed_empty">Description removed from %s.</string>
+  <string name="toast_item_archived">%s archived.</string>
+  <string name="toast_item_unarchived">%1$s moved to %2$s.</string>
   <string name="toast_item_deleted">%s deleted.</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
   <string name="toast_sync_error">Sync error: %s</string>
@@ -97,6 +100,8 @@
   <string name="opt_view_place">View map location</string>
   <string name="opt_share_status">Share status</string>
   <string name="opt_open_websro">Open Correios SRO</string>
+  <string name="opt_archive_item">Archive</string>
+  <string name="opt_unarchive_item">Move to %s</string>
   <string name="opt_delete_item">Delete</string>
 
   <!-- Dialogs -->

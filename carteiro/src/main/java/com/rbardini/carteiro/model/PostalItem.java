@@ -17,6 +17,7 @@ public class PostalItem implements Serializable {
   private String info;
   private String status;
   private boolean fav;
+  private boolean archived;
 
   public PostalItem() {}
 
@@ -24,24 +25,28 @@ public class PostalItem implements Serializable {
     this.cod = cod;
     this.desc = null;
     this.fav = false;
+    this.archived = false;
   }
 
   public PostalItem(String cod, String desc) {
     this.cod = cod;
     this.desc = desc;
     this.fav = false;
+    this.archived = false;
   }
 
   public PostalItem(String cod, boolean fav) {
     this.cod = cod;
     this.desc = null;
     this.fav = fav;
+    this.archived = false;
   }
 
   public PostalItem(String cod, String desc, boolean fav) {
     this.cod = cod;
     this.desc = desc;
     this.fav = fav;
+    this.archived = false;
   }
 
   public PostalItem(String cod, String desc, RegistroRastreamento rr, boolean fav) {
@@ -52,9 +57,10 @@ public class PostalItem implements Serializable {
     this.info = rr.getDetalhe();
     this.status = rr.getAcao();
     this.fav = fav;
+    this.archived = false;
   }
 
-  public PostalItem(String cod, String desc, Date date, String loc, String info, String status, boolean fav) {
+  public PostalItem(String cod, String desc, Date date, String loc, String info, String status, boolean fav, boolean archived) {
     this.cod = cod;
     this.desc = desc;
     this.date = date;
@@ -62,6 +68,7 @@ public class PostalItem implements Serializable {
     this.info = info;
     this.status = status;
     this.fav = fav;
+    this.archived = archived;
   }
 
   public String getCod() { return cod; }
@@ -89,6 +96,10 @@ public class PostalItem implements Serializable {
   public boolean isFav() { return fav; }
   public void setFav(boolean fav) { this.fav = fav; }
   public boolean toggleFav() { return this.fav = !this.fav; }
+
+  public boolean isArchived() { return archived; }
+  public void setArchived(boolean archived) { this.archived = archived; }
+  public boolean toggleArchived() { return this.archived = !this.archived; }
 
   public RegistroRastreamento getReg() {
     RegistroRastreamento rr = new RegistroRastreamento();

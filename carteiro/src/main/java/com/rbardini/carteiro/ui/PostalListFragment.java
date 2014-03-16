@@ -136,9 +136,9 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
     if (CarteiroApplication.state.syncing) {
       menu.findItem(R.id.refresh_opt).setEnabled(false);
     }
-    menu.findItem(R.id.fav_opt).setTitle(
-      String.format(getString(R.string.opt_toggle_fav), getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as))
-    );
+    menu.findItem(R.id.fav_opt).setTitle(getString(R.string.opt_toggle_fav, getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as)));
+    menu.findItem(R.id.archive_opt).setTitle(pi.isArchived() ? getString(R.string.opt_unarchive_item, getString(R.string.category_all))
+                                                             : getString(R.string.opt_archive_item));
   }
 
   @Override
@@ -175,6 +175,13 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
       case R.id.websro_opt:
         Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi).setAction("webSRO");
         startActivity(intent);
+        return true;
+
+      case R.id.archive_opt:
+        dh.togglePostalItemArchived(pi.getCod());
+        refreshList(true);
+        UIUtils.showToast(activity, pi.toggleArchived() ? getString(R.string.toast_item_archived, pi.getSafeDesc())
+                                                        : getString(R.string.toast_item_unarchived, pi.getSafeDesc(), getString(R.string.category_all)));
         return true;
 
       case R.id.delete_opt:

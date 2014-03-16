@@ -199,7 +199,8 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     getMenuInflater().inflate(R.menu.record_edit_context, menu);
 
     menu.setHeaderTitle(pi.getSafeDesc());
-    menu.findItem(R.id.fav_opt).setTitle(String.format(getString(R.string.opt_toggle_fav), getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as)));
+    menu.findItem(R.id.archive_opt).setTitle(pi.isArchived() ? getString(R.string.opt_unarchive_item, getString(R.string.category_all))
+                                                             : getString(R.string.opt_archive_item));
   }
 
   @Override
@@ -209,11 +210,11 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
         PostalItemDialogFragment.newInstance(R.id.rename_opt, pi).show(mFragManager, PostalItemDialogFragment.TAG);
         return true;
 
-      case R.id.fav_opt:
-        app.getDatabaseHelper().togglePostalItemFav(pi.getCod());
-        pi.toggleFav();
-        supportInvalidateOptionsMenu();
+      case R.id.archive_opt:
+        app.getDatabaseHelper().togglePostalItemArchived(pi.getCod());
         app.setUpdatedList();
+        UIUtils.showToast(this, pi.toggleArchived() ? getString(R.string.toast_item_archived, pi.getSafeDesc())
+                                                    : getString(R.string.toast_item_unarchived, pi.getSafeDesc(), getString(R.string.category_all)));
         return true;
 
       case R.id.delete_opt:

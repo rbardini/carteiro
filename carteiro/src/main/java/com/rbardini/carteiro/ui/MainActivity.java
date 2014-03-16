@@ -68,7 +68,7 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     mDrawerItems = new int[] {
       Category.ALL,       Category.FAVORITES, Category.AVAILABLE,
       Category.DELIVERED, Category.IRREGULAR, Category.UNKNOWN,
-      Category.RETURNED
+      Category.RETURNED,  Category.ARCHIVED
     };
     mDrawerList.setAdapter(new DrawerListAdapter(this, mDrawerItems));
     mDrawerList.setOnItemClickListener(new OnItemClickListener() {

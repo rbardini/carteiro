@@ -1,14 +1,5 @@
 package com.rbardini.carteiro.db;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,18 +9,28 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
-import android.text.TextUtils;
 import android.util.Log;
+
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 public class DatabaseHelper {
   public static final String TAG = "CarteiroDatabase";
   public static final String DB_NAME = "carteiro.db";
-  public static final int DB_VERSION = 1;
+  public static final int DB_VERSION = 2;
 
   public static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
@@ -65,7 +66,7 @@ public class DatabaseHelper {
       instance = new DatabaseHelper(context);
     }
     return instance;
-    }
+  }
 
   public void beginTransaction() {
     db.beginTransaction();
@@ -140,6 +141,13 @@ public class DatabaseHelper {
     }
   }
 
+  public void togglePostalItemArchived(String cod) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = NOT archived WHERE cod = ?", new Object[] {cod});
+    if (backupAvailable) {
+      bm.dataChanged();
+    }
+  }
+
   public int deletePostalItem(String cod) {
     int rows = db.delete(POSTAL_ITEM_TABLE, "cod=?", new String[] {cod});
     if (rows != 0 && backupAvailable) {
@@ -178,7 +186,7 @@ public class DatabaseHelper {
     if (c.moveToFirst()) {
       try {
         pi = new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)),
-              c.getString(3), c.getString(4), c.getString(5), c.getInt(6)>0);
+              c.getString(3), c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0);
       } catch (ParseException e) {}
     }
     if (!c.isClosed()) {
@@ -189,19 +197,19 @@ public class DatabaseHelper {
 
   public String[] getPostalItemCodes(int flags) {
     List<String> cods = new ArrayList<String>();
-    String selection = null;
-    String[] selectionArgs = null;
+    String selection = "archived = ?";
+    String[] selectionArgs = new String[] {"0"};
 
     if (((flags & Category.FAVORITES) != 0) && (flags & Category.UNDELIVERED) != 0) {
-      selection = "fav = ? AND status NOT IN (?, ?)";
-      selectionArgs = new String[] {"1", Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
+      selection += " AND fav = ? AND status NOT IN (?, ?)";
+      selectionArgs = new String[] {"0", "1", Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
     } else {
       if ((flags & Category.FAVORITES) != 0) {
-        selection = "fav = ?";
-        selectionArgs = new String[] {"1"};
+        selection += " AND fav = ?";
+        selectionArgs = new String[] {"0", "1"};
       } else if ((flags & Category.UNDELIVERED) != 0) {
-        selection = "status NOT IN (?, ?)";
-        selectionArgs = new String[] {Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
+        selection += " AND status NOT IN (?, ?)";
+        selectionArgs = new String[] {"0", Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
       }
     }
 
@@ -225,7 +233,7 @@ public class DatabaseHelper {
       do {
         try {
           list.add(new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)),
-                      c.getString(3), c.getString(4), c.getString(5), c.getInt(6)>0));
+                      c.getString(3), c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0));
         } catch (ParseException e) {
           Log.e(TAG, e.getMessage());
         }
@@ -239,25 +247,33 @@ public class DatabaseHelper {
   }
 
   public int getPostalList(List<PostalItem> list, int category) {
-    String selection = null;
-    String[] selectionArgs = null;
+    String selection;
+    String[] selectionArgs;
 
-    switch(category) {
+    switch (category) {
       case Category.ALL:
+        selection = "archived = ?";
+        selectionArgs = new String[] {"0"};
         break;
       case Category.FAVORITES:
-        selection = "fav = ?";
+        selection = "archived = ? AND fav = ?";
+        selectionArgs = new String[] {"0", "1"};
+        break;
+      case Category.ARCHIVED:
+        selection = "archived = ?";
         selectionArgs = new String[] {"1"};
         break;
       default:
-        selectionArgs = Category.getStatuses(category);
-        if (selectionArgs != null) {
-          String arguments = "?";
-          for(int i=1; i<selectionArgs.length; i++) {
-            arguments += ", ?";
-          }
-          selection = "status IN ("+arguments+")";
+        selection = "archived = ?";
+        String[] statuses = Category.getStatuses(category);
+        if (statuses != null) {
+          selection += " AND status IN (";
+          for (int i=0; i<statuses.length-1; i++) selection += "?, ";
+          selection += "?)";
         }
+        selectionArgs = new String[(statuses != null ? statuses.length : 0) + 1];
+        selectionArgs[0] = "0";
+        for (int i=0; i<statuses.length; i++) selectionArgs[i+1] = statuses[i];
         break;
     }
 
@@ -349,82 +365,77 @@ public class DatabaseHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-      db.execSQL("CREATE TABLE IF NOT EXISTS "+POSTAL_ITEM_TABLE+" ("
-          +"cod TEXT NOT NULL PRIMARY KEY, "
-          +"desc TEXT, "
-          +"fav BOOLEAN, "
-          +"added DATETIME NOT NULL DEFAULT (DATETIME('now','localtime')))"
-      );
-
-      db.execSQL("CREATE TABLE IF NOT EXISTS "+POSTAL_RECORD_TABLE+" ("
-          +"cod TEXT NOT NULL, "
-          +"pos INTEGER NOT NULL, "
-          +"date DATETIME NOT NULL DEFAULT (DATETIME('now','localtime')), "
-          +"status TEXT NOT NULL COLLATE NOCASE, "
-          +"loc TEXT, "
-          +"info TEXT, "
-          +"PRIMARY KEY (cod, pos) ON CONFLICT REPLACE)"
-      );
-
-      db.execSQL("CREATE VIEW IF NOT EXISTS "+POSTAL_LIST_VIEW+" AS "
-          +"SELECT pi.cod AS cod, pi.desc AS desc, pr.date AS date, pr.loc AS loc, pr.info AS info, pr.status AS status, pi.fav AS fav "
-          +"FROM "+POSTAL_ITEM_TABLE+" pi JOIN "+POSTAL_RECORD_TABLE+" pr ON pi.cod = pr.cod "
-          +"WHERE pr.pos = ("
-          +  "SELECT MAX(pr2.pos) FROM "+POSTAL_RECORD_TABLE+" pr2 WHERE pr2.cod = pi.cod"
-          +") "
-          +"ORDER BY pr.date DESC"
-      );
-
-      db.execSQL("CREATE TRIGGER IF NOT EXISTS "+DEL_POSTAL_RECORDS_TRIGGER+" "
-          +"AFTER DELETE ON "+POSTAL_ITEM_TABLE+" "
-          +"BEGIN "
-          +  "DELETE FROM "+POSTAL_RECORD_TABLE+" WHERE cod = OLD.cod; "
-          +"END;"
-      );
+      db.execSQL(Query.getCreate(POSTAL_ITEM_TABLE));
+      db.execSQL(Query.getCreate(POSTAL_RECORD_TABLE));
+      db.execSQL(Query.getCreate(POSTAL_LIST_VIEW));
+      db.execSQL(Query.getCreate(DEL_POSTAL_RECORDS_TRIGGER));
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-      List<String> postalItemColumns, postalRecordColumns;
-      String projection;
+      Log.i(TAG, "Upgrading database from version "+oldVersion+" to version "+newVersion);
 
-      db.beginTransaction();
-      Log.i(TAG, "Upgrading database from "+oldVersion+" to "+newVersion);
-
-      // Create everything if run for the first time
-      onCreate(db);
-
-      // Grab existing column names from data tables in order to restore later
-      postalItemColumns = DatabaseHelper.GetColumns(db, POSTAL_ITEM_TABLE);
-      postalRecordColumns = DatabaseHelper.GetColumns(db, POSTAL_RECORD_TABLE);
-
-      // Backup data tables
-      db.execSQL("ALTER TABLE "+POSTAL_ITEM_TABLE+" RENAME TO temp_"+POSTAL_ITEM_TABLE);
-      db.execSQL("ALTER TABLE "+POSTAL_RECORD_TABLE+" RENAME TO temp_"+POSTAL_RECORD_TABLE);
-
-      // Drop everything that can be recreated without loss
-      db.execSQL("DROP VIEW IF EXISTS "+POSTAL_LIST_VIEW);
-      db.execSQL("DROP TRIGGER IF EXISTS "+DEL_POSTAL_RECORDS_TRIGGER);
-
-      // Upgrade database
-      onCreate(db);
-
-      // Get the intersection with the new columns, now taken from the upgraded tables
-      postalItemColumns.retainAll(DatabaseHelper.GetColumns(db, POSTAL_ITEM_TABLE));
-      postalRecordColumns.retainAll(DatabaseHelper.GetColumns(db, POSTAL_RECORD_TABLE));
-
-      // Restore data from backup tables
-      projection = TextUtils.join(", ", postalItemColumns);
-      db.execSQL("INSERT INTO "+POSTAL_ITEM_TABLE+" ("+projection+") SELECT "+projection+" from temp_"+POSTAL_ITEM_TABLE);
-      projection = TextUtils.join(", ", postalRecordColumns);
-      db.execSQL("INSERT INTO "+POSTAL_RECORD_TABLE+" ("+projection+") SELECT "+projection+" from temp_"+POSTAL_RECORD_TABLE);
-
-      // Drop backup tables
-      db.execSQL("DROP TABLE IF EXISTS temp_"+POSTAL_ITEM_TABLE);
-      db.execSQL("DROP TABLE IF EXISTS temp_"+POSTAL_RECORD_TABLE);
-
-      db.setTransactionSuccessful();
-      db.endTransaction();
+      switch (oldVersion) {
+        case 1:
+          db.execSQL("ALTER TABLE " + POSTAL_ITEM_TABLE + " ADD COLUMN archived BOOLEAN NOT NULL DEFAULT 0");
+          db.execSQL(Query.getDrop(POSTAL_LIST_VIEW));
+          db.execSQL(Query.getCreate(POSTAL_LIST_VIEW));
+      }
     }
+  }
+
+  private static final class Query {
+    private static final Map<String, String> CreateMap = buildCreateMap();
+    private static final Map<String, String> DropMap = buildDropMap();
+
+    private static Map<String, String> buildCreateMap() {
+      Map<String, String> map = new HashMap<String, String>();
+
+      map.put(POSTAL_ITEM_TABLE, "CREATE TABLE IF NOT EXISTS " + POSTAL_ITEM_TABLE + " ("
+          + "cod TEXT NOT NULL PRIMARY KEY, "
+          + "desc TEXT, "
+          + "fav BOOLEAN, "
+          + "added DATETIME NOT NULL DEFAULT (DATETIME('now','localtime')), "
+          + "archived BOOLEAN NOT NULL DEFAULT 0)");
+
+      map.put(POSTAL_RECORD_TABLE, "CREATE TABLE IF NOT EXISTS " + POSTAL_RECORD_TABLE + " ("
+          + "cod TEXT NOT NULL, "
+          + "pos INTEGER NOT NULL, "
+          + "date DATETIME NOT NULL DEFAULT (DATETIME('now','localtime')), "
+          + "status TEXT NOT NULL COLLATE NOCASE, "
+          + "loc TEXT, "
+          + "info TEXT, "
+          + "PRIMARY KEY (cod, pos) ON CONFLICT REPLACE)");
+
+      map.put(POSTAL_LIST_VIEW, "CREATE VIEW IF NOT EXISTS " + POSTAL_LIST_VIEW + " AS "
+          + "SELECT pi.cod AS cod, pi.desc AS desc, pr.date AS date, pr.loc AS loc, pr.info AS info, pr.status AS status, pi.fav AS fav, pi.archived AS archived "
+          + "FROM " + POSTAL_ITEM_TABLE + " pi JOIN " + POSTAL_RECORD_TABLE + " pr ON pi.cod = pr.cod "
+          + "WHERE pr.pos = ("
+          +   "SELECT MAX(pr2.pos) FROM " + POSTAL_RECORD_TABLE + " pr2 WHERE pr2.cod = pi.cod"
+          + ") "
+          + "ORDER BY pr.date DESC");
+
+      map.put(DEL_POSTAL_RECORDS_TRIGGER, "CREATE TRIGGER IF NOT EXISTS " + DEL_POSTAL_RECORDS_TRIGGER + " "
+          + "AFTER DELETE ON " + POSTAL_ITEM_TABLE + " "
+          + "BEGIN "
+          +   "DELETE FROM " + POSTAL_RECORD_TABLE + " WHERE cod = OLD.cod; "
+          + "END;");
+
+      return map;
+    }
+
+    private static Map<String, String> buildDropMap() {
+      Map<String, String> map = new HashMap<String, String>();
+
+      map.put(POSTAL_ITEM_TABLE, "DROP TABLE IF EXISTS " + POSTAL_ITEM_TABLE);
+      map.put(POSTAL_RECORD_TABLE, "DROP TABLE IF EXISTS " + POSTAL_RECORD_TABLE);
+      map.put(POSTAL_LIST_VIEW, "DROP VIEW IF EXISTS " + POSTAL_LIST_VIEW);
+      map.put(DEL_POSTAL_RECORDS_TRIGGER, "DROP TRIGGER IF EXISTS " + DEL_POSTAL_RECORDS_TRIGGER);
+
+      return map;
+    }
+
+    public static String getCreate(String entity) { return CreateMap.get(entity); }
+    public static String getDrop(String entity) { return DropMap.get(entity); }
   }
 }
