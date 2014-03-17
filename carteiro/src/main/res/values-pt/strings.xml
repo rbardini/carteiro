@@ -7,6 +7,7 @@
   <string name="rename_btn">Renomear</string>
   <string name="delete_btn">Excluir</string>
   <string name="install_btn">Instalar</string>
+  <string name="undo_btn">Desfazer</string>
   <string name="quit_btn">Sair</string>
 
   <!-- Options Menu -->
@@ -90,6 +91,10 @@
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_sync_error">Erro de sincronização: %s</string>
+
+  <!-- Labels -->
+  <string name="label_item_archived">Arquivado</string>
+  <string name="label_item_deleted">Excluído</string>
 
   <!-- Context Menu -->
   <string name="opt_refresh_item">Atualizar</string>

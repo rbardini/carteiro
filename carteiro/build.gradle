@@ -25,5 +25,6 @@ dependencies {
   compile 'com.android.support:support-v4:+'
   compile 'com.actionbarsherlock:actionbarsherlock:+@aar'
   compile 'com.github.chrisbanes.actionbarpulltorefresh:extra-abs:+'
+  compile 'com.nhaarman.listviewanimations:library:+'
   compile 'se.emilsjolander:stickylistheaders:+'
 }

@@ -148,6 +148,13 @@ public class DatabaseHelper {
     }
   }
 
+  public void archivePostalItem(String cod) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = ? WHERE cod = ?", new Object[] {1, cod});
+    if (backupAvailable) {
+      bm.dataChanged();
+    }
+  }
+
   public int deletePostalItem(String cod) {
     int rows = db.delete(POSTAL_ITEM_TABLE, "cod=?", new String[] {cod});
     if (rows != 0 && backupAvailable) {

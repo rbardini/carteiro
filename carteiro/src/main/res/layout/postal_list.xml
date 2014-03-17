@@ -4,7 +4,8 @@
     android:id="@+id/ptr_layout">
 
   <ListView style="@style/ListView"
-      android:id="@android:id/list" />
+      android:id="@android:id/list"
+      android:background="@color/list_background" />
 
   <TextView style="@style/EmptyText"
       android:id="@android:id/empty" />

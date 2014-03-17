@@ -1,9 +1,6 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -25,11 +25,14 @@ import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public class PostalListFragment extends ListFragment implements OnRefreshListener {
+public class PostalListFragment extends ListFragment implements OnRefreshListener, DeleteItemCallback {
   private CarteiroApplication app;
   private FragmentActivity activity;
   private Handler handler;
@@ -41,6 +44,7 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
 
   private List<PostalItem> mList;
   private PostalItemListAdapter mListAdapter;
+  private ContextualUndoAdapter mUndoAdapter;
   private PullToRefreshLayout mPullToRefreshLayout;
 
   public static PostalListFragment newInstance(int category) {
@@ -95,8 +99,11 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
     super.onActivityCreated(savedInstanceState);
 
     mListAdapter = new PostalItemListAdapter(activity, mList, app.getUpdatedCods());
-    setListAdapter(mListAdapter);
     registerForContextMenu(getListView());
+
+    mUndoAdapter = new ContextualUndoAdapter(mListAdapter, shouldDeleteItems() ? R.layout.undo_delete_row : R.layout.undo_archive_row, R.id.undo_button, this);
+    mUndoAdapter.setAbsListView(getListView());
+    getListView().setAdapter(mUndoAdapter);
 
     mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
     ActionBarPullToRefresh.from(activity).allChildrenArePullable().listener(this).setup(mPullToRefreshLayout);
@@ -114,14 +121,18 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
   }
 
   @Override
+  public void onPause() {
+    super.onPause();
+    mUndoAdapter.animateRemovePendingItem();
+  }
+
+  @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
 
     pi = mList.get(position);
     Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi);
     startActivity(intent);
-
-    v.setBackgroundColor(Color.TRANSPARENT);
   }
 
   @Override
@@ -201,9 +212,19 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
       for (PostalItem pi : mList) {
         cods.add(pi.getCod());
       }
-      intent.putExtra("cods", cods.toArray(new String[] {}));
+      intent.putExtra("cods", cods.toArray(new String[cods.size()]));
       activity.startService(intent);
     }
+  }
+
+  @Override
+  public void deleteItem(int position) {
+    PostalItem pi = mList.get(position);
+
+    if (shouldDeleteItems()) dh.deletePostalItem(pi.getCod());
+    else dh.archivePostalItem(pi.getCod());
+
+    mListAdapter.remove(position);
   }
 
   public void updateList() {
@@ -217,11 +238,13 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
   public void setQuery(String query) { this.query = query; }
   public int getCategory() { return category; }
   public String getQuery() { return query; }
+  public boolean shouldDeleteItems() { return (query != null) || (category == Category.ARCHIVED); }
 
   public void setRefreshing() { mPullToRefreshLayout.setRefreshing(true); }
   public void onRefreshComplete() { mPullToRefreshLayout.setRefreshComplete(); }
 
   public void refreshList(boolean propagate) {
+    mUndoAdapter.removePendingItem();
     updateList();
     mListAdapter.notifyDataSetChanged();
 
