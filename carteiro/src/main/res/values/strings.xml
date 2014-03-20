@@ -158,16 +158,14 @@
   <string name="pref_vibrate_summary">Vibrate on incoming notifications</string>
 
   <string name="pref_about_category">About</string>
+  <string name="pref_about_title">%1$s %2$s</string>
+  <string name="pref_about_summary">© %d Rafael Bardini</string>
   <string name="pref_blog_title">Visit the official blog</string>
   <string name="pref_facebook_title">Like Carteiro on Facebook</string>
   <string name="pref_twitter_title">Follow @carteiroapp on Twitter</string>
   <string name="pref_gplus_title">Join Google+ community</string>
   <string name="pref_feedback_title">Give your feedback</string>
   <string name="pref_rate_title">Rate the app</string>
-
-  <string name="pref_version_category">Version</string>
-  <string name="pref_version_title">%1$s %2$s</string>
-  <string name="pref_version_summary">© %d Rafael Bardini</string>
 
   <!-- Search Activity -->
   <string name="title_search">Items</string>

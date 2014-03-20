@@ -45,8 +45,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
 
     setRefreshIntervalPreference();
     setNotificationSoundPreference();
-    setAboutPreference();
-    setVersionPreference();
+    setAboutPreferences();
 
     Preference ringPref = findPreference(getString(R.string.pref_key_ringtone));
     ringPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -123,61 +122,17 @@ public class PreferencesActivity extends SherlockPreferenceActivity implements O
     preference.setSummary(ringtoneTitle);
   }
 
-  private void setAboutPreference() {
-    findPreference(getString(R.string.pref_key_blog)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openURL(PreferencesActivity.this, getString(R.string.blog_url));
-        return true;
-      }
-    });
-    findPreference(getString(R.string.pref_key_facebook)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openURL(PreferencesActivity.this, getString(R.string.facebook_url));
-        return true;
-      }
-    });
-    findPreference(getString(R.string.pref_key_twitter)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openURL(PreferencesActivity.this, getString(R.string.twitter_url));
-        return true;
-      }
-    });
-    findPreference(getString(R.string.pref_key_gplus)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openURL(PreferencesActivity.this, getString(R.string.gplus_url));
-        return true;
-      }
-    });
-    findPreference(getString(R.string.pref_key_feedback)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openURL(PreferencesActivity.this, getString(R.string.feedback_url));
-        return true;
-      }
-    });
-    findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        UIUtils.openMarket(PreferencesActivity.this);
-        return true;
-      }
-    });
-  }
-
-  private void setVersionPreference() {
-    Preference pref = findPreference(getString(R.string.pref_key_version));
+  private void setAboutPreferences() {
+    Preference pref = findPreference(getString(R.string.pref_key_about));
     try {
       String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-      pref.setTitle(String.format(getString(R.string.pref_version_title), getString(R.string.app_name), version));
+      pref.setTitle(String.format(getString(R.string.pref_about_title), getString(R.string.app_name), version));
     } catch (NameNotFoundException e) {
       pref.setTitle(getString(R.string.app_name));
     }
-    pref.setSummary(String.format(getString(R.string.pref_version_summary), new Date().getYear()+1900));
-    pref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    pref.setSummary(String.format(getString(R.string.pref_about_summary), new Date().getYear()+1900));
+
+    findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         UIUtils.openMarket(PreferencesActivity.this);
