@@ -1,10 +1,10 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.Locale;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -24,6 +25,8 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.UIUtils;
+
+import java.util.Locale;
 
 public class RecordActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
@@ -50,6 +53,8 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     setSupportProgressBarIndeterminateVisibility(false);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
     registerForContextMenu(findViewById(R.id.hidden_edit_opt));
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.header, false);
 
     app = (CarteiroApplication) getApplication();
 

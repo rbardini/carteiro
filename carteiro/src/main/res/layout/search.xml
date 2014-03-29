@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container"
-    android:id="@+id/search_list">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Fill"
+    android:id="@+id/root_layout"
+    android:background="@color/primary">
 
-</LinearLayout>
+  <FrameLayout style="@style/Fill"
+      android:id="@+id/search_list"
+      android:background="@color/background" />
+
+</FrameLayout>

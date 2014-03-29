@@ -1,12 +1,12 @@
 package com.rbardini.carteiro.ui;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SearchView;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -29,6 +30,8 @@ import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class MainActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
@@ -49,6 +52,8 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
 
     app = (CarteiroApplication) getApplication();
     mActionBar = getSupportActionBar();

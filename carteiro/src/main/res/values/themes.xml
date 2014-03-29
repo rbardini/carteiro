@@ -26,4 +26,6 @@
     <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
   </style>
 
+  <style name="Theme.Carteiro.Translucent"></style>
+
 </resources>

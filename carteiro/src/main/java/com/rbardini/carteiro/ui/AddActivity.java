@@ -1,17 +1,12 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.alfredlibrary.utilitarios.correios.Rastreamento;
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -36,6 +31,12 @@ import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidator;
 
+import org.alfredlibrary.utilitarios.correios.Rastreamento;
+import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
+
+import java.util.List;
+import java.util.Locale;
+
 public class AddActivity extends SherlockFragmentActivity implements AddDialogFragment.OnAddDialogActionListener, TextWatcher {
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
 
@@ -57,6 +58,8 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
 
         setContentView(R.layout.add);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
 
         app = (CarteiroApplication) getApplication();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

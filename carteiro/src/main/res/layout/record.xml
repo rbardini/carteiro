@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container">
 
-  <RelativeLayout style="@style/Record.Header">
+  <RelativeLayout style="@style/Record.Header"
+    android:id="@+id/header">
 
     <LinearLayout style="@style/Wrap"
       android:layout_marginLeft="?attr/actionBarSize"
@@ -10,10 +11,10 @@
       <TextView style="@style/Wrap"
         android:id="@+id/legend"
         android:textColor="@color/actionbar" />
-  
+
       <TextView style="@style/Record.Heading.Title"
         android:id="@+id/title" />
-  
+
       <TextView style="@style/Record.Heading.Subtitle"
         android:id="@+id/subtitle"
         android:drawablePadding="4dp" />

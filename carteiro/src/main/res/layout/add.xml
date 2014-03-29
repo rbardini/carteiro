@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container.Inner.Center">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Fill"
+    android:id="@+id/root_layout"
+    android:background="@color/primary">
 
-  <EditText style="@style/TrkCodeField"
-    android:id="@+id/trk_code_fld"
-    android:textColor="@color/primary" />
+  <LinearLayout style="@style/Container.Inner.Center"
+      android:background="@color/background">
 
-  <EditText style="@style/ItemDescField"
-    android:id="@+id/item_desc_fld"
-    android:textColor="@color/primary" />
+    <EditText style="@style/TrkCodeField"
+        android:id="@+id/trk_code_fld"
+        android:textColor="@color/primary" />
 
-  <RelativeLayout style="@style/Stretch">
+    <EditText style="@style/ItemDescField"
+        android:id="@+id/item_desc_fld"
+        android:textColor="@color/primary" />
 
-    <CheckBox style="@style/Star.Add"
-      android:id="@+id/star_chkbox" />
+    <RelativeLayout style="@style/Stretch">
 
-    <Button style="@style/Wrap"
-      android:id="@+id/add_item_btn"
-      android:text="@string/add_btn"
-      android:layout_alignParentRight="true"
-      android:onClick="onAddPostalItemClick" />
+      <CheckBox style="@style/Star.Add"
+          android:id="@+id/star_chkbox" />
 
-  </RelativeLayout>
+      <Button style="@style/Wrap"
+          android:id="@+id/add_item_btn"
+          android:text="@string/add_btn"
+          android:layout_alignParentRight="true"
+          android:onClick="onAddPostalItemClick" />
 
-</LinearLayout>
+    </RelativeLayout>
+
+  </LinearLayout>
+
+</FrameLayout>
