@@ -1,11 +1,9 @@
 package com.rbardini.carteiro.svc;
 
-import android.annotation.TargetApi;
 import android.app.backup.BackupManager;
 import android.content.Context;
 import android.util.Log;
 
-@TargetApi(8)
 public class BackupManagerWrapper {
   public static final String TAG = "BackupManagerWrapper";
 

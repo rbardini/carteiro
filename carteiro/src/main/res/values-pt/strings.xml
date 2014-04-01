@@ -7,6 +7,8 @@
   <string name="rename_btn">Renomear</string>
   <string name="delete_btn">Excluir</string>
   <string name="install_btn">Instalar</string>
+  <string name="backup_btn">Criar</string>
+  <string name="restore_btn">Restaurar</string>
   <string name="undo_btn">Desfazer</string>
   <string name="quit_btn">Sair</string>
 
@@ -91,6 +93,13 @@
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_sync_error">Erro de sincronização: %s</string>
+  <string name="toast_backup_created">Backup criado com sucesso na pasta %s.</string>
+  <string name="toast_backup_restored">Backup restaurado com sucesso.</string>
+  <string name="toast_backup_creation_fail">Falha ao criar backup: %s</string>
+  <string name="toast_backup_restore_fail">Falha ao restaurar backup: %s</string>
+  <string name="toast_backup_not_found">Nenhum backup encontrado.</string>
+  <string name="toast_external_storage_write_error">Armazenamento externo não montado ou sem acesso de escrita.</string>
+  <string name="toast_external_storage_read_error">Armazenamento externo não montado ou sem acesso de leitura.</string>
 
   <!-- Labels -->
   <string name="label_item_archived">Arquivado</string>
@@ -112,6 +121,10 @@
   <!-- Dialogs -->
   <string name="title_alert_delete">Excluir %s?</string>
   <string name="msg_alert_delete">O histórico do objeto também será apagado.</string>
+  <string name="msg_alert_create_backup">Digite o nome do arquivo de backup:</string>
+  <string name="title_alert_select_backup">Escolha um backup</string>
+  <string name="title_alert_restore_backup">Restaurar backup?</string>
+  <string name="msg_alert_restore_backup"><![CDATA[Tem certeza que deseja restaurar o seguinte backup?<br/><br/><b>%s</b><br/><br/>Sua lista de rastreamento atual será perdida.]]></string>
 
   <!-- Record Activity -->
   <string name="title_record">Histórico do objeto</string>
@@ -161,6 +174,12 @@
   <string name="pref_lights_summary">Piscar LED ao receber notificações</string>
   <string name="pref_vibrate_title">Vibrar</string>
   <string name="pref_vibrate_summary">Vibrar ao receber notificações</string>
+
+  <string name="pref_backup_category">Configurações de backup</string>
+  <string name="pref_create_backup_title">Criar backup</string>
+  <string name="pref_create_backup_summary">Exportar dados para o armazenamento externo</string>
+  <string name="pref_restore_backup_title">Restaurar backup</string>
+  <string name="pref_restore_backup_summary">Importar dados do armazenamento externo</string>
 
   <string name="pref_about_category">Sobre</string>
   <string name="pref_about_title">%1$s %2$s</string>

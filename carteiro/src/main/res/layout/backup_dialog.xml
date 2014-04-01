@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Fill"
+    android:paddingTop="12dp"  android:paddingBottom="12dp"
+    android:paddingLeft="16dp" android:paddingRight="16dp"
+    android:orientation="vertical">
+
+  <TextView style="@style/Wrap"
+      android:textAppearance="?android:textAppearanceMedium"
+      android:text="@string/msg_alert_create_backup"
+      android:paddingBottom="8dp" />
+
+  <EditText style="@style/Stretch"
+      android:id="@+id/backup_name"
+      android:inputType="textNoSuggestions" />
+
+</LinearLayout>

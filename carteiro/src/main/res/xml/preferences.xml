@@ -93,6 +93,15 @@
       android:dependency="@string/pref_key_notify" />
   </PreferenceCategory>
 
+  <PreferenceCategory android:title="@string/pref_backup_category">
+    <Preference android:key="@string/pref_key_create_backup"
+      android:title="@string/pref_create_backup_title"
+      android:summary="@string/pref_create_backup_summary" />
+    <Preference android:key="@string/pref_key_restore_backup"
+      android:title="@string/pref_restore_backup_title"
+      android:summary="@string/pref_restore_backup_summary" />
+  </PreferenceCategory>
+
   <PreferenceCategory android:title="@string/pref_about_category">
     <PreferenceScreen android:key="@string/pref_key_about"
       android:title="@string/app_name"

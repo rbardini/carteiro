@@ -36,6 +36,10 @@ public final class UIUtils {
     Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
   }
 
+  public static void showToast(Context context, int resId) {
+    showToast(context, context.getString(resId));
+  }
+
   public static CharSequence getRelativeTime(Date date) {
     return DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
   }

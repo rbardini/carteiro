@@ -7,6 +7,8 @@
   <string name="rename_btn">Rename</string>
   <string name="delete_btn">Delete</string>
   <string name="install_btn">Install</string>
+  <string name="backup_btn">Create</string>
+  <string name="restore_btn">Restore</string>
   <string name="undo_btn">Undo</string>
   <string name="quit_btn">Quit</string>
 
@@ -91,6 +93,13 @@
   <string name="toast_item_deleted">%s deleted.</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
   <string name="toast_sync_error">Sync error: %s</string>
+  <string name="toast_backup_created">Backup successfully created in %s folder.</string>
+  <string name="toast_backup_restored">Backup successfully restored.</string>
+  <string name="toast_backup_creation_fail">Backup creation failed: %s</string>
+  <string name="toast_backup_restore_fail">Backup restore failed: %s</string>
+  <string name="toast_backup_not_found">No backups found.</string>
+  <string name="toast_external_storage_write_error">External storage unmounted or without write access.</string>
+  <string name="toast_external_storage_read_error">External storage unmounted or without read access.</string>
 
   <!-- Labels -->
   <string name="label_item_archived">Archived</string>
@@ -112,6 +121,10 @@
   <!-- Dialogs -->
   <string name="title_alert_delete">Delete %s?</string>
   <string name="msg_alert_delete">The item\'s history will be erased as well.</string>
+  <string name="msg_alert_create_backup">Enter the name for the backup file:</string>
+  <string name="title_alert_select_backup">Select a backup</string>
+  <string name="title_alert_restore_backup">Restore backup?</string>
+  <string name="msg_alert_restore_backup"><![CDATA[Are you sure you want to restore the following backup?<br/><br/><b>%s</b><br/><br/>Your current tracking list will be lost.]]></string>
 
   <!-- Record Activity -->
   <string name="title_record">Item history</string>
@@ -161,6 +174,12 @@
   <string name="pref_lights_summary">Flash LED on incoming notifications</string>
   <string name="pref_vibrate_title">Vibrate</string>
   <string name="pref_vibrate_summary">Vibrate on incoming notifications</string>
+
+  <string name="pref_backup_category">Backup settings</string>
+  <string name="pref_create_backup_title">Create backup</string>
+  <string name="pref_create_backup_summary">Export data to the external storage</string>
+  <string name="pref_restore_backup_title">Restore backup</string>
+  <string name="pref_restore_backup_summary">Import data from the external storage</string>
 
   <string name="pref_about_category">About</string>
   <string name="pref_about_title">%1$s %2$s</string>

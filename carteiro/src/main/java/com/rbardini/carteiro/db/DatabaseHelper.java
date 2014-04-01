@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.util.Log;
@@ -14,9 +13,14 @@ import android.util.Log;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
+import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,12 +50,14 @@ public class DatabaseHelper {
   private static final Map<String, String> SuggestMap = buildColumnMap();
 
   private static DatabaseHelper instance;
+  private static SQLiteOpenHelper oh;
   private static SQLiteDatabase db;
   private static BackupManagerWrapper bm;
   private static boolean backupAvailable;
 
   private DatabaseHelper(Context context) {
-    db = (new CarteiroDatabase(context)).getWritableDatabase();
+    oh = new SQLiteOpenHelper(context);
+    db = oh.getWritableDatabase();
     try {
       BackupManagerWrapper.checkAvailable();
       bm = new BackupManagerWrapper(context);
@@ -62,9 +68,7 @@ public class DatabaseHelper {
   }
 
   public static synchronized DatabaseHelper getInstance(Context context) {
-    if (instance == null) {
-      instance = new DatabaseHelper(context);
-    }
+    if (instance == null) instance = new DatabaseHelper(context);
     return instance;
   }
 
@@ -84,6 +88,34 @@ public class DatabaseHelper {
     db.setTransactionSuccessful();
   }
 
+  public File exportDatabase(Context context, File destFile) throws IOException {
+    oh.close();
+
+    if (!IOUtils.isExternalStorageWritable()) return null;
+
+    File currentDb = context.getDatabasePath(DB_NAME);
+    IOUtils.copyFile(new FileInputStream(currentDb), new FileOutputStream(destFile));
+
+    db = oh.getWritableDatabase();
+
+    return destFile;
+  }
+
+  public File importDatabase(Context context, File database) throws IOException {
+    oh.close();
+
+    if (!IOUtils.isExternalStorageReadable()) return null;
+
+    File currentDb = context.getDatabasePath(DB_NAME);
+    IOUtils.copyFile(new FileInputStream(database), new FileOutputStream(currentDb));
+
+    db = oh.getWritableDatabase();
+
+    notifyDatabaseChanged();
+
+    return database;
+  }
+
   public boolean insertPostalItem(PostalItem pi) {
     ContentValues cv = new ContentValues();
     cv.put("cod", pi.getCod().toUpperCase(Locale.getDefault()));
@@ -92,9 +124,7 @@ public class DatabaseHelper {
 
     try {
       db.insertOrThrow(POSTAL_ITEM_TABLE, null, cv);
-      if (backupAvailable) {
-        bm.dataChanged();
-      }
+      notifyDatabaseChanged();
       return true;
     } catch (SQLException e) {
       return false;
@@ -112,9 +142,7 @@ public class DatabaseHelper {
 
     try {
       db.insertOrThrow(POSTAL_RECORD_TABLE, null, cv);
-      if (backupAvailable) {
-        bm.dataChanged();
-      }
+      notifyDatabaseChanged();
       return true;
     } catch (SQLException e) {
       return false;
@@ -127,57 +155,43 @@ public class DatabaseHelper {
     else cv.put("desc", desc);
 
     int rows = db.update(POSTAL_ITEM_TABLE, cv, "cod = ?", new String[] {cod});
-    if (rows != 0 && backupAvailable) {
-      bm.dataChanged();
-    }
+    if (rows != 0) notifyDatabaseChanged();
 
     return rows;
   }
 
   public void togglePostalItemFav(String cod) {
     db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET fav = NOT fav WHERE cod = ?", new Object[] {cod});
-    if (backupAvailable) {
-      bm.dataChanged();
-    }
+    notifyDatabaseChanged();
   }
 
   public void togglePostalItemArchived(String cod) {
     db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = NOT archived WHERE cod = ?", new Object[] {cod});
-    if (backupAvailable) {
-      bm.dataChanged();
-    }
+    notifyDatabaseChanged();
   }
 
   public void archivePostalItem(String cod) {
     db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = ? WHERE cod = ?", new Object[] {1, cod});
-    if (backupAvailable) {
-      bm.dataChanged();
-    }
+    notifyDatabaseChanged();
   }
 
   public int deletePostalItem(String cod) {
-    int rows = db.delete(POSTAL_ITEM_TABLE, "cod=?", new String[] {cod});
-    if (rows != 0 && backupAvailable) {
-      bm.dataChanged();
-    }
+    int rows = db.delete(POSTAL_ITEM_TABLE, "cod = ?", new String[] {cod});
+    if (rows != 0) notifyDatabaseChanged();
 
     return rows;
   }
 
   public int deletePostalRecords(String cod) {
-    int rows = db.delete(POSTAL_RECORD_TABLE, "cod=?", new String[] {cod});
-    if (rows != 0 && backupAvailable) {
-      bm.dataChanged();
-    }
+    int rows = db.delete(POSTAL_RECORD_TABLE, "cod = ?", new String[] {cod});
+    if (rows != 0) notifyDatabaseChanged();
 
     return rows;
   }
 
   public int deleteAll(String table) {
     int rows = db.delete(table, null, null);
-    if (rows != 0 && backupAvailable) {
-      bm.dataChanged();
-    }
+    if (rows != 0) notifyDatabaseChanged();
 
     return rows;
   }
@@ -336,6 +350,10 @@ public class DatabaseHelper {
     return list.size();
   }
 
+  private void notifyDatabaseChanged() {
+    if (backupAvailable) bm.dataChanged();
+  }
+
   private static HashMap<String, String> buildColumnMap() {
     HashMap<String, String> map = new HashMap<String, String>();
     map.put(SUGGEST_ID, "cod AS "+SUGGEST_ID);
@@ -365,8 +383,8 @@ public class DatabaseHelper {
     return columns;
   }
 
-  private class CarteiroDatabase extends SQLiteOpenHelper {
-    public CarteiroDatabase(Context context) {
+  private class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
+    public SQLiteOpenHelper(Context context) {
       super(context, DB_NAME, null, DB_VERSION);
     }
 

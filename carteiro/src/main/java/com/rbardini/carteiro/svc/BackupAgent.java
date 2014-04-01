@@ -1,8 +1,5 @@
 package com.rbardini.carteiro.svc;
 
-import java.io.IOException;
-
-import android.annotation.TargetApi;
 import android.app.backup.BackupAgentHelper;
 import android.app.backup.BackupDataInput;
 import android.app.backup.BackupDataOutput;
@@ -13,7 +10,8 @@ import android.util.Log;
 
 import com.rbardini.carteiro.db.DatabaseHelper;
 
-@TargetApi(8)
+import java.io.IOException;
+
 public class BackupAgent extends BackupAgentHelper {
   public static final String TAG = "BackupAgent";
   public static final String PREFS_KEY = "prefs";
