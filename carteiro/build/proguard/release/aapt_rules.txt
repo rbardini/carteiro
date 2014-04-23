@@ -1,4 +1,4 @@
-# view res/layout/main.xml #generated:2
+# view res/layout/main.xml #generated:6
 -keep class android.support.v4.widget.DrawerLayout { <init>(...); }
 
 # view res/layout/abs__screen_action_bar.xml #generated:44
@@ -61,47 +61,50 @@
 # view res/layout/abs__search_view.xml #generated:84
 -keep class com.actionbarsherlock.widget.SearchView$SearchAutoComplete { <init>(...); }
 
-# view res/layout/postal_list.xml #generated:5
-# view res/layout/record_list.xml #generated:5
--keep class com.handmark.pulltorefresh.library.PullToRefreshListView { <init>(...); }
-
-# view AndroidManifest.xml #generated:9
+# view AndroidManifest.xml #generated:10
 -keep class com.rbardini.carteiro.CarteiroApplication { <init>(...); }
 
-# view AndroidManifest.xml #generated:50
+# view AndroidManifest.xml #generated:51
 -keep class com.rbardini.carteiro.svc.AlarmReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:9
+# view AndroidManifest.xml #generated:10
 -keep class com.rbardini.carteiro.svc.BackupAgent { <init>(...); }
 
-# view AndroidManifest.xml #generated:60
+# view AndroidManifest.xml #generated:61
 -keep class com.rbardini.carteiro.svc.CancelSyncReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:62
+# view AndroidManifest.xml #generated:63
 -keep class com.rbardini.carteiro.svc.SearchProvider { <init>(...); }
 
-# view AndroidManifest.xml #generated:48
+# view AndroidManifest.xml #generated:49
 -keep class com.rbardini.carteiro.svc.SyncService { <init>(...); }
 
-# view AndroidManifest.xml #generated:22
+# view AndroidManifest.xml #generated:23
 -keep class com.rbardini.carteiro.ui.AddActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:15
+# view AndroidManifest.xml #generated:16
 -keep class com.rbardini.carteiro.ui.MainActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:44
+# view AndroidManifest.xml #generated:45
 -keep class com.rbardini.carteiro.ui.PreferencesActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:32
+# view AndroidManifest.xml #generated:33
 -keep class com.rbardini.carteiro.ui.RecordActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:36
+# view AndroidManifest.xml #generated:37
 -keep class com.rbardini.carteiro.ui.SearchActivity { <init>(...); }
 
-# view res/layout/main.xml #generated:8
+# view res/layout/default_header.xml #generated:37
+-keep class fr.castorflex.android.smoothprogressbar.SmoothProgressBar { <init>(...); }
+
+# view res/layout/main.xml #generated:13
 -keep class se.emilsjolander.stickylistheaders.StickyListHeadersListView { <init>(...); }
 
-# onClick res/layout/add.xml #generated:17
+# view res/layout/postal_list.xml #generated:2
+# view res/layout/record_list.xml #generated:2
+-keep class uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout { <init>(...); }
+
+# onClick res/layout/add.xml #generated:22
 -keepclassmembers class * { *** onAddPostalItemClick(...); }
 
 # onClick res/layout/postal_list_item.xml #generated:21
