@@ -13,7 +13,8 @@ import java.util.Locale;
 
 public final class IOUtils {
   public static final DateFormat SAFE_DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss", Locale.getDefault());
-  private static final String APP_DIR_NAME = "Carteiro";
+  private static final String DOCUMENTS_DIR = "Documents";
+  private static final String APP_DIR = "Carteiro";
 
   public static boolean isExternalStorageWritable() {
     String storageState = Environment.getExternalStorageState();
@@ -26,7 +27,7 @@ public final class IOUtils {
   }
 
   public static File getExternalStoragePublicAppDocumentsDirectory() {
-    File documentsDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), APP_DIR_NAME);
+    File documentsDir = new File(Environment.getExternalStoragePublicDirectory(DOCUMENTS_DIR), APP_DIR);
     if (!documentsDir.isDirectory()) documentsDir.mkdirs();
 
     return documentsDir;
