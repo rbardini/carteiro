@@ -1,10 +1,10 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +19,16 @@ import com.rbardini.carteiro.svc.SyncService;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.AbsDefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 public class PostalRecordFragment extends ListFragment implements OnRefreshListener {
   public static final String TAG = "PostalRecordFragment";
 
-  private FragmentActivity activity;
+  private Activity activity;
   private DatabaseHelper dh;
 
   private static PostalItem pi;
@@ -66,9 +66,7 @@ public class PostalRecordFragment extends ListFragment implements OnRefreshListe
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.record_list, container, false);
-
-    return v;
+    return inflater.inflate(R.layout.record_list, container, false);
   }
 
   @Override
@@ -80,7 +78,7 @@ public class PostalRecordFragment extends ListFragment implements OnRefreshListe
     mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
     ActionBarPullToRefresh
         .from(activity)
-        .options(Options.create().headerTransformer(new CustomAbsDefaultHeaderTransformer()).build())
+        .options(Options.create().headerTransformer(new CustomDefaultHeaderTransformer()).build())
         .listener(this)
         .setup(mPullToRefreshLayout);
   }
@@ -108,7 +106,7 @@ public class PostalRecordFragment extends ListFragment implements OnRefreshListe
     mListAdapter.notifyDataSetChanged();
   }
 
-  private static class CustomAbsDefaultHeaderTransformer extends AbsDefaultHeaderTransformer {
+  private static class CustomDefaultHeaderTransformer extends DefaultHeaderTransformer {
     @Override
     protected int getActionBarSize(Context context) {
       return 0;

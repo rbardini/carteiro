@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout style="@style/Fill"
+<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout style="@style/Fill"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ptr_layout">
 
@@ -10,4 +10,4 @@
   <TextView style="@style/EmptyText"
       android:id="@android:id/empty" />
 
-</uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout>
+</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

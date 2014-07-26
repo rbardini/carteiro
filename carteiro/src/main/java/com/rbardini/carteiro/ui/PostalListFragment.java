@@ -1,10 +1,10 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -28,13 +28,13 @@ import com.rbardini.carteiro.util.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 public class PostalListFragment extends ListFragment implements OnRefreshListener, DeleteItemCallback {
   private CarteiroApplication app;
-  private FragmentActivity activity;
+  private Activity activity;
   private Handler handler;
   private DatabaseHelper dh;
 

@@ -5,7 +5,7 @@
     android:id="@+id/header">
 
     <LinearLayout style="@style/Wrap"
-      android:layout_marginLeft="?attr/actionBarSize"
+      android:layout_marginLeft="?android:attr/actionBarSize"
       android:orientation="vertical">
 
       <TextView style="@style/Wrap"

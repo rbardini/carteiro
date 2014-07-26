@@ -1,6 +1,8 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,17 +10,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.rbardini.carteiro.CarteiroApplication;
@@ -37,7 +37,7 @@ import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import java.util.List;
 import java.util.Locale;
 
-public class AddActivity extends SherlockFragmentActivity implements AddDialogFragment.OnAddDialogActionListener, TextWatcher {
+public class AddActivity extends Activity implements AddDialogFragment.OnAddDialogActionListener, TextWatcher {
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
 
   private CarteiroApplication app;
@@ -54,28 +54,27 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+      super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.add);
-        setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+      setContentView(R.layout.add);
+      setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
 
-        app = (CarteiroApplication) getApplication();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      app = (CarteiroApplication) getApplication();
 
-        trkCode = (EditText) findViewById(R.id.trk_code_fld);
-        itemDesc = (EditText) findViewById(R.id.item_desc_fld);
-        fav = (CheckBox) findViewById(R.id.star_chkbox);
-        fragManager = getSupportFragmentManager();
+      trkCode = (EditText) findViewById(R.id.trk_code_fld);
+      itemDesc = (EditText) findViewById(R.id.item_desc_fld);
+      fav = (CheckBox) findViewById(R.id.star_chkbox);
+      fragManager = getFragmentManager();
 
-        pi = (PostalItem) getLastCustomNonConfigurationInstance(); // TODO Use savedInstanceState
-        progress = new ProgressDialog(this);
-        dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
+      if (savedInstanceState != null) pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
+      progress = new ProgressDialog(this);
+      dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
-        trkCode.addTextChangedListener(this);
+      trkCode.addTextChangedListener(this);
 
-        handleIntent();
+      handleIntent();
     }
 
     @Override
@@ -83,8 +82,8 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       super.onResume();
 
       if (pi != null && fragManager.findFragmentByTag(AddDialogFragment.TAG) == null) {
-          task = new InsertPostalItem(dh).execute(pi);
-        }
+        task = new InsertPostalItem(dh).execute(pi);
+      }
     }
 
     @Override
@@ -94,54 +93,52 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       if (progress.isShowing()) {
         progress.dismiss();
       }
-        if (task != null && task.getStatus() == AsyncTask.Status.RUNNING) {
-            task.cancel(true);
-        }
+      if (task != null && task.getStatus() == AsyncTask.Status.RUNNING) {
+        task.cancel(true);
+      }
       if (dh.inTransaction()) {
         dh.endTransaction();
       }
     }
 
     @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-      return pi;
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+      savedInstanceState.putSerializable("postalItem", pi);
+
+      super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-      if (scanResult != null) {
-        try {
-          String contents = data.getStringExtra("SCAN_RESULT");
-            String cod = parseCod(contents);
-            trkCode.setText(cod);
-            itemDesc.requestFocus();
-        } catch (Exception e) {
-          UIUtils.showToast(this, e.getMessage());
-        }
+    IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+    if (scanResult != null && data != null) {
+      try {
+        String contents = data.getStringExtra("SCAN_RESULT");
+        String cod = parseCod(contents);
+        trkCode.setText(cod);
+        itemDesc.requestFocus();
+      } catch (Exception e) {
+        UIUtils.showToast(this, e.getMessage());
       }
     }
+  }
 
-    @Override
+  @Override
   protected void onNewIntent(Intent intent) {
     setIntent(intent);
     handleIntent();
   }
 
-    @Override
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getSupportMenuInflater().inflate(R.menu.add_actions, menu);
+    getMenuInflater().inflate(R.menu.add_actions, menu);
 
     return super.onCreateOptionsMenu(menu);
   }
 
-    @Override
+  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-      case android.R.id.home:
-        UIUtils.goHome(this);
-        return true;
-
       case R.id.scan_opt:
         IntentIntegrator scan = new IntentIntegrator(this);
         AlertDialog install = scan.initiateScan();
@@ -157,9 +154,9 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
       default:
         return super.onOptionsItemSelected(item);
     }
-    }
+  }
 
-    @Override
+  @Override
   public void onConfirmAddPostalItem(PostalItem pi) {
       onPostalItemAdded(pi);
   }
@@ -171,72 +168,72 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
   }
 
   public void onAddPostalItemClick(View v) {
-      String cod = trkCode.getText().toString().toUpperCase(Locale.getDefault());
-      String desc = itemDesc.getText().toString();
+    String cod = trkCode.getText().toString().toUpperCase(Locale.getDefault());
+    String desc = itemDesc.getText().toString();
 
-      try {
-        cod = parseCod(cod);
-        pi = new PostalItem(cod, (!desc.equals("") ? desc : null), fav.isChecked());
-      task = new InsertPostalItem(dh).execute(pi);
-      } catch(Exception e) {
-        trkCode.setError(e.getMessage());
-      }
+    try {
+      cod = parseCod(cod);
+      pi = new PostalItem(cod, (!desc.equals("") ? desc : null), fav.isChecked());
+    task = new InsertPostalItem(dh).execute(pi);
+    } catch(Exception e) {
+      trkCode.setError(e.getMessage());
     }
-
-    private void handleIntent() {
-      Intent intent = getIntent();
-      if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-        Uri data = intent.getData();
-        String cod = data.getQueryParameter("P_COD_UNI");
-        if (cod == null) { cod = data.getQueryParameter("P_COD_LIS"); }
-        if (cod != null) {
-          try {
-            cod = parseCod(cod);
-            trkCode.setText(cod);
-                itemDesc.requestFocus();
-            } catch (Exception e) {
-              UIUtils.showToast(this, e.getMessage());
-            }
-        } else {
-          UIUtils.showToast(this, getString(R.string.msg_alert_cod_not_found));
-        }
-      }
-    }
-
-    private String parseCod(String cod) throws Exception {
-      TrackingCodeValidation validation = TrackingCodeValidator.validate(cod);
-      String error;
-
-      if (validation.isValid()) {
-        if (dh.isPostalItem(cod)) {
-          error = getString(R.string.toast_item_already_exists, cod);
-          throw new Exception(error);
-        }
-        return validation.getCod();
-      }
-
-      switch (validation.getResult()) {
-        case EMPTY:
-          error = getString(R.string.msg_alert_empty_cod);
-          break;
-        case WRONG_LENGTH:
-          error = getString(R.string.msg_alert_wrong_length_cod);
-          break;
-        case BAD_FORMAT:
-          error = getString(R.string.msg_alert_bad_format_cod);
-          break;
-        case INVALID_CHECK_DIGIT:
-          error = getString(R.string.msg_alert_invalid_dv_cod);
-          break;
-        default:
-          error = getString(R.string.msg_alert_default_error_cod);
-          break;
-      }
-
-      throw new Exception(error);
   }
 
-  protected void onPostalItemAdded(PostalItem pi) {
+  private void handleIntent() {
+    Intent intent = getIntent();
+    if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+      Uri data = intent.getData();
+      String cod = data.getQueryParameter("P_COD_UNI");
+      if (cod == null) { cod = data.getQueryParameter("P_COD_LIS"); }
+      if (cod != null) {
+        try {
+          cod = parseCod(cod);
+          trkCode.setText(cod);
+          itemDesc.requestFocus();
+        } catch (Exception e) {
+          UIUtils.showToast(this, e.getMessage());
+        }
+      } else {
+        UIUtils.showToast(this, getString(R.string.msg_alert_cod_not_found));
+      }
+    }
+  }
+
+  private String parseCod(String cod) throws Exception {
+    TrackingCodeValidation validation = TrackingCodeValidator.validate(cod);
+    String error;
+
+    if (validation.isValid()) {
+      if (dh.isPostalItem(cod)) {
+        error = getString(R.string.toast_item_already_exists, cod);
+        throw new Exception(error);
+      }
+      return validation.getCod();
+    }
+
+    switch (validation.getResult()) {
+      case EMPTY:
+        error = getString(R.string.msg_alert_empty_cod);
+        break;
+      case WRONG_LENGTH:
+        error = getString(R.string.msg_alert_wrong_length_cod);
+        break;
+      case BAD_FORMAT:
+        error = getString(R.string.msg_alert_bad_format_cod);
+        break;
+      case INVALID_CHECK_DIGIT:
+        error = getString(R.string.msg_alert_invalid_dv_cod);
+        break;
+      default:
+        error = getString(R.string.msg_alert_default_error_cod);
+        break;
+    }
+
+    throw new Exception(error);
+  }
+
+  private void onPostalItemAdded(PostalItem pi) {
     app.setUpdatedList();
 
     Intent intent = new Intent(this, RecordActivity.class);
@@ -244,28 +241,28 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
     intent.putExtra("isNew", true);
     startActivity(intent);
     finish();
+  }
+
+  private class InsertPostalItem extends AsyncTask<Object, Void, PostalItem> {
+    private DatabaseHelper dh;
+    private String error;
+
+    public InsertPostalItem(DatabaseHelper dh) {
+      super();
+      this.dh = dh;
     }
 
-    private class InsertPostalItem extends AsyncTask<Object, Void, PostalItem> {
-      private DatabaseHelper dh;
-      private String error;
-
-      public InsertPostalItem(DatabaseHelper dh) {
-        super();
-        this.dh = dh;
-      }
-
-      @Override
+    @Override
     protected void onPreExecute() {
-        progress.setMessage(getString(R.string.title_tracking_obj));
-        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-        public void onCancel(DialogInterface dialog) {
-            cancel(true);
-          }
-        });
-        progress.show();
-      }
+      progress.setMessage(getString(R.string.title_tracking_obj));
+      progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        @Override
+      public void onCancel(DialogInterface dialog) {
+          cancel(true);
+        }
+      });
+      progress.show();
+    }
 
     @Override
     protected PostalItem doInBackground(Object... params) {
@@ -278,15 +275,15 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
         dh.insertPostalItem(pi);
         for(int i=0, length=list.size(); i<length; i++) {
           PostalRecord pr = new PostalRecord(pi.getCod(), length-i-1, list.get(i));
-              dh.insertPostalRecord(pr);
+          dh.insertPostalRecord(pr);
         }
-            dh.setTransactionSuccessful();
-            if (pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
-              throw new Exception(getString(R.string.title_alert_delivered_item));
-            }
-            if (pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
-              throw new Exception(getString(R.string.title_alert_returned_item));
-            }
+        dh.setTransactionSuccessful();
+        if (pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
+          throw new Exception(getString(R.string.title_alert_delivered_item));
+        }
+        if (pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
+          throw new Exception(getString(R.string.title_alert_returned_item));
+        }
       } catch (Exception e) {
         error = e.getMessage();
         if (error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ||
@@ -297,9 +294,9 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
           dh.insertPostalRecord(pr);
           dh.setTransactionSuccessful();
         }
-        } finally {
-          dh.endTransaction();
-        }
+      } finally {
+        dh.endTransaction();
+      }
 
       // Get fresh information from the database, including possible defaults for empty fields
       return dh.getPostalItem(pi.getCod());
@@ -309,7 +306,7 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
     protected void onPostExecute(PostalItem pi) {
       if (progress.isShowing()) {
         progress.dismiss();
-          }
+      }
 
       if (error != null) {
         int id = error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ? AddDialogFragment.NOT_FOUND :
@@ -339,17 +336,17 @@ public class AddActivity extends SherlockFragmentActivity implements AddDialogFr
     protected void onCancelled(PostalItem pi) {
       if (progress.isShowing()) {
         progress.dismiss();
-          }
+      }
 
       task = null;
     }
-    }
+  }
 
-    @Override
+  @Override
   public void onTextChanged(CharSequence s, int start, int before, int count) {
-      int length = s.length();
-        trkCode.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
-    }
+    int length = s.length();
+    trkCode.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
+  }
 
   @Override
   public void afterTextChanged(Editable s) {}

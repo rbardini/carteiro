@@ -1,18 +1,17 @@
 package com.rbardini.carteiro.ui;
 
-import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
@@ -20,7 +19,7 @@ import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.UIUtils;
 
-public class SearchActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class SearchActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
   private ActionBar actionBar;
   private PostalListFragment listFragment;
@@ -35,9 +34,8 @@ public class SearchActivity extends SherlockFragmentActivity implements Detachab
 
     app = (CarteiroApplication) getApplication();
 
-    actionBar = getSupportActionBar();
+    actionBar = getActionBar();
     actionBar.setTitle(R.string.subtitle_search);
-    actionBar.setDisplayHomeAsUpEnabled(true);
     listFragment = null;
     query = null;
 
@@ -88,33 +86,19 @@ public class SearchActivity extends SherlockFragmentActivity implements Detachab
     handleIntent();
   }
 
-  @Override @TargetApi(11)
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getSupportMenuInflater().inflate(R.menu.search_actions, menu);
+    getMenuInflater().inflate(R.menu.search_actions, menu);
 
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
       SearchView searchView = (SearchView) searchViewButton.getActionView();
       SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+      searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
     }
 
     return super.onCreateOptionsMenu(menu);
   }
-
-    @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
-        UIUtils.goHome(this);
-        return true;
-      case R.id.search_opt:
-        onSearchRequested();
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
-    }
 
   @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
@@ -138,7 +122,7 @@ public class SearchActivity extends SherlockFragmentActivity implements Detachab
   public void onFavClick(View v) {
     app.getDatabaseHelper().togglePostalItemFav((String) v.getTag());
     listFragment.refreshList(true);
-    }
+  }
 
   private void handleIntent() {
     Intent intent = getIntent();
@@ -147,7 +131,7 @@ public class SearchActivity extends SherlockFragmentActivity implements Detachab
       actionBar.setSubtitle(query);
       if (listFragment == null) {
         listFragment = PostalListFragment.newInstance(query);
-        getSupportFragmentManager().beginTransaction().replace(R.id.search_list, listFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.search_list, listFragment).commit();
       } else {
         listFragment.setQuery(query);
         listFragment.refreshList(false);

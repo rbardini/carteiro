@@ -20,5 +20,5 @@ public class TrackingCodeValidation {
   public String getCod() { return this.cod; }
   public Result getResult() { return this.res; }
 
-  public boolean isValid() { return this.res == Result.SUCCESS; };
+  public boolean isValid() { return this.res == Result.SUCCESS; }
 }

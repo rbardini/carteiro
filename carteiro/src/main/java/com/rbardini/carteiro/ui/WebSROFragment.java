@@ -1,20 +1,20 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.rbardini.carteiro.R;
 
 public class WebSROFragment extends Fragment {
   public static final String TAG = "WebSROFragment";
 
-  SherlockFragmentActivity mActivity;
+  Activity mActivity;
   WebView mWebView;
 
   public static WebSROFragment newInstance(String cod) {
@@ -30,13 +30,13 @@ public class WebSROFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.websro_webview, container, false);
 
-    mActivity = (SherlockFragmentActivity) getActivity();
+    mActivity = getActivity();
     mWebView = (WebView) view.findViewById(R.id.webview);
 
     mWebView.setWebChromeClient(new WebChromeClient() {
       @Override
       public void onProgressChanged(WebView view, int progress) {
-        mActivity.setSupportProgressBarIndeterminateVisibility(progress != 100);
+        mActivity.setProgressBarIndeterminateVisibility(progress != 100);
       }
     });
     mWebView.setBackgroundColor(getResources().getColor(R.color.websro));
@@ -49,7 +49,7 @@ public class WebSROFragment extends Fragment {
   public void onPause() {
     super.onPause();
 
-    mActivity.setSupportProgressBarIndeterminateVisibility(false);
+    mActivity.setProgressBarIndeterminateVisibility(false);
   }
 
   public boolean canGoBack() {

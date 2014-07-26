@@ -9,7 +9,6 @@ import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import android.app.AlarmManager;
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -66,7 +65,7 @@ public class SyncService extends IntentService {
     dh = app.getDatabaseHelper();
     nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     prefs = PreferenceManager.getDefaultSharedPreferences(this);
-  };
+  }
 
   @Override
   protected void onHandleIntent(Intent intent) {
@@ -92,7 +91,7 @@ public class SyncService extends IntentService {
 
       boolean update = false;
 
-      String[] cods = null;
+      String[] cods;
       Bundle extras = intent.getExtras();
       int flags;
 
@@ -247,7 +246,7 @@ public class SyncService extends IntentService {
       .setSound(Uri.parse(prefs.getString(getString(R.string.pref_key_ringtone), "DEFAULT_SOUND")));
 
     if (prefs.getBoolean(getString(R.string.pref_key_lights), true)) notificationBuilder.setLights(Color.YELLOW, 1000, 1200);
-    if (prefs.getBoolean(getString(R.string.pref_key_vibrate), true)) notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+    if (prefs.getBoolean(getString(R.string.pref_key_vibrate), true)) notificationBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);
 
     nm.notify(NOTIFICATION_NEW_UPDATE, notificationBuilder.build());
   }

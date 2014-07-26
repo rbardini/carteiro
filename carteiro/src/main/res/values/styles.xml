@@ -2,16 +2,17 @@
 <resources>
 
   <!-- Action Bar -->
-  <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-    <item name=        "background">@color/primary</item>
-    <item name=        "backgroundStacked">@color/primary</item>
-    <item name=        "backgroundSplit">@color/primary</item>
+  <style name="ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <item name="android:background">@color/primary</item>
+    <item name="android:backgroundStacked">@color/primary</item>
+    <item name="android:backgroundSplit">@color/primary</item>
+    <item name="android:indeterminateProgressStyle">@style/ActivityIndicator</item>
   </style>
 
   <!-- This style is only referenced in a Light.DarkActionBar based theme -->
-  <style name="Theme.Carteiro.Widget" parent="@style/Theme.Sherlock">
-    <item name=        "popupMenuStyle">@style/PopupMenu</item>
-    <item name=        "dropDownListViewStyle">@style/DropDownListView</item>
+  <style name="Theme.Carteiro.Widget" parent="@android:style/Theme.Holo">
+    <item name="android:popupMenuStyle">@style/PopupMenu</item>
+    <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
   </style>
 
   <!-- Global -->
@@ -20,11 +21,11 @@
     <item name="android:layout_height">wrap_content</item>
   </style>
   <style name="Fill">
-     <item name="android:layout_width">fill_parent</item>
-     <item name="android:layout_height">fill_parent</item>
+     <item name="android:layout_width">match_parent</item>
+     <item name="android:layout_height">match_parent</item>
   </style>
   <style name="Stretch">
-     <item name="android:layout_width">fill_parent</item>
+     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
   </style>
 
@@ -49,17 +50,24 @@
      <item name="android:minHeight">48dip</item>
     <item name="android:minWidth">64dip</item>
   </style>
-  <style name="ActionButton" parent="Widget.Sherlock.ActionButton">
+  <style name="ActionButton" parent="android:Widget.Holo.ActionButton">
     <item name="android:background">@drawable/list_selector</item>
   </style>
   <style name="CheckBox" parent="android:Widget.CompoundButton.CheckBox">
     <item name="android:textColor">@color/primary</item>
+    <item name="android:button">@drawable/btn_check</item>
   </style>
-  <style name="PopupMenu" parent="Widget.Sherlock.ListPopupWindow">
+  <style name="PopupMenu" parent="android:Widget.Holo.ListPopupWindow">
     <item name="android:popupBackground">@drawable/menu_dropdown_panel</item>
   </style>
-  <style name="DropDownListView" parent="Widget.Sherlock.ListView.DropDown">
+  <style name="DropDownListView" parent="android:Widget.Holo.ListView.DropDown">
     <item name="android:listSelector">@drawable/list_selector</item>
+  </style>
+  <style name="ActivityIndicator" parent="android:Widget.Holo.ProgressBar">
+    <item name="android:minWidth">48dp</item>
+    <item name="android:maxWidth">48dp</item>
+    <item name="android:minHeight">32dp</item>
+    <item name="android:maxHeight">32dp</item>
   </style>
 
   <!-- Custom Widgets -->
@@ -98,23 +106,12 @@
 
   <!-- List -->
   <style name="ListView" parent="android:Widget.ListView">
-    <item name="android:layout_width">fill_parent</item>
-    <item name="android:layout_height">fill_parent</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">match_parent</item>
     <item name="android:divider">@color/divider</item>
     <item name="android:dividerHeight">1px</item>
     <item name="android:cacheColorHint">@color/background</item>
     <item name="android:listSelector">@drawable/list_selector</item>
-  </style>
-  <style name="ListSeparatorTextView" parent="android:Widget.TextView">
-    <item name="android:layout_width">fill_parent</item>
-    <item name="android:layout_height">25dp</item>
-    <item name="android:layout_marginTop">8dp</item>
-    <item name="android:background">@drawable/list_section_divider_light</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:textSize">14sp</item>
-    <item name="android:gravity">center_vertical</item>
-    <item name="android:paddingLeft">8dp</item>
-    <item name="android:paddingRight">8dp</item>
   </style>
   <style name="ListItem" parent="@style/Stretch">
     <item name="android:orientation">vertical</item>
@@ -159,10 +156,21 @@
     <item name="android:textStyle">italic</item>
   </style>
 
+  <!-- ActionBar-PullToRefresh -->
   <style name="Widget.Custom.PtrHeader" parent="android:Widget">
     <item name="ptrPullText">@string/ptr_pull_text</item>
     <item name="ptrReleaseText">@string/ptr_release_text</item>
     <item name="ptrRefreshingText">@string/ptr_refreshing_text</item>
     <item name="ptrProgressBarColor">@color/aside</item>
+    <item name="ptrSmoothProgressBarStyle">@style/Widget.Custom.SmoothProgressBar</item>
+  </style>
+
+  <!-- SmoothProgressBar -->
+  <style name="Widget.Custom.SmoothProgressBar" parent="SmoothProgressBar">
+    <item name="spb_reversed">true</item>
+    <item name="spb_mirror_mode">true</item>
+    <item name="spb_color">@color/aside</item>
+    <item name="spb_stroke_separator_length">4dp</item>
+    <item name="spb_interpolator">spb_interpolator_decelerate</item>
   </style>
 </resources>

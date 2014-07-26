@@ -24,11 +24,11 @@ public class CarteiroApplication extends Application {
     updatedCods = new HashSet<String>();
 
     // Schedule sync service on first start
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean(getString(R.string.pref_key_on_boot), false) && prefs.getBoolean(getString(R.string.pref_key_auto_sync), true)) {
-          SyncService.scheduleSync(this);
-          prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).commit();
-        }
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    if (!prefs.getBoolean(getString(R.string.pref_key_on_boot), false) && prefs.getBoolean(getString(R.string.pref_key_auto_sync), true)) {
+      SyncService.scheduleSync(this);
+      prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
+    }
   }
 
   public DatabaseHelper getDatabaseHelper() {
@@ -61,11 +61,11 @@ public class CarteiroApplication extends Application {
   }
 
   public static class State {
-        public DetachableResultReceiver receiver;
-        public boolean syncing = false;
+    public DetachableResultReceiver receiver;
+    public boolean syncing = false;
 
-        private State() {
-            receiver = new DetachableResultReceiver(new Handler());
-        }
+    private State() {
+      receiver = new DetachableResultReceiver(new Handler());
     }
+  }
 }

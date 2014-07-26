@@ -65,7 +65,7 @@ public final class UIUtils {
 
   public static int getActionBarHeight(Context context) {
     TypedValue tv = new TypedValue();
-    return context.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true) ? context.getResources().getDimensionPixelSize(tv.resourceId) : 0;
+    return context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true) ? context.getResources().getDimensionPixelSize(tv.resourceId) : 0;
   }
 
   public static void addStatusBarPadding(Activity activity, int rootLayoutId, boolean offsetActionBar) {

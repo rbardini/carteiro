@@ -244,7 +244,7 @@ public class DatabaseHelper {
       c.close();
     }
 
-    return cods.toArray(new String[] {});
+    return cods.toArray(new String[cods.size()]);
   }
 
   public int getPostalItems(List<PostalItem> list, String selection, String[] selectionArgs) {
@@ -294,7 +294,7 @@ public class DatabaseHelper {
         }
         selectionArgs = new String[(statuses != null ? statuses.length : 0) + 1];
         selectionArgs[0] = "0";
-        for (int i=0; i<statuses.length; i++) selectionArgs[i+1] = statuses[i];
+        System.arraycopy(statuses, 0, selectionArgs, 1, statuses.length);
         break;
     }
 
@@ -312,9 +312,8 @@ public class DatabaseHelper {
 
     String[] columns = {SUGGEST_ID, SUGGEST_TITLE, SUGGEST_DESC, SUGGEST_DATA};
 
-    Cursor c = builder.query(db, columns, SUGGEST_TITLE+" LIKE ? OR "+SUGGEST_DESC+" LIKE ?",
+    return builder.query(db, columns, SUGGEST_TITLE+" LIKE ? OR "+SUGGEST_DESC+" LIKE ?",
         new String[] {"%"+query+"%", "%"+query+"%"}, null, null, null);
-    return c;
   }
 
   public PostalRecord getLastPostalRecord(String cod) throws ParseException {

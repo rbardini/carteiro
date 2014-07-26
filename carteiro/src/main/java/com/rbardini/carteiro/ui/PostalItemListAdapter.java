@@ -18,14 +18,12 @@ import java.util.List;
 import java.util.Set;
 
 public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
-  private final Context mContext;
   private final Set<String> mUpdatedCods;
   private final LayoutInflater mInflater;
 
   PostalItemListAdapter(Context context, List<PostalItem> list, Set<String> updatedCods) {
     super(list);
 
-    mContext = context;
     mUpdatedCods = updatedCods;
 
     // Cache the LayoutInflate to avoid asking for a new one each time

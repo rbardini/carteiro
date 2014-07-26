@@ -563,7 +563,7 @@ public final class PostalUtils {
       map.put("VF", "ENCOMENDAS COM VALOR DECLARADO");
       map.put("XM", "SEDEX MUNDI");
       map.put("XR", "ENCOMENDA SUR POSTAL EXPRESSO");
-      map.put("XX", "ENCOMENDA SUR POSTAL 24 HORAS");;
+      map.put("XX", "ENCOMENDA SUR POSTAL 24 HORAS");
 
       return map;
     }
@@ -605,11 +605,12 @@ public final class PostalUtils {
 
     if (list.size() > 0) {
       String text = "";
-      for (int i=0; i<list.size(); i++) {
-        PostalItem pi = list.get(i);
-        text += String.format(context.getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod()));
-        if (pi.getDesc() != null) { text += String.format(context.getString(R.string.text_send_list_line_2, pi.getDesc())); }
-        text += String.format(context.getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate())));
+      for (PostalItem pi : list) {
+        text += context.getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod());
+        if (pi.getDesc() != null) {
+          text += context.getString(R.string.text_send_list_line_2, pi.getDesc());
+        }
+        text += context.getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate()));
       }
 
       shareIntent = new Intent(Intent.ACTION_SEND);

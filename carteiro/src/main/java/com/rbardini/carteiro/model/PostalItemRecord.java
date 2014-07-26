@@ -73,9 +73,7 @@ public class PostalItemRecord implements Serializable {
   public PostalItemRecord saveTo(DatabaseHelper dh) {
     dh.insertPostalItem(this.pi);
 
-    Iterator<PostalRecord> it = this.prList.iterator();
-    while (it.hasNext()) {
-      PostalRecord pr = it.next();
+    for (PostalRecord pr : this.prList) {
       dh.insertPostalRecord(pr); // TODO: Handle insert error
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="?attr/spinnerDropDownItemStyle"
-  android:layout_width="fill_parent"
-  android:layout_height="?attr/dropdownListPreferredItemHeight"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="?android:attr/spinnerDropDownItemStyle"
+  android:layout_width="match_parent"
+  android:layout_height="48dp"
   android:background="@drawable/activated_background"
   android:orientation="horizontal"
   android:paddingLeft="8dp"
@@ -10,7 +10,7 @@
   <ImageView
     android:id="@+id/icon"
     android:layout_width="wrap_content"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:adjustViewBounds="true" />
 
   <TextView style="@style/Stretch"

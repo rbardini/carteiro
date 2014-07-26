@@ -1,6 +1,10 @@
 package com.rbardini.carteiro.ui;
 
-import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentManager.OnBackStackChangedListener;
+import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,19 +13,14 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SearchView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
@@ -33,7 +32,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class MainActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class MainActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
 
   private CarteiroApplication app;
@@ -56,8 +55,8 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
 
     app = (CarteiroApplication) getApplication();
-    mActionBar = getSupportActionBar();
-    mFragmentManager = getSupportFragmentManager();
+    mActionBar = getActionBar();
+    mFragmentManager = getFragmentManager();
     mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
       public void onBackStackChanged() {
@@ -86,13 +85,13 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       @Override
       public void onDrawerClosed(View drawerView) {
         mActionBar.setTitle(mTitle);
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
       }
 
       @Override
       public void onDrawerOpened(View drawerView) {
         mActionBar.setTitle(R.string.app_name);
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
       }
     };
     mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -154,9 +153,9 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     }
   }
 
-  @Override @TargetApi(11)
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getSupportMenuInflater().inflate(R.menu.main_actions, menu);
+    getMenuInflater().inflate(R.menu.main_actions, menu);
 
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
@@ -175,7 +174,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
     menu.findItem(R.id.add_opt).setVisible(!drawerOpen);
 
     MenuItem searchItem = menu.findItem(R.id.search_view_opt);
-    if (searchItem == null) searchItem = menu.findItem(R.id.search_opt);
     searchItem.setVisible(!drawerOpen);
 
     MenuItem shareItem = menu.findItem(R.id.share_opt);
@@ -202,10 +200,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       case R.id.add_opt:
         Intent intent = new Intent(this, AddActivity.class);
         startActivity(intent);
-        return true;
-
-      case R.id.search_opt:
-        onSearchRequested();
         return true;
 
       case R.id.share_opt:
@@ -272,7 +266,6 @@ public class MainActivity extends SherlockFragmentActivity implements Detachable
       mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
       FragmentTransaction ft = mFragmentManager
           .beginTransaction()
-          .setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit, R.anim.fragment_close_enter, R.anim.fragment_open_exit)
           .replace(R.id.main_container, newFragment, name);
       if (mCurrentFragment != null && category != Category.ALL) ft.addToBackStack(name);  // Avoid adding empty main container and duplicate "all" category to the back stack
       ft.commit();

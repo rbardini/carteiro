@@ -1,24 +1,24 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
@@ -28,9 +28,8 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.Locale;
 
-public class RecordActivity extends SherlockFragmentActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class RecordActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
-  private ActionBar actionBar;
   private FragmentManager mFragManager;
 
   private PostalItem pi;
@@ -50,7 +49,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
     requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
     setContentView(R.layout.record);
-    setSupportProgressBarIndeterminateVisibility(false);
+    setProgressBarIndeterminateVisibility(false);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
     registerForContextMenu(findViewById(R.id.hidden_edit_opt));
 
@@ -58,16 +57,15 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
     app = (CarteiroApplication) getApplication();
 
-    actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
+    ActionBar actionBar = getActionBar();
     actionBar.setDisplayShowTitleEnabled(false);
     actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
 
-    mFragManager = getSupportFragmentManager();
+    mFragManager = getFragmentManager();
     mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
       public void onBackStackChanged() {
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
       }
     });
 
@@ -141,7 +139,7 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     if (getCurrentFragment() instanceof PostalRecordFragment) {
-      getSupportMenuInflater().inflate(R.menu.record_actions, menu);
+      getMenuInflater().inflate(R.menu.record_actions, menu);
 
       if (pi.isFav()) {
         menu.findItem(R.id.fav_opt).setIcon(R.drawable.ic_action_star);
@@ -154,10 +152,6 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-      case android.R.id.home:
-        UIUtils.goHome(this);
-        return true;
-
       case R.id.fav_opt:
         app.getDatabaseHelper().togglePostalItemFav(pi.getCod());
         item.setIcon(pi.toggleFav() ? R.drawable.ic_action_star : R.drawable.ic_action_star_off);
@@ -187,15 +181,15 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
         mFragManager
           .beginTransaction()
-          .setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit, R.anim.fragment_close_enter, R.anim.fragment_open_exit)
           .replace(R.id.record_list, webSROFragment, WebSROFragment.TAG)
           .addToBackStack(null)
           .commit();
 
         return true;
+
       default:
         return super.onOptionsItemSelected(item);
-    }
+      }
     }
 
   @Override
@@ -293,20 +287,20 @@ public class RecordActivity extends SherlockFragmentActivity implements Detachab
 
     String action = intent.getAction();
     if (action != null) {
-        if (action.equals("locate")) {
-            try {
-                UIUtils.locateItem(this, pi);
-            } catch (Exception e) {
-                UIUtils.showToast(this, e.getMessage());
-            }
-        } else if (action.equals("share")) {
-            UIUtils.shareItem(this, pi);
-        } else if (action.equals("webSRO")) {
-          onlyWebSRO = true;
+      if (action.equals("locate")) {
+        try {
+          UIUtils.locateItem(this, pi);
+        } catch (Exception e) {
+          UIUtils.showToast(this, e.getMessage());
         }
+      } else if (action.equals("share")) {
+        UIUtils.shareItem(this, pi);
+      } else if (action.equals("webSRO")) {
+        onlyWebSRO = true;
+      }
 
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.cancel(R.string.app_name);
+      NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      nm.cancel(R.string.app_name);
     }
 
     intent.removeExtra("postalItem");

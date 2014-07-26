@@ -18,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     if (prefs.getBoolean(context.getString(R.string.pref_key_auto_sync), true)) {
       SyncService.scheduleSync(context);
-      prefs.edit().putBoolean(context.getString(R.string.pref_key_on_boot), true).commit();
+      prefs.edit().putBoolean(context.getString(R.string.pref_key_on_boot), true).apply();
     }
   }
 

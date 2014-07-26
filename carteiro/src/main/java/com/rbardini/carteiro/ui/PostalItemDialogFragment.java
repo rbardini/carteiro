@@ -3,11 +3,10 @@ package com.rbardini.carteiro.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,7 @@ public class PostalItemDialogFragment extends DialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final int id = getArguments().getInt("id");
     final PostalItem pi  = (PostalItem) getArguments().getSerializable("postalItem");
-    final FragmentActivity activity = getActivity();
+    final Activity activity = getActivity();
     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
     switch(id) {
