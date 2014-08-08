@@ -9,7 +9,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/theme_background">
 
     <FrameLayout
       android:id="@+id/main_content"
@@ -25,7 +25,7 @@
       android:clipToPadding="false"
       android:divider="@null"
       android:dividerHeight="0dp"
-      android:background="@color/background" />
+      android:background="@color/theme_background" />
 
   </android.support.v4.widget.DrawerLayout>
 

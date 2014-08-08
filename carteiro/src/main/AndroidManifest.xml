@@ -36,6 +36,7 @@
 
     <activity android:name=".ui.AddActivity"
       android:label="@string/title_add"
+      android:theme="@style/Theme.Carteiro.AddPopup"
       android:parentActivityName=".ui.MainActivity">
       <meta-data android:name="android.support.PARENT_ACTIVITY"
         android:value=".ui.MainActivity" />

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <item android:id="@+id/scan_opt"
-    android:icon="@drawable/ic_action_barcode"
-    android:title="@string/opt_scan_barcode"
-    android:showAsAction="ifRoom|withText" />
-
-</menu>

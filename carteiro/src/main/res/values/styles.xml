@@ -20,14 +20,36 @@
   </style>
 
   <!-- Widget -->
-  <style name="TextView" parent="android:Widget.Holo.TextView">
+  <style name="TextViewStyle" parent="android:Widget.Holo.TextView">
      <item name="android:textColor">@color/text_primary</item>
   </style>
-  <style name="Button" parent="android:Widget.Holo.Button">
-    <item name="android:background">@drawable/btn_default</item>
-    <item name="android:textColor">@android:color/white</item>
-    <item name="android:minWidth">64dip</item>
-    <item name="android:minHeight">@dimen/min_touch_target</item>
+  <style name="HintTextAppearance" parent="@android:style/TextAppearance.Small">
+    <item name="android:textColor">@color/text_hint</item>
+    <item name="android:textSize">@dimen/text_size_caption</item>
+    <item name="android:textStyle">italic</item>
+  </style>
+  <style name="EditTextStyle" parent="@android:style/Widget.Holo.Light.EditText">
+    <item name="android:textColor">@color/text_primary</item>
+    <item name="android:textColorHint">@color/text_hint</item>
+    <item name="android:textSize">@dimen/text_size_subhead</item>
+    <item name="android:background">@drawable/edit_text_background</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:includeFontPadding">false</item>
+  </style>
+  <style name="ButtonStyle" parent="@android:style/Widget.Holo.Light.Button">
+    <item name="android:textSize">@dimen/text_size_button</item>
+    <item name="android:textColor">@color/button_text_color</item>
+    <item name="android:ellipsize">marquee</item>
+    <item name="android:background">@drawable/button_background</item>
+    <item name="android:padding">@dimen/keyline_1_half</item>
+    <item name="android:minWidth">@dimen/button_width</item>
+    <item name="android:minHeight">@dimen/button_height</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:textAllCaps">true</item>
+  </style>
+  <style name="BorderlessButtonStyle" parent="@style/ButtonStyle">
+    <item name="android:textColor">@color/borderless_button_text_color</item>
+    <item name="android:background">@drawable/borderless_button_background</item>
   </style>
   <style name="ActionBarTitle" parent="android:TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
     <item name="android:textSize">@dimen/text_size_title</item>
@@ -40,7 +62,7 @@
     <item name="android:background">@drawable/list_selector</item>
   </style>
   <style name="CheckBox" parent="android:Widget.Holo.CompoundButton.CheckBox">
-    <item name="android:button">@drawable/btn_check</item>
+    <item name="android:button">@drawable/button_check</item>
   </style>
   <style name="PopupMenu" parent="android:Widget.Holo.Light.PopupMenu"></style>
   <style name="DropDownListView" parent="android:Widget.Holo.Light.ListView.DropDown">
@@ -59,18 +81,14 @@
   </style>
 
   <!-- Custom Widgets -->
-  <style name="AddButton">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:src">@android:drawable/ic_input_add</item>
-  </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:hint">@string/hint_tracking_code</item>
     <item name="android:singleLine">true</item>
-    <item name="android:maxLength">13</item>
     <item name="android:inputType">textCapCharacters|textNoSuggestions</item>
+    <item name="android:digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890</item>
+    <item name="android:maxLength">13</item>
     <item name="android:selectAllOnFocus">true</item>
   </style>
   <style name="ItemDescField">
@@ -86,12 +104,7 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_marginRight">-2dp</item>
     <item name="android:layout_marginBottom">-2dp</item>
-    <item name="android:button">@drawable/btn_star</item>
-  </style>
-  <style name="Star.Add">
-    <item name="android:layout_alignParentLeft">true</item>
-    <item name="android:layout_alignBaseline">@+id/add_item_btn</item>
-    <item name="android:text">@string/checkbox_add_favorite</item>
+    <item name="android:button">@drawable/button_star</item>
   </style>
   <style name="EmptyText">
     <item name="android:layout_width">match_parent</item>
@@ -105,9 +118,9 @@
   <style name="ListView" parent="android:Widget.Holo.ListView">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">match_parent</item>
-    <item name="android:divider">@color/divider</item>
+    <item name="android:divider">@color/divider_solid</item>
     <item name="android:dividerHeight">1px</item>
-    <item name="android:cacheColorHint">@color/background</item>
+    <item name="android:cacheColorHint">@color/theme_background</item>
     <item name="android:listSelector">@drawable/list_selector</item>
   </style>
   <style name="ListItem">

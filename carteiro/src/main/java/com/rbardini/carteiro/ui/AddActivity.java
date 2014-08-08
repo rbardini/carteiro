@@ -2,22 +2,18 @@ package com.rbardini.carteiro.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -25,6 +21,7 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
@@ -34,89 +31,131 @@ import com.rbardini.carteiro.util.validator.TrackingCodeValidator;
 import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AddActivity extends Activity implements AddDialogFragment.OnAddDialogActionListener, TextWatcher {
-  private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+public class AddActivity extends Activity {
+  public static final int NOT_FOUND      = 0x1;
+  public static final int DELIVERED_ITEM = 0x2;
+  public static final int RETURNED_ITEM  = 0x4;
+  public static final int NET_ERROR      = 0x8;
 
   private CarteiroApplication app;
 
-  private EditText trkCode;
-  private EditText itemDesc;
-  private CheckBox fav;
-  private FragmentManager fragManager;
+  private View mHeaderView;
+  private View mFormView;
+  private View mLoadingView;
+  private TextView mTitleText;
+  private TextView mContentText;
+  private Button mScanButton;
+  private EditText mTrackingNumberField;
+  private EditText mItemNameField;
+  private View mButtonBar;
+  private Button mAddButton;
 
-  private PostalItem pi;
-  private ProgressDialog progress;
-  private AsyncTask<?, ?, ?> task;
+  private PostalItemRecord mPostalItemRecord;
+  private AsyncTask<?, ?, ?> mRequestPostalItemRecordTask;
   private DatabaseHelper dh;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-      setContentView(R.layout.add);
-      setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+    setContentView(R.layout.add);
+    setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
+    app = (CarteiroApplication) getApplication();
 
-      app = (CarteiroApplication) getApplication();
+    mHeaderView = findViewById(R.id.header_layout);
+    mFormView = findViewById(R.id.form_layout);
+    mLoadingView = findViewById(R.id.loading_indicator);
+    mContentText = (TextView) findViewById(R.id.content_text);
+    mTitleText = (TextView) findViewById(R.id.title_text);
+    mScanButton = (Button) findViewById(R.id.scan_button);
+    mTrackingNumberField = (EditText) findViewById(R.id.trk_code_fld);
+    mItemNameField = (EditText) findViewById(R.id.item_desc_fld);
+    mButtonBar = findViewById(R.id.button_bar);
+    mAddButton = (Button) findViewById(R.id.add_button);
 
-      trkCode = (EditText) findViewById(R.id.trk_code_fld);
-      itemDesc = (EditText) findViewById(R.id.item_desc_fld);
-      fav = (CheckBox) findViewById(R.id.star_chkbox);
-      fragManager = getFragmentManager();
+    if (savedInstanceState != null) mPostalItemRecord = (PostalItemRecord) savedInstanceState.getSerializable("postalItemRecord");
+    dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
-      if (savedInstanceState != null) pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
-      progress = new ProgressDialog(this);
-      dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
+    mTrackingNumberField.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-      trkCode.addTextChangedListener(this);
-
-      handleIntent();
-    }
-
-    @Override
-    public void onResume() {
-      super.onResume();
-
-      if (pi != null && fragManager.findFragmentByTag(AddDialogFragment.TAG) == null) {
-        task = new InsertPostalItem(dh).execute(pi);
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        mAddButton.setEnabled(s.length() == 13);
       }
-    }
 
-    @Override
-    public void onDestroy() {
-      super.onDestroy();
+      @Override
+      public void afterTextChanged(Editable s) {}
+    });
+    mTrackingNumberField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        if (hasFocus) return;
 
-      if (progress.isShowing()) {
-        progress.dismiss();
+        String error = null;
+        try {
+          parseCod(mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault()));
+        } catch (Exception e) {
+          error = e.getMessage();
+        } finally {
+          mTrackingNumberField.setError(error);
+        }
       }
-      if (task != null && task.getStatus() == AsyncTask.Status.RUNNING) {
-        task.cancel(true);
+    });
+
+    mItemNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        onAddClick(null);
+        return true;
       }
-      if (dh.inTransaction()) {
-        dh.endTransaction();
-      }
+    });
+
+    handleIntent();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    if (mPostalItemRecord != null) {
+      mRequestPostalItemRecordTask = new RequestPostalItemRecordTask().execute(mPostalItemRecord);
     }
+  }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-      savedInstanceState.putSerializable("postalItem", pi);
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
 
-      super.onSaveInstanceState(savedInstanceState);
+    if (mRequestPostalItemRecordTask != null && mRequestPostalItemRecordTask.getStatus() == AsyncTask.Status.RUNNING) {
+      mRequestPostalItemRecordTask.cancel(true);
     }
+    if (dh.inTransaction()) {
+      dh.endTransaction();
+    }
+  }
 
-    @Override
+  @Override
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    savedInstanceState.putSerializable("postalItemRecord", mPostalItemRecord);
+    super.onSaveInstanceState(savedInstanceState);
+  }
+
+  @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
     if (scanResult != null && data != null) {
       try {
         String contents = data.getStringExtra("SCAN_RESULT");
         String cod = parseCod(contents);
-        trkCode.setText(cod);
-        itemDesc.requestFocus();
+        mTrackingNumberField.setText(cod);
+        mItemNameField.requestFocus();
       } catch (Exception e) {
         UIUtils.showToast(this, e.getMessage());
       }
@@ -129,55 +168,126 @@ public class AddActivity extends Activity implements AddDialogFragment.OnAddDial
     handleIntent();
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.add_actions, menu);
+  public void onScanClick(View v) {
+    IntentIntegrator scan = new IntentIntegrator(this);
+    AlertDialog install = scan.initiateScan();
 
-    return super.onCreateOptionsMenu(menu);
+    if (install != null) {
+      install.setTitle(R.string.title_alert_barcode_install);
+      install.setMessage(getString(R.string.msg_alert_barcode_install));
+      install.getButton(DialogInterface.BUTTON_POSITIVE).setText(R.string.install_btn);
+      install.getButton(DialogInterface.BUTTON_NEGATIVE).setText(R.string.negative_btn);
+    }
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.scan_opt:
-        IntentIntegrator scan = new IntentIntegrator(this);
-        AlertDialog install = scan.initiateScan();
-        if (install != null) {
-          install.setIcon(android.R.drawable.ic_dialog_info);
-          install.setTitle(R.string.title_alert_barcode_install);
-          install.setMessage(getString(R.string.msg_alert_barcode_install));
-          install.getButton(DialogInterface.BUTTON_POSITIVE).setText(R.string.install_btn);
-          install.getButton(DialogInterface.BUTTON_NEGATIVE).setText(R.string.negative_btn);
-        }
-        return true;
+  public void onAddClick(View v) {
+    String cod = mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault());
+    String desc = mItemNameField.getText().toString();
 
+    if (mPostalItemRecord != null) {
+      addPostalItemRecord();
+
+    } else {
+      String error = null;
+      try {
+        cod = parseCod(cod);
+        mPostalItemRecord = new PostalItemRecord(new PostalItem(cod, (desc.trim().equals("") ? null : desc)));
+        mRequestPostalItemRecordTask = new RequestPostalItemRecordTask().execute(mPostalItemRecord);
+      } catch (Exception e) {
+        error = e.getMessage();
+      } finally {
+        mTrackingNumberField.setError(error);
+      }
+    }
+  }
+
+  public void onCancelClick(View v) {
+    if (mPostalItemRecord != null) {
+      hideConfirmationView();
+      resetConfirmation();
+      showFormView();
+
+      mPostalItemRecord = null;
+
+    } else {
+      finish();
+    }
+  }
+
+  private void toggleFormView(int visibility) {
+    mHeaderView.setVisibility(visibility);
+    mScanButton.setVisibility(visibility);
+    mFormView.setVisibility(visibility);
+    mButtonBar.setVisibility(visibility);
+  }
+
+  private void showFormView() {
+    toggleFormView(View.VISIBLE);
+  }
+
+  private void hideFormView() {
+    toggleFormView(View.GONE);
+  }
+
+  private void toggleLoadingView(int visibility) {
+    mLoadingView.setVisibility(visibility);
+  }
+
+  private void showLoadingView() {
+    toggleLoadingView(View.VISIBLE);
+  }
+
+  private void hideLoadingView() {
+    toggleLoadingView(View.GONE);
+  }
+
+  private void toggleConfirmationView(int visibility) {
+    mHeaderView.setVisibility(visibility);
+    mContentText.setVisibility(visibility);
+    mButtonBar.setVisibility(visibility);
+  }
+
+  private void showConfirmationView() {
+    toggleConfirmationView(View.VISIBLE);
+  }
+
+  private void hideConfirmationView() {
+    toggleConfirmationView(View.GONE);
+  }
+
+  private void setConfirmation(int id) {
+    final String title, message;
+
+    switch (id) {
+      case NOT_FOUND:
+        title = getString(R.string.title_alert_not_found);
+        message = getString(R.string.msg_alert_not_found, mPostalItemRecord.getCod());
+        break;
+
+      case DELIVERED_ITEM:
+        title = getString(R.string.title_alert_delivered_item);
+        message = getString(R.string.msg_alert_delivered_item);
+        break;
+
+      case RETURNED_ITEM:
+        title = getString(R.string.title_alert_returned_item);
+        message = getString(R.string.msg_alert_returned_item);
+        break;
+
+      case NET_ERROR:
       default:
-        return super.onOptionsItemSelected(item);
+        title = getString(R.string.title_alert_net_error);
+        message = getString(R.string.msg_alert_net_error);
+        break;
     }
+
+    mTitleText.setText(title);
+    mContentText.setText(message);
   }
 
-  @Override
-  public void onConfirmAddPostalItem(PostalItem pi) {
-      onPostalItemAdded(pi);
-  }
-
-  @Override
-  public void onCancelAddPostalItem(PostalItem pi) {
-    dh.deletePostalItem(pi.getCod());
-    this.pi = null;
-  }
-
-  public void onAddPostalItemClick(View v) {
-    String cod = trkCode.getText().toString().toUpperCase(Locale.getDefault());
-    String desc = itemDesc.getText().toString();
-
-    try {
-      cod = parseCod(cod);
-      pi = new PostalItem(cod, (!desc.equals("") ? desc : null), fav.isChecked());
-    task = new InsertPostalItem(dh).execute(pi);
-    } catch(Exception e) {
-      trkCode.setError(e.getMessage());
-    }
+  private void resetConfirmation() {
+    mTitleText.setText(R.string.title_add);
+    mContentText.setText(null);
   }
 
   private void handleIntent() {
@@ -189,8 +299,8 @@ public class AddActivity extends Activity implements AddDialogFragment.OnAddDial
       if (cod != null) {
         try {
           cod = parseCod(cod);
-          trkCode.setText(cod);
-          itemDesc.requestFocus();
+          mTrackingNumberField.setText(cod);
+          mItemNameField.requestFocus();
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
@@ -233,124 +343,94 @@ public class AddActivity extends Activity implements AddDialogFragment.OnAddDial
     throw new Exception(error);
   }
 
-  private void onPostalItemAdded(PostalItem pi) {
+  private void addPostalItemRecord() {
+    mPostalItemRecord.saveTo(dh);
     app.setUpdatedList();
 
     Intent intent = new Intent(this, RecordActivity.class);
-    intent.putExtra("postalItem", pi);
+    intent.putExtra("postalItem", mPostalItemRecord.getPostalItem());
     intent.putExtra("isNew", true);
     startActivity(intent);
     finish();
   }
 
-  private class InsertPostalItem extends AsyncTask<Object, Void, PostalItem> {
-    private DatabaseHelper dh;
+  private class RequestPostalItemRecordTask extends AsyncTask<Object, Void, PostalItemRecord> {
     private String error;
-
-    public InsertPostalItem(DatabaseHelper dh) {
-      super();
-      this.dh = dh;
-    }
 
     @Override
     protected void onPreExecute() {
-      progress.setMessage(getString(R.string.title_tracking_obj));
-      progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-        @Override
-      public void onCancel(DialogInterface dialog) {
-          cancel(true);
-        }
-      });
-      progress.show();
+      hideFormView();
+      showLoadingView();
     }
 
     @Override
-    protected PostalItem doInBackground(Object... params) {
-      PostalItem pi = (PostalItem) params[0];
+    protected PostalItemRecord doInBackground(Object... params) {
+      PostalItemRecord pir = (PostalItemRecord) params[0];
 
-      dh.beginTransaction();
+      PostalItem pi = pir.getPostalItem();
+      List<PostalRecord> prList = new ArrayList<PostalRecord>();
+
       try {
-        List<RegistroRastreamento> list = Rastreamento.rastrear(pi.getCod());
-        pi.setReg(list.get(0));
-        dh.insertPostalItem(pi);
-        for(int i=0, length=list.size(); i<length; i++) {
-          PostalRecord pr = new PostalRecord(pi.getCod(), length-i-1, list.get(i));
-          dh.insertPostalRecord(pr);
+        List<RegistroRastreamento> rrList = Rastreamento.rastrear(pi.getCod());
+        pi.setReg(rrList.get(0));
+
+        for (int i=0, length=rrList.size(); i<length; i++) {
+          PostalRecord pr = new PostalRecord(pi.getCod(), length-i-1, rrList.get(i));
+          prList.add(pr);
         }
-        dh.setTransactionSuccessful();
+
         if (pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
           throw new Exception(getString(R.string.title_alert_delivered_item));
         }
         if (pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
           throw new Exception(getString(R.string.title_alert_returned_item));
         }
+
       } catch (Exception e) {
         error = e.getMessage();
         if (error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ||
           error.startsWith("Não foi possível obter contato com o site")) {
-          dh.insertPostalItem(pi);
           PostalRecord pr = new PostalRecord(pi.getCod(), -1);
           pr.setStatus(PostalUtils.Status.NAO_ENCONTRADO);
-          dh.insertPostalRecord(pr);
-          dh.setTransactionSuccessful();
+          prList.add(pr);
         }
+
       } finally {
-        dh.endTransaction();
+        pir.setPostalItem(pi);
+        pir.setPostalRecords(prList);
       }
 
-      // Get fresh information from the database, including possible defaults for empty fields
-      return dh.getPostalItem(pi.getCod());
+      return pir;
     }
 
     @Override
-    protected void onPostExecute(PostalItem pi) {
-      if (progress.isShowing()) {
-        progress.dismiss();
-      }
-
+    protected void onPostExecute(PostalItemRecord pir) {
       if (error != null) {
-        int id = error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ? AddDialogFragment.NOT_FOUND :
-          error.startsWith("Não foi possível obter contato com o site") ? AddDialogFragment.NET_ERROR :
-          error.equals(getString(R.string.title_alert_delivered_item)) ? AddDialogFragment.DELIVERED_ITEM :
-          error.equals(getString(R.string.title_alert_returned_item)) ? AddDialogFragment.RETURNED_ITEM : -1;
+        int id = error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ? NOT_FOUND :
+          error.startsWith("Não foi possível obter contato com o site") ? NET_ERROR :
+          error.equals(getString(R.string.title_alert_delivered_item)) ? DELIVERED_ITEM :
+          error.equals(getString(R.string.title_alert_returned_item)) ? RETURNED_ITEM : -1;
 
         if (id != -1) {
-          try {
-            AddDialogFragment dialog = AddDialogFragment.newInstance(id, pi);
-            dialog.setCancelable(false);
-            dialog.show(fragManager, AddDialogFragment.TAG);
-          } catch (Exception e) {
-            onConfirmAddPostalItem(pi);
-          }
+          hideLoadingView();
+          setConfirmation(id);
+          showConfirmationView();
+
         } else {
           UIUtils.showToast(AddActivity.this, error);
         }
       } else {
-        onPostalItemAdded(pi);
+        addPostalItemRecord();
       }
 
-      task = null;
+      mRequestPostalItemRecordTask = null;
     }
 
     @Override
-    protected void onCancelled(PostalItem pi) {
-      if (progress.isShowing()) {
-        progress.dismiss();
-      }
-
-      task = null;
+    protected void onCancelled(PostalItemRecord pir) {
+      mRequestPostalItemRecordTask = null;
+      hideLoadingView();
+      showFormView();
     }
   }
-
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
-    int length = s.length();
-    trkCode.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
-  }
-
-  @Override
-  public void afterTextChanged(Editable s) {}
-
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 }

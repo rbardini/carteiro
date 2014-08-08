@@ -7,11 +7,13 @@
     <item name="android:actionBarWidgetTheme">@style/Theme.Carteiro.Widget</item>
 
     <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowBackground">@color/background</item>
-    <item name="android:colorBackground">@color/background</item>
+    <item name="android:windowBackground">@color/theme_background</item>
+    <item name="android:colorBackground">@color/theme_background</item>
     <item name="android:fadeScrollbars">true</item>
-    <item name="android:textViewStyle">@style/TextView</item>
-    <item name="android:buttonStyle">@style/Button</item>
+    <item name="android:textViewStyle">@style/TextViewStyle</item>
+    <item name="android:editTextStyle">@style/EditTextStyle</item>
+    <item name="android:buttonStyle">@style/ButtonStyle</item>
+    <item name="android:borderlessButtonStyle">@style/BorderlessButtonStyle</item>
     <item name="android:checkboxStyle">@style/CheckBox</item>
     <item name="android:listViewStyle">@style/ListView</item>
     <item name="android:actionBarSize">@dimen/actionbar_height</item>
@@ -32,10 +34,14 @@
     <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
     <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
     <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
-    <item name="android:editTextBackground">@drawable/edit_text</item>
     <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector</item>
   </style>
 
   <style name="Theme.Carteiro.Translucent"></style>
+  <style name="Theme.Carteiro.AddPopup" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+    <item name="android:editTextStyle">@style/EditTextStyle</item>
+    <item name="android:buttonStyle">@style/ButtonStyle</item>
+    <item name="android:borderlessButtonStyle">@style/BorderlessButtonStyle</item>
+  </style>
 
 </resources>

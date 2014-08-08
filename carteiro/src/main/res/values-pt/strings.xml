@@ -29,10 +29,9 @@
   <string name="title_add">Adicionar objeto</string>
 
   <string name="hint_tracking_code">Código de rastreamento</string>
-  <string name="hint_item_description">Descrição do objeto</string>
-  <string name="checkbox_add_favorite">Marcar como favorito</string>
+  <string name="tip_tracking_code">Exemplo: SA123456789BR</string>
+  <string name="hint_item_description">Nome do objeto (opcional)</string>
 
-  <string name="title_tracking_obj">Rastreando objeto&#8230;</string>
   <string name="title_alert_not_found">Adicionar objeto não encontrado?</string>
   <string name="title_alert_net_error">Adicionar objeto offline?</string>
   <string name="title_alert_delivered_item">Adicionar objeto entregue?</string>
@@ -40,11 +39,11 @@
 
   <string name="msg_alert_empty_cod">Informe o código de rastreamento do objeto.</string>
   <string name="msg_alert_wrong_length_cod">O código de rastreamento deve ter 13 dígitos.</string>
-  <string name="msg_alert_bad_format_cod">Código de rastreamento fora do padrão.\nExemplo válido: SS123456789BR</string>
+  <string name="msg_alert_bad_format_cod">Código de rastreamento fora do padrão.</string>
   <string name="msg_alert_invalid_dv_cod">Código de rastreamento inválido: dígito verificador não confere.</string>
   <string name="msg_alert_default_error_cod">Código de rastreamento inválido.</string>
-  <string name="msg_alert_not_found">Verifique se o código %s está correto.\n\nSe o objeto foi postado recentemente, é natural que seus dados ainda não estejam no sistema.</string>
-  <string name="msg_alert_net_error">Os Correios podem estar offline ou uma conexão de rede não foi encontrada.\n\nNovas tentativas de contato serão feitas durante as sincronizações agendadas.</string>
+  <string name="msg_alert_not_found">Verifique se o código %s está correto.\n\nCaso o objeto tenha sido postado recentemente, é natural que suas informações ainda não estejam disponíveis.</string>
+  <string name="msg_alert_net_error">O sistema dos Correios pode estar offline ou uma conexão de rede não foi encontrada.\n\nNovas tentativas de contato serão feitas durante as sincronizações agendadas.</string>
   <string name="msg_alert_delivered_item">O objeto já foi entregue ao seu destinatário. Novas mudanças de status são improváveis.</string>
   <string name="msg_alert_returned_item">O objeto já foi devolvido ao seu remetente. Novas mudanças de status são improváveis.</string>
 
@@ -102,7 +101,7 @@
   <!-- Context Menu -->
   <string name="opt_add">Adicionar</string>
   <string name="opt_search">Pesquisar</string>
-  <string name="opt_scan_barcode">Escanear código</string>
+  <string name="opt_scan_barcode">Escanear</string>
   <string name="opt_refresh_item">Atualizar</string>
   <string name="opt_rename_item">Renomear</string>
   <string name="opt_mark_as_fav">Marcar como favorito</string>

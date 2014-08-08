@@ -29,10 +29,9 @@
   <string name="title_add">Add item</string>
 
   <string name="hint_tracking_code">Tracking number</string>
-  <string name="hint_item_description">Item description</string>
-  <string name="checkbox_add_favorite">Mark as favorite</string>
+  <string name="tip_tracking_code">Example: RA123456789US</string>
+  <string name="hint_item_description">Item name (optional)</string>
 
-  <string name="title_tracking_obj">Tracking item&#8230;</string>
   <string name="title_alert_not_found">Add item not found?</string>
   <string name="title_alert_net_error">Add item offline?</string>
   <string name="title_alert_delivered_item">Add delivered item?</string>
@@ -40,11 +39,11 @@
 
   <string name="msg_alert_empty_cod">Enter the item tracking number.</string>
   <string name="msg_alert_wrong_length_cod">The tracking number must have 13 digits.</string>
-  <string name="msg_alert_bad_format_cod">Nonstandard tracking number.\nValid example: SS123456789BR</string>
+  <string name="msg_alert_bad_format_cod">Nonstandard tracking number.</string>
   <string name="msg_alert_invalid_dv_cod">Invalid tracking number: check digit does not match.</string>
   <string name="msg_alert_default_error_cod">Invalid tracking number.</string>
-  <string name="msg_alert_not_found">Check if the number %s is correct.\n\nIn case the item has been posted recently, it is natural that its data are not yet in the system.</string>
-  <string name="msg_alert_net_error">The Correios might be offline or a network connection was not found.\n\nNew contact attempts will be made during the scheduled syncs.</string>
+  <string name="msg_alert_not_found">Check if the number %s is correct.\n\nIn case the item has been recently posted, it is typical that its information is not yet available.</string>
+  <string name="msg_alert_net_error">The Correios system might be offline or a network connection was not found.\n\nNew contact attempts will be made during the scheduled syncs.</string>
   <string name="msg_alert_delivered_item">The item has already been delivered to its addressee. Newer status updates are unlikely.</string>
   <string name="msg_alert_returned_item">The item has already been returned to its sender. Newer status updates are unlikely.</string>
 
@@ -102,7 +101,7 @@
   <!-- Context Menu -->
   <string name="opt_add">Add</string>
   <string name="opt_search">Search</string>
-  <string name="opt_scan_barcode">Scan code</string>
+  <string name="opt_scan_barcode">Scan</string>
   <string name="opt_refresh_item">Refresh</string>
   <string name="opt_rename_item">Rename</string>
   <string name="opt_mark_as_fav">Mark as favorite</string>

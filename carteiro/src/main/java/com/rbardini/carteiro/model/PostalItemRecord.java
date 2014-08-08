@@ -71,11 +71,16 @@ public class PostalItemRecord implements Serializable {
   }
 
   public PostalItemRecord saveTo(DatabaseHelper dh) {
+    dh.beginTransaction();
+
     dh.insertPostalItem(this.pi);
 
     for (PostalRecord pr : this.prList) {
       dh.insertPostalRecord(pr); // TODO: Handle insert error
     }
+
+    dh.setTransactionSuccessful();
+    dh.endTransaction();
 
     return this;
   }

@@ -1,43 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/root_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/theme_primary">
+  android:orientation="vertical"
+  android:padding="@dimen/keyline_1"
+  android:animateLayoutChanges="true">
+
+  <FrameLayout
+    android:id="@+id/header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView style="?android:titleTextStyle"
+      android:id="@+id/title_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingTop="8dp"
+      android:paddingBottom="4dp"
+      android:paddingRight="12dp"
+      android:paddingLeft="12dp"
+      android:includeFontPadding="false"
+      android:textSize="@dimen/text_size_title"
+      android:text="@string/title_add" />
+
+    <Button style="?android:attr/borderlessButtonStyle"
+      android:id="@+id/scan_button"
+      android:layout_width="wrap_content"
+      android:layout_height="@dimen/button_height"
+      android:layout_gravity="right"
+      android:drawableLeft="@drawable/ic_action_barcode"
+      android:drawablePadding="4dp"
+      android:text="@string/opt_scan_barcode"
+      android:onClick="onScanClick" />
+
+  </FrameLayout>
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/background"
-    android:padding="@dimen/keyline_1">
+    android:orientation="vertical">
 
-    <EditText style="@style/TrkCodeField"
-      android:id="@+id/trk_code_fld"
-      android:textColor="@color/theme_primary" />
-
-    <EditText style="@style/ItemDescField"
-      android:id="@+id/item_desc_fld"
-      android:textColor="@color/theme_primary" />
-
-    <RelativeLayout
+    <LinearLayout
+      android:id="@+id/form_layout"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:paddingBottom="@dimen/keyline_1">
 
-      <CheckBox style="@style/Star.Add"
-        android:id="@+id/star_chkbox" />
+      <EditText style="@style/TrkCodeField"
+        android:id="@+id/trk_code_fld" />
 
-      <Button
-        android:id="@+id/add_item_btn"
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:textAppearance="@style/HintTextAppearance"
+        android:text="@string/tip_tracking_code" />
+
+      <EditText style="@style/ItemDescField"
+        android:id="@+id/item_desc_fld"
+        android:imeOptions="actionGo" />
+
+    </LinearLayout>
+
+    <TextView
+      android:id="@+id/content_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="12dp"
+      android:textSize="@dimen/text_size_subhead"
+      android:textColor="@color/text_secondary"
+      android:visibility="gone" />
+
+    <LinearLayout
+      android:id="@+id/button_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:gravity="right">
+
+      <Button style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_btn"
-        android:layout_alignParentRight="true"
-        android:onClick="onAddPostalItemClick" />
+        android:text="@string/negative_btn"
+        android:onClick="onCancelClick" />
 
-    </RelativeLayout>
+      <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:text="@string/add_btn"
+        android:onClick="onAddClick"
+        android:enabled="false" />
+
+    </LinearLayout>
 
   </LinearLayout>
 
-</FrameLayout>
+  <ProgressBar
+    android:id="@+id/loading_indicator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="@dimen/keyline_1"
+    android:visibility="gone" />
+
+</LinearLayout>
