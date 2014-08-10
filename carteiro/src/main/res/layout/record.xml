@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Container">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
 
   <RelativeLayout style="@style/Record.Header"
     android:id="@+id/header">
 
-    <LinearLayout style="@style/Wrap"
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_marginLeft="?android:attr/actionBarSize"
       android:orientation="vertical">
 
-      <TextView style="@style/Wrap"
-        android:id="@+id/legend"
-        android:textColor="@color/actionbar" />
+      <TextView style="@style/Record.Heading"
+        android:id="@+id/legend" />
 
       <TextView style="@style/Record.Heading.Title"
         android:id="@+id/title" />
@@ -23,11 +27,16 @@
 
   </RelativeLayout>
 
-  <FrameLayout style="@style/Container"
-    android:id="@+id/record_list" />
+  <FrameLayout
+    android:id="@+id/record_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" />
 
-  <Button style="@style/Wrap"
+  <Button
     android:id="@+id/hidden_edit_opt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:visibility="gone" />
 
 </LinearLayout>

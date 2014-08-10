@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item android:id="@+id/add_opt"
-    android:icon="@drawable/ic_action_item_add"
+    android:icon="@drawable/ic_action_add"
     android:title="@string/add_opt"
     android:showAsAction="ifRoom" />
 
@@ -16,10 +16,5 @@
     android:icon="@drawable/ic_action_share"
     android:title="@string/share_opt"
     android:showAsAction="ifRoom" />
-
-  <item android:id="@+id/preferences_opt"
-    android:icon="@drawable/ic_action_settings"
-    android:title="@string/preferences_opt"
-    android:showAsAction="never" />
 
 </menu>

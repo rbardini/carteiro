@@ -12,13 +12,16 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.rbardini.carteiro.CarteiroApplication;
@@ -30,18 +33,26 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 public class MainActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
+
+  // Delay to launch navigation drawer item, to allow close animation to play
+  private static final int NAVDRAWER_LAUNCH_DELAY = 250;
+
+  // Fade in and fade out durations for the main content when switching between
+  // different fragments through the navigation drawer
+  private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
+  private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
   private CarteiroApplication app;
   private ActionBar mActionBar;
   private FragmentManager mFragmentManager;
   private NotificationManager mNotificationManager;
+  private Handler mHandler;
+  private View mMainContainer;
   private DrawerLayout mDrawerLayout;
-  private StickyListHeadersListView mDrawerList;
-  private int[] mDrawerItems;
+  private ListView mDrawerList;
+  private DrawerListAdapter mDrawerListAdapter;
   private ActionBarDrawerToggle mDrawerToggle;
   private CharSequence mTitle;
   private PostalListFragment mCurrentFragment;
@@ -64,24 +75,48 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
       }
     });
     mNotificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
+    mHandler = new Handler();
 
     mActionBar.setDisplayHomeAsUpEnabled(true);
+    mMainContainer = findViewById(R.id.main_content);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    mDrawerList = (StickyListHeadersListView) findViewById(R.id.nav_drawer);
-    mDrawerList.setAreHeadersSticky(false);
-    mDrawerItems = new int[] {
-      Category.ALL,       Category.FAVORITES, Category.AVAILABLE,
-      Category.DELIVERED, Category.IRREGULAR, Category.UNKNOWN,
-      Category.RETURNED,  Category.ARCHIVED
-    };
-    mDrawerList.setAdapter(new DrawerListAdapter(this, mDrawerItems));
+    mDrawerList = (ListView) findViewById(R.id.nav_drawer);
+    mDrawerListAdapter = new DrawerListAdapter(this);
+    mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showCategory(position);
+        final DrawerListAdapter.DrawerModel model = mDrawerListAdapter.getItem(position);
+
+        // Fade out main content view if a new fragment will be shown
+        if (model.action == DrawerListAdapter.ACTION_CATEGORY && model.id != mCurrentFragment.getCategory()) {
+          mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
+        }
+
+        // Launch item after a short delay, to allow navigation drawer close animation to play
+        mHandler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            switch (model.action) {
+              case DrawerListAdapter.ACTION_CATEGORY:
+                showCategory(model.id);
+                break;
+
+              case DrawerListAdapter.ACTION_SETTINGS:
+                startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+                break;
+
+              case DrawerListAdapter.ACTION_FEEDBACK:
+                UIUtils.openURL(MainActivity.this, getString(R.string.feedback_url));
+                break;
+            }
+          }
+        }, NAVDRAWER_LAUNCH_DELAY);
+
+        mDrawerLayout.closeDrawer(mDrawerList);
       }
     });
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_indicator, R.string.drawer_open, R.string.drawer_close) {
       @Override
       public void onDrawerClosed(View drawerView) {
         mActionBar.setTitle(mTitle);
@@ -95,8 +130,9 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
       }
     };
     mDrawerLayout.setDrawerListener(mDrawerToggle);
+    mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
-    if (savedInstanceState == null) showCategory(0);
+    if (savedInstanceState == null) showCategory(Category.ALL);
     else mCurrentFragment = getCurrentFragment();
   }
 
@@ -207,10 +243,6 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
         if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
         return true;
 
-      case R.id.preferences_opt:
-        startActivity(new Intent(this, PreferencesActivity.class));
-        return true;
-
       default:
         return super.onOptionsItemSelected(item);
     }
@@ -220,6 +252,15 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
   public void setTitle(CharSequence title) {
     mTitle = title;
     mActionBar.setTitle(mTitle);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+      mDrawerLayout.closeDrawer(mDrawerList);
+    } else {
+      super.onBackPressed();
+    }
   }
 
   @Override
@@ -247,17 +288,10 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
   }
 
   public void setDrawerCategoryChecked(int category) {
-    for (int i=0; i<mDrawerItems.length; i++) {
-      if (mDrawerItems[i] == category) {
-        mDrawerList.setItemChecked(i, true);
-        break;
-      }
-    }
+    mDrawerListAdapter.setSelectedCategory(category);
   }
 
-  private void showCategory(int position) {
-    int category = mDrawerItems[position];
-
+  private void showCategory(int category) {
     // Only replace fragment if it is a different category
     if (mCurrentFragment == null || mCurrentFragment.getCategory() != category) {
       PostalListFragment newFragment = PostalListFragment.newInstance(category);
@@ -266,18 +300,17 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
       mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
       FragmentTransaction ft = mFragmentManager
           .beginTransaction()
-          .replace(R.id.main_container, newFragment, name);
+          .replace(R.id.main_content, newFragment, name);
       if (mCurrentFragment != null && category != Category.ALL) ft.addToBackStack(name);  // Avoid adding empty main container and duplicate "all" category to the back stack
       ft.commit();
 
       mCurrentFragment = newFragment;
+      mMainContainer.animate().alpha(1).setDuration(MAIN_CONTENT_FADEIN_DURATION);
     }
-
-    mDrawerLayout.closeDrawer(mDrawerList);
   }
 
   private PostalListFragment getCurrentFragment() {
-    return (PostalListFragment) mFragmentManager.findFragmentById(R.id.main_container);
+    return (PostalListFragment) mFragmentManager.findFragmentById(R.id.main_content);
   }
 
   private void updateRefreshStatus() {

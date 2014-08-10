@@ -1,6 +1,8 @@
 package com.rbardini.carteiro.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +15,24 @@ import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.util.PostalUtils.Status;
+import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.List;
 import java.util.Set;
 
 public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
+  private final Context mContext;
   private final Set<String> mUpdatedCods;
   private final LayoutInflater mInflater;
 
   PostalItemListAdapter(Context context, List<PostalItem> list, Set<String> updatedCods) {
     super(list);
 
+    mContext = context;
     mUpdatedCods = updatedCods;
 
     // Cache the LayoutInflate to avoid asking for a new one each time
-    mInflater = LayoutInflater.from(context);
+    mInflater = LayoutInflater.from(mContext);
   }
 
   @Override
@@ -42,12 +47,11 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
 
       // Creates a ViewHolder and store references to the two children views we want to bind data to
       holder = new ViewHolder();
-      holder.cod = (TextView) convertView.findViewById(R.id.text_postal_item_cod);
-      holder.desc = (TextView) convertView.findViewById(R.id.text_postal_item_desc);
-      holder.date = (TextView) convertView.findViewById(R.id.text_postal_item_date);
-      holder.loc = (TextView) convertView.findViewById(R.id.text_postal_item_loc);
-      holder.info = (TextView) convertView.findViewById(R.id.text_postal_item_info);
-      holder.icon = (ImageView) convertView.findViewById(R.id.img_postal_item_status);
+      holder.desc = (TextView) convertView.findViewById(R.id.text_postal_status_title);
+      holder.date = (TextView) convertView.findViewById(R.id.text_postal_status_date);
+      holder.loc = (TextView) convertView.findViewById(R.id.text_postal_status_loc);
+      holder.info = (TextView) convertView.findViewById(R.id.text_postal_status_info);
+      holder.icon = (ImageView) convertView.findViewById(R.id.img_postal_status);
       holder.fav = (CheckBox) convertView.findViewById(R.id.star_chkbox);
 
       convertView.setTag(holder);
@@ -59,18 +63,26 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     PostalItem pi = getItem(position);
 
     // Bind the data efficiently with the holder
-    holder.cod.setText(pi.getCod());
     holder.desc.setText(pi.getSafeDesc());
-    holder.date.setText(DateUtils.getRelativeTimeSpanString(pi.getDate().getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+    holder.date.setText(DateUtils.getRelativeTimeSpanString(pi.getDate().getTime(), System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
     holder.loc.setText(pi.getLoc());
     holder.info.setText(pi.getFullInfo());
     holder.icon.setImageResource(Status.getIcon(pi.getStatus()));
     holder.fav.setChecked(pi.isFav());
     holder.fav.setTag(pi.getCod());
 
-    if (mUpdatedCods != null) {
-      convertView.setBackgroundResource(mUpdatedCods.contains(pi.getCod()) ? R.drawable.list_item_highlight : R.drawable.list_item_background);
+    // Set postal status icon background color
+    ((GradientDrawable) holder.icon.getBackground()).setColor(mContext.getResources().getColor(UIUtils.getPostalStatusColor(pi.getStatus())));
+
+    // Apply highlight if it is an updated item
+    int background = R.drawable.list_item_background;
+    int fontStyle = Typeface.NORMAL;
+    if (mUpdatedCods != null && mUpdatedCods.contains(pi.getCod())) {
+      background = R.drawable.list_item_highlight;
+      fontStyle = Typeface.BOLD;
     }
+    convertView.setBackgroundResource(background);
+    holder.desc.setTypeface(null, fontStyle);
 
     return convertView;
   }
@@ -81,7 +93,7 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
   }
 
   private static class ViewHolder {
-    private TextView cod, desc, date, loc, info;
+    private TextView desc, date, loc, info;
     private ImageView icon;
     private CheckBox fav;
   }

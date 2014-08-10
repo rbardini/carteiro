@@ -262,7 +262,7 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     }
     mLegend.setVisibility(hasDesc ? View.VISIBLE : View.GONE);
 
-    mSubtitle.setText(getString(R.string.subtitle_record, pi.getService()).toUpperCase(Locale.getDefault()));
+    mSubtitle.setText(getString(R.string.subtitle_record, pi.getService()));
     mSubtitle.setCompoundDrawablesWithIntrinsicBounds(pi.getFlag(this), 0, 0, 0);
   }
 

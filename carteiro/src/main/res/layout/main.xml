@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Fill"
-    android:id="@+id/root_layout"
-    android:background="@color/primary">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/root_layout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/theme_primary">
 
-  <android.support.v4.widget.DrawerLayout style="@style/Fill"
-      android:id="@+id/drawer_layout"
-      android:background="@color/background">
+  <android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <FrameLayout style="@style/Fill"
-        android:id="@+id/main_container" />
+    <FrameLayout
+      android:id="@+id/main_content"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:id="@+id/nav_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@color/overlay_divider"
-        android:dividerHeight="1px"
-        android:background="@color/overlay" />
+    <ListView
+      android:id="@+id/nav_drawer"
+      android:layout_width="@dimen/navdrawer_width"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      android:paddingTop="@dimen/keyline_1_half"
+      android:clipToPadding="false"
+      android:divider="@null"
+      android:dividerHeight="0dp"
+      android:background="@color/background" />
 
   </android.support.v4.widget.DrawerLayout>
 

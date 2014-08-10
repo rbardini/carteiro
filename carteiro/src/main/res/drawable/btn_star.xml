@@ -1,35 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-  <!-- Enabled states -->
-  <item android:state_checked="true" android:state_window_focused="false" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_on_normal" />
-  <item android:state_checked="false" android:state_window_focused="false" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_off_normal" />
-  <item android:state_checked="true" android:state_pressed="true" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_on_pressed" />
-  <item android:state_checked="false" android:state_pressed="true" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_off_pressed" />
-  <item android:state_checked="true" android:state_focused="true" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_on_selected" />
-  <item android:state_checked="false" android:state_focused="true" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_off_selected" />
-  <item android:state_checked="false" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_off_normal" />
-  <item android:state_checked="true" android:state_enabled="true"
-    android:drawable="@drawable/btn_star_on_normal" />
-
-  <!-- Disabled states -->
-  <!--<item android:state_checked="true" android:state_window_focused="false"
-    android:drawable="@drawable/btn_star_on_disable" />-->
-  <!--<item android:state_checked="false" android:state_window_focused="false"
-    android:drawable="@drawable/btn_star_off_disable" />-->
-  <!--<item android:state_checked="true" android:state_focused="true"
-    android:drawable="@drawable/btn_star_on_disable_focused" />-->
-  <!--<item android:state_checked="false" android:state_focused="true"
-    android:drawable="@drawable/btn_star_off_disable_focused" />-->
-  <!--<item android:state_checked="false"
-    android:drawable="@drawable/btn_star_off_disable" />-->
-  <!--<item android:state_checked="true"
-    android:drawable="@drawable/btn_star_on_disable" />-->
+  <item android:state_checked="true"  android:drawable="@drawable/btn_star_filled" />
+  <item android:state_pressed="true"  android:drawable="@drawable/btn_star_pressed" />
+  <item android:state_selected="true" android:drawable="@drawable/btn_star_pressed" />
+  <item android:state_focused="true"  android:drawable="@drawable/btn_star_pressed" />
+  <item android:state_checked="false" android:drawable="@drawable/btn_star_normal" />
 </selector>

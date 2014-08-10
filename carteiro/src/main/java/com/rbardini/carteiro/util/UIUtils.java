@@ -64,8 +64,7 @@ public final class UIUtils {
   }
 
   public static int getActionBarHeight(Context context) {
-    TypedValue tv = new TypedValue();
-    return context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true) ? context.getResources().getDimensionPixelSize(tv.resourceId) : 0;
+    return context.getResources().getDimensionPixelSize(R.dimen.actionbar_height);
   }
 
   public static void addStatusBarPadding(Activity activity, int rootLayoutId, boolean offsetActionBar) {
@@ -73,5 +72,10 @@ public final class UIUtils {
     View rootLayout = activity.findViewById(rootLayoutId);
 
     rootLayout.setPadding(rootLayout.getPaddingLeft(), rootLayout.getPaddingTop() + paddingTop, rootLayout.getPaddingRight(), rootLayout.getPaddingBottom());
+  }
+
+  public static int getPostalStatusColor(String status) {
+    int category = PostalUtils.Status.getCategory(status);
+    return PostalUtils.Category.getColor(category == 0 ? PostalUtils.Category.ALL : category);
   }
 }

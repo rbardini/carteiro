@@ -5,7 +5,7 @@ import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.DateUtils;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -28,11 +28,7 @@ import com.rbardini.carteiro.util.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-
-public class PostalListFragment extends ListFragment implements OnRefreshListener, DeleteItemCallback {
+public class PostalListFragment extends ListFragment implements DeleteItemCallback {
   private CarteiroApplication app;
   private Activity activity;
   private Handler handler;
@@ -45,7 +41,7 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
   private List<PostalItem> mList;
   private PostalItemListAdapter mListAdapter;
   private ContextualUndoAdapter mUndoAdapter;
-  private PullToRefreshLayout mPullToRefreshLayout;
+  private SwipeRefreshLayout mSwipeRefreshLayout;
 
   public static PostalListFragment newInstance(int category) {
     PostalListFragment f = new PostalListFragment();
@@ -105,17 +101,19 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
     mUndoAdapter.setAbsListView(getListView());
     getListView().setAdapter(mUndoAdapter);
 
-    mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
-    ActionBarPullToRefresh.from(activity).allChildrenArePullable().listener(this).setup(mPullToRefreshLayout);
-
-    handler = new Handler();
-    handler.postDelayed(new Runnable() {
+    mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
+    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
-      public void run() {
-        mListAdapter.notifyDataSetChanged();
-        handler.postDelayed(this, DateUtils.MINUTE_IN_MILLIS);
+      public void onRefresh() {
+        onRefreshStarted();
       }
-    }, DateUtils.MINUTE_IN_MILLIS);
+    });
+    mSwipeRefreshLayout.setColorSchemeResources(
+      R.color.theme_accent,
+      R.color.theme_primary_light,
+      R.color.theme_accent,
+      R.color.theme_primary_dark
+    );
 
     if (CarteiroApplication.state.syncing) setRefreshing();
   }
@@ -205,19 +203,6 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
   }
 
   @Override
-  public void onRefreshStarted(View view) {
-    if (!CarteiroApplication.state.syncing) {
-      Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
-      List<String> cods = new ArrayList<String>();
-      for (PostalItem pi : mList) {
-        cods.add(pi.getCod());
-      }
-      intent.putExtra("cods", cods.toArray(new String[cods.size()]));
-      activity.startService(intent);
-    }
-  }
-
-  @Override
   public void deleteItem(int position) {
     PostalItem pi = mList.get(position);
 
@@ -240,8 +225,19 @@ public class PostalListFragment extends ListFragment implements OnRefreshListene
   public String getQuery() { return query; }
   public boolean shouldDeleteItems() { return (query != null) || (category == Category.ARCHIVED); }
 
-  public void setRefreshing() { mPullToRefreshLayout.setRefreshing(true); }
-  public void onRefreshComplete() { mPullToRefreshLayout.setRefreshComplete(); }
+  public void onRefreshStarted() {
+    if (!CarteiroApplication.state.syncing) {
+      Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
+      List<String> cods = new ArrayList<String>();
+      for (PostalItem pi : mList) {
+        cods.add(pi.getCod());
+      }
+      intent.putExtra("cods", cods.toArray(new String[cods.size()]));
+      activity.startService(intent);
+    }
+  }
+  public void setRefreshing() { mSwipeRefreshLayout.setRefreshing(true); }
+  public void onRefreshComplete() { mSwipeRefreshLayout.setRefreshing(false); }
 
   public void refreshList(boolean propagate) {
     mUndoAdapter.removePendingItem();

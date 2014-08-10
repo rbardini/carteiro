@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/Fill"
-    android:gravity="center"
-    android:orientation="horizontal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="horizontal"
+  android:gravity="center">
 
-  <TextView style="@style/Wrap"
-      android:layout_weight="1"
-      android:text="@string/label_item_archived"
-      android:textColor="@android:color/white"
-      android:textSize="@dimen/text_size_medium"
-      android:padding="16dp" />
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="@string/label_item_archived"
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/text_size_subhead"
+    android:padding="@dimen/keyline_1" />
 
   <include layout="@layout/undo_button" />
 

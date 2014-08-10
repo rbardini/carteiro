@@ -16,6 +16,7 @@
   <string name="add_opt">Add</string>
   <string name="share_opt">Share</string>
   <string name="preferences_opt">Settings</string>
+  <string name="feedback_opt">Feedback &amp; Support</string>
   <string name="search_opt">Search</string>
   <string name="edit_opt">Edit</string>
   <string name="websro_opt">SRO Correios</string>
@@ -196,11 +197,6 @@
   <string name="subtitle_search">Search results</string>
   <string name="search_hint">Search items</string>
   <string name="search_desc">Number and description of your tracked items</string>
-
-  <!-- Pull to Refresh -->
-  <string name="ptr_pull_text">Pull to sync</string>
-  <string name="ptr_release_text">Release to sync</string>
-  <string name="ptr_refreshing_text">Syncing…</string>
 
   <!-- Content Description -->
   <string name="desc_status">Status</string>

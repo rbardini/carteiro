@@ -1,43 +1,53 @@
 package com.rbardini.carteiro.util;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
 import android.content.Context;
 import android.content.Intent;
+
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
 public final class PostalUtils {
   public static final class Category {
-    public static final int RETURNED    = 0x1;
-    public static final int UNKNOWN     = 0x2;
-    public static final int IRREGULAR   = 0x4;
-    public static final int ALL         = 0x8;
-    public static final int FAVORITES   = 0x10;
+    public static final int ALL         = 0x1;
+    public static final int FAVORITES   = 0x2;
+    public static final int ARCHIVED    = 0x4;
+    public static final int POSTED      = 0x8;
+    public static final int UNDELIVERED = 0x10;
     public static final int AVAILABLE   = 0x20;
     public static final int DELIVERED   = 0x40;
-    public static final int UNDELIVERED = 0x80;
-    public static final int ARCHIVED    = 0x100;
+    public static final int IRREGULAR   = 0x80;
+    public static final int UNKNOWN     = 0x100;
+    public static final int RETURNED    = 0x200;
 
     private static final Map<Integer, String[]> StatusesMap = buildStatusesMap();
     private static final Map<Integer, Integer> TitleMap = buildTitleMap();
-    private static final Map<Integer, Integer> IconMap = buildIconMap();
+    private static final Map<Integer, Integer> ColorMap = buildColorMap();
 
     private static TreeMap<Integer, String[]> buildStatusesMap() {
       TreeMap<Integer, String[]> map = new TreeMap<Integer, String[]>();
 
-      map.put(RETURNED, new String[] {
-          Status.EM_DEVOLUCAO,
-          Status.ESTORNADO,
-          Status.DISTRIBUIDO_AO_REMETENTE,
-          Status.DEVOLVIDO_AO_REMETENTE
+      map.put(POSTED, new String[] {
+          Status.POSTADO,
+          Status.POSTADO_DEPOIS_HORARIO_LIMITE,
+          Status.POSTAGEM_DH
       });
-      map.put(UNKNOWN, new String[] {
-          Status.INDETERMINADO,
-          Status.NAO_ENCONTRADO,
-          Status.NAO_LOCALIZADO_FLUXO_POSTAL
+      map.put(AVAILABLE, new String[] {
+          Status.AGUARDANDO_RETIRADA,
+          Status.SAIU_PARA_ENTREGA,
+          Status.SAIU_PARA_ENTREGA_DESTINATARIO,
+          Status.DISPONIVEL_EM_CAIXA_POSTAL,
+          Status.DISPONIVEL_NA_CAIXA_POSTAL,
+          Status.DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL
+      });
+      map.put(DELIVERED, new String[] {
+          Status.ENTREGUE,
+          Status.ENTREGA_EFETUADA
       });
       map.put(IRREGULAR, new String[] {
           Status.DESTINATARIO_DESCONHECIDO_ENDERECO,
@@ -70,33 +80,17 @@ public final class PostalUtils {
           Status.OBJETO_RETIDO,
           Status.IMPORTACAO_NAO_AUTORIZADA
       });
-      map.put(AVAILABLE, new String[] {
-          Status.AGUARDANDO_RETIRADA,
-          Status.SAIU_PARA_ENTREGA,
-          Status.SAIU_PARA_ENTREGA_DESTINATARIO,
-          Status.DISPONIVEL_EM_CAIXA_POSTAL,
-          Status.DISPONIVEL_NA_CAIXA_POSTAL,
-          Status.DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL
+      map.put(UNKNOWN, new String[] {
+          Status.INDETERMINADO,
+          Status.NAO_ENCONTRADO,
+          Status.NAO_LOCALIZADO_FLUXO_POSTAL
       });
-      map.put(DELIVERED, new String[] {
-          Status.ENTREGUE,
-          Status.ENTREGA_EFETUADA
+      map.put(RETURNED, new String[] {
+          Status.EM_DEVOLUCAO,
+          Status.ESTORNADO,
+          Status.DISTRIBUIDO_AO_REMETENTE,
+          Status.DEVOLVIDO_AO_REMETENTE
       });
-
-      return map;
-    }
-
-    private static TreeMap<Integer, Integer> buildIconMap() {
-      TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
-
-      map.put(ALL, R.drawable.ic_action_all);
-      map.put(FAVORITES, R.drawable.ic_action_star);
-      map.put(AVAILABLE, R.drawable.ic_action_time);
-      map.put(DELIVERED, R.drawable.ic_action_check);
-      map.put(IRREGULAR, R.drawable.ic_action_warning);
-      map.put(UNKNOWN, R.drawable.ic_action_help);
-      map.put(RETURNED, R.drawable.ic_action_replay);
-      map.put(ARCHIVED, R.drawable.ic_action_archive);
 
       return map;
     }
@@ -116,6 +110,20 @@ public final class PostalUtils {
       return map;
     }
 
+    private static TreeMap<Integer, Integer> buildColorMap() {
+      TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+
+      map.put(ALL, R.color.postal_status_all);
+      map.put(POSTED, R.color.postal_status_posted);
+      map.put(AVAILABLE, R.color.postal_status_available);
+      map.put(DELIVERED, R.color.postal_status_delivered);
+      map.put(IRREGULAR, R.color.postal_status_irregular);
+      map.put(UNKNOWN, R.color.postal_status_unknown);
+      map.put(RETURNED, R.color.postal_status_returned);
+
+      return map;
+    }
+
     public static String[] getStatuses(int category) {
       return StatusesMap.get(category);
     }
@@ -124,22 +132,28 @@ public final class PostalUtils {
       return TitleMap.get(category);
     }
 
-    public static int getIcon(int category) {
-      return IconMap.get(category);
+    public static int getColor(int category) {
+      return ColorMap.get(category);
     }
   }
 
   public static final class Status {
-    // Returned
-    public static final String EM_DEVOLUCAO = "Em devolução";
-    public static final String ESTORNADO = "Estornado";
-    public static final String DISTRIBUIDO_AO_REMETENTE = "Distribuido ao Remetente";
-    public static final String DEVOLVIDO_AO_REMETENTE = "Devolvido ao remetente";
+    // Posted
+    public static final String POSTADO = "Postado";
+    public static final String POSTAGEM_DH = "Postagem - DH";
+    public static final String POSTADO_DEPOIS_HORARIO_LIMITE = "Postado depois do horário limite da agência";
 
-    // Unknown
-    public static final String INDETERMINADO = "Indeterminado";
-    public static final String NAO_ENCONTRADO = "Não encontrado";
-    public static final String NAO_LOCALIZADO_FLUXO_POSTAL = "Não localizado no fluxo postal";
+    // Available
+    public static final String AGUARDANDO_RETIRADA = "Aguardando retirada";
+    public static final String SAIU_PARA_ENTREGA = "Saiu para entrega";
+    public static final String SAIU_PARA_ENTREGA_DESTINATARIO = "Saiu para entrega ao destinatário";
+    public static final String DISPONIVEL_EM_CAIXA_POSTAL = "Disponível em caixa postal";
+    public static final String DISPONIVEL_NA_CAIXA_POSTAL = "Disponível na caixa postal";
+    public static final String DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL = "Disponível para retirada na caixa postal";
+
+    // Delivered
+    public static final String ENTREGUE = "Entregue";
+    public static final String ENTREGA_EFETUADA = "Entrega Efetuada";
 
     // Irregular
     public static final String DESTINATARIO_DESCONHECIDO_ENDERECO = "Destinatário desconhecido no endereço";
@@ -172,22 +186,18 @@ public final class PostalUtils {
     public static final String OBJETO_RETIDO = "Objeto retido pelo órgão de fiscalização";
     public static final String IMPORTACAO_NAO_AUTORIZADA = "Importação não autorizada por órgão da receita";
 
-    // Available
-    public static final String AGUARDANDO_RETIRADA = "Aguardando retirada";
-    public static final String SAIU_PARA_ENTREGA = "Saiu para entrega";
-    public static final String SAIU_PARA_ENTREGA_DESTINATARIO = "Saiu para entrega ao destinatário";
-    public static final String DISPONIVEL_EM_CAIXA_POSTAL = "Disponível em caixa postal";
-    public static final String DISPONIVEL_NA_CAIXA_POSTAL = "Disponível na caixa postal";
-    public static final String DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL = "Disponível para retirada na caixa postal";
+    // Unknown
+    public static final String INDETERMINADO = "Indeterminado";
+    public static final String NAO_ENCONTRADO = "Não encontrado";
+    public static final String NAO_LOCALIZADO_FLUXO_POSTAL = "Não localizado no fluxo postal";
 
-    // Delivered
-    public static final String ENTREGUE = "Entregue";
-    public static final String ENTREGA_EFETUADA = "Entrega Efetuada";
+    // Returned
+    public static final String EM_DEVOLUCAO = "Em devolução";
+    public static final String ESTORNADO = "Estornado";
+    public static final String DISTRIBUIDO_AO_REMETENTE = "Distribuido ao Remetente";
+    public static final String DEVOLVIDO_AO_REMETENTE = "Devolvido ao remetente";
 
     // Other
-    public static final String POSTADO = "Postado";
-    public static final String POSTAGEM_DH = "Postagem - DH";
-    public static final String POSTADO_DEPOIS_HORARIO_LIMITE = "Postado depois do horário limite da agência";
     public static final String ENCAMINHADO = "Encaminhado";
     public static final String MAL_ENCAMINHADO = "Mal encaminhado";
     public static final String RECEBIDO = "Recebido na unidade de distribuição";
@@ -217,59 +227,14 @@ public final class PostalUtils {
     private static TreeMap<String, Integer> buildCategoryMap() {
       TreeMap<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
 
-      // Returned
-      map.put(EM_DEVOLUCAO, Category.RETURNED);
-      map.put(ESTORNADO, Category.RETURNED);
-      map.put(DISTRIBUIDO_AO_REMETENTE, Category.RETURNED);
-      map.put(DEVOLVIDO_AO_REMETENTE, Category.RETURNED);
+      for (Entry<Integer, String[]> entry : Category.StatusesMap.entrySet()) {
+        String[] statuses = entry.getValue();
 
-      // Unknown
-      map.put(INDETERMINADO, Category.UNKNOWN);
-      map.put(NAO_ENCONTRADO, Category.UNKNOWN);
-      map.put(NAO_LOCALIZADO_FLUXO_POSTAL, Category.UNKNOWN);
-
-      // Irregular
-      map.put(DESTINATARIO_DESCONHECIDO_ENDERECO, Category.IRREGULAR);
-      map.put(DESTINATARIO_DESCONHECIDO, Category.IRREGULAR);
-      map.put(DESTINATARIO_MUDOU_SE, Category.IRREGULAR);
-      map.put(DESTINATARIO_AUSENTE_3_TENTATIVAS, Category.IRREGULAR);
-      map.put(DESTINATARIO_RECUSOU_SE, Category.IRREGULAR);
-      map.put(DESTINATARIO_NAO_APRESENTOU_SE, Category.IRREGULAR);
-      map.put(ENDERECO_INSUFICIENTE, Category.IRREGULAR);
-      map.put(MAL_ENDERECADO, Category.IRREGULAR);
-      map.put(ENDERECO_INCOMPLETO, Category.IRREGULAR);
-      map.put(ENDERECO_INCORRETO, Category.IRREGULAR);
-      map.put(ENDERECO_SEM_DISTRIBUICAO, Category.IRREGULAR);
-      map.put(DISTRIBUICAO_NAO_AUTORIZADA, Category.IRREGULAR);
-      map.put(LOGRADOURO_IRREGULAR, Category.IRREGULAR);
-      map.put(ENDERECO_IRREGULAR, Category.IRREGULAR);
-      map.put(NUMERO_INEXISTENTE, Category.IRREGULAR);
-      map.put(EMPRESA_SEM_EXPEDIENTE, Category.IRREGULAR);
-      map.put(MERCADORIA_AVARIADA, Category.IRREGULAR);
-      map.put(DOCUMENTACAO_NAO_FORNECIDA, Category.IRREGULAR);
-      map.put(DESTINATARIO_NAO_APRESENTOU_DOCUMENTACAO, Category.IRREGULAR);
-      map.put(OBJETO_FORA_PADRAO, Category.IRREGULAR);
-      map.put(DIMENSOES_IMPOSSIBILITAM_ENTREGA, Category.IRREGULAR);
-      map.put(PEDIDO_NAO_SOLICITADO, Category.IRREGULAR);
-      map.put(RECUSADO, Category.IRREGULAR);
-      map.put(NAO_PROCURADO, Category.IRREGULAR);
-      map.put(OBJETO_PERDIDO_ASSALTO_CARTEIRO, Category.IRREGULAR);
-      map.put(OBJETO_PERDIDO_ASSALTO_VEICULO, Category.IRREGULAR);
-      map.put(OBJETO_PERDIDO_ASSALTO_UNIDADE, Category.IRREGULAR);
-      map.put(OBJETO_RETIDO, Category.IRREGULAR);
-      map.put(IMPORTACAO_NAO_AUTORIZADA, Category.IRREGULAR);
-
-      // Available
-      map.put(AGUARDANDO_RETIRADA, Category.AVAILABLE);
-      map.put(SAIU_PARA_ENTREGA, Category.AVAILABLE);
-      map.put(SAIU_PARA_ENTREGA_DESTINATARIO, Category.AVAILABLE);
-      map.put(DISPONIVEL_EM_CAIXA_POSTAL, Category.AVAILABLE);
-      map.put(DISPONIVEL_NA_CAIXA_POSTAL, Category.AVAILABLE);
-      map.put(DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL, Category.AVAILABLE);
-
-      // Delivered
-      map.put(ENTREGUE, Category.DELIVERED);
-      map.put(ENTREGA_EFETUADA, Category.DELIVERED);
+        for (String status : statuses) {
+          Integer category = entry.getKey();
+          map.put(status, category);
+        }
+      }
 
       return map;
     }
@@ -277,16 +242,22 @@ public final class PostalUtils {
     private static TreeMap<String, Integer> buildIconMap() {
       TreeMap<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
 
-      // Returned
-      map.put(EM_DEVOLUCAO, R.drawable.ic_postal_em_devolucao);
-      map.put(ESTORNADO, R.drawable.ic_postal_em_devolucao);
-      map.put(DISTRIBUIDO_AO_REMETENTE, R.drawable.ic_postal_distribuido_ao_remetente);
-      map.put(DEVOLVIDO_AO_REMETENTE, R.drawable.ic_postal_em_devolucao);
+      // Posted
+      map.put(POSTADO, R.drawable.ic_postal_postado);
+      map.put(POSTAGEM_DH, R.drawable.ic_postal_postado);
+      map.put(POSTADO_DEPOIS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
 
-      // Unknown
-      map.put(INDETERMINADO, R.drawable.ic_postal_indeterminado);
-      map.put(NAO_ENCONTRADO, R.drawable.ic_postal_nao_encontrado);
-      map.put(NAO_LOCALIZADO_FLUXO_POSTAL, R.drawable.ic_postal_nao_encontrado);
+      // Available
+      map.put(AGUARDANDO_RETIRADA, R.drawable.ic_postal_aguardando_retirada);
+      map.put(SAIU_PARA_ENTREGA, R.drawable.ic_postal_saiu_entrega);
+      map.put(SAIU_PARA_ENTREGA_DESTINATARIO, R.drawable.ic_postal_saiu_entrega);
+      map.put(DISPONIVEL_EM_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
+      map.put(DISPONIVEL_NA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
+      map.put(DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
+
+      // Delivered
+      map.put(ENTREGUE, R.drawable.ic_postal_entregue);
+      map.put(ENTREGA_EFETUADA, R.drawable.ic_postal_entregue);
 
       // Irregular
       map.put(DESTINATARIO_DESCONHECIDO_ENDERECO, R.drawable.ic_postal_destinatario_desconhecido);
@@ -318,22 +289,18 @@ public final class PostalUtils {
       map.put(OBJETO_RETIDO, R.drawable.ic_postal_objeto_retido);
       map.put(IMPORTACAO_NAO_AUTORIZADA, R.drawable.ic_postal_objeto_retido);
 
-      // Available
-      map.put(AGUARDANDO_RETIRADA, R.drawable.ic_postal_aguardando_retirada);
-      map.put(SAIU_PARA_ENTREGA, R.drawable.ic_postal_saiu_entrega);
-      map.put(SAIU_PARA_ENTREGA_DESTINATARIO, R.drawable.ic_postal_saiu_entrega);
-      map.put(DISPONIVEL_EM_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
-      map.put(DISPONIVEL_NA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
-      map.put(DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
+      // Unknown
+      map.put(INDETERMINADO, R.drawable.ic_postal_indeterminado);
+      map.put(NAO_ENCONTRADO, R.drawable.ic_postal_nao_encontrado);
+      map.put(NAO_LOCALIZADO_FLUXO_POSTAL, R.drawable.ic_postal_nao_encontrado);
 
-      // Delivered
-      map.put(ENTREGUE, R.drawable.ic_postal_entregue);
-      map.put(ENTREGA_EFETUADA, R.drawable.ic_postal_entregue);
+      // Returned
+      map.put(EM_DEVOLUCAO, R.drawable.ic_postal_em_devolucao);
+      map.put(ESTORNADO, R.drawable.ic_postal_em_devolucao);
+      map.put(DISTRIBUIDO_AO_REMETENTE, R.drawable.ic_postal_distribuido_ao_remetente);
+      map.put(DEVOLVIDO_AO_REMETENTE, R.drawable.ic_postal_em_devolucao);
 
       // Other
-      map.put(POSTADO, R.drawable.ic_postal_postado);
-      map.put(POSTAGEM_DH, R.drawable.ic_postal_postado);
-      map.put(POSTADO_DEPOIS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
       map.put(RECEBIDO, R.drawable.ic_postal_recebido);
       map.put(CONFERIDO, R.drawable.ic_postal_conferido);
       map.put(ENCAMINHADO, R.drawable.ic_postal_encaminhado);

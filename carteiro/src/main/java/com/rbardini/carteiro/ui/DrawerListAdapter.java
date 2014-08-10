@@ -1,36 +1,52 @@
 package com.rbardini.carteiro.ui;
 
-import java.util.Locale;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 
-public class DrawerListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DrawerListAdapter extends BaseAdapter {
+  public static final int ACTION_CATEGORY = 0;
+  public static final int ACTION_SETTINGS = 1;
+  public static final int ACTION_FEEDBACK = 2;
+
+  private static final int TYPE_ITEM   = 0;
+  private static final int TYPE_BUTTON = 1;
+  private static final int TYPE_COUNT  = TYPE_BUTTON + 1;
+
   private final Context mContext;
   private final LayoutInflater mInflater;
-  private final int[] mCategories;
+  private final List<DrawerModel> mItems;
 
-  public DrawerListAdapter(Context context, int[] categories) {
+  private int mSelectedCategory;
+
+  public DrawerListAdapter(Context context) {
     mContext = context;
     mInflater = LayoutInflater.from(mContext);
-    mCategories = categories;
+    mItems = new ArrayList<DrawerModel>();
+    mSelectedCategory = Category.ALL;
+
+    initialize();
   }
 
   @Override
   public int getCount() {
-    return mCategories.length;
+    return mItems.size();
   }
 
   @Override
-  public Object getItem(int position) {
-    return mCategories[position];
+  public DrawerModel getItem(int position) {
+    return mItems.get(position);
   }
 
   @Override
@@ -39,60 +55,102 @@ public class DrawerListAdapter extends BaseAdapter implements StickyListHeadersA
   }
 
   @Override
+  public int getItemViewType(int position) {
+    DrawerModel model = getItem(position);
+    return model.type;
+  }
+
+  @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    ItemViewHolder holder;
+    final DrawerModel model = (DrawerModel) getItem(position);
+    final int type = getItemViewType(position);
+    final int layout;
+    final ViewHolder holder;
 
     if (convertView == null) {
-      convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+      switch (type) {
+        case TYPE_BUTTON:
+          layout = R.layout.drawer_button_item;
+          break;
 
-      holder = new ItemViewHolder();
+        case TYPE_ITEM:
+        default:
+          layout = R.layout.drawer_list_item;
+          break;
+      }
+      convertView = mInflater.inflate(layout, null);
+
+      holder = new ViewHolder();
       holder.title = (TextView) convertView.findViewById(R.id.title);
       holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 
       convertView.setTag(holder);
+
     } else {
-      holder = (ItemViewHolder) convertView.getTag();
+      holder = (ViewHolder) convertView.getTag();
     }
 
-    int category = mCategories[position];
+    switch (model.action) {
+      case ACTION_CATEGORY:
+        holder.title.setText(Category.getTitle(model.id));
 
-    holder.title.setText(Category.getTitle(category));
-    holder.icon.setImageResource(Category.getIcon(category));
+        boolean isSelected = model.id == mSelectedCategory;
+        holder.title.setTypeface(null, isSelected ? Typeface.BOLD : Typeface.NORMAL);
+        break;
+
+      case ACTION_SETTINGS:
+        holder.title.setText(R.string.preferences_opt);
+        holder.icon.setImageResource(R.drawable.ic_menu_settings);
+        break;
+
+      case ACTION_FEEDBACK:
+        holder.title.setText(R.string.feedback_opt);
+        holder.icon.setImageResource(R.drawable.ic_menu_help);
+        break;
+    }
 
     return convertView;
   }
 
   @Override
-  public View getHeaderView(int position, View convertView, ViewGroup parent) {
-    HeaderViewHolder holder;
+  public int getViewTypeCount() {
+    return TYPE_COUNT;
+  }
 
-    if (convertView == null) {
-      convertView = mInflater.inflate(R.layout.drawer_list_header, null);
+  public void setSelectedCategory(int category) {
+    mSelectedCategory = category;
+    notifyDataSetChanged();
+  }
 
-      holder = new HeaderViewHolder();
-      holder.title = (TextView) convertView.findViewById(R.id.title);
+  private void initialize() {
+    int[] categories = new int[] {
+        Category.ALL,       Category.FAVORITES, Category.AVAILABLE,
+        Category.DELIVERED, Category.IRREGULAR, Category.UNKNOWN,
+        Category.RETURNED,  Category.ARCHIVED
+    };
 
-      convertView.setTag(holder);
-    } else {
-      holder = (HeaderViewHolder) convertView.getTag();
+    // Add category entries
+    for (int category : categories) {
+      mItems.add(new DrawerModel(TYPE_ITEM, ACTION_CATEGORY, category));
     }
 
-    holder.title.setText(mContext.getString(R.string.drawer_header_tracking).toUpperCase(Locale.getDefault()));
-
-    return convertView;
+    // Add settings and feedback buttons
+    mItems.add(new DrawerModel(TYPE_BUTTON, ACTION_SETTINGS, -1));
+    mItems.add(new DrawerModel(TYPE_BUTTON, ACTION_FEEDBACK, -1));
   }
 
-  @Override
-  public long getHeaderId(int position) {
-    return 0;
+  public static class DrawerModel {
+    public int type, action, id;
+
+    DrawerModel(int type, int action, int id) {
+      this.type = type;
+      this.action = action;
+      this.id = id;
+    }
   }
 
-  private static class ItemViewHolder {
+  private static class ViewHolder {
     private ImageView icon;
-    private TextView title;
-  }
-
-  private static class HeaderViewHolder {
     private TextView title;
   }
 }

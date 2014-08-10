@@ -14,21 +14,24 @@
     <item name="android:buttonStyle">@style/Button</item>
     <item name="android:checkboxStyle">@style/CheckBox</item>
     <item name="android:listViewStyle">@style/ListView</item>
+    <item name="android:actionBarSize">@dimen/actionbar_height</item>
     <item name="android:actionBarStyle">@style/ActionBar</item>
+    <item name="android:actionOverflowButtonStyle">@style/ActionOverflow</item>
     <item name="android:actionButtonStyle">@style/ActionButton</item>
+    <item name="android:homeAsUpIndicator">@drawable/ic_up_indicator</item>
     <item name="android:popupMenuStyle">@style/PopupMenu</item>
+    <item name="android:listPopupWindowStyle">@style/PopupMenu</item>
     <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
+    <item name="android:textAppearanceLargePopupMenu">@style/LargePopupMenu</item>
     <item name="android:selectableItemBackground">@drawable/list_selector</item>
     <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
     <item name="android:actionBarItemBackground">@drawable/list_selector</item>
-    <item name="android:textColorHighlight">@color/text_highlight</item>
+    <item name="android:textColorHighlight">@color/theme_primary_light</item>
     <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
     <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
     <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
     <item name="android:editTextBackground">@drawable/edit_text</item>
     <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector</item>
-
-    <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
   </style>
 
   <style name="Theme.Carteiro.Translucent"></style>

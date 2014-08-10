@@ -16,6 +16,7 @@
   <string name="add_opt">Adicionar</string>
   <string name="share_opt">Compartilhar</string>
   <string name="preferences_opt">Configurações</string>
+  <string name="feedback_opt">Feedback &amp; Suporte</string>
   <string name="search_opt">Pesquisar</string>
   <string name="edit_opt">Editar</string>
   <string name="websro_opt">SRO Correios</string>
@@ -196,11 +197,6 @@
   <string name="subtitle_search">Resultados da pesquisa</string>
   <string name="search_hint">Pesquisar objetos</string>
   <string name="search_desc">Código e descrição dos seus objetos rastreados</string>
-
-  <!-- Pull to Refresh -->
-  <string name="ptr_pull_text">Puxe para sincronizar</string>
-  <string name="ptr_release_text">Solte para sincronizar</string>
-  <string name="ptr_refreshing_text">Sincronizando…</string>
 
   <!-- Content Description -->
   <string name="desc_status">Status</string>

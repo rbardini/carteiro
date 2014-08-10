@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="?android:attr/spinnerDropDownItemStyle"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="48dp"
-  android:background="@drawable/activated_background"
+  android:layout_height="wrap_content"
   android:orientation="horizontal"
-  android:paddingLeft="8dp"
-  android:paddingRight="16dp">
+  android:gravity="start|center_vertical"
+  android:background="?android:selectableItemBackground"
+  android:paddingLeft="@dimen/keyline_1"
+  android:paddingRight="@dimen/keyline_1"
+  android:minHeight="@dimen/min_touch_target">
 
-  <ImageView
-    android:id="@+id/icon"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:adjustViewBounds="true" />
-
-  <TextView style="@style/Stretch"
+  <TextView
     android:id="@+id/title"
-    android:gravity="center_vertical"
-    android:minHeight="48dp"
-    android:paddingLeft="8dp"
-    android:textAppearance="@android:style/TextAppearance.Medium"
-    android:textColor="@android:color/white" />
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start|center_vertical"
+    android:layout_marginLeft="@dimen/keyline_1_half"
+    android:gravity="start|center_vertical"
+    android:textSize="@dimen/text_size_subhead" />
  
 </LinearLayout>

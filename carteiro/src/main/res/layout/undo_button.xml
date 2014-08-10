@@ -4,8 +4,8 @@
   <View
       android:layout_width="1dp"
       android:layout_height="match_parent"
-      android:layout_marginTop="16dp"
-      android:layout_marginBottom="16dp"
+      android:layout_marginTop="@dimen/keyline_1"
+      android:layout_marginBottom="@dimen/keyline_1"
       android:background="@android:color/white" />
 
   <Button
@@ -17,9 +17,9 @@
       android:drawablePadding="12dp"
       android:text="@string/undo_btn"
       android:textColor="@android:color/white"
-      android:textSize="@dimen/text_size_small"
+      android:textSize="@dimen/text_size_button"
       android:textStyle="bold"
       android:textAllCaps="true"
-      android:padding="16dp" />
+      android:padding="@dimen/keyline_1" />
 
 </merge>
