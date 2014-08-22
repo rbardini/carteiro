@@ -1,12 +1,5 @@
 package com.rbardini.carteiro.svc;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import org.alfredlibrary.AlfredException;
-import org.alfredlibrary.utilitarios.correios.Rastreamento;
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -14,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +17,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.util.Log;
+
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -34,6 +29,16 @@ import com.rbardini.carteiro.ui.RecordActivity;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
+import com.rbardini.carteiro.util.UIUtils;
+
+import org.alfredlibrary.AlfredException;
+import org.alfredlibrary.utilitarios.correios.Rastreamento;
+import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 public class SyncService extends IntentService {
   private static final String TAG = "SyncService";
@@ -208,6 +213,7 @@ public class SyncService extends IntentService {
       Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("share");
 
       notificationBuilder
+        .setLargeIcon(UIUtils.createScaledDpBitmap(this, BitmapFactory.decodeResource(this.getResources(), Status.getIcon(pi.getStatus())), 36, 36))
         .setSubText(pi.getLoc())
         .addAction(R.drawable.ic_action_place, getString(R.string.place_opt), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
         .addAction(R.drawable.ic_action_share, getString(R.string.share_opt), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));

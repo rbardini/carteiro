@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.format.DateUtils;
 import android.util.TypedValue;
@@ -77,5 +78,13 @@ public final class UIUtils {
   public static int getPostalStatusColor(String status) {
     int category = PostalUtils.Status.getCategory(status);
     return PostalUtils.Category.getColor(category == 0 ? PostalUtils.Category.ALL : category);
+  }
+
+  public static Bitmap createScaledDpBitmap(Context context, Bitmap src, int dstWidthDp, int dstHeightDp) {
+    final float density = context.getResources().getDisplayMetrics().density;
+    final int dstWidthPx = (int) (dstWidthDp * density + 0.5f);
+    final int dstHeightPx = (int) (dstHeightDp * density + 0.5f);
+
+    return Bitmap.createScaledBitmap(src, dstWidthPx, dstHeightPx, true);
   }
 }
