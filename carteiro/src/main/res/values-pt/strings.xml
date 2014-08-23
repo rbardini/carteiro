@@ -12,18 +12,6 @@
   <string name="undo_btn">Desfazer</string>
   <string name="quit_btn">Sair</string>
 
-  <!-- Options Menu -->
-  <string name="add_opt">Adicionar</string>
-  <string name="share_opt">Compartilhar</string>
-  <string name="preferences_opt">Configurações</string>
-  <string name="feedback_opt">Feedback &amp; Suporte</string>
-  <string name="search_opt">Pesquisar</string>
-  <string name="edit_opt">Editar</string>
-  <string name="websro_opt">SRO Correios</string>
-  <string name="fav_opt">Favorito</string>
-  <string name="scan_opt">Escanear</string>
-  <string name="place_opt">Localizar</string>
-
   <!-- Main Navigation Drawer -->
   <string name="drawer_header_tracking">Rastreamento</string>
   <string name="category_all">Todos</string>
@@ -34,6 +22,8 @@
   <string name="category_unknown">Desconhecidos</string>
   <string name="category_returned">Devolvidos</string>
   <string name="category_archived">Arquivados</string>
+  <string name="action_preferences">Configurações</string>
+  <string name="action_feedback">Feedback &amp; Suporte</string>
 
   <!-- Add Activity -->
   <string name="title_add">Adicionar objeto</string>
@@ -90,8 +80,11 @@
   <string name="toast_item_renamed">%1$s renomeado para %2$s.</string>
   <string name="toast_item_renamed_empty">Descrição removida de %s.</string>
   <string name="toast_item_archived">%s arquivado.</string>
+  <string name="toast_items_archived">%d objetos arquivados.</string>
   <string name="toast_item_unarchived">%1$s movido para %2$s.</string>
+  <string name="toast_items_unarchived">%1$d objetos movidos para %2$s.</string>
   <string name="toast_item_deleted">%s excluído.</string>
+  <string name="toast_items_deleted">%d objetos excluídos.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_sync_error">Erro de sincronização: %s</string>
   <string name="toast_backup_created">Backup criado com sucesso na pasta %s.</string>
@@ -107,21 +100,30 @@
   <string name="label_item_deleted">Excluído</string>
 
   <!-- Context Menu -->
+  <string name="opt_add">Adicionar</string>
+  <string name="opt_search">Pesquisar</string>
+  <string name="opt_scan_barcode">Escanear código</string>
   <string name="opt_refresh_item">Atualizar</string>
   <string name="opt_rename_item">Renomear</string>
-  <string name="opt_toggle_fav">%s favorito</string>
-    <string name="label_mark_as">Marcar como</string>
-    <string name="label_unmark_as">Desmarcar como</string>
+  <string name="opt_mark_as_fav">Marcar como favorito</string>
+  <string name="opt_unmark_as_fav">Desmarcar como favorito</string>
   <string name="opt_view_place">Ver localização no mapa</string>
-  <string name="opt_share_status">Compartilhar status</string>
-  <string name="opt_open_websro">Abrir SRO dos Correios</string>
+  <string name="opt_share">Compartilhar</string>
+  <string name="opt_open_websro">Abrir no SRO</string>
   <string name="opt_archive_item">Arquivar</string>
   <string name="opt_unarchive_item">Mover para %s</string>
   <string name="opt_delete_item">Excluir</string>
 
   <!-- Dialogs -->
-  <string name="title_alert_delete">Excluir %s?</string>
-  <string name="msg_alert_delete">O histórico do objeto também será apagado.</string>
+  <string name="title_alert_rename">Renomear %s</string>
+  <plurals name="title_alert_delete">
+    <item quantity="one">Excluir %s?</item>
+    <item quantity="other">Excluir objetos?</item>
+  </plurals>
+  <plurals name="msg_alert_delete">
+    <item quantity="one">Seu histórico será apagado.</item>
+    <item quantity="other">Seus históricos serão apagados.</item>
+  </plurals>
   <string name="msg_alert_create_backup">Digite o nome do arquivo de backup:</string>
   <string name="title_alert_select_backup">Escolha um backup</string>
   <string name="title_alert_restore_backup">Restaurar backup?</string>

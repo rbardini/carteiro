@@ -215,8 +215,8 @@ public class SyncService extends IntentService {
       notificationBuilder
         .setLargeIcon(UIUtils.createScaledDpBitmap(this, BitmapFactory.decodeResource(this.getResources(), Status.getIcon(pi.getStatus())), 36, 36))
         .setSubText(pi.getLoc())
-        .addAction(R.drawable.ic_action_place, getString(R.string.place_opt), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
-        .addAction(R.drawable.ic_action_share, getString(R.string.share_opt), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+        .addAction(R.drawable.ic_action_place, getString(R.string.opt_view_place), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+        .addAction(R.drawable.ic_action_share, getString(R.string.opt_share), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
       notificationStyle.bigText(pi.getFullInfo());
     } else {
       Iterator<PostalItem> iterator = postalItems.iterator();

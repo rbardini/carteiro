@@ -11,8 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +24,7 @@ import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.UIUtils;
 
-import java.util.Locale;
+import java.util.ArrayList;
 
 public class RecordActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
@@ -51,7 +49,6 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     setContentView(R.layout.record);
     setProgressBarIndeterminateVisibility(false);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
-    registerForContextMenu(findViewById(R.id.hidden_edit_opt));
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.header, false);
 
@@ -141,9 +138,13 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     if (getCurrentFragment() instanceof PostalRecordFragment) {
       getMenuInflater().inflate(R.menu.record_actions, menu);
 
-      if (pi.isFav()) {
-        menu.findItem(R.id.fav_opt).setIcon(R.drawable.ic_action_star);
-      }
+      menu.findItem(R.id.fav_opt)
+        .setIcon(pi.isFav() ? R.drawable.ic_action_star : R.drawable.ic_action_star_off)
+        .setTitle(pi.isFav() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
+
+      menu.findItem(R.id.archive_opt)
+        .setIcon(pi.isArchived() ? R.drawable.ic_action_unarchive : R.drawable.ic_action_archive)
+        .setTitle(getString(pi.isArchived() ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
     }
 
     return super.onCreateOptionsMenu(menu);
@@ -151,11 +152,21 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    final ArrayList<PostalItem> piList = new ArrayList<PostalItem>();
+    piList.add(pi);
+
     switch (item.getItemId()) {
       case R.id.fav_opt:
+        pi.toggleFav();
+
         app.getDatabaseHelper().togglePostalItemFav(pi.getCod());
-        item.setIcon(pi.toggleFav() ? R.drawable.ic_action_star : R.drawable.ic_action_star_off);
         app.setUpdatedList();
+
+        invalidateOptionsMenu();
+        return true;
+
+      case R.id.share_opt:
+        UIUtils.shareItem(this, pi);
         return true;
 
       case R.id.place_opt:
@@ -166,62 +177,37 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
         }
         return true;
 
-      case R.id.edit_opt:
-        openContextMenu(findViewById(R.id.hidden_edit_opt));
+      case R.id.rename_opt:
+        PostalItemDialogFragment.newInstance(R.id.rename_opt, piList).show(mFragManager, PostalItemDialogFragment.TAG);
         return true;
 
-      case R.id.share_opt:
-        UIUtils.shareItem(this, pi);
+      case R.id.archive_opt:
+        pi.toggleArchived();
+
+        app.getDatabaseHelper().togglePostalItemArchived(pi.getCod());
+        app.setUpdatedList();
+
+        UIUtils.showToast(this, pi.isArchived() ? getString(R.string.toast_item_archived, pi.getSafeDesc())
+            : getString(R.string.toast_item_unarchived, pi.getSafeDesc(), getString(R.string.category_all)));
+        invalidateOptionsMenu();
+        return true;
+
+      case R.id.delete_opt:
+        PostalItemDialogFragment.newInstance(R.id.delete_opt, piList).show(mFragManager, PostalItemDialogFragment.TAG);
         return true;
 
       case R.id.websro_opt:
-        if (webSROFragment == null) {
-          webSROFragment = WebSROFragment.newInstance(pi.getCod());
-        }
+        if (webSROFragment == null) webSROFragment = WebSROFragment.newInstance(pi.getCod());
 
         mFragManager
           .beginTransaction()
           .replace(R.id.record_list, webSROFragment, WebSROFragment.TAG)
           .addToBackStack(null)
           .commit();
-
         return true;
 
       default:
         return super.onOptionsItemSelected(item);
-      }
-    }
-
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    getMenuInflater().inflate(R.menu.record_edit_context, menu);
-
-    menu.setHeaderTitle(pi.getSafeDesc());
-    menu.findItem(R.id.archive_opt).setTitle(pi.isArchived() ? getString(R.string.opt_unarchive_item, getString(R.string.category_all))
-                                                             : getString(R.string.opt_archive_item));
-  }
-
-  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.rename_opt:
-        PostalItemDialogFragment.newInstance(R.id.rename_opt, pi).show(mFragManager, PostalItemDialogFragment.TAG);
-        return true;
-
-      case R.id.archive_opt:
-        app.getDatabaseHelper().togglePostalItemArchived(pi.getCod());
-        app.setUpdatedList();
-        UIUtils.showToast(this, pi.toggleArchived() ? getString(R.string.toast_item_archived, pi.getSafeDesc())
-                                                    : getString(R.string.toast_item_unarchived, pi.getSafeDesc(), getString(R.string.category_all)));
-        return true;
-
-      case R.id.delete_opt:
-        PostalItemDialogFragment.newInstance(R.id.delete_opt, pi).show(mFragManager, PostalItemDialogFragment.TAG);
-        return true;
-
-      default:
-        return super.onContextItemSelected(item);
     }
   }
 
@@ -244,7 +230,9 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
   }
 
   @Override
-  public void onDeletePostalItem(PostalItem pi) {
+  public void onDeletePostalItems(ArrayList<PostalItem> piList) {
+    final PostalItem pi = piList.get(0);
+
     app.getDatabaseHelper().deletePostalItem(pi.getCod());
     app.setUpdatedList();
     UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pi.getSafeDesc()));

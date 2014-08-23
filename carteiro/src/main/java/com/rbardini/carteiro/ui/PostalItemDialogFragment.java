@@ -11,24 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
+
+import java.util.ArrayList;
 
 public class PostalItemDialogFragment extends DialogFragment {
   public static final String TAG = "PostalItemDialogFragment";
 
   public interface OnPostalItemChangeListener {
     public void onRenamePostalItem(String desc, PostalItem pi);
-    public void onDeletePostalItem(PostalItem pi);
+    public void onDeletePostalItems(ArrayList<PostalItem> piList);
   }
 
   private OnPostalItemChangeListener listener;
 
-  public static PostalItemDialogFragment newInstance(int id, PostalItem pi) {
+  public static PostalItemDialogFragment newInstance(int id, ArrayList<PostalItem> piList) {
     PostalItemDialogFragment f = new PostalItemDialogFragment();
     Bundle args = new Bundle();
     args.putInt("id", id);
-    args.putSerializable("postalItem", pi);
+    args.putSerializable("postalList", piList);
     f.setArguments(args);
     return f;
   }
@@ -44,10 +47,11 @@ public class PostalItemDialogFragment extends DialogFragment {
     }
   }
 
-  @Override
+  @Override @SuppressWarnings("unchecked")
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final int id = getArguments().getInt("id");
-    final PostalItem pi  = (PostalItem) getArguments().getSerializable("postalItem");
+    final ArrayList<PostalItem> piList  = (ArrayList<PostalItem>) getArguments().getSerializable("postalList");
+    final PostalItem pi = piList.get(0);
     final Activity activity = getActivity();
     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -59,30 +63,33 @@ public class PostalItemDialogFragment extends DialogFragment {
         final EditText itemDesc = (EditText) layout.findViewById(R.id.item_desc_fld);
         itemDesc.setText(pi.getDesc());
 
-        builder.setView(layout);
-        builder.setTitle(pi.getCod());
-        builder.setPositiveButton(R.string.rename_btn, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int id) {
-            String desc = itemDesc.getText().toString().trim();
-            if (desc.equals("")) desc = null;
-            listener.onRenamePostalItem(desc, pi);
-          }
-        });
-        builder.setNegativeButton(R.string.negative_btn, null);
+        builder
+          .setView(layout)
+          .setTitle(getString(R.string.title_alert_rename, pi.getCod()))
+          .setPositiveButton(R.string.rename_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+              String desc = itemDesc.getText().toString().trim();
+              if (desc.equals("")) desc = null;
+              listener.onRenamePostalItem(desc, pi);
+            }
+          })
+          .setNegativeButton(R.string.negative_btn, null);
         break;
 
       case R.id.delete_opt:
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setTitle(String.format(getString(R.string.title_alert_delete), pi.getSafeDesc()));
-        builder.setMessage(R.string.msg_alert_delete);
-        builder.setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int id) {
-            listener.onDeletePostalItem(pi);
-          }
-        });
-        builder.setNegativeButton(R.string.negative_btn, null);
+        int listSize = piList.size();
+
+        builder
+          .setTitle(getResources().getQuantityString(R.plurals.title_alert_delete, listSize, pi.getSafeDesc()))
+          .setMessage(getResources().getQuantityString(R.plurals.msg_alert_delete, listSize))
+          .setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+              listener.onDeletePostalItems(piList);
+            }
+          })
+          .setNegativeButton(R.string.negative_btn, null);
         break;
     }
 

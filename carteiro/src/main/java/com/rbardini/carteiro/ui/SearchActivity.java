@@ -19,6 +19,8 @@ import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.UIUtils;
 
+import java.util.ArrayList;
+
 public class SearchActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
   private ActionBar actionBar;
@@ -109,13 +111,23 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
     else toast = getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc);
 
     UIUtils.showToast(this, toast);
+
+    listFragment.clearSelection();
     listFragment.refreshList(true);
   }
 
   @Override
-  public void onDeletePostalItem(PostalItem pi) {
-    app.getDatabaseHelper().deletePostalItem(pi.getCod());
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pi.getSafeDesc()));
+  public void onDeletePostalItems(ArrayList<PostalItem> piList) {
+    final int listSize = piList.size();
+
+    for (PostalItem pi : piList) app.getDatabaseHelper().deletePostalItem(pi.getCod());
+
+    String message = listSize == 1
+      ? getString(R.string.toast_item_deleted, piList.get(0).getSafeDesc())
+      : getString(R.string.toast_items_deleted, listSize);
+    UIUtils.showToast(this, message);
+
+    listFragment.clearSelection();
     listFragment.refreshList(true);
   }
 

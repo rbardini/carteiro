@@ -4,43 +4,47 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
+import com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class PostalListFragment extends ListFragment implements DeleteItemCallback {
+public class PostalListFragment extends ListFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
   private CarteiroApplication app;
   private Activity activity;
-  private Handler handler;
   private DatabaseHelper dh;
 
-  private static PostalItem pi;
   private int category;
   private String query;
 
-  private List<PostalItem> mList;
+  private MultiChoiceModeListener mMultiChoiceModeListener;
+  private ArrayList<PostalItem> mList;
+  private ArrayList<PostalItem> mSelectedList;
   private PostalItemListAdapter mListAdapter;
-  private ContextualUndoAdapter mUndoAdapter;
+  private AnimateDismissAdapter mDismissAdapter;
+  private ContextualSwipeUndoAdapter mUndoAdapter;
   private SwipeRefreshLayout mSwipeRefreshLayout;
 
   public static PostalListFragment newInstance(int category) {
@@ -61,7 +65,7 @@ public class PostalListFragment extends ListFragment implements DeleteItemCallba
     return f;
   }
 
-  @Override
+  @Override @SuppressWarnings("unchecked")
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -69,35 +73,46 @@ public class PostalListFragment extends ListFragment implements DeleteItemCallba
     app = (CarteiroApplication) activity.getApplication();
     dh = app.getDatabaseHelper();
 
-    pi = null;
     Bundle arguments = getArguments();
     setCategory(arguments.getInt("category"));
     setQuery(arguments.getString("query"));
 
-    mList = new ArrayList<PostalItem>();
+    // Restore postal and selected lists
+    if (savedInstanceState != null) {
+      mList = (ArrayList<PostalItem>) savedInstanceState.getSerializable("postalList");
+      mSelectedList = (ArrayList<PostalItem>) savedInstanceState.getSerializable("selectedList");
+
+    } else {
+      mList = new ArrayList<PostalItem>();
+      mSelectedList = new ArrayList<PostalItem>();
+
+      updateList();
+    }
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.postal_list, container, false);
-    updateList();
-
-    if (activity instanceof MainActivity) {
-      activity.setTitle(Category.getTitle(category));
-      ((MainActivity) activity).setDrawerCategoryChecked(category);
-    }
-
-    return v;
+    return inflater.inflate(R.layout.postal_list, container, false);
   }
 
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    mListAdapter = new PostalItemListAdapter(activity, mList, app.getUpdatedCods());
-    registerForContextMenu(getListView());
+    if (activity instanceof MainActivity) {
+      activity.setTitle(Category.getTitle(category));
+      ((MainActivity) activity).setDrawerCategoryChecked(category);
+    }
 
-    mUndoAdapter = new ContextualUndoAdapter(mListAdapter, shouldDeleteItems() ? R.layout.undo_delete_row : R.layout.undo_archive_row, R.id.undo_button, this);
+    mListAdapter = new PostalItemListAdapter(activity, mList, app.getUpdatedCods());
+    mMultiChoiceModeListener = new PostalListFragment.MultiChoiceModeListener();
+    getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    getListView().setMultiChoiceModeListener(mMultiChoiceModeListener);
+
+    mDismissAdapter = new AnimateDismissAdapter(mListAdapter, this);
+    mDismissAdapter.setAbsListView(getListView());
+
+    mUndoAdapter = new ContextualSwipeUndoAdapter(mListAdapter, shouldDeleteItems() ? R.layout.undo_delete_row : R.layout.undo_archive_row, R.id.undo_button, this, this);
     mUndoAdapter.setAbsListView(getListView());
     getListView().setAdapter(mUndoAdapter);
 
@@ -119,87 +134,31 @@ public class PostalListFragment extends ListFragment implements DeleteItemCallba
   }
 
   @Override
+  public void onResume() {
+    super.onResume();
+    if (app.hasUpdate()) refreshList(false);
+  }
+
+  @Override
   public void onPause() {
     super.onPause();
     mUndoAdapter.animateRemovePendingItem();
   }
 
   @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable("postalList", mList);
+    outState.putSerializable("selectedList", mSelectedList);
+  }
+
+  @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
 
-    pi = mList.get(position);
+    PostalItem pi = mList.get(position);
     Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi);
     startActivity(intent);
-  }
-
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    activity.getMenuInflater().inflate(R.menu.postal_list_context, menu);
-
-    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    pi = mList.get(info.position);
-
-    menu.setHeaderTitle(pi.getSafeDesc());
-    if (CarteiroApplication.state.syncing) {
-      menu.findItem(R.id.refresh_opt).setEnabled(false);
-    }
-    menu.findItem(R.id.fav_opt).setTitle(getString(R.string.opt_toggle_fav, getString(pi.isFav() ? R.string.label_unmark_as : R.string.label_mark_as)));
-    menu.findItem(R.id.archive_opt).setTitle(pi.isArchived() ? getString(R.string.opt_unarchive_item, getString(R.string.category_all))
-                                                             : getString(R.string.opt_archive_item));
-  }
-
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.refresh_opt:
-        if (!CarteiroApplication.state.syncing) {
-          Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class).putExtra("cods", new String[] {pi.getCod()});
-          activity.startService(refresh);
-        }
-        return true;
-
-      case R.id.rename_opt:
-        PostalItemDialogFragment.newInstance(R.id.rename_opt, pi).show(getFragmentManager(), PostalItemDialogFragment.TAG);
-        return true;
-
-      case R.id.fav_opt:
-        dh.togglePostalItemFav(pi.getCod());
-        refreshList(true);
-        return true;
-
-      case R.id.place_opt:
-        try {
-          UIUtils.locateItem(activity, pi);
-        } catch (Exception e) {
-          UIUtils.showToast(activity, e.getMessage());
-        }
-        return true;
-
-      case R.id.share_opt:
-        UIUtils.shareItem(activity, pi);
-        return true;
-
-      case R.id.websro_opt:
-        Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi).setAction("webSRO");
-        startActivity(intent);
-        return true;
-
-      case R.id.archive_opt:
-        dh.togglePostalItemArchived(pi.getCod());
-        refreshList(true);
-        UIUtils.showToast(activity, pi.toggleArchived() ? getString(R.string.toast_item_archived, pi.getSafeDesc())
-                                                        : getString(R.string.toast_item_unarchived, pi.getSafeDesc(), getString(R.string.category_all)));
-        return true;
-
-      case R.id.delete_opt:
-        PostalItemDialogFragment.newInstance(R.id.delete_opt, pi).show(getFragmentManager(), PostalItemDialogFragment.TAG);
-        return true;
-
-      default:
-        return super.onContextItemSelected(item);
-    }
   }
 
   @Override
@@ -210,6 +169,22 @@ public class PostalListFragment extends ListFragment implements DeleteItemCallba
     else dh.archivePostalItem(pi.getCod());
 
     mListAdapter.remove(position);
+    app.setUpdatedList();
+  }
+
+  @Override
+  public void onSwipe(int position) {
+    clearSelection();
+  }
+
+  @Override
+  public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+    for (int position : reverseSortedPositions) mListAdapter.remove(position);
+    app.setUpdatedList();
+  }
+
+  public void clearSelection() {
+    mMultiChoiceModeListener.finishActionMode();
   }
 
   public void updateList() {
@@ -250,6 +225,181 @@ public class PostalListFragment extends ListFragment implements DeleteItemCallba
       } else {
         app.setUpdatedList();
       }
+    }
+
+    // TODO Handle possible selection change while CAB is active
+  }
+
+
+  private final class MultiChoiceModeListener implements AbsListView.MultiChoiceModeListener {
+    private ActionMode mActionMode;
+    private Map<MenuItem, Boolean> mCollectiveActionMap;
+
+    @Override
+    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+      PostalItem pi = mListAdapter.getItem(position);
+
+      // Add or remove item from selected list
+      if (checked) mSelectedList.add(pi);
+      else mSelectedList.remove(pi);
+
+      // Invalidate CAB to refresh available actions
+      mActionMode.invalidate();
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+      mActionMode = mode;
+      mCollectiveActionMap = new HashMap<MenuItem, Boolean>();
+
+      mActionMode.getMenuInflater().inflate(R.menu.postal_list_context, menu);
+
+      return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+      final int selectionSize = mSelectedList.size();
+      final boolean isSingleSelection = selectionSize == 1;
+
+      // Show or hide actions depending on selection size
+      menu.findItem(R.id.place_opt).setVisible(isSingleSelection);
+      menu.findItem(R.id.rename_opt).setVisible(isSingleSelection);
+      menu.findItem(R.id.websro_opt).setVisible(isSingleSelection);
+
+      // Disable refresh action if sync is in progress
+      if (CarteiroApplication.state.syncing) {
+        menu.findItem(R.id.refresh_opt).setEnabled(false);
+      }
+
+      // Determine if all selected items are favorites and archived
+      boolean areAllFavorites = true, areAllArchived = true;
+      for (PostalItem pi : mSelectedList) {
+        if (!pi.isFav()) areAllFavorites = false;
+        if (!pi.isArchived()) areAllArchived = false;
+        if (!areAllFavorites && !areAllArchived) break;
+      }
+
+      // Update favorite and archive actions depending on the selected items
+      MenuItem favAction = menu.findItem(R.id.fav_opt)
+        .setIcon(areAllFavorites ? R.drawable.ic_action_star : R.drawable.ic_action_star_off)
+        .setTitle(areAllFavorites ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
+      mCollectiveActionMap.put(favAction, areAllFavorites);
+      MenuItem archiveAction = menu.findItem(R.id.archive_opt)
+        .setIcon(areAllArchived ? R.drawable.ic_action_unarchive : R.drawable.ic_action_archive)
+        .setTitle(getString(areAllArchived ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
+      mCollectiveActionMap.put(archiveAction, areAllArchived);
+
+      // Update CAB title with selection size if there is any
+      if (selectionSize > 0) mActionMode.setTitle(String.valueOf(mSelectedList.size()));
+
+      return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+      final PostalItem firstItem = mSelectedList.get(0);
+      final int selectionSize = mSelectedList.size();
+      final boolean isSingleSelection = selectionSize == 1;
+      final int actionId = item.getItemId();
+
+      /* Multiple items actions */
+      switch (actionId) {
+        case R.id.refresh_opt:
+          if (!CarteiroApplication.state.syncing) {
+            String[] cods = new String[selectionSize];
+            for (int i = 0; i < selectionSize; i++) cods[i] = mSelectedList.get(i).getCod();
+            Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class).putExtra("cods", cods);
+            activity.startService(refresh);
+          }
+          return true;
+
+        case R.id.archive_opt:
+          // Archive selected items or move to all depending on their collective archived state
+          boolean areAllArchived = mCollectiveActionMap.get(item);
+          for (PostalItem pi : mSelectedList) {
+            String cod = pi.getCod();
+            if (areAllArchived) dh.unarchivePostalItem(cod);
+            else dh.archivePostalItem(cod);
+          }
+
+          // Get the selected item positions and animate out of view
+          SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+          List<Integer> positionsToDismiss = new ArrayList<Integer>();
+          try {
+            for (int i=0, length=getListView().getCount(); i<length; i++) {
+              if (checkedItemPositions.get(i)) positionsToDismiss.add(i);
+            }
+          } catch (IndexOutOfBoundsException e) {}
+          mDismissAdapter.animateDismiss(positionsToDismiss);
+
+          int messageRes = isSingleSelection
+            ? (areAllArchived ? R.string.toast_item_unarchived : R.string.toast_item_archived)
+            : (areAllArchived ? R.string.toast_items_unarchived : R.string.toast_items_archived);
+          UIUtils.showToast(activity, getString(messageRes, isSingleSelection ? firstItem.getSafeDesc() : selectionSize, getString(R.string.category_all)));
+
+          clearSelection();
+          return true;
+
+        case R.id.delete_opt:
+          PostalItemDialogFragment.newInstance(R.id.delete_opt, mSelectedList).show(getFragmentManager(), PostalItemDialogFragment.TAG);
+          return true;
+
+        case R.id.fav_opt:
+          // Mark or unmark selected items as favorites depending on their collective favorite state
+          boolean areAllFavorites = mCollectiveActionMap.get(item);
+          for (PostalItem pi : mSelectedList) {
+            String cod = pi.getCod();
+            if (areAllFavorites) dh.unfavPostalItem(cod);
+            else dh.favPostalItem(cod);
+            pi.setFav(!areAllFavorites);
+          }
+
+          // Update item list and available actions
+          mListAdapter.notifyDataSetChanged();
+          mActionMode.invalidate();
+
+          app.setUpdatedList();
+          return true;
+
+        case R.id.share_opt:
+          Intent shareIntent = PostalUtils.getShareIntent(activity, mSelectedList);
+          if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
+          return true;
+      }
+
+      /* Single item actions */
+      switch (actionId) {
+        case R.id.place_opt:
+          try {
+            UIUtils.locateItem(activity, firstItem);
+          } catch (Exception e) {
+            UIUtils.showToast(activity, e.getMessage());
+          }
+          return true;
+
+        case R.id.rename_opt:
+          PostalItemDialogFragment.newInstance(R.id.rename_opt, mSelectedList).show(getFragmentManager(), PostalItemDialogFragment.TAG);
+          return true;
+
+        case R.id.websro_opt:
+          Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", firstItem).setAction("webSRO");
+          startActivity(intent);
+          return true;
+      }
+
+      return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+      mCollectiveActionMap.clear();
+      mSelectedList.clear();
+      mActionMode = null;
+    }
+
+    public void finishActionMode() {
+      if (mActionMode != null) mActionMode.finish();
     }
   }
 }

@@ -12,18 +12,6 @@
   <string name="undo_btn">Undo</string>
   <string name="quit_btn">Quit</string>
 
-  <!-- Options Menu -->
-  <string name="add_opt">Add</string>
-  <string name="share_opt">Share</string>
-  <string name="preferences_opt">Settings</string>
-  <string name="feedback_opt">Feedback &amp; Support</string>
-  <string name="search_opt">Search</string>
-  <string name="edit_opt">Edit</string>
-  <string name="websro_opt">SRO Correios</string>
-  <string name="fav_opt">Favorite</string>
-  <string name="scan_opt">Scan</string>
-  <string name="place_opt">Locate</string>
-
   <!-- Main Drawer -->
   <string name="drawer_header_tracking">Tracking</string>
   <string name="category_all">All</string>
@@ -34,6 +22,8 @@
   <string name="category_unknown">Unknown</string>
   <string name="category_returned">Returned</string>
   <string name="category_archived">Archived</string>
+  <string name="action_preferences">Settings</string>
+  <string name="action_feedback">Feedback &amp; Support</string>
 
   <!-- Add Activity -->
   <string name="title_add">Add item</string>
@@ -90,8 +80,11 @@
   <string name="toast_item_renamed">%1$s renamed to %2$s.</string>
   <string name="toast_item_renamed_empty">Description removed from %s.</string>
   <string name="toast_item_archived">%s archived.</string>
+  <string name="toast_items_archived">%d items archived.</string>
   <string name="toast_item_unarchived">%1$s moved to %2$s.</string>
+  <string name="toast_items_unarchived">%1$d items moved to %2$s.</string>
   <string name="toast_item_deleted">%s deleted.</string>
+  <string name="toast_items_deleted">%d items deleted.</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
   <string name="toast_sync_error">Sync error: %s</string>
   <string name="toast_backup_created">Backup successfully created in %s folder.</string>
@@ -107,21 +100,30 @@
   <string name="label_item_deleted">Deleted</string>
 
   <!-- Context Menu -->
+  <string name="opt_add">Add</string>
+  <string name="opt_search">Search</string>
+  <string name="opt_scan_barcode">Scan code</string>
   <string name="opt_refresh_item">Refresh</string>
   <string name="opt_rename_item">Rename</string>
-  <string name="opt_toggle_fav">%s favorite</string>
-    <string name="label_mark_as">Mark as</string>
-    <string name="label_unmark_as">Unmark as</string>
+  <string name="opt_mark_as_fav">Mark as favorite</string>
+  <string name="opt_unmark_as_fav">Unmark as favorite</string>
   <string name="opt_view_place">View map location</string>
-  <string name="opt_share_status">Share status</string>
-  <string name="opt_open_websro">Open Correios SRO</string>
+  <string name="opt_share">Share</string>
+  <string name="opt_open_websro">Open in SRO</string>
   <string name="opt_archive_item">Archive</string>
   <string name="opt_unarchive_item">Move to %s</string>
   <string name="opt_delete_item">Delete</string>
 
   <!-- Dialogs -->
-  <string name="title_alert_delete">Delete %s?</string>
-  <string name="msg_alert_delete">The item\'s history will be erased as well.</string>
+  <string name="title_alert_rename">Rename %s</string>
+  <plurals name="title_alert_delete">
+    <item quantity="one">Delete %s?</item>
+    <item quantity="other">Delete items?</item>
+  </plurals>
+  <plurals name="msg_alert_delete">
+    <item quantity="one">Its history will be erased.</item>
+    <item quantity="other">Their histories will be erased.</item>
+  </plurals>
   <string name="msg_alert_create_backup">Enter the name for the backup file:</string>
   <string name="title_alert_select_backup">Select a backup</string>
   <string name="title_alert_restore_backup">Restore backup?</string>

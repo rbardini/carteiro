@@ -33,6 +33,8 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
+import java.util.ArrayList;
+
 public class MainActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
 
@@ -125,6 +127,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
 
       @Override
       public void onDrawerOpened(View drawerView) {
+        mCurrentFragment.clearSelection();
         mActionBar.setTitle(R.string.app_name);
         invalidateOptionsMenu();
       }
@@ -272,19 +275,37 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
     else toast = getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc);
 
     UIUtils.showToast(this, toast);
+
+    mCurrentFragment.clearSelection();
     refreshList();
+
+    app.setUpdatedList();
   }
 
   @Override
-  public void onDeletePostalItem(PostalItem pi) {
-    app.getDatabaseHelper().deletePostalItem(pi.getCod());
-    UIUtils.showToast(this, getString(R.string.toast_item_deleted, pi.getSafeDesc()));
+  public void onDeletePostalItems(ArrayList<PostalItem> piList) {
+    final int listSize = piList.size();
+
+    for (PostalItem pi : piList) app.getDatabaseHelper().deletePostalItem(pi.getCod());
+
+    String message = listSize == 1
+      ? getString(R.string.toast_item_deleted, piList.get(0).getSafeDesc())
+      : getString(R.string.toast_items_deleted, listSize);
+    UIUtils.showToast(this, message);
+
+    mCurrentFragment.clearSelection();
     refreshList();
+
+    // Calling CarteiroApplication.setUpdatedList here is unnecessary,
+    // as the PostalListFragment class already does it when (un)archived
+    // or deleted item animations are finished
   }
 
   public void onFavClick(View v) {
     app.getDatabaseHelper().togglePostalItemFav((String) v.getTag());
-    refreshList();
+    refreshList();  // TODO Don't refresh the whole list, just update the item acted on
+
+    app.setUpdatedList();
   }
 
   public void setDrawerCategoryChecked(int category) {

@@ -160,8 +160,26 @@ public class DatabaseHelper {
     return rows;
   }
 
+  public void setPostalItemFav(String cod, int fav) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET fav = ? WHERE cod = ?", new Object[] {fav, cod});
+    notifyDatabaseChanged();
+  }
+
   public void togglePostalItemFav(String cod) {
     db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET fav = NOT fav WHERE cod = ?", new Object[] {cod});
+    notifyDatabaseChanged();
+  }
+
+  public void favPostalItem(String cod) {
+    setPostalItemFav(cod, 1);
+  }
+
+  public void unfavPostalItem(String cod) {
+    setPostalItemFav(cod, 0);
+  }
+
+  public void setPostalItemArchived(String cod, int archived) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = ? WHERE cod = ?", new Object[] {archived, cod});
     notifyDatabaseChanged();
   }
 
@@ -171,8 +189,11 @@ public class DatabaseHelper {
   }
 
   public void archivePostalItem(String cod) {
-    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = ? WHERE cod = ?", new Object[] {1, cod});
-    notifyDatabaseChanged();
+    setPostalItemArchived(cod, 1);
+  }
+
+  public void unarchivePostalItem(String cod) {
+    setPostalItemArchived(cod, 0);
   }
 
   public int deletePostalItem(String cod) {

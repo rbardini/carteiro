@@ -2,25 +2,43 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item android:id="@+id/refresh_opt"
-      android:title="@string/opt_refresh_item" />
+    android:icon="@drawable/ic_action_refresh"
+    android:title="@string/opt_refresh_item"
+    android:showAsAction="always" />
 
-  <item android:id="@+id/rename_opt"
-      android:title="@string/opt_rename_item" />
-
-  <item android:id="@+id/fav_opt" />
-
-  <item android:id="@+id/place_opt"
-      android:title="@string/opt_view_place" />
-
-  <item android:id="@+id/share_opt"
-      android:title="@string/opt_share_status" />
-
-  <item android:id="@+id/websro_opt"
-      android:title="@string/opt_open_websro" />
-
-  <item android:id="@+id/archive_opt" />
+  <item android:id="@+id/archive_opt"
+    android:icon="@drawable/ic_action_archive"
+    android:title="@string/opt_archive_item"
+    android:showAsAction="always" />
 
   <item android:id="@+id/delete_opt"
-      android:title="@string/opt_delete_item" />
+    android:icon="@drawable/ic_action_delete"
+    android:title="@string/opt_delete_item"
+    android:showAsAction="always" />
+
+  <item android:id="@+id/fav_opt"
+    android:icon="@drawable/ic_action_star_off"
+    android:title="@string/opt_mark_as_fav"
+    android:showAsAction="ifRoom" />
+
+  <item android:id="@+id/share_opt"
+    android:icon="@drawable/ic_action_share"
+    android:title="@string/opt_share"
+    android:showAsAction="ifRoom" />
+
+  <item android:id="@+id/place_opt"
+    android:icon="@drawable/ic_action_place"
+    android:title="@string/opt_view_place"
+    android:showAsAction="ifRoom" />
+
+  <item android:id="@+id/rename_opt"
+    android:icon="@drawable/ic_action_edit"
+    android:title="@string/opt_rename_item"
+    android:showAsAction="ifRoom" />
+
+  <item android:id="@+id/websro_opt"
+    android:icon="@drawable/ic_action_web"
+    android:title="@string/opt_open_websro"
+    android:showAsAction="ifRoom" />
 
 </menu>

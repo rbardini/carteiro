@@ -99,12 +99,12 @@ public class DrawerListAdapter extends BaseAdapter {
         break;
 
       case ACTION_SETTINGS:
-        holder.title.setText(R.string.preferences_opt);
+        holder.title.setText(R.string.action_preferences);
         holder.icon.setImageResource(R.drawable.ic_menu_settings);
         break;
 
       case ACTION_FEEDBACK:
-        holder.title.setText(R.string.feedback_opt);
+        holder.title.setText(R.string.action_feedback);
         holder.icon.setImageResource(R.drawable.ic_menu_help);
         break;
     }

@@ -26,6 +26,8 @@
     <item name="android:selectableItemBackground">@drawable/list_selector</item>
     <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
     <item name="android:actionBarItemBackground">@drawable/list_selector</item>
+    <item name="android:actionModeBackground">@drawable/cab_background_top</item>
+    <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom</item>
     <item name="android:textColorHighlight">@color/theme_primary_light</item>
     <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
     <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
