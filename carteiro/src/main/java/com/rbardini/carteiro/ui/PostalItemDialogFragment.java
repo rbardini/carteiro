@@ -7,10 +7,12 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
@@ -62,6 +64,14 @@ public class PostalItemDialogFragment extends DialogFragment {
 
         final EditText itemDesc = (EditText) layout.findViewById(R.id.item_desc_fld);
         itemDesc.setText(pi.getDesc());
+        itemDesc.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+          @Override
+          public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            onRenamePostemItem(itemDesc, pi);
+            dismiss();
+            return true;
+          }
+        });
 
         builder
           .setView(layout)
@@ -69,9 +79,7 @@ public class PostalItemDialogFragment extends DialogFragment {
           .setPositiveButton(R.string.rename_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-              String desc = itemDesc.getText().toString().trim();
-              if (desc.equals("")) desc = null;
-              listener.onRenamePostalItem(desc, pi);
+              onRenamePostemItem(itemDesc, pi);
             }
           })
           .setNegativeButton(R.string.negative_btn, null);
@@ -94,5 +102,11 @@ public class PostalItemDialogFragment extends DialogFragment {
     }
 
     return builder.create();
+  }
+
+  private void onRenamePostemItem(EditText itemDesc, PostalItem pi) {
+    String desc = itemDesc.getText().toString().trim();
+    if (desc.equals("")) desc = null;
+    listener.onRenamePostalItem(desc, pi);
   }
 }

@@ -6,6 +6,7 @@
   android:padding="10dp">
 
   <EditText style="@style/ItemDescField"
-    android:id="@+id/item_desc_fld" />
+    android:id="@+id/item_desc_fld"
+    android:imeOptions="actionGo" />
 
 </LinearLayout>
