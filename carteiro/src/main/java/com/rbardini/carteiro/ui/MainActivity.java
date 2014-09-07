@@ -2,6 +2,7 @@ package com.rbardini.carteiro.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
@@ -227,7 +228,9 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
+    final int itemId = item.getItemId();
+
+    switch (itemId) {
       case android.R.id.home:
         if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
           mDrawerLayout.closeDrawer(mDrawerList);
@@ -238,7 +241,15 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
 
       case R.id.add_opt:
         Intent intent = new Intent(this, AddActivity.class);
-        startActivity(intent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+          View v = findViewById(itemId);
+          ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
+          startActivity(intent, scaleAnim.toBundle());
+
+        } else {
+          startActivity(intent);
+        }
         return true;
 
       case R.id.share_opt:
