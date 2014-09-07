@@ -42,6 +42,7 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -156,6 +157,10 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     piList.add(pi);
 
     switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+
       case R.id.fav_opt:
         pi.toggleFav();
 
@@ -237,6 +242,12 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     app.setUpdatedList();
     UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pi.getSafeDesc()));
     UIUtils.goHome(this);
+  }
+
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
   }
 
   private void setTitleBar() {
