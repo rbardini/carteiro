@@ -30,6 +30,7 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     setContentView(R.layout.search);
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
@@ -103,6 +104,18 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
     app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
 
@@ -129,6 +142,12 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
 
     listFragment.clearSelection();
     listFragment.refreshList(true);
+  }
+
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
   }
 
   public void onFavClick(View v) {
