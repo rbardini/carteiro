@@ -140,11 +140,11 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
       getMenuInflater().inflate(R.menu.record_actions, menu);
 
       menu.findItem(R.id.fav_opt)
-        .setIcon(pi.isFav() ? R.drawable.ic_action_star : R.drawable.ic_action_star_off)
+        .setIcon(pi.isFav() ? R.drawable.ic_menu_star_on : R.drawable.ic_menu_star_off)
         .setTitle(pi.isFav() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
 
       menu.findItem(R.id.archive_opt)
-        .setIcon(pi.isArchived() ? R.drawable.ic_action_unarchive : R.drawable.ic_action_archive)
+        .setIcon(pi.isArchived() ? R.drawable.ic_menu_unarchive : R.drawable.ic_menu_archive)
         .setTitle(getString(pi.isArchived() ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
     }
 

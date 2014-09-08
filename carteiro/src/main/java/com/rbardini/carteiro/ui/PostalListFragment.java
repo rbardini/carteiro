@@ -282,11 +282,11 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
 
       // Update favorite and archive actions depending on the selected items
       MenuItem favAction = menu.findItem(R.id.fav_opt)
-        .setIcon(areAllFavorites ? R.drawable.ic_action_star : R.drawable.ic_action_star_off)
+        .setIcon(areAllFavorites ? R.drawable.ic_menu_star_on : R.drawable.ic_menu_star_off)
         .setTitle(areAllFavorites ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
       mCollectiveActionMap.put(favAction, areAllFavorites);
       MenuItem archiveAction = menu.findItem(R.id.archive_opt)
-        .setIcon(areAllArchived ? R.drawable.ic_action_unarchive : R.drawable.ic_action_archive)
+        .setIcon(areAllArchived ? R.drawable.ic_menu_unarchive : R.drawable.ic_menu_archive)
         .setTitle(getString(areAllArchived ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
       mCollectiveActionMap.put(archiveAction, areAllArchived);
 

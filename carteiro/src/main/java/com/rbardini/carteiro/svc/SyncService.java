@@ -90,7 +90,7 @@ public class SyncService extends IntentService {
           .setSmallIcon(R.drawable.ic_stat_sync)
           .setContentTitle(getString(R.string.notf_title_syncing))
           .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
-          .addAction(R.drawable.ic_action_cancel, getString(R.string.negative_btn), PendingIntent.getBroadcast(this, 0, new Intent(this, CancelSyncReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT))
+          .addAction(R.drawable.ic_menu_cancel, getString(R.string.negative_btn), PendingIntent.getBroadcast(this, 0, new Intent(this, CancelSyncReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT))
           .setOngoing(true);
       }
 
@@ -215,8 +215,8 @@ public class SyncService extends IntentService {
       notificationBuilder
         .setLargeIcon(UIUtils.createScaledDpBitmap(this, BitmapFactory.decodeResource(this.getResources(), Status.getIcon(pi.getStatus())), 36, 36))
         .setSubText(pi.getLoc())
-        .addAction(R.drawable.ic_action_place, getString(R.string.opt_view_place), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
-        .addAction(R.drawable.ic_action_share, getString(R.string.opt_share), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+        .addAction(R.drawable.ic_menu_place, getString(R.string.opt_view_place), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+        .addAction(R.drawable.ic_menu_share, getString(R.string.opt_share), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
       notificationStyle.bigText(pi.getFullInfo());
     } else {
       Iterator<PostalItem> iterator = postalItems.iterator();

@@ -56,7 +56,7 @@
     <item name="android:textColor">@color/actionbar</item>
   </style>
   <style name="ActionOverflow" parent="android:Widget.Holo.ActionButton.Overflow">
-    <item name="android:src">@drawable/ic_action_overflow</item>
+    <item name="android:src">@drawable/ic_menu_overflow</item>
   </style>
   <style name="ActionButton" parent="android:Widget.Holo.ActionButton">
     <item name="android:background">@drawable/list_selector</item>

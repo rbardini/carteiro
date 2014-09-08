@@ -119,7 +119,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
         mDrawerLayout.closeDrawer(mDrawerList);
       }
     });
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_indicator, R.string.drawer_open, R.string.drawer_close) {
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_menu_drawer, R.string.drawer_open, R.string.drawer_close) {
       @Override
       public void onDrawerClosed(View drawerView) {
         mActionBar.setTitle(mTitle);

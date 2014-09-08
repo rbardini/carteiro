@@ -20,7 +20,7 @@
     <item name="android:actionBarStyle">@style/ActionBar</item>
     <item name="android:actionOverflowButtonStyle">@style/ActionOverflow</item>
     <item name="android:actionButtonStyle">@style/ActionButton</item>
-    <item name="android:homeAsUpIndicator">@drawable/ic_up_indicator</item>
+    <item name="android:homeAsUpIndicator">@drawable/ic_menu_up</item>
     <item name="android:popupMenuStyle">@style/PopupMenu</item>
     <item name="android:listPopupWindowStyle">@style/PopupMenu</item>
     <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
