@@ -4,28 +4,33 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <RelativeLayout style="@style/Record.Header"
-    android:id="@+id/header">
+  <FrameLayout style="@style/Record"
+    android:id="@+id/header"
+    android:background="@color/theme_primary_dark">
 
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="?android:attr/actionBarSize"
-      android:orientation="vertical">
+    <RelativeLayout style="@style/Record.Header">
 
-      <TextView style="@style/Record.Heading"
-        android:id="@+id/legend" />
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="?android:attr/actionBarSize"
+        android:orientation="vertical">
 
-      <TextView style="@style/Record.Heading.Title"
-        android:id="@+id/title" />
+        <TextView style="@style/Record.Heading"
+          android:id="@+id/legend" />
 
-      <TextView style="@style/Record.Heading.Subtitle"
-        android:id="@+id/subtitle"
-        android:drawablePadding="4dp" />
+        <TextView style="@style/Record.Heading.Title"
+          android:id="@+id/title" />
 
-    </LinearLayout>
+        <TextView style="@style/Record.Heading.Subtitle"
+          android:id="@+id/subtitle"
+          android:drawablePadding="4dp" />
 
-  </RelativeLayout>
+      </LinearLayout>
+
+    </RelativeLayout>
+
+  </FrameLayout>
 
   <FrameLayout
     android:id="@+id/record_list"
