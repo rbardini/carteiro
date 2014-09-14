@@ -78,7 +78,22 @@ public final class PostalUtils {
           Status.OBJETO_PERDIDO_ASSALTO_VEICULO,
           Status.OBJETO_PERDIDO_ASSALTO_UNIDADE,
           Status.OBJETO_RETIDO,
-          Status.IMPORTACAO_NAO_AUTORIZADA
+          Status.IMPORTACAO_NAO_AUTORIZADA,
+          Status.MAL_ENCAMINHADO,
+          Status.DESTINATARIO_AUSENTE,
+          Status.DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO,
+          Status.ATRASADO,
+          Status.LOG_REVERSA_SIMULTANEA,
+          Status.LOGISTICA_REVERSA_SIMULTANEA,
+          Status.REINTEGRADO,
+          Status.DEVOLVIDO_AOS_CORREIOS,
+          Status.SAIDA_CANCELADA,
+          Status.SAIDA_NAO_EFETUADA,
+          Status.ENTREGA_NAO_EFETUADA,
+          Status.ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS,
+          Status.AGUARDANDO_DOCUMENTACAO_FISCAL,
+          Status.ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO,
+          Status.CANCELADA_ULTIMA_INFORMACAO
       });
       map.put(UNKNOWN, new String[] {
           Status.INDETERMINADO,
@@ -185,6 +200,21 @@ public final class PostalUtils {
     public static final String OBJETO_PERDIDO_ASSALTO_UNIDADE = "Objeto perdido em assalto a unidade dos correios";
     public static final String OBJETO_RETIDO = "Objeto retido pelo órgão de fiscalização";
     public static final String IMPORTACAO_NAO_AUTORIZADA = "Importação não autorizada por órgão da receita";
+    public static final String MAL_ENCAMINHADO = "Mal encaminhado";
+    public static final String DESTINATARIO_AUSENTE = "Destinatário ausente";
+    public static final String DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO = "Área com distribuição sujeita a prazo diferenciado";
+    public static final String ATRASADO = "Atrasado";
+    public static final String LOG_REVERSA_SIMULTANEA = "Log. reversa simultânea";
+    public static final String LOGISTICA_REVERSA_SIMULTANEA = "Logística reversa simultânea";
+    public static final String REINTEGRADO = "Reintegrado";
+    public static final String DEVOLVIDO_AOS_CORREIOS = "Objeto devolvido aos correios";
+    public static final String SAIDA_CANCELADA = "Saída cancelada";
+    public static final String SAIDA_NAO_EFETUADA = "Saída não efetuada";
+    public static final String ENTREGA_NAO_EFETUADA = "Entrega não efetuada";
+    public static final String ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS = "Entrega não efetuada por motivos operacionais";
+    public static final String AGUARDANDO_DOCUMENTACAO_FISCAL = "Aguardando documentação fiscal";
+    public static final String ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO = "Entrega condicionada ao complemento da documentação";
+    public static final String CANCELADA_ULTIMA_INFORMACAO = "Cancelada a última informação";
 
     // Unknown
     public static final String INDETERMINADO = "Indeterminado";
@@ -199,27 +229,12 @@ public final class PostalUtils {
 
     // Other
     public static final String ENCAMINHADO = "Encaminhado";
-    public static final String MAL_ENCAMINHADO = "Mal encaminhado";
     public static final String RECEBIDO = "Recebido na unidade de distribuição";
     public static final String CONFERIDO = "Conferido";
-    public static final String DESTINATARIO_AUSENTE = "Destinatário ausente";
     public static final String ENTREGA_PROGRAMADA = "Entrega programada";
     public static final String DISTRIBUICAO_ESPECIAL_AGENDADA = "Distribuição especial agendada";
-    public static final String DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO = "Área com distribuição sujeita a prazo diferenciado";
     public static final String AGUARDANDO_PARTE_LOTE = "Aguardando parte do lote";
     public static final String ENTREGA_CONDICIONADA_COMPOSICAO_LOTE = "Entrega condicionada à composição do lote";
-    public static final String ATRASADO = "Atrasado";
-    public static final String LOG_REVERSA_SIMULTANEA = "Log. reversa simultânea";
-    public static final String LOGISTICA_REVERSA_SIMULTANEA = "Logística reversa simultânea";
-    public static final String REINTEGRADO = "Reintegrado";
-    public static final String DEVOLVIDO_AOS_CORREIOS = "Objeto devolvido aos correios";
-    public static final String SAIDA_CANCELADA = "Saída cancelada";
-    public static final String SAIDA_NAO_EFETUADA = "Saída não efetuada";
-    public static final String ENTREGA_NAO_EFETUADA = "Entrega não efetuada";
-    public static final String ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS = "Entrega não efetuada por motivos operacionais";
-    public static final String AGUARDANDO_DOCUMENTACAO_FISCAL = "Aguardando documentação fiscal";
-    public static final String ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO = "Entrega condicionada ao complemento da documentação";
-    public static final String CANCELADA_ULTIMA_INFORMACAO = "Cancelada a última informação";
 
     private static final Map<String, Integer> CategoryMap = buildCategoryMap();
     private static final Map<String, Integer> IconMap = buildIconMap();
@@ -288,6 +303,21 @@ public final class PostalUtils {
       map.put(OBJETO_PERDIDO_ASSALTO_UNIDADE, R.drawable.ic_postal_objeto_perdido_assalto_unidade);
       map.put(OBJETO_RETIDO, R.drawable.ic_postal_objeto_retido);
       map.put(IMPORTACAO_NAO_AUTORIZADA, R.drawable.ic_postal_objeto_retido);
+      map.put(MAL_ENCAMINHADO, R.drawable.ic_postal_mal_encaminhado);
+      map.put(DESTINATARIO_AUSENTE, R.drawable.ic_postal_destinatario_ausente);
+      map.put(DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO, R.drawable.ic_postal_entrega_programada);
+      map.put(ATRASADO, R.drawable.ic_postal_atrasado);
+      map.put(LOG_REVERSA_SIMULTANEA, R.drawable.ic_postal_log_reversa_simultanea);
+      map.put(LOGISTICA_REVERSA_SIMULTANEA, R.drawable.ic_postal_log_reversa_simultanea);
+      map.put(REINTEGRADO, R.drawable.ic_postal_reintegrado);
+      map.put(DEVOLVIDO_AOS_CORREIOS, R.drawable.ic_postal_reintegrado);
+      map.put(SAIDA_CANCELADA, R.drawable.ic_postal_saida_cancelada);
+      map.put(SAIDA_NAO_EFETUADA, R.drawable.ic_postal_saida_cancelada);
+      map.put(ENTREGA_NAO_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
+      map.put(ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS, R.drawable.ic_postal_entrega_nao_efetuada);
+      map.put(AGUARDANDO_DOCUMENTACAO_FISCAL, R.drawable.ic_postal_aguardando_documentacao_fiscal);
+      map.put(ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO, R.drawable.ic_postal_aguardando_documentacao_fiscal);
+      map.put(CANCELADA_ULTIMA_INFORMACAO, R.drawable.ic_postal_cancelada_ultima_informacao);
 
       // Unknown
       map.put(INDETERMINADO, R.drawable.ic_postal_indeterminado);
@@ -304,26 +334,10 @@ public final class PostalUtils {
       map.put(RECEBIDO, R.drawable.ic_postal_recebido);
       map.put(CONFERIDO, R.drawable.ic_postal_conferido);
       map.put(ENCAMINHADO, R.drawable.ic_postal_encaminhado);
-      map.put(MAL_ENCAMINHADO, R.drawable.ic_postal_mal_encaminhado);
-      map.put(DESTINATARIO_AUSENTE, R.drawable.ic_postal_destinatario_ausente);
       map.put(AGUARDANDO_PARTE_LOTE, R.drawable.ic_postal_aguardando_parte_lote);
       map.put(ENTREGA_CONDICIONADA_COMPOSICAO_LOTE, R.drawable.ic_postal_aguardando_parte_lote);
-      map.put(ATRASADO, R.drawable.ic_postal_atrasado);
-      map.put(LOG_REVERSA_SIMULTANEA, R.drawable.ic_postal_log_reversa_simultanea);
-      map.put(LOGISTICA_REVERSA_SIMULTANEA, R.drawable.ic_postal_log_reversa_simultanea);
-      map.put(REINTEGRADO, R.drawable.ic_postal_reintegrado);
-      map.put(DEVOLVIDO_AOS_CORREIOS, R.drawable.ic_postal_reintegrado);
-      map.put(SAIDA_CANCELADA, R.drawable.ic_postal_saida_cancelada);
-      map.put(SAIDA_NAO_EFETUADA, R.drawable.ic_postal_saida_cancelada);
       map.put(ENTREGA_PROGRAMADA, R.drawable.ic_postal_entrega_programada);
       map.put(DISTRIBUICAO_ESPECIAL_AGENDADA, R.drawable.ic_postal_entrega_programada);
-      map.put(DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO, R.drawable.ic_postal_entrega_programada);
-      map.put(ENTREGA_NAO_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
-      map.put(ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS, R.drawable.ic_postal_entrega_nao_efetuada);
-      map.put(EMPRESA_SEM_EXPEDIENTE, R.drawable.ic_postal_empresa_sem_expediente);
-      map.put(AGUARDANDO_DOCUMENTACAO_FISCAL, R.drawable.ic_postal_aguardando_documentacao_fiscal);
-      map.put(ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO, R.drawable.ic_postal_aguardando_documentacao_fiscal);
-      map.put(CANCELADA_ULTIMA_INFORMACAO, R.drawable.ic_postal_cancelada_ultima_informacao);
 
       return map;
     }
