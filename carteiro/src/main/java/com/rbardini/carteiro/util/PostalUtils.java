@@ -405,6 +405,7 @@ public final class PostalUtils {
       map.put("DG", "E-SEDEX (LÓGICO)");
       map.put("DI", "REM EXPRES COM AR DIGITAL ITAU");
       map.put("DL", "ENCOMENDA SEDEX (LÓGICO)");
+      map.put("DM", "MERCADOENVIOS EXPRESSO");
       map.put("DP", "REM EXPRES COM AR DIGITAL PRF");
       map.put("DS", "REM EXPRES COM AR DIGITAL SANTANDER");
       map.put("DT", "REMESSA ECON.SEG.TRANSITO C/AR DIGITAL");
@@ -435,7 +436,7 @@ public final class PostalUtils {
       map.put("EX", "OBJETO INTERNACIONAL");
       map.put("EY", "OBJETO INTERNACIONAL");
       map.put("EZ", "OBJETO INTERNACIONAL");
-      map.put("FA", "FAC REGISTRATO (LÓGICO)");
+      map.put("FA", "FAC REGISTRADO (LÓGICO)");
       map.put("FE", "ENCOMENDA FNDE");
       map.put("FF", "REGISTRADO DETRAN");
       map.put("FH", "REGISTRADO FAC COM AR DIGITAL");
@@ -460,7 +461,7 @@ public final class PostalUtils {
       map.put("JC", "REMESSA ECONOMICA C/AR DIGITAL");
       map.put("JD", "REMESSA ECONÔMICA S/ AR DIGITAL");
       map.put("JE", "REMESSA ECONÔMICA C/ AR DIGITAL");
-      map.put("JG", "REGISTRATO AGÊNCIA (FÍSICO)");
+      map.put("JG", "REGISTRADO AGÊNCIA (FÍSICO)");
       map.put("JJ", "REGISTRADO JUSTIÇA");
       map.put("JL", "OBJETO REGISTRADO (LÓGICO)");
       map.put("JM", "MALA DIRETA POSTAL ESPECIAL (LÓGICO)");
