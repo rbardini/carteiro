@@ -67,6 +67,7 @@ public final class PostalUtils {
           Status.NUMERO_INEXISTENTE,
           Status.EMPRESA_SEM_EXPEDIENTE,
           Status.MERCADORIA_AVARIADA,
+          Status.OBJETO_AVARIADO,
           Status.DOCUMENTACAO_NAO_FORNECIDA,
           Status.DESTINATARIO_NAO_APRESENTOU_DOCUMENTACAO,
           Status.OBJETO_FORA_PADRAO,
@@ -93,7 +94,9 @@ public final class PostalUtils {
           Status.ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS,
           Status.AGUARDANDO_DOCUMENTACAO_FISCAL,
           Status.ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO,
-          Status.CANCELADA_ULTIMA_INFORMACAO
+          Status.CANCELADA_ULTIMA_INFORMACAO,
+          Status.EM_REVISAO_DE_TRIBUTO,
+          Status.TRIBUTO_ALTERADO
       });
       map.put(UNKNOWN, new String[] {
           Status.INDETERMINADO,
@@ -188,6 +191,7 @@ public final class PostalUtils {
     public static final String NUMERO_INEXISTENTE = "Não existe o número indicado";
     public static final String EMPRESA_SEM_EXPEDIENTE = "Empresa sem expediente";
     public static final String MERCADORIA_AVARIADA = "Mercadoria avariada";
+    public static final String OBJETO_AVARIADO = "Objeto avariado";
     public static final String DOCUMENTACAO_NAO_FORNECIDA = "Documentação não fornecida pelo destinatário";
     public static final String DESTINATARIO_NAO_APRESENTOU_DOCUMENTACAO = "Destinatário não apresentou a documentação";
     public static final String OBJETO_FORA_PADRAO = "Objeto fora do padrão - Limites de dimensão";
@@ -215,6 +219,8 @@ public final class PostalUtils {
     public static final String AGUARDANDO_DOCUMENTACAO_FISCAL = "Aguardando documentação fiscal";
     public static final String ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO = "Entrega condicionada ao complemento da documentação";
     public static final String CANCELADA_ULTIMA_INFORMACAO = "Cancelada a última informação";
+    public static final String EM_REVISAO_DE_TRIBUTO = "EM REVISÃO DE TRIBUTO";
+    public static final String TRIBUTO_ALTERADO = "TRIBUTO ALTERADO";
 
     // Unknown
     public static final String INDETERMINADO = "Indeterminado";
@@ -318,6 +324,8 @@ public final class PostalUtils {
       map.put(AGUARDANDO_DOCUMENTACAO_FISCAL, R.drawable.ic_postal_aguardando_documentacao_fiscal);
       map.put(ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO, R.drawable.ic_postal_aguardando_documentacao_fiscal);
       map.put(CANCELADA_ULTIMA_INFORMACAO, R.drawable.ic_postal_cancelada_ultima_informacao);
+      map.put(EM_REVISAO_DE_TRIBUTO, R.drawable.ic_postal_em_revisao_de_tributo);
+      map.put(TRIBUTO_ALTERADO, R.drawable.ic_postal_tributo_alterado);
 
       // Unknown
       map.put(INDETERMINADO, R.drawable.ic_postal_indeterminado);
