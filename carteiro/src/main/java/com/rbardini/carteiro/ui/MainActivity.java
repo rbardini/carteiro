@@ -80,7 +80,8 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
     mNotificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
     mHandler = new Handler();
 
-    mActionBar.setDisplayHomeAsUpEnabled(true);
+    mActionBar.setHomeButtonEnabled(true);
+    mActionBar.setLogo(R.drawable.ic_menu_drawer);
     mMainContainer = findViewById(R.id.main_content);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.nav_drawer);
@@ -119,7 +120,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
         mDrawerLayout.closeDrawer(mDrawerList);
       }
     });
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_menu_drawer, R.string.drawer_open, R.string.drawer_close) {
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, android.R.color.transparent, R.string.drawer_open, R.string.drawer_close) {
       @Override
       public void onDrawerClosed(View drawerView) {
         mActionBar.setTitle(mTitle);
