@@ -39,6 +39,7 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
 
     actionBar = getActionBar();
     actionBar.setTitle(R.string.subtitle_search);
+    actionBar.setDisplayHomeAsUpEnabled(true);
     listFragment = null;
     query = null;
 

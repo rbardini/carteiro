@@ -56,6 +56,7 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     app = (CarteiroApplication) getApplication();
 
     ActionBar actionBar = getActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setDisplayShowTitleEnabled(false);
     actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
 
