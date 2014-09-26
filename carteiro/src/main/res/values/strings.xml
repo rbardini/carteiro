@@ -106,7 +106,7 @@
   <string name="opt_rename_item">Rename</string>
   <string name="opt_mark_as_fav">Mark as favorite</string>
   <string name="opt_unmark_as_fav">Unmark as favorite</string>
-  <string name="opt_view_place">View map location</string>
+  <string name="opt_view_place">View on map</string>
   <string name="opt_share">Share</string>
   <string name="opt_open_websro">Open in SRO</string>
   <string name="opt_archive_item">Archive</string>
