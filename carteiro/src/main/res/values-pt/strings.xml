@@ -57,7 +57,7 @@
   <string name="notf_info_syncing">%1$d/%2$d</string>
   <string name="notf_tckr_single_obj">%1$s: %2$s</string>
   <string name="notf_tckr_multi_obj">%d objetos atualizados</string>
-  <string name="notf_line_multi_obj"><![CDATA[<font color="#CCCCCC">%1$s</font> %2$s]]></string>
+  <string name="notf_line_multi_obj"><![CDATA[<b>%1$s</b> %2$s]]></string>
   <plurals name="notf_summ_multi_obj">
     <item quantity="one">1 objeto entregue</item>
     <item quantity="other">%d objetos entregues</item>
