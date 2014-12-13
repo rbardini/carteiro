@@ -9,13 +9,22 @@
   android:paddingRight="@dimen/keyline_1"
   android:minHeight="@dimen/min_touch_target">
 
+  <ImageView
+    android:id="@+id/icon"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/keyline_1"
+    android:contentDescription="@null" />
+
   <TextView
     android:id="@+id/title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="start|center_vertical"
     android:layout_marginLeft="@dimen/keyline_1_half"
+    android:layout_gravity="start|center_vertical"
     android:gravity="start|center_vertical"
-    android:textSize="@dimen/text_size_subhead" />
- 
+    android:textColor="@color/text_primary"
+    android:textSize="@dimen/text_size_menu"
+    android:textStyle="bold" />
+
 </LinearLayout>

@@ -31,13 +31,13 @@
       android:paddingLeft="@dimen/keyline_1"
       android:paddingRight="@dimen/keyline_1_half">
 
-      <TextView style="@style/ListTitle"
+      <TextView style="@style/ListText.Title"
         android:id="@+id/text_postal_status_title" />
 
-      <TextView style="@style/ListSubTitle"
+      <TextView style="@style/ListText.SubTitle"
         android:id="@+id/text_postal_status_info" />
 
-      <TextView style="@style/ListInfo"
+      <TextView style="@style/ListText.Info"
         android:id="@+id/text_postal_status_loc" />
 
     </LinearLayout>
@@ -51,10 +51,10 @@
       android:orientation="vertical"
       android:gravity="top|right">
 
-      <TextView style="@style/ListInfo"
+      <TextView style="@style/ListText.Info"
         android:id="@+id/text_postal_status_date" />
 
-      <TextView style="@style/ListInfo"
+      <TextView style="@style/ListText.Info"
         android:id="@+id/text_postal_status_time" />
 
     </LinearLayout>

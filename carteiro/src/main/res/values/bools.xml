@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <bool name="translucent_status">true</bool>
+  <bool name="translucent_status">false</bool>
 </resources>

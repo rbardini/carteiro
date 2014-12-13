@@ -1,7 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +21,8 @@ public class DrawerListAdapter extends BaseAdapter {
   public static final int ACTION_FEEDBACK = 2;
 
   private static final int TYPE_ITEM   = 0;
-  private static final int TYPE_BUTTON = 1;
-  private static final int TYPE_COUNT  = TYPE_BUTTON + 1;
+  private static final int TYPE_SEPARATOR = 1;
+  private static final int TYPE_COUNT  = TYPE_SEPARATOR + 1;
 
   private final Context mContext;
   private final LayoutInflater mInflater;
@@ -33,7 +33,7 @@ public class DrawerListAdapter extends BaseAdapter {
   public DrawerListAdapter(Context context) {
     mContext = context;
     mInflater = LayoutInflater.from(mContext);
-    mItems = new ArrayList<DrawerModel>();
+    mItems = new ArrayList<>();
     mSelectedCategory = Category.ALL;
 
     initialize();
@@ -62,15 +62,16 @@ public class DrawerListAdapter extends BaseAdapter {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    final DrawerModel model = (DrawerModel) getItem(position);
+    final DrawerModel model = getItem(position);
     final int type = getItemViewType(position);
+    final Resources res = mContext.getResources();
     final int layout;
     final ViewHolder holder;
 
     if (convertView == null) {
       switch (type) {
-        case TYPE_BUTTON:
-          layout = R.layout.drawer_button_item;
+        case TYPE_SEPARATOR:
+          layout = R.layout.drawer_separator_item;
           break;
 
         case TYPE_ITEM:
@@ -92,20 +93,28 @@ public class DrawerListAdapter extends BaseAdapter {
 
     switch (model.action) {
       case ACTION_CATEGORY:
-        holder.title.setText(Category.getTitle(model.id));
-
         boolean isSelected = model.id == mSelectedCategory;
-        holder.title.setTypeface(null, isSelected ? Typeface.BOLD : Typeface.NORMAL);
+
+        holder.title.setText(Category.getTitle(model.id));
+        holder.title.setTextColor(res.getColor(isSelected ? R.color.theme_primary : R.color.text_primary));
+        holder.icon.setVisibility(View.GONE);
+        convertView.setBackgroundColor(res.getColor(isSelected ? R.color.divider : android.R.color.transparent));
         break;
 
       case ACTION_SETTINGS:
         holder.title.setText(R.string.action_preferences);
+        holder.title.setTextColor(res.getColor(R.color.text_primary));
         holder.icon.setImageResource(R.drawable.ic_menu_settings);
+        holder.icon.setVisibility(View.VISIBLE);
+        convertView.setBackgroundColor(res.getColor(android.R.color.transparent));
         break;
 
       case ACTION_FEEDBACK:
         holder.title.setText(R.string.action_feedback);
+        holder.title.setTextColor(res.getColor(R.color.text_primary));
         holder.icon.setImageResource(R.drawable.ic_menu_help);
+        holder.icon.setVisibility(View.VISIBLE);
+        convertView.setBackgroundColor(res.getColor(android.R.color.transparent));
         break;
     }
 
@@ -134,9 +143,12 @@ public class DrawerListAdapter extends BaseAdapter {
       mItems.add(new DrawerModel(TYPE_ITEM, ACTION_CATEGORY, category));
     }
 
+    // Add separator
+    mItems.add(new DrawerModel(TYPE_SEPARATOR, -1, -1));
+
     // Add settings and feedback buttons
-    mItems.add(new DrawerModel(TYPE_BUTTON, ACTION_SETTINGS, -1));
-    mItems.add(new DrawerModel(TYPE_BUTTON, ACTION_FEEDBACK, -1));
+    mItems.add(new DrawerModel(TYPE_ITEM, ACTION_SETTINGS, -1));
+    mItems.add(new DrawerModel(TYPE_ITEM, ACTION_FEEDBACK, -1));
   }
 
   public static class DrawerModel {

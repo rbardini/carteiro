@@ -1,19 +1,26 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class PreferencesActivity extends Activity {
+import com.rbardini.carteiro.R;
+
+public class PreferencesActivity extends ActionBarActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.preferences);
 
-    getActionBar().setDisplayHomeAsUpEnabled(true);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     if (savedInstanceState == null) {
       PreferencesFragment prefsFragment = PreferencesFragment.newInstance();
-      getFragmentManager().beginTransaction().replace(android.R.id.content, prefsFragment, PreferencesFragment.TAG).commit();
+      getFragmentManager().beginTransaction().replace(R.id.main_content, prefsFragment, PreferencesFragment.TAG).commit();
     }
   }
 

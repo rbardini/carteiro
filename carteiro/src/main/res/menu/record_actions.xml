@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item android:id="@+id/fav_opt"
     android:icon="@drawable/ic_menu_star_off"
     android:title="@string/opt_mark_as_fav"
-    android:showAsAction="always" />
+    app:showAsAction="ifRoom" />
 
   <item android:id="@+id/share_opt"
     android:icon="@drawable/ic_menu_share"
     android:title="@string/opt_share"
-    android:showAsAction="never" />
+    app:showAsAction="ifRoom" />
 
   <item android:id="@+id/place_opt"
     android:icon="@drawable/ic_menu_place"
     android:title="@string/opt_view_place"
-    android:showAsAction="never" />
+    app:showAsAction="ifRoom" />
 
   <item android:id="@+id/rename_opt"
     android:icon="@drawable/ic_menu_edit"
     android:title="@string/opt_rename_item"
-    android:showAsAction="never" />
+    app:showAsAction="never" />
 
   <item android:id="@+id/archive_opt"
     android:icon="@drawable/ic_menu_archive"
     android:title="@string/opt_archive_item"
-    android:showAsAction="never" />
+    app:showAsAction="never" />
 
   <item android:id="@+id/delete_opt"
     android:icon="@drawable/ic_menu_delete"
     android:title="@string/opt_delete_item"
-    android:showAsAction="never" />
+    app:showAsAction="never" />
 
   <item android:id="@+id/websro_opt"
     android:icon="@drawable/ic_menu_web"
     android:title="@string/opt_open_websro"
-    android:showAsAction="never" />
+    app:showAsAction="never" />
 
 </menu>

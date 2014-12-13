@@ -1,15 +1,19 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,20 +39,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AddActivity extends Activity {
+public class AddActivity extends ActionBarActivity {
   public static final int NOT_FOUND      = 0x1;
   public static final int DELIVERED_ITEM = 0x2;
   public static final int RETURNED_ITEM  = 0x4;
   public static final int NET_ERROR      = 0x8;
 
-  private CarteiroApplication app;
+  private boolean mIsFormView;
 
-  private View mHeaderView;
+  private CarteiroApplication app;
+  private ActionBar mActionBar;
+
   private View mFormView;
   private View mLoadingView;
-  private TextView mTitleText;
   private TextView mContentText;
-  private Button mScanButton;
   private EditText mTrackingNumberField;
   private EditText mItemNameField;
   private View mButtonBar;
@@ -65,14 +69,17 @@ public class AddActivity extends Activity {
     setContentView(R.layout.add);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-    app = (CarteiroApplication) getApplication();
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
 
-    mHeaderView = findViewById(R.id.header_layout);
+    mIsFormView = true;
+
+    app = (CarteiroApplication) getApplication();
+    mActionBar = getSupportActionBar();
+
     mFormView = findViewById(R.id.form_layout);
     mLoadingView = findViewById(R.id.loading_indicator);
     mContentText = (TextView) findViewById(R.id.content_text);
-    mTitleText = (TextView) findViewById(R.id.title_text);
-    mScanButton = (Button) findViewById(R.id.scan_button);
     mTrackingNumberField = (EditText) findViewById(R.id.trk_code_fld);
     mItemNameField = (EditText) findViewById(R.id.item_desc_fld);
     mButtonBar = findViewById(R.id.button_bar);
@@ -148,6 +155,32 @@ public class AddActivity extends Activity {
   }
 
   @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.add_actions, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    menu.findItem(R.id.scan_opt).setVisible(mIsFormView);
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    final int itemId = item.getItemId();
+
+    switch (itemId) {
+      case R.id.scan_opt:
+        scanBarcode();
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
     if (scanResult != null && data != null) {
@@ -168,7 +201,7 @@ public class AddActivity extends Activity {
     handleIntent();
   }
 
-  public void onScanClick(View v) {
+  public void scanBarcode() {
     IntentIntegrator scan = new IntentIntegrator(this);
     AlertDialog install = scan.initiateScan();
 
@@ -214,45 +247,52 @@ public class AddActivity extends Activity {
     }
   }
 
-  private void toggleFormView(int visibility) {
-    mHeaderView.setVisibility(visibility);
-    mScanButton.setVisibility(visibility);
+  private void toggleFormView(boolean show) {
+    int visibility = show ? View.VISIBLE : View.GONE;
+
+    if (show) mActionBar.show(); else mActionBar.hide();
     mFormView.setVisibility(visibility);
     mButtonBar.setVisibility(visibility);
+
+    mIsFormView = show;
+    invalidateOptionsMenu();
   }
 
   private void showFormView() {
-    toggleFormView(View.VISIBLE);
+    toggleFormView(true);
   }
 
   private void hideFormView() {
-    toggleFormView(View.GONE);
+    toggleFormView(false);
   }
 
-  private void toggleLoadingView(int visibility) {
+  private void toggleLoadingView(boolean show) {
+    int visibility = show ? View.VISIBLE : View.GONE;
     mLoadingView.setVisibility(visibility);
   }
 
   private void showLoadingView() {
-    toggleLoadingView(View.VISIBLE);
+    toggleLoadingView(true);
   }
 
   private void hideLoadingView() {
-    toggleLoadingView(View.GONE);
+    toggleLoadingView(false);
   }
 
-  private void toggleConfirmationView(int visibility) {
-    mHeaderView.setVisibility(visibility);
+  private void toggleConfirmationView(boolean show) {
+    int visibility = show ? View.VISIBLE : View.GONE;
+
+    if (show) mActionBar.show(); else mActionBar.hide();
     mContentText.setVisibility(visibility);
     mButtonBar.setVisibility(visibility);
   }
 
   private void showConfirmationView() {
-    toggleConfirmationView(View.VISIBLE);
+    toggleConfirmationView(true);
   }
 
   private void hideConfirmationView() {
-    toggleConfirmationView(View.GONE);
+    toggleConfirmationView(false);
   }
 
   private void setConfirmation(int id) {
@@ -281,12 +321,12 @@ public class AddActivity extends Activity {
         break;
     }
 
-    mTitleText.setText(title);
+    mActionBar.setTitle(title);
     mContentText.setText(message);
   }
 
   private void resetConfirmation() {
-    mTitleText.setText(R.string.title_add);
+    mActionBar.setTitle(R.string.title_add);
     mContentText.setText(null);
   }
 

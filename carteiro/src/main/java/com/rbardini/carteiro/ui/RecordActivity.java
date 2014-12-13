@@ -1,20 +1,20 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rbardini.carteiro.CarteiroApplication;
@@ -26,7 +26,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class RecordActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class RecordActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener, WebSROFragment.OnStateChangeListener {
   private CarteiroApplication app;
   private FragmentManager mFragManager;
 
@@ -38,27 +38,31 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
   private TextView mTitle;
   private TextView mSubtitle;
   private TextView mLegend;
+  private ProgressBar mProgressBar;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
-    requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-    requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+    supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
     setContentView(R.layout.record);
-    setProgressBarIndeterminateVisibility(false);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.header, false);
+    Resources res = getResources();
+    if (res.getBoolean(R.bool.translucent_status)) {
+      UIUtils.addStatusBarPadding(this, R.id.root_layout);
+    }
 
     app = (CarteiroApplication) getApplication();
 
-    ActionBar actionBar = getActionBar();
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+
+    ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setDisplayShowTitleEnabled(false);
-    actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
 
     mFragManager = getFragmentManager();
     mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
@@ -71,6 +75,7 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
     mTitle = (TextView) findViewById(R.id.title);
     mSubtitle = (TextView) findViewById(R.id.subtitle);
     mLegend = (TextView) findViewById(R.id.legend);
+    mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
     if (savedInstanceState != null) {
       pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
@@ -224,6 +229,11 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
       return;
     }
 
+    if (mFragManager.getBackStackEntryCount() > 0) {
+      mFragManager.popBackStack();
+      return;
+    }
+
     super.onBackPressed();
   }
 
@@ -327,5 +337,15 @@ public class RecordActivity extends Activity implements DetachableResultReceiver
       if (CarteiroApplication.state.syncing) recordFragment.setRefreshing();
       else recordFragment.onRefreshComplete();
     }
+  }
+
+  @Override
+  public void onProgress(int progress) {
+    mProgressBar.setVisibility(progress != 100 ? View.VISIBLE : View.GONE);
+  }
+
+  @Override
+  public void onLeave() {
+    mProgressBar.setVisibility(View.GONE);
   }
 }

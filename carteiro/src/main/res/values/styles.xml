@@ -1,86 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <!-- Action Bar -->
-  <style name="ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
-    <item name="android:icon">@android:color/transparent</item>
-    <item name="android:background">@color/theme_primary</item>
-    <item name="android:backgroundStacked">@color/theme_primary</item>
-    <item name="android:backgroundSplit">@color/theme_primary</item>
-    <item name="android:titleTextStyle">@style/ActionBarTitle</item>
-    <item name="android:indeterminateProgressStyle">@style/ActivityIndicator</item>
-  </style>
-
-  <!-- This style is only referenced in a Light.DarkActionBar based theme -->
-  <style name="Theme.Carteiro.Widget" parent="@android:style/Theme.Holo">
-    <item name="android:popupMenuStyle">@style/PopupMenu</item>
-    <item name="android:listPopupWindowStyle">@style/PopupMenu</item>
-    <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
-    <item name="android:textAppearanceLargePopupMenu">@style/LargePopupMenu</item>
-  </style>
-
   <!-- Widget -->
-  <style name="TextViewStyle" parent="android:Widget.Holo.TextView">
-     <item name="android:textColor">@color/text_primary</item>
+  <style name="TextAppearanceButton" parent="@style/TextAppearance.AppCompat.Button">
+    <item name="android:textAllCaps">true</item>
   </style>
-  <style name="HintTextAppearance" parent="@android:style/TextAppearance.Small">
+  <style name="HintTextAppearance" parent="@style/TextAppearance.AppCompat.Small">
     <item name="android:textColor">@color/text_hint</item>
     <item name="android:textSize">@dimen/text_size_caption</item>
     <item name="android:textStyle">italic</item>
   </style>
-  <style name="EditTextStyle" parent="@android:style/Widget.Holo.Light.EditText">
+  <style name="EditTextStyle" parent="@style/Widget.AppCompat.EditText">
     <item name="android:textColor">@color/text_primary</item>
     <item name="android:textColorHint">@color/text_hint</item>
     <item name="android:textSize">@dimen/text_size_subhead</item>
-    <item name="android:background">@drawable/edit_text_background</item>
     <item name="android:singleLine">true</item>
     <item name="android:includeFontPadding">false</item>
   </style>
-  <style name="ButtonStyle" parent="@android:style/Widget.Holo.Light.Button">
-    <item name="android:textSize">@dimen/text_size_button</item>
-    <item name="android:textColor">@color/button_text_color</item>
-    <item name="android:ellipsize">marquee</item>
-    <item name="android:background">@drawable/button_background</item>
-    <item name="android:padding">@dimen/keyline_1_half</item>
-    <item name="android:minWidth">@dimen/button_width</item>
-    <item name="android:minHeight">@dimen/button_height</item>
-    <item name="android:singleLine">true</item>
-    <item name="android:textAllCaps">true</item>
-  </style>
-  <style name="BorderlessButtonStyle" parent="@style/ButtonStyle">
-    <item name="android:textColor">@color/borderless_button_text_color</item>
+  <style name="BorderlessButtonStyle" parent="@android:style/Widget.DeviceDefault.Light.Button">
+    <item name="android:textAppearance">?android:textAppearanceButton</item>
+    <item name="android:textColor">@color/borderless_button_text</item>
     <item name="android:background">@drawable/borderless_button_background</item>
-  </style>
-  <style name="ActionBarTitle" parent="android:TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
-    <item name="android:textSize">@dimen/text_size_title</item>
-    <item name="android:textColor">@color/actionbar</item>
-  </style>
-  <style name="ActionOverflow" parent="android:Widget.Holo.ActionButton.Overflow">
-    <item name="android:src">@drawable/ic_menu_overflow</item>
-  </style>
-  <style name="ActionButton" parent="android:Widget.Holo.ActionButton">
-    <item name="android:background">@drawable/list_selector</item>
-  </style>
-  <style name="CheckBox" parent="android:Widget.Holo.CompoundButton.CheckBox">
-    <item name="android:button">@drawable/button_check</item>
-  </style>
-  <style name="PopupMenu" parent="android:Widget.Holo.Light.PopupMenu"></style>
-  <style name="DropDownListView" parent="android:Widget.Holo.Light.ListView.DropDown">
-    <item name="android:listSelector">@drawable/list_selector</item>
-    <item name="android:divider">@null</item>
-    <item name="android:dividerHeight">0dp</item>
-  </style>
-  <style name="LargePopupMenu" parent="android:TextAppearance.Holo.Widget.PopupMenu.Large">
-    <item name="android:textColor">@color/text_primary</item>
-  </style>
-  <style name="ActivityIndicator" parent="android:Widget.Holo.ProgressBar">
-    <item name="android:minWidth">@dimen/min_touch_target</item>
-    <item name="android:maxWidth">@dimen/min_touch_target</item>
-    <item name="android:minHeight">@dimen/min_touch_target_inner</item>
-    <item name="android:maxHeight">@dimen/min_touch_target_inner</item>
+    <item name="android:minWidth">@dimen/button_min_width</item>
   </style>
 
   <!-- Custom Widgets -->
+  <style name="ActionBar">
+    <item name="android:id">@id/toolbar</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">?attr/actionBarSize</item>
+    <item name="android:background">?attr/colorPrimary</item>
+    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+  </style>
+  <style name="ActionBar.Raised" />
+  <style name="ActionBar.Light">
+    <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+  </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
@@ -99,7 +55,7 @@
     <item name="android:inputType">textCapSentences</item>
     <item name="android:selectAllOnFocus">true</item>
   </style>
-  <style name="Star" parent="android:Widget.Holo.CompoundButton.Star">
+  <style name="Star" parent="@android:style/Widget.DeviceDefault.CompoundButton.Star">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_marginRight">-2dp</item>
@@ -115,61 +71,63 @@
   </style>
 
   <!-- List -->
-  <style name="ListView" parent="android:Widget.Holo.ListView">
+  <style name="ListView" parent="@style/android:Widget.DeviceDefault.ListView">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">match_parent</item>
     <item name="android:divider">@color/divider_solid</item>
     <item name="android:dividerHeight">1px</item>
     <item name="android:cacheColorHint">@color/theme_background</item>
-    <item name="android:listSelector">@drawable/list_selector</item>
+    <item name="android:clipToPadding">false</item>
   </style>
   <style name="ListItem">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:minHeight">72dp</item>
+    <item name="android:minHeight">@dimen/tile_min_height</item>
     <item name="android:padding">@dimen/keyline_1</item>
   </style>
-  <style name="ListTitle">
+  <style name="ListText">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
+  </style>
+  <style name="ListText.Title">
+    <item name="android:textColor">@color/text_primary</item>
     <item name="android:textSize">@dimen/text_size_subhead</item>
   </style>
-  <style name="ListSubTitle">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
+  <style name="ListText.SubTitle">
     <item name="android:layout_marginBottom">2dp</item>
     <item name="android:textSize">@dimen/text_size_body</item>
   </style>
-  <style name="ListInfo">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
+  <style name="ListText.Info">
     <item name="android:textSize">@dimen/text_size_caption</item>
     <item name="android:textColor">@color/text_secondary</item>
   </style>
 
   <!-- Record Activity -->
-  <style name="Record">
+  <style name="RecordHeader">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
-  </style>
-  <style name="Record.Header">
     <item name="android:background">@color/theme_primary</item>
-    <item name="android:paddingTop">@dimen/keyline_1</item>
-    <item name="android:paddingRight">@dimen/keyline_1_half</item>
-    <item name="android:paddingBottom">@dimen/keyline_1</item>
   </style>
-  <style name="Record.Heading">
+  <style name="RecordHeader.Raised" />
+  <style name="RecordSubHeader">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:paddingLeft">?attr/actionBarSize</item>
+    <item name="android:paddingBottom">@dimen/keyline_1</item>
+    <item name="android:paddingRight">@dimen/keyline_1</item>
+  </style>
+  <style name="RecordHeading">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:textColor">@color/actionbar</item>
+    <item name="android:textColor">@color/white</item>
   </style>
-  <style name="Record.Heading.Title">
+  <style name="RecordHeading.Title">
     <item name="android:textSize">@dimen/text_size_title</item>
-    <item name="android:layout_marginRight">96dp</item>
     <item name="android:paddingBottom">2dp</item>
   </style>
-  <style name="Record.Heading.Subtitle">
+  <style name="RecordHeading.Subtitle">
     <item name="android:textStyle">italic</item>
     <item name="android:textAllCaps">true</item>
   </style>
+
 </resources>

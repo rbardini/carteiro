@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <View
-      android:layout_width="1dp"
-      android:layout_height="match_parent"
-      android:layout_marginTop="@dimen/keyline_1"
-      android:layout_marginBottom="@dimen/keyline_1"
-      android:background="@color/white" />
-
-  <Button
-      android:id="@+id/undo_button"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:background="@drawable/list_selector"
-      android:drawableLeft="@drawable/ic_menu_undo"
-      android:drawablePadding="@dimen/keyline_1_half"
-      android:text="@string/undo_btn"
-      android:textColor="@color/white"
-      android:textSize="@dimen/text_size_button"
-      android:textStyle="bold"
-      android:textAllCaps="true"
-      android:padding="@dimen/keyline_1" />
-
-</merge>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/undo_button"
+  android:layout_width="wrap_content"
+  android:layout_height="match_parent"
+  android:background="?attr/selectableItemBackground"
+  android:text="@string/undo_btn"
+  android:textColor="@color/theme_accent"
+  android:textSize="@dimen/text_size_button"
+  android:textAllCaps="true"
+  android:padding="@dimen/icon" />

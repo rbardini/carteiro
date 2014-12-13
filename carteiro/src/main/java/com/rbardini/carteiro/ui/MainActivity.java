@@ -1,7 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
@@ -11,11 +9,17 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +27,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.SearchView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
@@ -36,7 +40,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class MainActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
 
   // Delay to launch navigation drawer item, to allow close animation to play
@@ -57,7 +61,6 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
   private ListView mDrawerList;
   private DrawerListAdapter mDrawerListAdapter;
   private ActionBarDrawerToggle mDrawerToggle;
-  private CharSequence mTitle;
   private PostalListFragment mCurrentFragment;
 
   @Override
@@ -66,10 +69,32 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
     setContentView(R.layout.main);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
+    Resources res = getResources();
+    if (res.getBoolean(R.bool.translucent_status)) {
+      UIUtils.addStatusBarPadding(this, R.id.root_layout);
+    }
+
+    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    fab.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+          ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
+          startActivity(intent, scaleAnim.toBundle());
+
+        } else {
+          startActivity(intent);
+        }
+      }
+    });
+
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
 
     app = (CarteiroApplication) getApplication();
-    mActionBar = getActionBar();
+    mActionBar = getSupportActionBar();
     mFragmentManager = getFragmentManager();
     mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
@@ -81,7 +106,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
     mHandler = new Handler();
 
     mActionBar.setHomeButtonEnabled(true);
-    mActionBar.setLogo(R.drawable.ic_menu_drawer);
+    mActionBar.setDisplayHomeAsUpEnabled(true);
     mMainContainer = findViewById(R.id.main_content);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.nav_drawer);
@@ -103,6 +128,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
           public void run() {
             switch (model.action) {
               case DrawerListAdapter.ACTION_CATEGORY:
+                mCurrentFragment.clearSelection();
                 showCategory(model.id);
                 break;
 
@@ -120,20 +146,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
         mDrawerLayout.closeDrawer(mDrawerList);
       }
     });
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, android.R.color.transparent, R.string.drawer_open, R.string.drawer_close) {
-      @Override
-      public void onDrawerClosed(View drawerView) {
-        mActionBar.setTitle(mTitle);
-        invalidateOptionsMenu();
-      }
-
-      @Override
-      public void onDrawerOpened(View drawerView) {
-        mCurrentFragment.clearSelection();
-        mActionBar.setTitle(R.string.app_name);
-        invalidateOptionsMenu();
-      }
-    };
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
     mDrawerLayout.setDrawerListener(mDrawerToggle);
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
@@ -200,7 +213,7 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
 
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
-      SearchView searchView = (SearchView) searchViewButton.getActionView();
+      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewButton);
       SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
       searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
     }
@@ -210,15 +223,8 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-
-    menu.findItem(R.id.add_opt).setVisible(!drawerOpen);
-
-    MenuItem searchItem = menu.findItem(R.id.search_view_opt);
-    searchItem.setVisible(!drawerOpen);
-
     MenuItem shareItem = menu.findItem(R.id.share_opt);
-    shareItem.setVisible(!drawerOpen);
+
     try {
       int listSize = mCurrentFragment.getListSize();
       shareItem.setEnabled(listSize > 0);
@@ -240,19 +246,6 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
         }
         return true;
 
-      case R.id.add_opt:
-        Intent intent = new Intent(this, AddActivity.class);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-          View v = findViewById(itemId);
-          ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
-          startActivity(intent, scaleAnim.toBundle());
-
-        } else {
-          startActivity(intent);
-        }
-        return true;
-
       case R.id.share_opt:
         Intent shareIntent = PostalUtils.getShareIntent(this, mCurrentFragment.getList());
         if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
@@ -265,17 +258,22 @@ public class MainActivity extends Activity implements DetachableResultReceiver.R
 
   @Override
   public void setTitle(CharSequence title) {
-    mTitle = title;
-    mActionBar.setTitle(mTitle);
+    mActionBar.setTitle(title);
   }
 
   @Override
   public void onBackPressed() {
     if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
       mDrawerLayout.closeDrawer(mDrawerList);
-    } else {
-      super.onBackPressed();
+      return;
     }
+
+    if (mFragmentManager.getBackStackEntryCount() > 0 && !mCurrentFragment.hasSelection()) {
+      mFragmentManager.popBackStack();
+      return;
+    }
+
+    super.onBackPressed();
   }
 
   @Override

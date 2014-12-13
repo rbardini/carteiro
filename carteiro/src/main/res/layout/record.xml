@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/root_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="@color/theme_primary_dark"
   android:orientation="vertical">
 
-  <FrameLayout style="@style/Record"
-    android:id="@+id/header"
-    android:background="@color/theme_primary_dark">
+  <LinearLayout style="@style/RecordHeader.Raised"
+    android:orientation="vertical">
 
-    <RelativeLayout style="@style/Record.Header">
+    <android.support.v7.widget.Toolbar style="@style/ActionBar">
 
-      <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="?android:attr/actionBarSize"
-        android:orientation="vertical">
+      <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/min_touch_target"
+        android:layout_height="@dimen/min_touch_target"
+        android:layout_gravity="right"
+        android:padding="12dp"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
-        <TextView style="@style/Record.Heading"
-          android:id="@+id/legend" />
+    </android.support.v7.widget.Toolbar>
 
-        <TextView style="@style/Record.Heading.Title"
-          android:id="@+id/title" />
+    <LinearLayout style="@style/RecordSubHeader"
+      android:orientation="vertical">
 
-        <TextView style="@style/Record.Heading.Subtitle"
-          android:id="@+id/subtitle"
-          android:drawablePadding="4dp" />
+      <TextView style="@style/RecordHeading"
+        android:id="@+id/legend" />
 
-      </LinearLayout>
+      <TextView style="@style/RecordHeading.Title"
+        android:id="@+id/title" />
 
-    </RelativeLayout>
+      <TextView style="@style/RecordHeading.Subtitle"
+        android:id="@+id/subtitle"
+        android:drawablePadding="4dp" />
 
-  </FrameLayout>
+    </LinearLayout>
+
+  </LinearLayout>
 
   <FrameLayout
     android:id="@+id/record_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" />
+    android:background="@color/theme_background" />
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <style name="Theme.Carteiro.Translucent">
-    <item name="android:windowTranslucentStatus">true</item>
-    <item name="android:windowTranslucentNavigation">@bool/translucent_nav</item>
+    <item name="android:windowTranslucentStatus">@bool/translucent_status</item>
   </style>
 </resources>

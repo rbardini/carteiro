@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.format.DateUtils;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -64,12 +63,8 @@ public final class UIUtils {
     return resourceId > 0 ? res.getDimensionPixelSize(resourceId) : 0;
   }
 
-  public static int getActionBarHeight(Context context) {
-    return context.getResources().getDimensionPixelSize(R.dimen.actionbar_height);
-  }
-
-  public static void addStatusBarPadding(Activity activity, int rootLayoutId, boolean offsetActionBar) {
-    int paddingTop = getStatusBarHeight(activity) + (offsetActionBar ? getActionBarHeight(activity) : 0);
+  public static void addStatusBarPadding(Activity activity, int rootLayoutId) {
+    int paddingTop = getStatusBarHeight(activity);
     View rootLayout = activity.findViewById(rootLayoutId);
 
     rootLayout.setPadding(rootLayout.getPaddingLeft(), rootLayout.getPaddingTop() + paddingTop, rootLayout.getPaddingRight(), rootLayout.getPaddingBottom());

@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <item android:id="@+id/add_opt"
-    android:icon="@drawable/ic_menu_add"
-    android:title="@string/opt_add"
-    android:showAsAction="ifRoom" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item android:id="@+id/search_view_opt"
     android:icon="@drawable/ic_menu_search"
     android:title="@string/opt_search"
-    android:actionViewClass="android.widget.SearchView"
-    android:showAsAction="ifRoom|collapseActionView" />
+    app:actionViewClass="android.support.v7.widget.SearchView"
+    app:showAsAction="ifRoom|collapseActionView" />
 
   <item android:id="@+id/share_opt"
     android:icon="@drawable/ic_menu_share"
     android:title="@string/opt_share"
-    android:showAsAction="ifRoom" />
+    app:showAsAction="ifRoom" />
 
 </menu>

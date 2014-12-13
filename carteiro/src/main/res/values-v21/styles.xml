@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- Custom Widgets -->
+  <style name="ActionBar.Raised">
+    <item name="android:elevation">4dp</item>
+  </style>
+
+  <!-- Record Activity -->
+  <style name="RecordHeader.Raised">
+    <item name="android:elevation">4dp</item>
+  </style>
+
+</resources>

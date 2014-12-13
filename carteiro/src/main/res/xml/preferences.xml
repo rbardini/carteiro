@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
   <PreferenceCategory android:title="@string/pref_general_category">
-    <CheckBoxPreference android:key="@string/pref_key_auto_sync"
+    <com.rbardini.carteiro.ui.SwitchPreferenceCompat android:key="@string/pref_key_auto_sync"
       android:title="@string/pref_auto_sync_title"
       android:summary="@string/pref_auto_sync_summary"
       android:defaultValue="true" />
@@ -23,7 +23,7 @@
       android:summary="@string/pref_dont_sync_delivered_items_summary"
       android:defaultValue="false"
       android:dependency="@string/pref_key_auto_sync" />
-    <CheckBoxPreference android:key="@string/pref_key_notify"
+    <com.rbardini.carteiro.ui.SwitchPreferenceCompat android:key="@string/pref_key_notify"
       android:title="@string/pref_activate_notifications_title"
       android:summary="@string/pref_activate_notifications_summary"
       android:defaultValue="true" />

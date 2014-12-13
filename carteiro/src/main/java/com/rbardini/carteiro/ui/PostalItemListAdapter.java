@@ -82,7 +82,7 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
       fontStyle = Typeface.BOLD;
     }
     convertView.setBackgroundResource(background);
-    holder.desc.setTypeface(null, fontStyle);
+    holder.desc.setTypeface(holder.desc.getTypeface(), fontStyle);
 
     return convertView;
   }

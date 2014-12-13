@@ -1,46 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <!-- Variation on the light theme with dark action bar -->
-  <style name="Theme.Carteiro" parent="android:Theme.Holo.Light.DarkActionBar">
-    <!-- Light.DarkActionBar specific -->
-    <item name="android:actionBarWidgetTheme">@style/Theme.Carteiro.Widget</item>
+  <style name="Theme.Carteiro" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/theme_primary</item>
+    <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+    <item name="colorAccent">@color/theme_accent</item>
+    <item name="actionModeBackground">@color/theme_accent_dark</item>
+    <item name="windowActionModeOverlay">true</item>
 
-    <item name="android:windowContentOverlay">@null</item>
     <item name="android:windowBackground">@color/theme_background</item>
     <item name="android:colorBackground">@color/theme_background</item>
-    <item name="android:fadeScrollbars">true</item>
-    <item name="android:textViewStyle">@style/TextViewStyle</item>
+    <item name="android:textColorHighlight">@color/theme_accent_light</item>
+    <item name="android:textAppearanceButton">@style/TextAppearanceButton</item>
     <item name="android:editTextStyle">@style/EditTextStyle</item>
-    <item name="android:buttonStyle">@style/ButtonStyle</item>
     <item name="android:borderlessButtonStyle">@style/BorderlessButtonStyle</item>
-    <item name="android:checkboxStyle">@style/CheckBox</item>
     <item name="android:listViewStyle">@style/ListView</item>
-    <item name="android:actionBarSize">@dimen/actionbar_height</item>
-    <item name="android:actionBarStyle">@style/ActionBar</item>
-    <item name="android:actionOverflowButtonStyle">@style/ActionOverflow</item>
-    <item name="android:actionButtonStyle">@style/ActionButton</item>
-    <item name="android:homeAsUpIndicator">@drawable/ic_menu_up</item>
-    <item name="android:popupMenuStyle">@style/PopupMenu</item>
-    <item name="android:listPopupWindowStyle">@style/PopupMenu</item>
-    <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
-    <item name="android:textAppearanceLargePopupMenu">@style/LargePopupMenu</item>
-    <item name="android:selectableItemBackground">@drawable/list_selector</item>
-    <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
-    <item name="android:actionBarItemBackground">@drawable/list_selector</item>
-    <item name="android:actionModeBackground">@drawable/cab_background_top</item>
-    <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom</item>
-    <item name="android:textColorHighlight">@color/theme_primary_light</item>
-    <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
-    <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
-    <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
-    <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector</item>
   </style>
 
-  <style name="Theme.Carteiro.Translucent"></style>
-  <style name="Theme.Carteiro.AddPopup" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+  <style name="Theme.Carteiro.Translucent" />
+
+  <style name="Theme.Carteiro.AddPopup" parent="@style/Theme.AppCompat.Light.Dialog">
+    <item name="colorPrimary">@color/theme_primary</item>
+    <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+    <item name="colorAccent">@color/theme_accent</item>
+    <item name="windowActionBar">false</item>
+
+    <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+    <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+    <item name="android:textColorHighlight">@color/theme_accent_light</item>
+    <item name="android:textAppearanceButton">@style/TextAppearanceButton</item>
     <item name="android:editTextStyle">@style/EditTextStyle</item>
-    <item name="android:buttonStyle">@style/ButtonStyle</item>
     <item name="android:borderlessButtonStyle">@style/BorderlessButtonStyle</item>
   </style>
 

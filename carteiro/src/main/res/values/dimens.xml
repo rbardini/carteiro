@@ -12,15 +12,19 @@
   <dimen name="keyline_1_half">8dp</dimen>
   <dimen name="keyline_2">72dp</dimen>
 
+  <dimen name="tile_min_height">88dp</dimen>
   <dimen name="min_touch_target">48dp</dimen>
-  <dimen name="min_touch_target_inner">32dp</dimen>
+  <dimen name="avatar">40dp</dimen>
+  <dimen name="icon">24dp</dimen>
 
-  <dimen name="button_width">88dp</dimen>
-  <dimen name="button_height">36dp</dimen>
+  <dimen name="button_min_width">88dp</dimen>
   <dimen name="button_radius">2dp</dimen>
+  <dimen name="button_inset_vertical">6dp</dimen>
+  <dimen name="button_inset_horizontal">4dp</dimen>
+  <dimen name="button_padding_vertical">4dp</dimen>
+  <dimen name="button_padding_horizontal">8dp</dimen>
 
-  <dimen name="actionbar_height">56dp</dimen>
-  <dimen name="navdrawer_width">260dp</dimen>
+  <dimen name="navdrawer_width">304dp</dimen>
 
   <dimen name="postal_status_icon_size">@dimen/min_touch_target</dimen>
 </resources>

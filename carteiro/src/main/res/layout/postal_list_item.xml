@@ -21,24 +21,24 @@
     android:paddingLeft="@dimen/keyline_1"
     android:paddingRight="@dimen/keyline_1_half">
 
-    <TextView style="@style/ListTitle"
+    <TextView style="@style/ListText.Title"
       android:id="@+id/text_postal_status_title"
       android:singleLine="true"
       android:ellipsize="end" />
 
-    <TextView style="@style/ListSubTitle"
+    <TextView style="@style/ListText.SubTitle"
       android:id="@+id/text_postal_status_info"
       android:singleLine="true"
       android:ellipsize="end" />
 
-    <TextView style="@style/ListInfo"
+    <TextView style="@style/ListText.Info"
       android:id="@+id/text_postal_status_loc"
       android:singleLine="true"
       android:ellipsize="end" />
 
   </LinearLayout>
 
-  <TextView style="@style/ListInfo"
+  <TextView style="@style/ListText.Info"
     android:id="@+id/text_postal_status_date"
     android:layout_alignParentRight="true"
     android:layout_alignParentTop="true" />

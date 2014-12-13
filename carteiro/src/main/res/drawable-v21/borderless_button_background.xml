@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+  android:insetTop="@dimen/button_inset_vertical"
+  android:insetBottom="@dimen/button_inset_vertical"
+  android:insetLeft="@dimen/button_inset_horizontal"
+  android:insetRight="@dimen/button_inset_horizontal">
+
+  <ripple android:color="?android:colorControlHighlight">
+    <item android:id="@android:id/mask">
+      <shape android:shape="rectangle">
+        <corners android:radius="@dimen/button_radius" />
+        <solid android:color="@android:color/white" />
+        <padding
+          android:top="@dimen/button_padding_vertical"
+          android:bottom="@dimen/button_padding_vertical"
+          android:left="@dimen/button_padding_horizontal"
+          android:right="@dimen/button_padding_horizontal" />
+      </shape>
+    </item>
+  </ripple>
+
+</inset>

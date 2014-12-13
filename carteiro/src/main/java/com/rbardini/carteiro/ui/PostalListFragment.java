@@ -83,8 +83,8 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
       mSelectedList = (ArrayList<PostalItem>) savedInstanceState.getSerializable("selectedList");
 
     } else {
-      mList = new ArrayList<PostalItem>();
-      mSelectedList = new ArrayList<PostalItem>();
+      mList = new ArrayList<>();
+      mSelectedList = new ArrayList<>();
 
       updateList();
     }
@@ -183,6 +183,10 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     app.setUpdatedList();
   }
 
+  public boolean hasSelection() {
+    return mMultiChoiceModeListener.hasActionMode();
+  }
+
   public void clearSelection() {
     mMultiChoiceModeListener.finishActionMode();
   }
@@ -203,7 +207,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
   public void onRefreshStarted() {
     if (!CarteiroApplication.state.syncing) {
       Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
-      List<String> cods = new ArrayList<String>();
+      List<String> cods = new ArrayList<>();
       for (PostalItem pi : mList) {
         cods.add(pi.getCod());
       }
@@ -233,7 +237,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
 
   private final class MultiChoiceModeListener implements AbsListView.MultiChoiceModeListener {
     private ActionMode mActionMode;
-    private Map<MenuItem, Boolean> mCollectiveActionMap;
+    private Map<Integer, Boolean> mCollectiveActionMap;
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -250,7 +254,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
       mActionMode = mode;
-      mCollectiveActionMap = new HashMap<MenuItem, Boolean>();
+      mCollectiveActionMap = new HashMap<>();
 
       mActionMode.getMenuInflater().inflate(R.menu.postal_list_context, menu);
 
@@ -284,11 +288,11 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
       MenuItem favAction = menu.findItem(R.id.fav_opt)
         .setIcon(areAllFavorites ? R.drawable.ic_menu_star_on : R.drawable.ic_menu_star_off)
         .setTitle(areAllFavorites ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
-      mCollectiveActionMap.put(favAction, areAllFavorites);
+      mCollectiveActionMap.put(favAction.getItemId(), areAllFavorites);
       MenuItem archiveAction = menu.findItem(R.id.archive_opt)
         .setIcon(areAllArchived ? R.drawable.ic_menu_unarchive : R.drawable.ic_menu_archive)
         .setTitle(getString(areAllArchived ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
-      mCollectiveActionMap.put(archiveAction, areAllArchived);
+      mCollectiveActionMap.put(archiveAction.getItemId(), areAllArchived);
 
       // Update CAB title with selection size if there is any
       if (selectionSize > 0) mActionMode.setTitle(String.valueOf(mSelectedList.size()));
@@ -316,7 +320,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
 
         case R.id.archive_opt:
           // Archive selected items or move to all depending on their collective archived state
-          boolean areAllArchived = mCollectiveActionMap.get(item);
+          boolean areAllArchived = mCollectiveActionMap.get(actionId);
           for (PostalItem pi : mSelectedList) {
             String cod = pi.getCod();
             if (areAllArchived) dh.unarchivePostalItem(cod);
@@ -325,7 +329,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
 
           // Get the selected item positions and animate out of view
           SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
-          List<Integer> positionsToDismiss = new ArrayList<Integer>();
+          List<Integer> positionsToDismiss = new ArrayList<>();
           try {
             for (int i=0, length=getListView().getCount(); i<length; i++) {
               if (checkedItemPositions.get(i)) positionsToDismiss.add(i);
@@ -347,7 +351,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
 
         case R.id.fav_opt:
           // Mark or unmark selected items as favorites depending on their collective favorite state
-          boolean areAllFavorites = mCollectiveActionMap.get(item);
+          boolean areAllFavorites = mCollectiveActionMap.get(actionId);
           for (PostalItem pi : mSelectedList) {
             String cod = pi.getCod();
             if (areAllFavorites) dh.unfavPostalItem(cod);
@@ -398,8 +402,12 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
       mActionMode = null;
     }
 
+    public boolean hasActionMode() {
+      return mActionMode != null;
+    }
+
     public void finishActionMode() {
-      if (mActionMode != null) mActionMode.finish();
+      if (this.hasActionMode()) mActionMode.finish();
     }
   }
 }

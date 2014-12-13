@@ -10,7 +10,8 @@
 
     <ListView style="@style/ListView"
       android:id="@android:id/list"
-      android:background="@color/theme_primary_light" />
+      android:background="@color/theme_primary_hint"
+      android:paddingBottom="@dimen/tile_min_height" />
 
   </android.support.v4.widget.SwipeRefreshLayout>
 

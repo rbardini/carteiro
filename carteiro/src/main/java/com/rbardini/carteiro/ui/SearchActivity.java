@@ -1,16 +1,18 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
@@ -21,7 +23,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends Activity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class SearchActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
   private ActionBar actionBar;
   private PostalListFragment listFragment;
@@ -33,11 +35,17 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     setContentView(R.layout.search);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) UIUtils.addStatusBarPadding(this, R.id.root_layout, true);
+    Resources res = getResources();
+    if (res.getBoolean(R.bool.translucent_status)) {
+      UIUtils.addStatusBarPadding(this, R.id.root_layout);
+    }
+
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
 
     app = (CarteiroApplication) getApplication();
 
-    actionBar = getActionBar();
+    actionBar = getSupportActionBar();
     actionBar.setTitle(R.string.subtitle_search);
     actionBar.setDisplayHomeAsUpEnabled(true);
     listFragment = null;
@@ -96,7 +104,7 @@ public class SearchActivity extends Activity implements DetachableResultReceiver
 
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
-      SearchView searchView = (SearchView) searchViewButton.getActionView();
+      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewButton);
       SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
       searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
     }

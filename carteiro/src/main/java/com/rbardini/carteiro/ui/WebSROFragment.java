@@ -14,8 +14,13 @@ import com.rbardini.carteiro.R;
 public class WebSROFragment extends Fragment {
   public static final String TAG = "WebSROFragment";
 
-  Activity mActivity;
-  WebView mWebView;
+  public interface OnStateChangeListener {
+    public void onProgress(int progress);
+    public void onLeave();
+  }
+
+  private OnStateChangeListener listener;
+  private WebView mWebView;
 
   public static WebSROFragment newInstance(String cod) {
     WebSROFragment f = new WebSROFragment();
@@ -27,16 +32,26 @@ public class WebSROFragment extends Fragment {
   }
 
   @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+
+    try {
+      listener = (OnStateChangeListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString() + " must implement OnStateChangeListener");
+    }
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.websro_webview, container, false);
 
-    mActivity = getActivity();
     mWebView = (WebView) view.findViewById(R.id.webview);
 
     mWebView.setWebChromeClient(new WebChromeClient() {
       @Override
       public void onProgressChanged(WebView view, int progress) {
-        mActivity.setProgressBarIndeterminateVisibility(progress != 100);
+        listener.onProgress(progress);
       }
     });
     mWebView.setBackgroundColor(getResources().getColor(R.color.websro));
@@ -48,8 +63,7 @@ public class WebSROFragment extends Fragment {
   @Override
   public void onPause() {
     super.onPause();
-
-    mActivity.setProgressBarIndeterminateVisibility(false);
+    listener.onLeave();
   }
 
   public boolean canGoBack() {

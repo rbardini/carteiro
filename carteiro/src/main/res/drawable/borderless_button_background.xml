@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+  android:insetTop="@dimen/button_inset_vertical"
+  android:insetBottom="@dimen/button_inset_vertical"
+  android:insetLeft="@dimen/button_inset_horizontal"
+  android:insetRight="@dimen/button_inset_horizontal">
 
-  <item android:state_enabled="false">
-    <shape android:shape="rectangle">
-      <solid android:color="@color/button_light_disabled" />
-      <corners android:radius="@dimen/button_radius" />
-    </shape>
-  </item>
+  <selector>
+    <item android:state_focused="false" android:state_pressed="false" android:drawable="@color/button_light_normal" />
 
-  <item android:state_pressed="true">
-    <shape android:shape="rectangle">
-      <solid android:color="@color/button_light_pressed" />
-      <corners android:radius="@dimen/button_radius" />
-    </shape>
-  </item>
+    <item android:state_focused="true">
+      <shape android:shape="rectangle">
+        <corners android:radius="@dimen/button_radius" />
+        <solid android:color="@color/button_light_hover" />
+        <padding
+          android:top="@dimen/button_padding_vertical"
+          android:bottom="@dimen/button_padding_vertical"
+          android:left="@dimen/button_padding_horizontal"
+          android:right="@dimen/button_padding_horizontal" />
+      </shape>
+    </item>
 
-  <item android:state_focused="true">
-    <shape android:shape="rectangle">
-      <solid android:color="@color/button_light_hover" />
-      <corners android:radius="@dimen/button_radius" />
-    </shape>
-  </item>
+    <item android:state_pressed="true">
+      <shape android:shape="rectangle">
+        <corners android:radius="@dimen/button_radius" />
+        <solid android:color="@color/button_light_pressed" />
+        <padding
+          android:top="@dimen/button_padding_vertical"
+          android:bottom="@dimen/button_padding_vertical"
+          android:left="@dimen/button_padding_horizontal"
+          android:right="@dimen/button_padding_horizontal" />
+      </shape>
+    </item>
+  </selector>
 
-  <item android:drawable="@color/transparent" />
-
-</selector>
+</inset>
