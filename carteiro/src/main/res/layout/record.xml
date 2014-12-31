@@ -28,8 +28,9 @@
       <TextView style="@style/RecordHeading"
         android:id="@+id/legend" />
 
-      <TextView style="@style/RecordHeading.Title"
-        android:id="@+id/title" />
+      <EditText style="@style/RecordHeading.Title"
+        android:id="@+id/title"
+        android:imeOptions="actionDone" />
 
       <TextView style="@style/RecordHeading.Subtitle"
         android:id="@+id/subtitle"

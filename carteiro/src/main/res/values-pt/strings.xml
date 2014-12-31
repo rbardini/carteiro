@@ -30,7 +30,7 @@
 
   <string name="hint_tracking_code">Código de rastreamento</string>
   <string name="tip_tracking_code">Exemplo: SA123456789BR</string>
-  <string name="hint_item_description">Nome do objeto (opcional)</string>
+  <string name="hint_item_description">Nome do objeto</string>
 
   <string name="title_alert_not_found">Adicionar objeto não encontrado?</string>
   <string name="title_alert_net_error">Adicionar objeto offline?</string>

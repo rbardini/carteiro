@@ -4,16 +4,21 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,7 +40,7 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   private PostalRecordFragment recordFragment;
   private WebSROFragment webSROFragment;
 
-  private TextView mTitle;
+  private EditText mTitle;
   private TextView mSubtitle;
   private TextView mLegend;
   private ProgressBar mProgressBar;
@@ -72,10 +77,40 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       }
     });
 
-    mTitle = (TextView) findViewById(R.id.title);
+    mTitle = (EditText) findViewById(R.id.title);
     mSubtitle = (TextView) findViewById(R.id.subtitle);
     mLegend = (TextView) findViewById(R.id.legend);
     mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+    // Hack to enable soft-wrapping on multiple lines in a single line text field
+    // http://stackoverflow.com/a/13563946
+    mTitle.setHorizontallyScrolling(false);
+    mTitle.setMaxLines(3);
+
+    mTitle.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+          String oldDesc = pi.getSafeDesc();
+          String newDesc = mTitle.getText().toString().trim();
+
+          if (newDesc.equals("")) newDesc = null;
+          onRenamePostalItem(newDesc, pi);
+
+          InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+          imm.hideSoftInputFromWindow(mTitle.getWindowToken(), 0);
+
+          String toast;
+          if (newDesc == null) toast = getString(R.string.toast_item_renamed_empty, pi.getCod());
+          else toast = getString(R.string.toast_item_renamed, oldDesc, newDesc);
+          UIUtils.showToast(RecordActivity.this, toast);
+
+          return true;
+        }
+
+        return false;
+      }
+    });
 
     if (savedInstanceState != null) {
       pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
@@ -188,10 +223,6 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
         }
         return true;
 
-      case R.id.rename_opt:
-        PostalItemDialogFragment.newInstance(R.id.rename_opt, piList).show(mFragManager, PostalItemDialogFragment.TAG);
-        return true;
-
       case R.id.archive_opt:
         pi.toggleArchived();
 
@@ -262,15 +293,8 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   }
 
   private void setTitleBar() {
-    boolean hasDesc = pi.getDesc() != null;
-
-    if (hasDesc) {
-      mTitle.setText(pi.getDesc());
-      mLegend.setText(pi.getCod());
-    } else {
-      mTitle.setText(pi.getCod());
-    }
-    mLegend.setVisibility(hasDesc ? View.VISIBLE : View.GONE);
+    mTitle.setText(pi.getDesc());
+    mLegend.setText(pi.getCod());
 
     mSubtitle.setText(getString(R.string.subtitle_record, pi.getService()));
     mSubtitle.setCompoundDrawablesWithIntrinsicBounds(pi.getFlag(this), 0, 0, 0);

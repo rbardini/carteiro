@@ -17,11 +17,6 @@
     android:title="@string/opt_view_place"
     app:showAsAction="ifRoom" />
 
-  <item android:id="@+id/rename_opt"
-    android:icon="@drawable/ic_menu_edit"
-    android:title="@string/opt_rename_item"
-    app:showAsAction="never" />
-
   <item android:id="@+id/archive_opt"
     android:icon="@drawable/ic_menu_archive"
     android:title="@string/opt_archive_item"

@@ -30,7 +30,7 @@
 
   <string name="hint_tracking_code">Tracking number</string>
   <string name="tip_tracking_code">Example: RA123456789US</string>
-  <string name="hint_item_description">Item name (optional)</string>
+  <string name="hint_item_description">Item name</string>
 
   <string name="title_alert_not_found">Add item not found?</string>
   <string name="title_alert_net_error">Add item offline?</string>

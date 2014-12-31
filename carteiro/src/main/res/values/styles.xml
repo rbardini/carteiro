@@ -123,7 +123,11 @@
   </style>
   <style name="RecordHeading.Title">
     <item name="android:textSize">@dimen/text_size_title</item>
-    <item name="android:paddingBottom">2dp</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_marginLeft">-4dp</item>
+    <item name="android:layout_marginBottom">6dp</item>
+    <item name="android:inputType">textCapSentences</item>
+    <item name="android:hint">@string/hint_item_description</item>
   </style>
   <style name="RecordHeading.Subtitle">
     <item name="android:textStyle">italic</item>

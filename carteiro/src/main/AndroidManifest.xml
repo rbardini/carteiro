@@ -48,7 +48,8 @@
     <activity android:name=".ui.RecordActivity"
       android:label="@string/title_record"
       android:launchMode="singleTop"
-      android:parentActivityName=".ui.MainActivity">
+      android:parentActivityName=".ui.MainActivity"
+      android:windowSoftInputMode="stateUnchanged">
       <meta-data android:name="android.support.PARENT_ACTIVITY"
         android:value=".ui.MainActivity" />
     </activity>

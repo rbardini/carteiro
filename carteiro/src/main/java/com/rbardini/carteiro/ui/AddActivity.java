@@ -340,7 +340,7 @@ public class AddActivity extends ActionBarActivity {
         try {
           cod = parseCod(cod);
           mTrackingNumberField.setText(cod);
-          mItemNameField.requestFocus();
+          onAddClick(null);
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
