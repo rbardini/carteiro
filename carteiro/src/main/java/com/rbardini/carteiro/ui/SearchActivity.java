@@ -23,7 +23,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class SearchActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
   private CarteiroApplication app;
   private ActionBar actionBar;
   private PostalListFragment listFragment;
@@ -123,6 +123,9 @@ public class SearchActivity extends ActionBarActivity implements DetachableResul
         return super.onOptionsItemSelected(item);
     }
   }
+
+  @Override
+  public void onPostalListAttached(PostalListFragment f) {}
 
   @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {

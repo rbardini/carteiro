@@ -40,7 +40,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class MainActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected static final String TAG = "MainActivity";
 
   // Delay to launch navigation drawer item, to allow close animation to play
@@ -62,6 +62,7 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
   private DrawerListAdapter mDrawerListAdapter;
   private ActionBarDrawerToggle mDrawerToggle;
   private PostalListFragment mCurrentFragment;
+  private FloatingActionButton mFAB;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -74,8 +75,8 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
       UIUtils.addStatusBarPadding(this, R.id.root_layout);
     }
 
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
+    mFAB = (FloatingActionButton) findViewById(R.id.fab);
+    mFAB.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
@@ -274,6 +275,16 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
     }
 
     super.onBackPressed();
+  }
+
+  @Override
+  public void onPostalListAttached(PostalListFragment f) {
+    int category = f.getCategory();
+
+    setTitle(Category.getTitle(category));
+    setDrawerCategoryChecked(category);
+    mFAB.attachToListView(f.getListView());
+    mFAB.show();
   }
 
   @Override

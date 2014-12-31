@@ -32,6 +32,12 @@ import java.util.List;
 import java.util.Map;
 
 public class PostalListFragment extends ListFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
+  public interface OnPostalListActionListener {
+    public void onPostalListAttached(PostalListFragment f);
+  }
+
+  private OnPostalListActionListener mListener;
+
   private CarteiroApplication app;
   private Activity activity;
   private DatabaseHelper dh;
@@ -63,6 +69,17 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     f.setArguments(args);
 
     return f;
+  }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+
+    try {
+      mListener = (OnPostalListActionListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString() + " must implement OnPostalListActionListener");
+    }
   }
 
   @Override @SuppressWarnings("unchecked")
@@ -99,11 +116,6 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    if (activity instanceof MainActivity) {
-      activity.setTitle(Category.getTitle(category));
-      ((MainActivity) activity).setDrawerCategoryChecked(category);
-    }
-
     mListAdapter = new PostalItemListAdapter(activity, mList, app.getUpdatedCods());
     mMultiChoiceModeListener = new PostalListFragment.MultiChoiceModeListener();
     getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -131,6 +143,8 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     );
 
     if (CarteiroApplication.state.syncing) setRefreshing();
+
+    mListener.onPostalListAttached(this);
   }
 
   @Override
