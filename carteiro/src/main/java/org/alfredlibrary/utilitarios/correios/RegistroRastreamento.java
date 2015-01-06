@@ -64,9 +64,9 @@ public class RegistroRastreamento {
     if (obj instanceof RegistroRastreamento) {
       RegistroRastreamento rr = (RegistroRastreamento) obj;
       return (dataHora == null ? rr.getDataHora() == null : dataHora.equals(rr.getDataHora())) &&
-           (local == null ? rr.getLocal() == null : local.equals(rr.getLocal())) &&
-           (acao == null ? rr.getAcao() == null : acao.equals(rr.getAcao())) &&
-           (detalhe == null ? rr.getDetalhe() == null : detalhe.equals(rr.getDetalhe()));
+           (local == null ? rr.getLocal() == null : local.equalsIgnoreCase(rr.getLocal())) &&
+           (acao == null ? rr.getAcao() == null : acao.equalsIgnoreCase(rr.getAcao())) &&
+           (detalhe == null ? rr.getDetalhe() == null : detalhe.equalsIgnoreCase(rr.getDetalhe()));
     }
     return false;
   }
