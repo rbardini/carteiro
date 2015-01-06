@@ -3,14 +3,14 @@
   <color name="divider_solid">#e0e0e0</color> <!-- 12% #000 (Solid) -->
 
   <!-- Theme -->
-  <color name="theme_primary">@color/brown_500</color>
-  <color name="theme_primary_dark">@color/brown_700</color>
-  <color name="theme_primary_light">@color/brown_300</color>
-  <color name="theme_primary_hint">@color/brown_500_hint</color>
-  <color name="theme_accent">@color/amber_500</color>
-  <color name="theme_accent_dark">@color/amber_700</color>
-  <color name="theme_accent_light">@color/amber_300</color>
-  <color name="theme_accent_hint">@color/amber_500_hint</color>
+  <color name="theme_primary">@color/amber_500</color>
+  <color name="theme_primary_dark">@color/amber_700</color>
+  <color name="theme_primary_light">@color/amber_300</color>
+  <color name="theme_primary_hint">@color/amber_500_hint</color>
+  <color name="theme_accent">@color/blue_500</color>
+  <color name="theme_accent_dark">@color/blue_700</color>
+  <color name="theme_accent_light">@color/blue_300</color>
+  <color name="theme_accent_hint">@color/blue_500_hint</color>
   <color name="theme_background">@color/grey_50</color>
 
   <!-- Postal status -->

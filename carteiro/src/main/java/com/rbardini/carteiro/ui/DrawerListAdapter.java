@@ -96,7 +96,7 @@ public class DrawerListAdapter extends BaseAdapter {
         boolean isSelected = model.id == mSelectedCategory;
 
         holder.title.setText(Category.getTitle(model.id));
-        holder.title.setTextColor(res.getColor(isSelected ? R.color.theme_primary : R.color.text_primary));
+        holder.title.setTextColor(res.getColor(isSelected ? R.color.theme_primary_dark : R.color.text_primary));
         holder.icon.setVisibility(View.GONE);
         convertView.setBackgroundColor(res.getColor(isSelected ? R.color.divider : android.R.color.transparent));
         break;
