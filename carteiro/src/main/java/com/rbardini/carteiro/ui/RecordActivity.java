@@ -25,13 +25,16 @@ import android.widget.TextView;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class RecordActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener, WebSROFragment.OnStateChangeListener {
+public class RecordActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener, PostalRecordFragment.OnPostalRecordsChangedListener, WebSROFragment.OnStateChangeListener {
   private CarteiroApplication app;
   private FragmentManager mFragManager;
 
@@ -287,6 +290,21 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   }
 
   @Override
+  public void onPostalRecordsChanged(List<PostalRecord> postalRecords) {
+    setTitleBar();
+  }
+
+  @Override
+  public void onProgress(int progress) {
+    mProgressBar.setVisibility(progress != 100 ? View.VISIBLE : View.GONE);
+  }
+
+  @Override
+  public void onLeave() {
+    mProgressBar.setVisibility(View.GONE);
+  }
+
+  @Override
   public void finish() {
     super.finish();
     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
@@ -296,7 +314,15 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
     mTitle.setText(pi.getDesc());
     mLegend.setText(pi.getCod());
 
-    mSubtitle.setText(getString(R.string.subtitle_record, pi.getService()));
+    List<PostalRecord> postalRecords = recordFragment.getList();
+    PostalRecord pr = postalRecords.get(postalRecords.size() - 1);
+    CharSequence relativeDays = "";
+
+    if (!pr.getStatus().equals(PostalUtils.Status.NAO_ENCONTRADO)) {
+      relativeDays = UIUtils.getRelativeDaysString(this, pr.getDate());
+    }
+
+    mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, pi.getService()));
     mSubtitle.setCompoundDrawablesWithIntrinsicBounds(pi.getFlag(this), 0, 0, 0);
   }
 
@@ -352,8 +378,6 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       recordFragment.setPostalItem(pi);
       recordFragment.refreshList();
     }
-
-    setTitleBar();
   }
 
   private void updateRefreshStatus() {
@@ -361,15 +385,5 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       if (CarteiroApplication.state.syncing) recordFragment.setRefreshing();
       else recordFragment.onRefreshComplete();
     }
-  }
-
-  @Override
-  public void onProgress(int progress) {
-    mProgressBar.setVisibility(progress != 100 ? View.VISIBLE : View.GONE);
-  }
-
-  @Override
-  public void onLeave() {
-    mProgressBar.setVisibility(View.GONE);
   }
 }

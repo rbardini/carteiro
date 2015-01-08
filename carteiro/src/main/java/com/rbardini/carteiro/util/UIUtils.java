@@ -44,6 +44,15 @@ public final class UIUtils {
     return DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
   }
 
+  public static CharSequence getRelativeDaysString(Context context, Date date) {
+    int days = (int) ((System.currentTimeMillis() - date.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (days == 0) return context.getString(R.string.date_today);
+    if (days == 1) return context.getString(R.string.date_yesterday);
+    if (days < 365) return context.getString(R.string.date_relative_days_ago, days);
+    return context.getString(R.string.date_relative_over_year);
+  }
+
   public static void shareItem(Context context, PostalItem pi) {
     Intent shareIntent = PostalUtils.getShareIntent(context, pi);
     context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share_title)));

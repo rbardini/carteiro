@@ -22,6 +22,12 @@ import java.util.List;
 public class PostalRecordFragment extends ListFragment {
   public static final String TAG = "PostalRecordFragment";
 
+  public interface OnPostalRecordsChangedListener {
+    public void onPostalRecordsChanged(List<PostalRecord> postalRecords);
+  }
+
+  private OnPostalRecordsChangedListener mListener;
+
   private Activity activity;
   private DatabaseHelper dh;
 
@@ -41,6 +47,17 @@ public class PostalRecordFragment extends ListFragment {
   }
 
   @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+
+    try {
+      mListener = (OnPostalRecordsChangedListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString() + " must implement OnPostalRecordsChangedListener");
+    }
+  }
+
+  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -51,7 +68,7 @@ public class PostalRecordFragment extends ListFragment {
 
     pi = (PostalItem) getArguments().getSerializable("postalItem");
 
-    mList = new ArrayList<PostalRecord>();
+    mList = new ArrayList<>();
     mListAdapter = new PostalRecordListAdapter(activity, mList);
     setListAdapter(mListAdapter);
 
@@ -96,8 +113,11 @@ public class PostalRecordFragment extends ListFragment {
   public void setRefreshing() { mSwipeRefreshLayout.setRefreshing(true); }
   public void onRefreshComplete() { mSwipeRefreshLayout.setRefreshing(false); }
 
+  public List<PostalRecord> getList() { return mList; }
+
   public void updateList() {
     dh.getPostalRecords(mList, pi.getCod());
+    mListener.onPostalRecordsChanged(mList);
   }
 
   public void refreshList() {

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <!-- Date -->
+  <string name="date_today">Today</string>
+  <string name="date_yesterday">Yesterday</string>
+  <string name="date_relative_days_ago">%d days ago</string>
+  <string name="date_relative_over_year">Over a year ago</string>
+
   <!-- Buttons -->
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancel</string>
@@ -130,7 +136,7 @@
 
   <!-- Record Activity -->
   <string name="title_record">Item history</string>
-  <string name="subtitle_record">Via %s</string>
+  <string name="subtitle_record">%1$s via %2$s</string>
   <string name="share_title">Share via</string>
   <string name="share_status_subject">Item status</string>
   <string name="share_status_text">%1$s %2$s, %3$s #carteiroapp</string>
