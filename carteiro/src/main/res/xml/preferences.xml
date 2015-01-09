@@ -11,7 +11,7 @@
       android:summary="@string/pref_refresh_interval_summary"
       android:entries="@array/array_refresh_interval"
       android:entryValues="@array/vals_refresh_interval"
-      android:defaultValue="3600000"
+      android:defaultValue="900000"
       android:dependency="@string/pref_key_auto_sync" />
     <CheckBoxPreference android:key="@string/pref_key_sync_favorites_only"
       android:title="@string/pref_sync_favorites_only_title"
