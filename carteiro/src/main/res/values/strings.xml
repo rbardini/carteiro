@@ -150,6 +150,7 @@
   <string name="pref_refresh_interval_title">Sync interval</string>
   <string name="pref_refresh_interval_summary">Sync every %s</string>
   <string-array name="array_refresh_interval">
+    <item>5 minutes</item>
     <item>15 minutes</item>
     <item>30 minutes</item>
     <item>1 hour</item>

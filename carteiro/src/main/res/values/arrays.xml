@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
   <string-array name="vals_refresh_interval">
+    <item>300000</item>
     <item>900000</item>
     <item>1800000</item>
     <item>3600000</item>
