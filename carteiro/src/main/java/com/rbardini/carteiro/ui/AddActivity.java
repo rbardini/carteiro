@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -40,6 +41,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddActivity extends ActionBarActivity {
+  private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+
   public static final int NOT_FOUND      = 0x1;
   public static final int DELIVERED_ITEM = 0x2;
   public static final int RETURNED_ITEM  = 0x4;
@@ -94,7 +97,9 @@ public class AddActivity extends ActionBarActivity {
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
-        mAddButton.setEnabled(s.length() == 13);
+        int length = s.length();
+        mTrackingNumberField.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
+        mAddButton.setEnabled(length == 13);
       }
 
       @Override
