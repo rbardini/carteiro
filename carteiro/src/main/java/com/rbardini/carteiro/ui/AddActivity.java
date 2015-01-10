@@ -37,6 +37,7 @@ import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -413,7 +414,7 @@ public class AddActivity extends ActionBarActivity {
       PostalItemRecord pir = (PostalItemRecord) params[0];
 
       PostalItem pi = pir.getPostalItem();
-      List<PostalRecord> prList = new ArrayList<PostalRecord>();
+      List<PostalRecord> prList = new ArrayList<>();
 
       try {
         List<RegistroRastreamento> rrList = Rastreamento.rastrear(pi.getCod());
@@ -433,10 +434,9 @@ public class AddActivity extends ActionBarActivity {
 
       } catch (Exception e) {
         error = e.getMessage();
-        if (error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ||
-          error.startsWith("Não foi possível obter contato com o site")) {
-          PostalRecord pr = new PostalRecord(pi.getCod(), -1);
-          pr.setStatus(PostalUtils.Status.NAO_ENCONTRADO);
+        if (error.equals(PostalUtils.Error.NOT_FOUND) || error.startsWith(PostalUtils.Error.NET_ERROR)) {
+          PostalRecord pr = new PostalRecord(pi.getCod(), -1, new Date(), PostalUtils.Status.NAO_ENCONTRADO);
+          pi.setReg(pr.getReg());
           prList.add(pr);
         }
 
@@ -451,8 +451,8 @@ public class AddActivity extends ActionBarActivity {
     @Override
     protected void onPostExecute(PostalItemRecord pir) {
       if (error != null) {
-        int id = error.equals("O sistema dos Correios não possui dados sobre o objeto informado") ? NOT_FOUND :
-          error.startsWith("Não foi possível obter contato com o site") ? NET_ERROR :
+        int id = error.equals(PostalUtils.Error.NOT_FOUND) ? NOT_FOUND :
+          error.startsWith(PostalUtils.Error.NET_ERROR) ? NET_ERROR :
           error.equals(getString(R.string.title_alert_delivered_item)) ? DELIVERED_ITEM :
           error.equals(getString(R.string.title_alert_returned_item)) ? RETURNED_ITEM : -1;
 

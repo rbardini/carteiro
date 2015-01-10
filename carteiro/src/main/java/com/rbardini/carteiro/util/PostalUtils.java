@@ -566,6 +566,11 @@ public final class PostalUtils {
     }
   }
 
+  public static final class Error {
+    public static final String NOT_FOUND = "O sistema dos Correios não possui dados sobre o objeto informado";
+    public static final String NET_ERROR = "Não foi possível obter contato com o site";
+  }
+
   public static String getLocation(PostalItem pi, boolean uri) {
     String info = pi.getInfo(), loc = pi.getLoc();
 

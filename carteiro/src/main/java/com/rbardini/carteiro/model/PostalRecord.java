@@ -1,9 +1,9 @@
 package com.rbardini.carteiro.model;
 
+import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 
 public class PostalRecord implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -29,6 +29,13 @@ public class PostalRecord implements Serializable {
     this.loc = rr.getLocal();
     this.info = rr.getDetalhe();
     this.status = rr.getAcao();
+  }
+
+  public PostalRecord(String cod, int pos, Date date, String status) {
+    this.cod = cod;
+    this.pos = pos;
+    this.date = date;
+    this.status = status;
   }
 
   public PostalRecord(String cod, int pos, Date date, String status, String loc, String info) {
