@@ -23,13 +23,13 @@
       android:summary="@string/pref_dont_sync_delivered_items_summary"
       android:defaultValue="false"
       android:dependency="@string/pref_key_auto_sync" />
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/pref_notification_category">
     <com.rbardini.carteiro.ui.SwitchPreferenceCompat android:key="@string/pref_key_notify"
       android:title="@string/pref_activate_notifications_title"
       android:summary="@string/pref_activate_notifications_summary"
       android:defaultValue="true" />
-  </PreferenceCategory>
-
-  <PreferenceCategory android:title="@string/pref_notification_category">
     <CheckBoxPreference android:key="@string/pref_key_notify_sync"
       android:title="@string/pref_notify_sync_title"
       android:summary="@string/pref_notify_sync_summary"
