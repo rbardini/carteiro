@@ -1,8 +1,8 @@
 package com.rbardini.carteiro.util.validator;
 
-import java.util.Locale;
-
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation.Result;
+
+import java.util.Locale;
 
 public class TrackingCodeValidator {
   private static final int LENGTH = 13;
@@ -30,10 +30,6 @@ public class TrackingCodeValidator {
     cod = cod.toUpperCase(Locale.getDefault());
     if (!cod.matches(FORMAT_REGEX)) {
       return new TrackingCodeValidation(cod, Result.BAD_FORMAT);
-    }
-
-    if (!validateCheckDigit(cod)) {
-      return new TrackingCodeValidation(cod, Result.INVALID_CHECK_DIGIT);
     }
 
     return new TrackingCodeValidation(cod, Result.SUCCESS);
