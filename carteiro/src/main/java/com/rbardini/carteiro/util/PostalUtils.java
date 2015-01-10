@@ -30,7 +30,7 @@ public final class PostalUtils {
     private static final Map<Integer, Integer> ColorMap = buildColorMap();
 
     private static TreeMap<Integer, String[]> buildStatusesMap() {
-      TreeMap<Integer, String[]> map = new TreeMap<Integer, String[]>();
+      TreeMap<Integer, String[]> map = new TreeMap<>();
 
       map.put(POSTED, new String[] {
           Status.POSTADO,
@@ -114,7 +114,7 @@ public final class PostalUtils {
     }
 
     private static TreeMap<Integer, Integer> buildTitleMap() {
-      TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> map = new TreeMap<>();
 
       map.put(ALL, R.string.category_all);
       map.put(FAVORITES, R.string.category_favorites);
@@ -129,7 +129,7 @@ public final class PostalUtils {
     }
 
     private static TreeMap<Integer, Integer> buildColorMap() {
-      TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> map = new TreeMap<>();
 
       map.put(ALL, R.color.postal_status_all);
       map.put(POSTED, R.color.postal_status_posted);
@@ -246,7 +246,7 @@ public final class PostalUtils {
     private static final Map<String, Integer> IconMap = buildIconMap();
 
     private static TreeMap<String, Integer> buildCategoryMap() {
-      TreeMap<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+      TreeMap<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
       for (Entry<Integer, String[]> entry : Category.StatusesMap.entrySet()) {
         String[] statuses = entry.getValue();
@@ -261,7 +261,7 @@ public final class PostalUtils {
     }
 
     private static TreeMap<String, Integer> buildIconMap() {
-      TreeMap<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+      TreeMap<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
       // Posted
       map.put(POSTADO, R.drawable.ic_postal_postado);
@@ -365,7 +365,7 @@ public final class PostalUtils {
     private static final Map<String, String> ServicesMap = buildServicesMap();
 
     private static TreeMap<String, String> buildServicesMap() {
-      TreeMap<String, String> map = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+      TreeMap<String, String> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
       map.put("AL", "AGENTES DE LEITURA");
       map.put("AR", "AVISO DE RECEBIMENTO");
@@ -402,10 +402,10 @@ public final class PostalUtils {
       map.put("DD", "DEVOLUÇÃO DE DOCUMENTOS");
       map.put("DE", "REMESSA EXPRESSA TALÃO E CARTÃO C/ AR");
       map.put("DF", "E-SEDEX (LÓGICO)");
-      map.put("DG", "E-SEDEX (LÓGICO)");
+      map.put("DG", "SEDEX");
       map.put("DI", "REM EXPRES COM AR DIGITAL ITAU");
       map.put("DL", "ENCOMENDA SEDEX (LÓGICO)");
-      map.put("DM", "MERCADOENVIOS EXPRESSO");
+      map.put("DM", "e-SEDEX");
       map.put("DP", "REM EXPRES COM AR DIGITAL PRF");
       map.put("DS", "REM EXPRES COM AR DIGITAL SANTANDER");
       map.put("DT", "REMESSA ECON.SEG.TRANSITO C/AR DIGITAL");
@@ -491,9 +491,11 @@ public final class PostalUtils {
       map.put("PB", "ENCOMENDA PAC - NÃO URGENTE");
       map.put("PC", "ENCOMENDA PAC A COBRAR");
       map.put("PD", "ENCOMENDA PAC - NÃO URGENTE");
+      map.put("PE", "PAC");
       map.put("PF", "PASSAPORTE");
       map.put("PG", "ENCOMENDA PAC (ETIQUETA FÍSICA)");
       map.put("PH", "ENCOMENDA PAC (ETIQUETA LÓGICA)");
+      map.put("PI", "PAC");
       map.put("PR", "REEMBOLSO POSTAL - CLIENTE AVULSO");
       map.put("RA", "REGISTRADO PRIORITÁRIO");
       map.put("RB", "CARTA REGISTRADA");
