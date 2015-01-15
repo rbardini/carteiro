@@ -12386,6 +12386,7 @@ com.rbardini.carteiro.db.DatabaseHelper -> com.rbardini.carteiro.a.a:
     int getPostalList(java.util.List,int) -> a
     int getSearchResults(java.util.List,java.lang.String) -> a
     android.database.Cursor getSearchSuggestions(java.lang.String) -> k
+    com.rbardini.carteiro.model.PostalRecord getFirstPostalRecord(java.lang.String) -> l
     int getPostalRecords(java.util.List,java.lang.String) -> b
     void notifyDatabaseChanged() -> e
     java.util.HashMap buildColumnMap() -> f
@@ -12774,15 +12775,13 @@ com.rbardini.carteiro.ui.PostalListFragment$MultiChoiceModeListener -> com.rbard
 com.rbardini.carteiro.ui.PostalListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.aa:
     void onPostalListAttached(com.rbardini.carteiro.ui.PostalListFragment) -> a
 com.rbardini.carteiro.ui.PostalRecordFragment -> com.rbardini.carteiro.ui.ab:
-    com.rbardini.carteiro.ui.PostalRecordFragment$OnPostalRecordsChangedListener mListener -> a
-    android.app.Activity activity -> b
-    com.rbardini.carteiro.db.DatabaseHelper dh -> c
-    com.rbardini.carteiro.model.PostalItem pi -> d
-    java.util.List mList -> e
-    com.rbardini.carteiro.ui.PostalRecordListAdapter mListAdapter -> f
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> g
+    android.app.Activity activity -> a
+    com.rbardini.carteiro.db.DatabaseHelper dh -> b
+    com.rbardini.carteiro.model.PostalItem pi -> c
+    java.util.List mList -> d
+    com.rbardini.carteiro.ui.PostalRecordListAdapter mListAdapter -> e
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> f
     com.rbardini.carteiro.ui.PostalRecordFragment newInstance(com.rbardini.carteiro.model.PostalItem) -> a
-    void onAttach(android.app.Activity) -> onAttach
     void onCreate(android.os.Bundle) -> onCreate
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
@@ -12790,15 +12789,12 @@ com.rbardini.carteiro.ui.PostalRecordFragment -> com.rbardini.carteiro.ui.ab:
     void onRefreshStarted() -> a
     void setRefreshing() -> b
     void onRefreshComplete() -> c
-    java.util.List getList() -> d
-    void updateList() -> e
-    void refreshList() -> f
+    void updateList() -> d
+    void refreshList() -> e
 com.rbardini.carteiro.ui.PostalRecordFragment$1 -> com.rbardini.carteiro.ui.ac:
     com.rbardini.carteiro.ui.PostalRecordFragment this$0 -> a
     void onRefresh() -> a
-com.rbardini.carteiro.ui.PostalRecordFragment$OnPostalRecordsChangedListener -> com.rbardini.carteiro.ui.ad:
-    void onPostalRecordsChanged(java.util.List) -> a
-com.rbardini.carteiro.ui.PostalRecordListAdapter -> com.rbardini.carteiro.ui.ae:
+com.rbardini.carteiro.ui.PostalRecordListAdapter -> com.rbardini.carteiro.ui.ad:
     android.content.Context context -> a
     android.view.LayoutInflater inflater -> b
     java.util.List list -> c
@@ -12807,8 +12803,8 @@ com.rbardini.carteiro.ui.PostalRecordListAdapter -> com.rbardini.carteiro.ui.ae:
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.Object getItem(int) -> getItem
-com.rbardini.carteiro.ui.PostalRecordListAdapter$1 -> com.rbardini.carteiro.ui.af:
-com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder -> com.rbardini.carteiro.ui.ag:
+com.rbardini.carteiro.ui.PostalRecordListAdapter$1 -> com.rbardini.carteiro.ui.ae:
+com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder -> com.rbardini.carteiro.ui.af:
     android.view.View timeline -> a
     android.widget.TextView date -> b
     android.widget.TextView time -> c
@@ -12833,7 +12829,7 @@ com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder -> com.rbardini.cart
 com.rbardini.carteiro.ui.PreferencesActivity -> com.rbardini.carteiro.ui.PreferencesActivity:
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.ah:
+com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.ag:
     boolean backupManagerAvailable -> a
     java.lang.String unknownRingtoneTitle -> b
     android.app.Activity activity -> c
@@ -12855,47 +12851,48 @@ com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.ah:
     java.lang.String access$200(com.rbardini.carteiro.ui.PreferencesFragment) -> b
     com.rbardini.carteiro.CarteiroApplication access$300(com.rbardini.carteiro.ui.PreferencesFragment) -> c
     com.rbardini.carteiro.db.DatabaseHelper access$400(com.rbardini.carteiro.ui.PreferencesFragment) -> d
-com.rbardini.carteiro.ui.PreferencesFragment$1 -> com.rbardini.carteiro.ui.ai:
+com.rbardini.carteiro.ui.PreferencesFragment$1 -> com.rbardini.carteiro.ui.ah:
     com.rbardini.carteiro.ui.PreferencesFragment this$0 -> a
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
-com.rbardini.carteiro.ui.PreferencesFragment$2 -> com.rbardini.carteiro.ui.aj:
+com.rbardini.carteiro.ui.PreferencesFragment$2 -> com.rbardini.carteiro.ui.ai:
     com.rbardini.carteiro.ui.PreferencesFragment this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.rbardini.carteiro.ui.PreferencesFragment$2$1 -> com.rbardini.carteiro.ui.ak:
+com.rbardini.carteiro.ui.PreferencesFragment$2$1 -> com.rbardini.carteiro.ui.aj:
     android.widget.EditText val$backupNameField -> a
     android.content.Context val$context -> b
     com.rbardini.carteiro.ui.PreferencesFragment$2 this$1 -> c
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.PreferencesFragment$3 -> com.rbardini.carteiro.ui.al:
+com.rbardini.carteiro.ui.PreferencesFragment$3 -> com.rbardini.carteiro.ui.ak:
     android.content.Context context -> a
     com.rbardini.carteiro.ui.PreferencesFragment this$0 -> b
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.rbardini.carteiro.ui.PreferencesFragment$3$1 -> com.rbardini.carteiro.ui.am:
+com.rbardini.carteiro.ui.PreferencesFragment$3$1 -> com.rbardini.carteiro.ui.al:
     com.rbardini.carteiro.ui.PreferencesFragment$3 this$1 -> a
     boolean accept(java.io.File,java.lang.String) -> accept
-com.rbardini.carteiro.ui.PreferencesFragment$3$2 -> com.rbardini.carteiro.ui.an:
+com.rbardini.carteiro.ui.PreferencesFragment$3$2 -> com.rbardini.carteiro.ui.am:
     java.lang.String[] val$backupFiles -> a
     java.io.File val$documentsDir -> b
     com.rbardini.carteiro.ui.PreferencesFragment$3 this$1 -> c
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.PreferencesFragment$3$2$1 -> com.rbardini.carteiro.ui.ao:
+com.rbardini.carteiro.ui.PreferencesFragment$3$2$1 -> com.rbardini.carteiro.ui.an:
     java.lang.String val$backupName -> a
     com.rbardini.carteiro.ui.PreferencesFragment$3$2 this$2 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.PreferencesFragment$4 -> com.rbardini.carteiro.ui.ap:
+com.rbardini.carteiro.ui.PreferencesFragment$4 -> com.rbardini.carteiro.ui.ao:
     com.rbardini.carteiro.ui.PreferencesFragment this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
 com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivity:
     com.rbardini.carteiro.CarteiroApplication app -> a
-    android.app.FragmentManager mFragManager -> b
-    com.rbardini.carteiro.model.PostalItem pi -> c
-    boolean onlyWebSRO -> d
-    com.rbardini.carteiro.ui.PostalRecordFragment recordFragment -> e
-    com.rbardini.carteiro.ui.WebSROFragment webSROFragment -> f
-    android.widget.EditText mTitle -> g
-    android.widget.TextView mSubtitle -> h
-    android.widget.TextView mLegend -> i
-    android.widget.ProgressBar mProgressBar -> j
+    com.rbardini.carteiro.db.DatabaseHelper dh -> b
+    android.app.FragmentManager mFragManager -> c
+    com.rbardini.carteiro.model.PostalItem pi -> d
+    boolean onlyWebSRO -> e
+    com.rbardini.carteiro.ui.PostalRecordFragment recordFragment -> f
+    com.rbardini.carteiro.ui.WebSROFragment webSROFragment -> g
+    android.widget.EditText mTitle -> h
+    android.widget.TextView mSubtitle -> i
+    android.widget.TextView mLegend -> j
+    android.widget.ProgressBar mProgressBar -> k
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onPause() -> onPause
@@ -12907,7 +12904,6 @@ com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivi
     void onBackPressed() -> onBackPressed
     void onRenamePostalItem(java.lang.String,com.rbardini.carteiro.model.PostalItem) -> a
     void onDeletePostalItems(java.util.ArrayList) -> a
-    void onPostalRecordsChanged(java.util.List) -> a
     void onProgress(int) -> a
     void onLeave() -> a
     void finish() -> finish
@@ -12918,10 +12914,10 @@ com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivi
     void updateRefreshStatus() -> e
     com.rbardini.carteiro.model.PostalItem access$000(com.rbardini.carteiro.ui.RecordActivity) -> a
     android.widget.EditText access$100(com.rbardini.carteiro.ui.RecordActivity) -> b
-com.rbardini.carteiro.ui.RecordActivity$1 -> com.rbardini.carteiro.ui.aq:
+com.rbardini.carteiro.ui.RecordActivity$1 -> com.rbardini.carteiro.ui.ap:
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
     void onBackStackChanged() -> onBackStackChanged
-com.rbardini.carteiro.ui.RecordActivity$2 -> com.rbardini.carteiro.ui.ar:
+com.rbardini.carteiro.ui.RecordActivity$2 -> com.rbardini.carteiro.ui.aq:
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
     boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
 com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivity:
@@ -12945,7 +12941,7 @@ com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivi
     void updateRefreshStatus() -> b
 com.rbardini.carteiro.ui.SwitchPreferenceCompat -> com.rbardini.carteiro.ui.SwitchPreferenceCompat:
     void init() -> a
-com.rbardini.carteiro.ui.WebSROFragment -> com.rbardini.carteiro.ui.as:
+com.rbardini.carteiro.ui.WebSROFragment -> com.rbardini.carteiro.ui.ar:
     com.rbardini.carteiro.ui.WebSROFragment$OnStateChangeListener listener -> a
     android.webkit.WebView mWebView -> b
     com.rbardini.carteiro.ui.WebSROFragment newInstance(java.lang.String) -> a
@@ -12955,10 +12951,10 @@ com.rbardini.carteiro.ui.WebSROFragment -> com.rbardini.carteiro.ui.as:
     boolean canGoBack() -> a
     void goBack() -> b
     com.rbardini.carteiro.ui.WebSROFragment$OnStateChangeListener access$000(com.rbardini.carteiro.ui.WebSROFragment) -> a
-com.rbardini.carteiro.ui.WebSROFragment$1 -> com.rbardini.carteiro.ui.at:
+com.rbardini.carteiro.ui.WebSROFragment$1 -> com.rbardini.carteiro.ui.as:
     com.rbardini.carteiro.ui.WebSROFragment this$0 -> a
     void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-com.rbardini.carteiro.ui.WebSROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.au:
+com.rbardini.carteiro.ui.WebSROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.at:
     void onProgress(int) -> a
     void onLeave() -> a
 com.rbardini.carteiro.util.IOUtils -> com.rbardini.carteiro.c.a:
