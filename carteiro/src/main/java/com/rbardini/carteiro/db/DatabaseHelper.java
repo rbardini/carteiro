@@ -350,6 +350,19 @@ public class DatabaseHelper {
     return pr;
   }
 
+  public PostalRecord getFirstPostalRecord(String cod) throws ParseException {
+    PostalRecord pr = null;
+    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC", "1");
+    if (c.moveToFirst()) {
+      pr = new PostalRecord(cod, c.getInt(1), iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
+    }
+    if (!c.isClosed()) {
+      c.close();
+    }
+
+    return pr;
+  }
+
   public int getPostalRecords(List<PostalRecord> list, String cod) {
     list.clear();
     Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos DESC");

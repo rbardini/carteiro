@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
@@ -32,10 +34,12 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecordActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener, PostalRecordFragment.OnPostalRecordsChangedListener, WebSROFragment.OnStateChangeListener {
+public class RecordActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener, WebSROFragment.OnStateChangeListener {
+  protected static final String TAG = "RecordActivity";
+
   private CarteiroApplication app;
+  private DatabaseHelper dh;
   private FragmentManager mFragManager;
 
   private PostalItem pi;
@@ -63,8 +67,6 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       UIUtils.addStatusBarPadding(this, R.id.root_layout);
     }
 
-    app = (CarteiroApplication) getApplication();
-
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -72,6 +74,8 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setDisplayShowTitleEnabled(false);
 
+    app = (CarteiroApplication) getApplication();
+    dh = app.getDatabaseHelper();
     mFragManager = getFragmentManager();
     mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
@@ -243,12 +247,7 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
 
       case R.id.websro_opt:
         if (webSROFragment == null) webSROFragment = WebSROFragment.newInstance(pi.getCod());
-
-        mFragManager
-          .beginTransaction()
-          .replace(R.id.record_list, webSROFragment, WebSROFragment.TAG)
-          .addToBackStack(null)
-          .commit();
+        mFragManager.beginTransaction().replace(R.id.record_list, webSROFragment, WebSROFragment.TAG).addToBackStack(null).commit();
         return true;
 
       default:
@@ -290,11 +289,6 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   }
 
   @Override
-  public void onPostalRecordsChanged(List<PostalRecord> postalRecords) {
-    setTitleBar();
-  }
-
-  @Override
   public void onProgress(int progress) {
     mProgressBar.setVisibility(progress != 100 ? View.VISIBLE : View.GONE);
   }
@@ -314,15 +308,21 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
     mTitle.setText(pi.getDesc());
     mLegend.setText(pi.getCod());
 
-    List<PostalRecord> postalRecords = recordFragment.getList();
-    PostalRecord pr = postalRecords.get(postalRecords.size() - 1);
     CharSequence relativeDays = "";
+    try {
+      PostalRecord pr = dh.getFirstPostalRecord(pi.getCod());
+      if (!pr.getStatus().equals(PostalUtils.Status.NAO_ENCONTRADO)) {
+        relativeDays = UIUtils.getRelativeDaysString(this, pr.getDate());
+      }
 
-    if (!pr.getStatus().equals(PostalUtils.Status.NAO_ENCONTRADO)) {
-      relativeDays = UIUtils.getRelativeDaysString(this, pr.getDate());
+    } catch (Exception e) {
+      Log.w(TAG, "Could not get first postal record for postal item " + pi.getCod(), e);
+
+    } finally {
+      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, pi.getService()));
+      // TODO Set title bar again when postal records updated
     }
 
-    mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, pi.getService()));
     mSubtitle.setCompoundDrawablesWithIntrinsicBounds(pi.getFlag(this), 0, 0, 0);
   }
 
@@ -378,6 +378,8 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       recordFragment.setPostalItem(pi);
       recordFragment.refreshList();
     }
+
+    setTitleBar();
   }
 
   private void updateRefreshStatus() {
