@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -213,7 +212,7 @@ public class SyncService extends IntentService {
       Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("share");
 
       notificationBuilder
-        .setLargeIcon(UIUtils.createScaledDpBitmap(this, BitmapFactory.decodeResource(this.getResources(), Status.getIcon(pi.getStatus())), 36, 36))
+        .setColor(getResources().getColor(UIUtils.getPostalStatusColor(pi.getStatus())))
         .setSubText(pi.getLoc())
         .addAction(R.drawable.ic_menu_place, getString(R.string.opt_view_place), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
         .addAction(R.drawable.ic_menu_share, getString(R.string.opt_share), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
