@@ -220,7 +220,6 @@ public class PreferencesFragment extends PreferenceFragment implements OnSharedP
                   final String backupName = backupFiles[which];
 
                   new AlertDialog.Builder(context)
-                      .setIcon(android.R.drawable.ic_dialog_alert)
                       .setTitle(R.string.title_alert_restore_backup)
                       .setMessage(Html.fromHtml(getString(R.string.msg_alert_restore_backup, backupName)))
                       .setPositiveButton(R.string.restore_btn, new DialogInterface.OnClickListener() {
