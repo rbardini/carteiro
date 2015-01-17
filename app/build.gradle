@@ -40,6 +40,11 @@ dependencies {
   implementation "com.google.zxing:android-integration:3.2.0"
   implementation "com.jakewharton:process-phoenix:1.0.2"
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation('org.simpleframework:simple-xml:2.7.+') {
+    exclude module: 'stax'
+    exclude module: 'stax-api'
+    exclude module: 'xpp3'
+  }
 }
 
 repositories {
