@@ -23,7 +23,7 @@ android {
 
 dependencies {
   compile 'com.android.support:appcompat-v7:21.0.+'
-  compile 'com.nhaarman.listviewanimations:library:+'
-  compile 'com.google.zxing:android-integration:3.1.0'
-  compile 'com.melnykov:floatingactionbutton:1.1.0'
+  compile 'com.google.zxing:android-integration:3.1.+'
+  compile 'com.melnykov:floatingactionbutton:1.1.+'
+  compile 'com.nhaarman.listviewanimations:library:2.6.+'
 }
