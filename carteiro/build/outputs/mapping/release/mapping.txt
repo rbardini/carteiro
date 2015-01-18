@@ -13003,7 +13003,6 @@ com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.f:
     int getStatusBarHeight(android.content.Context) -> c
     void addStatusBarPadding(android.app.Activity,int) -> a
     int getPostalStatusColor(java.lang.String) -> a
-    android.graphics.Bitmap createScaledDpBitmap(android.content.Context,android.graphics.Bitmap,int,int) -> a
 com.rbardini.carteiro.util.validator.TrackingCodeValidation -> com.rbardini.carteiro.c.a.a:
     java.lang.String cod -> a
     com.rbardini.carteiro.util.validator.TrackingCodeValidation$Result res -> b
