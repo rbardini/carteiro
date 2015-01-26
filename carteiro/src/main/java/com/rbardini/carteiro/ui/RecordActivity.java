@@ -6,10 +6,8 @@ import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,29 +21,26 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalRecord;
-import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class RecordActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalItemDialogFragment.OnPostalItemChangeListener, WebSROFragment.OnStateChangeListener {
+public class RecordActivity extends PostalActivity implements WebSROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
 
-  private CarteiroApplication app;
   private DatabaseHelper dh;
   private FragmentManager mFragManager;
 
-  private PostalItem pi;
-  private boolean onlyWebSRO;
-  private PostalRecordFragment recordFragment;
-  private WebSROFragment webSROFragment;
+  private PostalItem mPostalItem;
+  private boolean mOnlyWebSRO;
+  private PostalRecordFragment mRecordFragment;
+  private WebSROFragment mWebSROFragment;
 
   private EditText mTitle;
   private TextView mSubtitle;
@@ -56,25 +51,15 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-
     supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-
     setContentView(R.layout.record);
-    setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+    addStatusBarPadding();
 
-    Resources res = getResources();
-    if (res.getBoolean(R.bool.translucent_status)) {
-      UIUtils.addStatusBarPadding(this, R.id.root_layout);
-    }
-
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-
+    setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setDisplayShowTitleEnabled(false);
 
-    app = (CarteiroApplication) getApplication();
     dh = app.getDatabaseHelper();
     mFragManager = getFragmentManager();
     mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
@@ -98,17 +83,17 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       @Override
       public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
-          String oldDesc = pi.getSafeDesc();
+          String oldDesc = mPostalItem.getSafeDesc();
           String newDesc = mTitle.getText().toString().trim();
 
           if (newDesc.equals("")) newDesc = null;
-          onRenamePostalItem(newDesc, pi);
+          onRenamePostalItem(newDesc, mPostalItem);
 
           InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
           imm.hideSoftInputFromWindow(mTitle.getWindowToken(), 0);
 
           String toast;
-          if (newDesc == null) toast = getString(R.string.toast_item_renamed_empty, pi.getCod());
+          if (newDesc == null) toast = getString(R.string.toast_item_renamed_empty, mPostalItem.getCod());
           else toast = getString(R.string.toast_item_renamed, oldDesc, newDesc);
           UIUtils.showToast(RecordActivity.this, toast);
 
@@ -120,8 +105,8 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
     });
 
     if (savedInstanceState != null) {
-      pi = (PostalItem) savedInstanceState.getSerializable("postalItem");
-      onlyWebSRO = savedInstanceState.getBoolean("onlyWebSRO");
+      mPostalItem = (PostalItem) savedInstanceState.getSerializable("postalItem");
+      mOnlyWebSRO = savedInstanceState.getBoolean("onlyWebSRO");
     } else {
       handleNewIntent();
     }
@@ -130,24 +115,9 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
-
-    CarteiroApplication.state.receiver.setReceiver(this);
-    updateRefreshStatus();
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-
-    CarteiroApplication.state.receiver.clearReceiver();
-  }
-
-  @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    savedInstanceState.putSerializable("postalItem", pi);
-    savedInstanceState.putSerializable("onlyWebSRO", onlyWebSRO);
+    savedInstanceState.putSerializable("postalItem", mPostalItem);
+    savedInstanceState.putSerializable("onlyWebSRO", mOnlyWebSRO);
 
     super.onSaveInstanceState(savedInstanceState);
   }
@@ -162,23 +132,13 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   @Override
   public void onReceiveResult(int resultCode, Bundle resultData) {
     switch (resultCode) {
-      case SyncService.STATUS_RUNNING: {
+      case SyncService.STATUS_FINISHED:
         updateRefreshStatus();
+        if (app.hasUpdate() && app.isUpdatedCod(mPostalItem.getCod())) mRecordFragment.refreshList();
         break;
-      }
-      case SyncService.STATUS_FINISHED: {
-        updateRefreshStatus();
-        if (app.hasUpdate() && app.isUpdatedCod(pi.getCod())) {
-          recordFragment.refreshList();
-        }
-        break;
-      }
-      case SyncService.STATUS_ERROR: {
-        updateRefreshStatus();
-        final String error = getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
-        UIUtils.showToast(RecordActivity.this, error);
-        break;
-      }
+
+      default:
+        super.onReceiveResult(resultCode, resultData);
     }
   }
 
@@ -188,12 +148,12 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
       getMenuInflater().inflate(R.menu.record_actions, menu);
 
       menu.findItem(R.id.fav_opt)
-        .setIcon(pi.isFav() ? R.drawable.ic_menu_star_on : R.drawable.ic_menu_star_off)
-        .setTitle(pi.isFav() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
+        .setIcon(mPostalItem.isFav() ? R.drawable.ic_menu_star_on : R.drawable.ic_menu_star_off)
+        .setTitle(mPostalItem.isFav() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
 
       menu.findItem(R.id.archive_opt)
-        .setIcon(pi.isArchived() ? R.drawable.ic_menu_unarchive : R.drawable.ic_menu_archive)
-        .setTitle(getString(pi.isArchived() ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
+        .setIcon(mPostalItem.isArchived() ? R.drawable.ic_menu_unarchive : R.drawable.ic_menu_archive)
+        .setTitle(getString(mPostalItem.isArchived() ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
     }
 
     return super.onCreateOptionsMenu(menu);
@@ -202,7 +162,7 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     final ArrayList<PostalItem> piList = new ArrayList<PostalItem>();
-    piList.add(pi);
+    piList.add(mPostalItem);
 
     switch (item.getItemId()) {
       case android.R.id.home:
@@ -210,34 +170,34 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
         return true;
 
       case R.id.fav_opt:
-        pi.toggleFav();
+        mPostalItem.toggleFav();
 
-        app.getDatabaseHelper().togglePostalItemFav(pi.getCod());
+        app.getDatabaseHelper().togglePostalItemFav(mPostalItem.getCod());
         app.setUpdatedList();
 
         invalidateOptionsMenu();
         return true;
 
       case R.id.share_opt:
-        UIUtils.shareItem(this, pi);
+        UIUtils.shareItem(this, mPostalItem);
         return true;
 
       case R.id.place_opt:
         try {
-          UIUtils.locateItem(this, pi);
+          UIUtils.locateItem(this, mPostalItem);
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
         return true;
 
       case R.id.archive_opt:
-        pi.toggleArchived();
+        mPostalItem.toggleArchived();
 
-        app.getDatabaseHelper().togglePostalItemArchived(pi.getCod());
+        app.getDatabaseHelper().togglePostalItemArchived(mPostalItem.getCod());
         app.setUpdatedList();
 
-        UIUtils.showToast(this, pi.isArchived() ? getString(R.string.toast_item_archived, pi.getSafeDesc())
-            : getString(R.string.toast_item_unarchived, pi.getSafeDesc(), getString(R.string.category_all)));
+        UIUtils.showToast(this, mPostalItem.isArchived() ? getString(R.string.toast_item_archived, mPostalItem.getSafeDesc())
+            : getString(R.string.toast_item_unarchived, mPostalItem.getSafeDesc(), getString(R.string.category_all)));
         invalidateOptionsMenu();
         return true;
 
@@ -246,8 +206,8 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
         return true;
 
       case R.id.websro_opt:
-        if (webSROFragment == null) webSROFragment = WebSROFragment.newInstance(pi.getCod());
-        mFragManager.beginTransaction().replace(R.id.record_list, webSROFragment, WebSROFragment.TAG).addToBackStack(null).commit();
+        if (mWebSROFragment == null) mWebSROFragment = WebSROFragment.newInstance(mPostalItem.getCod());
+        mFragManager.beginTransaction().replace(R.id.record_list, mWebSROFragment, WebSROFragment.TAG).addToBackStack(null).commit();
         return true;
 
       default:
@@ -257,8 +217,8 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
 
   @Override
   public void onBackPressed() {
-    if (webSROFragment != null && webSROFragment.isVisible() && webSROFragment.canGoBack()) {
-      webSROFragment.goBack();
+    if (mWebSROFragment != null && mWebSROFragment.isVisible() && mWebSROFragment.canGoBack()) {
+      mWebSROFragment.goBack();
       return;
     }
 
@@ -274,7 +234,7 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   public void onRenamePostalItem(String desc, PostalItem pi) {
     app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
     app.setUpdatedList();
-    this.pi.setDesc(desc);
+    this.mPostalItem.setDesc(desc);
     setTitleBar();
   }
 
@@ -304,26 +264,31 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
   }
 
+  @Override
+  public PostalFragment getPostalFragment() {
+    return mRecordFragment;
+  }
+
   private void setTitleBar() {
-    mTitle.setText(pi.getDesc());
-    mLegend.setText(pi.getCod());
+    mTitle.setText(mPostalItem.getDesc());
+    mLegend.setText(mPostalItem.getCod());
 
     CharSequence relativeDays = "";
     try {
-      PostalRecord pr = dh.getFirstPostalRecord(pi.getCod());
+      PostalRecord pr = dh.getFirstPostalRecord(mPostalItem.getCod());
       if (!pr.getStatus().equals(PostalUtils.Status.NAO_ENCONTRADO)) {
         relativeDays = UIUtils.getRelativeDaysString(this, pr.getDate());
       }
 
     } catch (Exception e) {
-      Log.w(TAG, "Could not get first postal record for postal item " + pi.getCod(), e);
+      Log.w(TAG, "Could not get first postal record for postal item " + mPostalItem.getCod(), e);
 
     } finally {
-      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, pi.getService()));
+      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mPostalItem.getService()));
       // TODO Set title bar again when postal records updated
     }
 
-    mSubtitle.setCompoundDrawablesWithIntrinsicBounds(pi.getFlag(this), 0, 0, 0);
+    mSubtitle.setCompoundDrawablesWithIntrinsicBounds(mPostalItem.getFlag(this), 0, 0, 0);
   }
 
   private Fragment getCurrentFragment() {
@@ -335,28 +300,35 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
     Bundle extras = intent.getExtras();
 
     if (extras != null) {
-      pi = (PostalItem) extras.getSerializable("postalItem");
+      mPostalItem = (PostalItem) extras.getSerializable("postalItem");
+
+      if (extras.getBoolean("isNew")) {
+        UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), mPostalItem.getSafeDesc()));
+        intent.removeExtra("isNew");
+      }
+
     } else {
       finish();
     }
 
-    if (extras.getBoolean("isNew")) {
-      UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), pi.getSafeDesc()));
-      intent.removeExtra("isNew");
-    }
-
     String action = intent.getAction();
     if (action != null) {
-      if (action.equals("locate")) {
-        try {
-          UIUtils.locateItem(this, pi);
-        } catch (Exception e) {
-          UIUtils.showToast(this, e.getMessage());
-        }
-      } else if (action.equals("share")) {
-        UIUtils.shareItem(this, pi);
-      } else if (action.equals("webSRO")) {
-        onlyWebSRO = true;
+      switch (action) {
+        case "locate":
+          try {
+            UIUtils.locateItem(this, mPostalItem);
+          } catch (Exception e) {
+            UIUtils.showToast(this, e.getMessage());
+          }
+          break;
+
+        case "share":
+          UIUtils.shareItem(this, mPostalItem);
+          break;
+
+        case "webSRO":
+          mOnlyWebSRO = true;
+          break;
       }
 
       NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -367,25 +339,20 @@ public class RecordActivity extends ActionBarActivity implements DetachableResul
   }
 
   private void initialize(boolean isNewInstance) {
-    if (onlyWebSRO) {
-      webSROFragment = WebSROFragment.newInstance(pi.getCod());
-      mFragManager.beginTransaction().replace(R.id.record_list, webSROFragment, WebSROFragment.TAG).commit();
+    if (mOnlyWebSRO) {
+      mWebSROFragment = WebSROFragment.newInstance(mPostalItem.getCod());
+      mFragManager.beginTransaction().replace(R.id.record_list, mWebSROFragment, WebSROFragment.TAG).commit();
+
     } else if (isNewInstance) {
-      recordFragment = PostalRecordFragment.newInstance(pi);
-      mFragManager.beginTransaction().replace(R.id.record_list, recordFragment, PostalRecordFragment.TAG).commit();
+      mRecordFragment = PostalRecordFragment.newInstance(mPostalItem);
+      mFragManager.beginTransaction().replace(R.id.record_list, mRecordFragment, PostalRecordFragment.TAG).commit();
+
     } else {
-      recordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
-      recordFragment.setPostalItem(pi);
-      recordFragment.refreshList();
+      mRecordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
+      mRecordFragment.setPostalItem(mPostalItem);
+      mRecordFragment.refreshList();
     }
 
     setTitleBar();
-  }
-
-  private void updateRefreshStatus() {
-    if (recordFragment != null) {
-      if (CarteiroApplication.state.syncing) recordFragment.setRefreshing();
-      else recordFragment.onRefreshComplete();
-    }
   }
 }

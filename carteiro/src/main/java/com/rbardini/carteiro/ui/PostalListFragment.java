@@ -1,10 +1,8 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -19,7 +17,6 @@ import com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
@@ -31,16 +28,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PostalListFragment extends ListFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
+public class PostalListFragment extends PostalFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
   public interface OnPostalListActionListener {
     public void onPostalListAttached(PostalListFragment f);
   }
 
   private OnPostalListActionListener mListener;
-
-  private CarteiroApplication app;
-  private Activity activity;
-  private DatabaseHelper dh;
 
   private int category;
   private String query;
@@ -51,7 +44,6 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
   private PostalItemListAdapter mListAdapter;
   private AnimateDismissAdapter mDismissAdapter;
   private ContextualSwipeUndoAdapter mUndoAdapter;
-  private SwipeRefreshLayout mSwipeRefreshLayout;
 
   public static PostalListFragment newInstance(int category) {
     PostalListFragment f = new PostalListFragment();
@@ -86,10 +78,6 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    activity = getActivity();
-    app = (CarteiroApplication) activity.getApplication();
-    dh = app.getDatabaseHelper();
-
     Bundle arguments = getArguments();
     setCategory(arguments.getInt("category"));
     setQuery(arguments.getString("query"));
@@ -116,7 +104,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    mListAdapter = new PostalItemListAdapter(activity, mList, app.getUpdatedCods());
+    mListAdapter = new PostalItemListAdapter(mActivity, mList, app.getUpdatedCods());
     mMultiChoiceModeListener = new PostalListFragment.MultiChoiceModeListener();
     getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     getListView().setMultiChoiceModeListener(mMultiChoiceModeListener);
@@ -128,20 +116,6 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     mUndoAdapter.setAbsListView(getListView());
     getListView().setAdapter(mUndoAdapter);
 
-    mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
-    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override
-      public void onRefresh() {
-        onRefreshStarted();
-      }
-    });
-    mSwipeRefreshLayout.setColorSchemeResources(
-      R.color.theme_accent,
-      R.color.theme_primary_light,
-      R.color.theme_accent,
-      R.color.theme_primary_dark
-    );
-
     if (CarteiroApplication.state.syncing) setRefreshing();
 
     mListener.onPostalListAttached(this);
@@ -150,7 +124,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
   @Override
   public void onResume() {
     super.onResume();
-    if (app.hasUpdate()) refreshList(false);
+    if (app.hasUpdate()) refreshList();
   }
 
   @Override
@@ -171,7 +145,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     super.onListItemClick(l, v, position, id);
 
     PostalItem pi = mList.get(position);
-    Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", pi);
+    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", pi);
     startActivity(intent);
   }
 
@@ -197,55 +171,64 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
     app.setUpdatedList();
   }
 
-  public boolean hasSelection() {
-    return mMultiChoiceModeListener.hasActionMode();
-  }
-
-  public void clearSelection() {
-    mMultiChoiceModeListener.finishActionMode();
-  }
-
-  public void updateList() {
-    if (query != null) dh.getSearchResults(mList, query);
-    else dh.getPostalList(mList, category);
-  }
-
-  public List<PostalItem> getList() { return mList; }
-  public int getListSize() { return mList.size(); }
-  public void setCategory(int category) { this.category = category; }
-  public void setQuery(String query) { this.query = query; }
-  public int getCategory() { return category; }
-  public String getQuery() { return query; }
-  public boolean shouldDeleteItems() { return (query != null) || (category == Category.ARCHIVED); }
-
-  public void onRefreshStarted() {
+  @Override
+  public void onRefresh() {
     if (!CarteiroApplication.state.syncing) {
-      Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
+      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
       List<String> cods = new ArrayList<>();
       for (PostalItem pi : mList) {
         cods.add(pi.getCod());
       }
       intent.putExtra("cods", cods.toArray(new String[cods.size()]));
-      activity.startService(intent);
+      mActivity.startService(intent);
     }
   }
-  public void setRefreshing() { mSwipeRefreshLayout.setRefreshing(true); }
-  public void onRefreshComplete() { mSwipeRefreshLayout.setRefreshing(false); }
 
-  public void refreshList(boolean propagate) {
+  @Override
+  public void refreshList() {
     mUndoAdapter.removePendingItem();
     updateList();
     mListAdapter.notifyDataSetChanged();
 
-    if (propagate) {
-      if (activity instanceof MainActivity) {
-        ((MainActivity) activity).refreshList();
-      } else {
-        app.setUpdatedList();
-      }
-    }
-
     // TODO Handle possible selection change while CAB is active
+  }
+
+  @Override
+  public void clearSelection() {
+    mMultiChoiceModeListener.finishActionMode();
+  }
+
+  public void setQuery(String query) {
+    this.query = query;
+  }
+
+  public void setCategory(int category) {
+    this.category = category;
+  }
+
+  public int getCategory() {
+    return category;
+  }
+
+  public List<PostalItem> getList() {
+    return mList;
+  }
+
+  public int getListSize() {
+    return mList.size();
+  }
+
+  public boolean hasSelection() {
+    return mMultiChoiceModeListener.hasActionMode();
+  }
+
+  public boolean shouldDeleteItems() {
+    return (query != null) || (category == Category.ARCHIVED);
+  }
+
+  public void updateList() {
+    if (query != null) dh.getSearchResults(mList, query);
+    else dh.getPostalList(mList, category);
   }
 
 
@@ -327,8 +310,8 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
           if (!CarteiroApplication.state.syncing) {
             String[] cods = new String[selectionSize];
             for (int i = 0; i < selectionSize; i++) cods[i] = mSelectedList.get(i).getCod();
-            Intent refresh = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class).putExtra("cods", cods);
-            activity.startService(refresh);
+            Intent refresh = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("cods", cods);
+            mActivity.startService(refresh);
           }
           return true;
 
@@ -354,7 +337,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
           int messageRes = isSingleSelection
             ? (areAllArchived ? R.string.toast_item_unarchived : R.string.toast_item_archived)
             : (areAllArchived ? R.string.toast_items_unarchived : R.string.toast_items_archived);
-          UIUtils.showToast(activity, getString(messageRes, isSingleSelection ? firstItem.getSafeDesc() : selectionSize, getString(R.string.category_all)));
+          UIUtils.showToast(mActivity, getString(messageRes, isSingleSelection ? firstItem.getSafeDesc() : selectionSize, getString(R.string.category_all)));
 
           clearSelection();
           return true;
@@ -381,7 +364,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
           return true;
 
         case R.id.share_opt:
-          Intent shareIntent = PostalUtils.getShareIntent(activity, mSelectedList);
+          Intent shareIntent = PostalUtils.getShareIntent(mActivity, mSelectedList);
           if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
           return true;
       }
@@ -390,9 +373,9 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
       switch (actionId) {
         case R.id.place_opt:
           try {
-            UIUtils.locateItem(activity, firstItem);
+            UIUtils.locateItem(mActivity, firstItem);
           } catch (Exception e) {
-            UIUtils.showToast(activity, e.getMessage());
+            UIUtils.showToast(mActivity, e.getMessage());
           }
           return true;
 
@@ -401,7 +384,7 @@ public class PostalListFragment extends ListFragment implements ContextualSwipeU
           return true;
 
         case R.id.websro_opt:
-          Intent intent = new Intent(activity, RecordActivity.class).putExtra("postalItem", firstItem).setAction("webSRO");
+          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", firstItem).setAction("webSRO");
           startActivity(intent);
           return true;
       }

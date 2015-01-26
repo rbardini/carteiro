@@ -5,20 +5,14 @@ import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -31,16 +25,12 @@ import android.widget.ListView;
 import com.melnykov.fab.FloatingActionButton;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
-import java.util.ArrayList;
-
-public class MainActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
+public class MainActivity extends PostalActivity {
   protected static final String TAG = "MainActivity";
 
   // Delay to launch navigation drawer item, to allow close animation to play
@@ -51,9 +41,9 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
   private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
   private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
-  private CarteiroApplication app;
   private ActionBar mActionBar;
   private FragmentManager mFragmentManager;
+  private PostalListFragment mCurrentFragment;
   private NotificationManager mNotificationManager;
   private Handler mHandler;
   private View mMainContainer;
@@ -61,19 +51,13 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
   private ListView mDrawerList;
   private DrawerListAdapter mDrawerListAdapter;
   private ActionBarDrawerToggle mDrawerToggle;
-  private PostalListFragment mCurrentFragment;
   private FloatingActionButton mFAB;
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
-
-    Resources res = getResources();
-    if (res.getBoolean(R.bool.translucent_status)) {
-      UIUtils.addStatusBarPadding(this, R.id.root_layout);
-    }
+    addStatusBarPadding();
 
     mFAB = (FloatingActionButton) findViewById(R.id.fab);
     mFAB.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +75,6 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
       }
     });
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-
-    app = (CarteiroApplication) getApplication();
-    mActionBar = getSupportActionBar();
     mFragmentManager = getFragmentManager();
     mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
@@ -106,8 +85,11 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
     mNotificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
     mHandler = new Handler();
 
+    setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+    mActionBar = getSupportActionBar();
     mActionBar.setHomeButtonEnabled(true);
     mActionBar.setDisplayHomeAsUpEnabled(true);
+
     mMainContainer = findViewById(R.id.main_content);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.nav_drawer);
@@ -165,20 +147,13 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
   @Override
   protected void onResume() {
     super.onResume();
-
-    CarteiroApplication.state.receiver.setReceiver(this);
-    updateRefreshStatus();
-    if (app.hasUpdate()) refreshList();
-
     mNotificationManager.cancel(SyncService.NOTIFICATION_NEW_UPDATE);
   }
 
   @Override
   protected void onPause() {
-    super.onPause();
-
     if (!CarteiroApplication.state.syncing) app.clearUpdate();
-    CarteiroApplication.state.receiver.clearReceiver();
+    super.onPause();
   }
 
   @Override
@@ -188,37 +163,8 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
   }
 
   @Override
-  public void onReceiveResult(int resultCode, Bundle resultData) {
-    switch (resultCode) {
-      case SyncService.STATUS_RUNNING: {
-        updateRefreshStatus();
-        break;
-      }
-      case SyncService.STATUS_FINISHED: {
-        updateRefreshStatus();
-        if (app.hasUpdate()) refreshList();
-        break;
-      }
-      case SyncService.STATUS_ERROR: {
-        updateRefreshStatus();
-        final String error = getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
-        UIUtils.showToast(this, error);
-        break;
-      }
-    }
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main_actions, menu);
-
-    MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
-    if (searchViewButton != null) {
-      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewButton);
-      SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-      searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-    }
-
     return super.onCreateOptionsMenu(menu);
   }
 
@@ -288,44 +234,8 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
   }
 
   @Override
-  public void onRenamePostalItem(String desc, PostalItem pi) {
-    app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
-
-    String toast;
-    if (desc == null) toast = getString(R.string.toast_item_renamed_empty, pi.getCod());
-    else toast = getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc);
-    UIUtils.showToast(this, toast);
-
-    mCurrentFragment.clearSelection();
-    refreshList();
-
-    app.setUpdatedList();
-  }
-
-  @Override
-  public void onDeletePostalItems(ArrayList<PostalItem> piList) {
-    final int listSize = piList.size();
-
-    for (PostalItem pi : piList) app.getDatabaseHelper().deletePostalItem(pi.getCod());
-
-    String message = listSize == 1
-      ? getString(R.string.toast_item_deleted, piList.get(0).getSafeDesc())
-      : getString(R.string.toast_items_deleted, listSize);
-    UIUtils.showToast(this, message);
-
-    mCurrentFragment.clearSelection();
-    refreshList();
-
-    // Calling CarteiroApplication.setUpdatedList here is unnecessary,
-    // as the PostalListFragment class already does it when (un)archived
-    // or deleted item animations are finished
-  }
-
-  public void onFavClick(View v) {
-    app.getDatabaseHelper().togglePostalItemFav((String) v.getTag());
-    refreshList();  // TODO Don't refresh the whole list, just update the item acted on
-
-    app.setUpdatedList();
+  public PostalFragment getPostalFragment() {
+    return mCurrentFragment;
   }
 
   public void setDrawerCategoryChecked(int category) {
@@ -352,14 +262,5 @@ public class MainActivity extends ActionBarActivity implements DetachableResultR
 
   private PostalListFragment getCurrentFragment() {
     return (PostalListFragment) mFragmentManager.findFragmentById(R.id.main_content);
-  }
-
-  private void updateRefreshStatus() {
-    if (CarteiroApplication.state.syncing) mCurrentFragment.setRefreshing();
-    else mCurrentFragment.onRefreshComplete();
-  }
-
-  public void refreshList() {
-    mCurrentFragment.refreshList(false);
   }
 }
