@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +20,7 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public abstract class PostalActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
+public abstract class PostalActivity extends AppCompatActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
   protected CarteiroApplication app;
 
   @Override

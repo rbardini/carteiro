@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddActivity extends ActionBarActivity {
+public class AddActivity extends AppCompatActivity {
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
 
   public static final int NOT_FOUND      = 0x1;
