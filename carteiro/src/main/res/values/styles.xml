@@ -73,6 +73,7 @@
     <item name="android:dividerHeight">1px</item>
     <item name="android:cacheColorHint">@color/theme_background</item>
     <item name="android:clipToPadding">false</item>
+    <item name="android:drawSelectorOnTop">true</item>
   </style>
   <style name="ListItem">
     <item name="android:layout_width">match_parent</item>
