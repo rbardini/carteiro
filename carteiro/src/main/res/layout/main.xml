@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fab="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/root_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -30,16 +30,13 @@
 
       </LinearLayout>
 
-      <com.melnykov.fab.FloatingActionButton
+      <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/keyline_1"
-        android:src="@drawable/ic_menu_add"
-        fab:fab_colorNormal="@color/theme_accent"
-        fab:fab_colorPressed="@color/theme_accent_light"
-        fab:fab_colorRipple="@color/theme_accent_dark" />
+        android:src="@drawable/ic_menu_add" />
 
     </FrameLayout>
 

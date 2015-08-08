@@ -10,11 +10,12 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.svc.SyncService;
@@ -51,7 +51,6 @@ public class MainActivity extends PostalActivity {
   private ListView mDrawerList;
   private DrawerListAdapter mDrawerListAdapter;
   private ActionBarDrawerToggle mDrawerToggle;
-  private FloatingActionButton mFAB;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +58,8 @@ public class MainActivity extends PostalActivity {
     setContentView(R.layout.main);
     addStatusBarPadding();
 
-    mFAB = (FloatingActionButton) findViewById(R.id.fab);
-    mFAB.setOnClickListener(new View.OnClickListener() {
+    FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.fab);
+    addButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
@@ -131,7 +130,7 @@ public class MainActivity extends PostalActivity {
     });
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
     mDrawerLayout.setDrawerListener(mDrawerToggle);
-    mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+    mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
     if (savedInstanceState == null) showCategory(Category.ALL);
     else mCurrentFragment = getCurrentFragment();
@@ -229,8 +228,6 @@ public class MainActivity extends PostalActivity {
 
     setTitle(Category.getTitle(category));
     setDrawerCategoryChecked(category);
-    mFAB.attachToListView(f.getListView());
-    mFAB.show();
   }
 
   @Override
