@@ -5,11 +5,6 @@
   <style name="TextAppearanceButton" parent="@style/TextAppearance.AppCompat.Button">
     <item name="android:textAllCaps">true</item>
   </style>
-  <style name="HintTextAppearance" parent="@style/TextAppearance.AppCompat.Small">
-    <item name="android:textColor">@color/text_hint</item>
-    <item name="android:textSize">@dimen/text_size_caption</item>
-    <item name="android:textStyle">italic</item>
-  </style>
   <style name="EditTextStyle" parent="@style/Widget.AppCompat.EditText">
     <item name="android:textColor">@color/text_primary</item>
     <item name="android:textColorHint">@color/text_hint</item>

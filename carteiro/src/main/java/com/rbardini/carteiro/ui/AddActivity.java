@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +58,7 @@ public class AddActivity extends AppCompatActivity {
   private View mFormView;
   private View mLoadingView;
   private TextView mContentText;
+  private TextInputLayout mTrackingNumberInput;
   private EditText mTrackingNumberField;
   private EditText mItemNameField;
   private View mButtonBar;
@@ -84,6 +86,7 @@ public class AddActivity extends AppCompatActivity {
     mFormView = findViewById(R.id.form_layout);
     mLoadingView = findViewById(R.id.loading_indicator);
     mContentText = (TextView) findViewById(R.id.content_text);
+    mTrackingNumberInput = (TextInputLayout) findViewById(R.id.trk_code_input);
     mTrackingNumberField = (EditText) findViewById(R.id.trk_code_fld);
     mItemNameField = (EditText) findViewById(R.id.item_desc_fld);
     mButtonBar = findViewById(R.id.button_bar);
@@ -117,7 +120,7 @@ public class AddActivity extends AppCompatActivity {
         } catch (Exception e) {
           error = e.getMessage();
         } finally {
-          mTrackingNumberField.setError(error);
+          mTrackingNumberInput.setError(error);
         }
       }
     });
@@ -235,7 +238,7 @@ public class AddActivity extends AppCompatActivity {
       } catch (Exception e) {
         error = e.getMessage();
       } finally {
-        mTrackingNumberField.setError(error);
+        mTrackingNumberInput.setError(error);
       }
     }
   }
