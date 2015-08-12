@@ -14,6 +14,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginRight="@dimen/keyline_1"
+    android:tint="@color/text_secondary"
     android:contentDescription="@null" />
 
   <TextView

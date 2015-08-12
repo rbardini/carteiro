@@ -148,7 +148,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
       getMenuInflater().inflate(R.menu.record_actions, menu);
 
       menu.findItem(R.id.fav_opt)
-        .setIcon(mPostalItem.isFav() ? R.drawable.ic_menu_star_on : R.drawable.ic_menu_star_off)
+        .setIcon(mPostalItem.isFav() ? R.drawable.ic_menu_star : R.drawable.ic_menu_star_border)
         .setTitle(mPostalItem.isFav() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
 
       menu.findItem(R.id.archive_opt)
