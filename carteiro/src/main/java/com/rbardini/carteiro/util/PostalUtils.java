@@ -26,8 +26,10 @@ public final class PostalUtils {
     public static final int RETURNED    = 0x200;
 
     private static final Map<Integer, String[]> StatusesMap = buildStatusesMap();
+    private static final Map<Integer, Integer> IdMap = buildIdMap();
     private static final Map<Integer, Integer> TitleMap = buildTitleMap();
     private static final Map<Integer, Integer> ColorMap = buildColorMap();
+    private static final Map<Integer, Integer> CategoryMap = buildCategoryMap();
 
     private static TreeMap<Integer, String[]> buildStatusesMap() {
       TreeMap<Integer, String[]> map = new TreeMap<>();
@@ -113,6 +115,21 @@ public final class PostalUtils {
       return map;
     }
 
+    private static TreeMap<Integer, Integer> buildIdMap() {
+      TreeMap<Integer, Integer> map = new TreeMap<>();
+
+      map.put(ALL, R.id.category_all);
+      map.put(FAVORITES, R.id.category_favorites);
+      map.put(AVAILABLE, R.id.category_available);
+      map.put(DELIVERED, R.id.category_delivered);
+      map.put(IRREGULAR, R.id.category_irregular);
+      map.put(UNKNOWN, R.id.category_unknown);
+      map.put(RETURNED, R.id.category_returned);
+      map.put(ARCHIVED, R.id.category_archived);
+
+      return map;
+    }
+
     private static TreeMap<Integer, Integer> buildTitleMap() {
       TreeMap<Integer, Integer> map = new TreeMap<>();
 
@@ -142,8 +159,24 @@ public final class PostalUtils {
       return map;
     }
 
+    private static TreeMap<Integer, Integer> buildCategoryMap() {
+      TreeMap<Integer, Integer> map = new TreeMap<>();
+
+      for (Entry<Integer, Integer> entry : Category.IdMap.entrySet()) {
+        Integer id = entry.getValue();
+        Integer category = entry.getKey();
+        map.put(id, category);
+      }
+
+      return map;
+    }
+
     public static String[] getStatuses(int category) {
       return StatusesMap.get(category);
+    }
+
+    public static int getId(int category) {
+      return IdMap.get(category);
     }
 
     public static int getTitle(int category) {
@@ -152,6 +185,10 @@ public final class PostalUtils {
 
     public static int getColor(int category) {
       return ColorMap.get(category);
+    }
+
+    public static int getCategoryById(int id) {
+      return CategoryMap.get(id);
     }
   }
 

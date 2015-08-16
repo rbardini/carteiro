@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -19,9 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
@@ -48,31 +46,13 @@ public class MainActivity extends PostalActivity {
   private Handler mHandler;
   private View mMainContainer;
   private DrawerLayout mDrawerLayout;
-  private ListView mDrawerList;
-  private DrawerListAdapter mDrawerListAdapter;
   private ActionBarDrawerToggle mDrawerToggle;
+  private NavigationView mNavigationView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    addStatusBarPadding();
-
-    FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.fab);
-    addButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, AddActivity.class);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-          ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
-          startActivity(intent, scaleAnim.toBundle());
-
-        } else {
-          startActivity(intent);
-        }
-      }
-    });
 
     mFragmentManager = getFragmentManager();
     mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
@@ -90,57 +70,21 @@ public class MainActivity extends PostalActivity {
     mActionBar.setDisplayHomeAsUpEnabled(true);
 
     mMainContainer = findViewById(R.id.main_content);
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    mDrawerList = (ListView) findViewById(R.id.nav_drawer);
-    mDrawerListAdapter = new DrawerListAdapter(this);
-    mDrawerList.setAdapter(mDrawerListAdapter);
-    mDrawerList.setOnItemClickListener(new OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        final DrawerListAdapter.DrawerModel model = mDrawerListAdapter.getItem(position);
 
-        // Fade out main content view if a new fragment will be shown
-        if (model.action == DrawerListAdapter.ACTION_CATEGORY && model.id != mCurrentFragment.getCategory()) {
-          mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
-        }
+    setupNavigationDrawer();
+    setupAddButton();
 
-        // Launch item after a short delay, to allow navigation drawer close animation to play
-        mHandler.postDelayed(new Runnable() {
-          @Override
-          public void run() {
-            switch (model.action) {
-              case DrawerListAdapter.ACTION_CATEGORY:
-                mCurrentFragment.clearSelection();
-                showCategory(model.id);
-                break;
-
-              case DrawerListAdapter.ACTION_SETTINGS:
-                startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
-                break;
-
-              case DrawerListAdapter.ACTION_FEEDBACK:
-                UIUtils.openURL(MainActivity.this, getString(R.string.feedback_url));
-                break;
-            }
-          }
-        }, NAVDRAWER_LAUNCH_DELAY);
-
-        mDrawerLayout.closeDrawer(mDrawerList);
-      }
-    });
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
-    mDrawerLayout.setDrawerListener(mDrawerToggle);
-    mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-    if (savedInstanceState == null) showCategory(Category.ALL);
-    else mCurrentFragment = getCurrentFragment();
+    if (savedInstanceState == null) {
+      showCategory(Category.ALL);
+    } else {
+      mCurrentFragment = getCurrentFragment();
+    }
   }
 
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     mDrawerToggle.syncState();
-    if (mDrawerLayout.isDrawerOpen(mDrawerList)) mActionBar.setTitle(R.string.app_name);
   }
 
   @Override
@@ -185,10 +129,10 @@ public class MainActivity extends PostalActivity {
 
     switch (itemId) {
       case android.R.id.home:
-        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-          mDrawerLayout.closeDrawer(mDrawerList);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+          mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-          mDrawerLayout.openDrawer(mDrawerList);
+          mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
 
@@ -209,8 +153,8 @@ public class MainActivity extends PostalActivity {
 
   @Override
   public void onBackPressed() {
-    if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-      mDrawerLayout.closeDrawer(mDrawerList);
+    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+      mDrawerLayout.closeDrawers();
       return;
     }
 
@@ -236,7 +180,69 @@ public class MainActivity extends PostalActivity {
   }
 
   public void setDrawerCategoryChecked(int category) {
-    mDrawerListAdapter.setSelectedCategory(category);
+    MenuItem menuItem = mNavigationView.getMenu().findItem(Category.getId(category));
+    menuItem.setChecked(true);
+  }
+
+  private void setupAddButton() {
+    FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.fab);
+    addButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+          ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
+          startActivity(intent, scaleAnim.toBundle());
+
+        } else {
+          startActivity(intent);
+        }
+      }
+    });
+  }
+
+  private void setupNavigationDrawer() {
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+    mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+    mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+    mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(final MenuItem menuItem) {
+        final int id = menuItem.getItemId();
+
+        // Fade out main content view if a new category fragment will be shown
+        if (!menuItem.isChecked() && id != R.id.action_preferences && id != R.id.action_feedback) {
+          mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
+        }
+
+        // Launch item after a short delay, to allow navigation drawer close animation to play
+        mHandler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            switch (id) {
+              case R.id.action_preferences:
+                startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+                break;
+
+              case R.id.action_feedback:
+                UIUtils.openURL(MainActivity.this, getString(R.string.feedback_url));
+                break;
+
+              default:
+                mCurrentFragment.clearSelection();
+                showCategory(Category.getCategoryById(id));
+            }
+          }
+        }, NAVDRAWER_LAUNCH_DELAY);
+
+        mDrawerLayout.closeDrawers();
+        return true;
+      }
+    });
   }
 
   private void showCategory(int category) {

@@ -21,7 +21,6 @@ public class SearchActivity extends PostalActivity {
     super.onCreate(savedInstanceState);
     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     setContentView(R.layout.search);
-    addStatusBarPadding();
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     mActionBar = getSupportActionBar();

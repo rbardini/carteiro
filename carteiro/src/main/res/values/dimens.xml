@@ -24,7 +24,7 @@
   <dimen name="button_padding_vertical">4dp</dimen>
   <dimen name="button_padding_horizontal">8dp</dimen>
 
-  <dimen name="navdrawer_width">304dp</dimen>
+  <dimen name="drawer_header_height">148dp</dimen>
 
   <dimen name="postal_status_icon_size">@dimen/min_touch_target</dimen>
 </resources>

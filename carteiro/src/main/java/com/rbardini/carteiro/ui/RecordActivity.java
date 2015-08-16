@@ -53,7 +53,6 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
     setContentView(R.layout.record);
-    addStatusBarPadding();
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     ActionBar actionBar = getSupportActionBar();

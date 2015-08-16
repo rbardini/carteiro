@@ -66,8 +66,6 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
         if (app.hasUpdate()) refreshList();
         break;
 
-
-
       case SyncService.STATUS_ERROR:
         updateRefreshStatus();
         final String error = getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
@@ -118,12 +116,6 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
     refreshList();  // TODO Don't refresh the whole list, just update the item acted on
 
     app.setUpdatedList();
-  }
-
-  public void addStatusBarPadding() {
-    if (getResources().getBoolean(R.bool.translucent_status)) {
-      UIUtils.addStatusBarPadding(this, R.id.root_layout);
-    }
   }
 
   public void updateRefreshStatus() {

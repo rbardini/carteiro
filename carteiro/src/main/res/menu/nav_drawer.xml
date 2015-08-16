@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <group android:id="@+id/category_menu"
+     android:checkableBehavior="single">
+
+    <item android:id="@id/category_all"
+      android:icon="@drawable/ic_menu_packages"
+      android:title="@string/category_all" />
+
+    <item android:id="@id/category_favorites"
+      android:icon="@drawable/ic_menu_star"
+      android:title="@string/category_favorites" />
+
+    <item android:id="@id/category_available"
+      android:icon="@drawable/ic_menu_schedule"
+      android:title="@string/category_available" />
+
+    <item android:id="@id/category_delivered"
+      android:icon="@drawable/ic_menu_done"
+      android:title="@string/category_delivered" />
+
+    <item android:id="@id/category_irregular"
+      android:icon="@drawable/ic_menu_info"
+      android:title="@string/category_irregular" />
+
+    <item android:id="@id/category_unknown"
+      android:icon="@drawable/ic_menu_warning"
+      android:title="@string/category_unknown" />
+
+    <item android:id="@id/category_returned"
+      android:icon="@drawable/ic_menu_undo"
+      android:title="@string/category_returned" />
+
+    <item android:id="@id/category_archived"
+      android:icon="@drawable/ic_menu_archive"
+      android:title="@string/category_archived" />
+
+  </group>
+
+  <group android:id="@+id/settings_menu"
+    android:checkableBehavior="none">
+
+    <item android:id="@+id/action_preferences"
+      android:icon="@drawable/ic_menu_settings"
+      android:title="@string/action_preferences" />
+
+    <item android:id="@+id/action_feedback"
+      android:icon="@drawable/ic_menu_help"
+      android:title="@string/action_feedback" />
+
+  </group>
+
+</menu>

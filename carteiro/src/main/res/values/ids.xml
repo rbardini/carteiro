@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <item type="id" name="toolbar" />
+
+  <item type="id" name="category_all" />
+  <item type="id" name="category_favorites" />
+  <item type="id" name="category_available" />
+  <item type="id" name="category_delivered" />
+  <item type="id" name="category_irregular" />
+  <item type="id" name="category_unknown" />
+  <item type="id" name="category_returned" />
+  <item type="id" name="category_archived" />
 </resources>
