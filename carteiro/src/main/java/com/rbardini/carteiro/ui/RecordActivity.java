@@ -52,7 +52,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
     super.onCreate(savedInstanceState);
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-    setContentView(R.layout.record);
+    setContentView(R.layout.activity_record);
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     ActionBar actionBar = getSupportActionBar();
@@ -280,7 +280,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
       }
 
     } catch (Exception e) {
-      Log.w(TAG, "Could not get first postal record for postal item " + mPostalItem.getCod(), e);
+      Log.w(TAG, "Could not get first postal activity_record for postal item " + mPostalItem.getCod(), e);
 
     } finally {
       mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mPostalItem.getService()));

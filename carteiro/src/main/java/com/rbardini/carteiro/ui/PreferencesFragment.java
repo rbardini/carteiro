@@ -145,7 +145,7 @@ public class PreferencesFragment extends PreferenceFragment implements OnSharedP
       createPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-          final View dialogView = activity.getLayoutInflater().inflate(R.layout.backup_dialog, null);
+          final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_backup, null);
           final EditText backupNameField = (EditText) dialogView.findViewById(R.id.backup_name);
           final Context context = activity;
           final String[] currentName = DatabaseHelper.DB_NAME.split("\\.");

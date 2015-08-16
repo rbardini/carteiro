@@ -44,7 +44,7 @@ public class WebSROFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.websro_webview, container, false);
+    View view = inflater.inflate(R.layout.webview, container, false);
 
     mWebView = (WebView) view.findViewById(R.id.webview);
 

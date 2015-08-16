@@ -60,7 +60,7 @@ public class PostalItemDialogFragment extends DialogFragment {
     switch(id) {
       case R.id.rename_opt:
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.item_desc_dialog, (ViewGroup) activity.findViewById(R.id.layout_root));
+        View layout = inflater.inflate(R.layout.dialog_rename, (ViewGroup) activity.findViewById(R.id.layout_root));
 
         final EditText itemDesc = (EditText) layout.findViewById(R.id.item_desc_fld);
         itemDesc.setText(pi.getDesc());

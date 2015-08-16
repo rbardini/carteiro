@@ -34,7 +34,7 @@ public class MainActivity extends PostalActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
   private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
-  // Fade in and fade out durations for the main content when switching between
+  // Fade in and fade out durations for the activity_main content when switching between
   // different fragments through the navigation drawer
   private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
   private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
@@ -52,7 +52,7 @@ public class MainActivity extends PostalActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
+    setContentView(R.layout.activity_main);
 
     mFragmentManager = getFragmentManager();
     mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
@@ -214,7 +214,7 @@ public class MainActivity extends PostalActivity {
       public boolean onNavigationItemSelected(final MenuItem menuItem) {
         final int id = menuItem.getItemId();
 
-        // Fade out main content view if a new category fragment will be shown
+        // Fade out activity_main content view if a new category fragment will be shown
         if (!menuItem.isChecked() && id != R.id.action_preferences && id != R.id.action_feedback) {
           mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
         }
@@ -255,7 +255,7 @@ public class MainActivity extends PostalActivity {
       FragmentTransaction ft = mFragmentManager
           .beginTransaction()
           .replace(R.id.main_content, newFragment, name);
-      if (mCurrentFragment != null && category != Category.ALL) ft.addToBackStack(name);  // Avoid adding empty main container and duplicate "all" category to the back stack
+      if (mCurrentFragment != null && category != Category.ALL) ft.addToBackStack(name);  // Avoid adding empty activity_main container and duplicate "all" category to the back stack
       ft.commit();
 
       mCurrentFragment = newFragment;

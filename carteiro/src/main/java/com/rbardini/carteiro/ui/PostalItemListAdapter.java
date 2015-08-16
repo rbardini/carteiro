@@ -43,7 +43,7 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     // When convertView is not null, we can reuse it directly, there is no need to reinflate it
     // We only inflate a new View when the convertView supplied by ListView is null
     if (convertView == null) {
-      convertView = mInflater.inflate(R.layout.postal_list_item, null);
+      convertView = mInflater.inflate(R.layout.list_postal_item, null);
 
       // Creates a ViewHolder and store references to the two children views we want to bind data to
       holder = new ViewHolder();

@@ -9,7 +9,7 @@ import android.net.Uri;
 
 public class SearchProvider extends ContentProvider {
   public static final String AUTHORITY = "com.rbardini.carteiro.SearchProvider";
-  public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/search");
+  public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/activity_search");
 
   private DatabaseHelper dh;
 

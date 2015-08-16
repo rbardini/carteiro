@@ -72,7 +72,7 @@ public class AddActivity extends AppCompatActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.add);
+    setContentView(R.layout.activity_add);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

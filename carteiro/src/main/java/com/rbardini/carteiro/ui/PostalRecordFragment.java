@@ -48,7 +48,7 @@ public class PostalRecordFragment extends PostalFragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.record_list, container, false);
+    return inflater.inflate(R.layout.list_record, container, false);
   }
 
   @Override

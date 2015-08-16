@@ -11,7 +11,7 @@ public class PreferencesActivity extends AppCompatActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.preferences);
+    setContentView(R.layout.activity_preferences);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);

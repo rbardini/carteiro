@@ -20,7 +20,7 @@ public class SearchActivity extends PostalActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    setContentView(R.layout.search);
+    setContentView(R.layout.activity_search);
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     mActionBar = getSupportActionBar();

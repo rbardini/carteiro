@@ -97,7 +97,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.postal_list, container, false);
+    return inflater.inflate(R.layout.list_postal, container, false);
   }
 
   @Override
