@@ -14,6 +14,8 @@ import com.rbardini.carteiro.svc.SyncService;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.rbardini.carteiro.util.Constants.ANALYTICS_TRACKING_ID;
+
 public class CarteiroApplication extends Application {
   public static GoogleAnalytics analytics;
   public static Tracker tracker;
@@ -27,7 +29,7 @@ public class CarteiroApplication extends Application {
     super.onCreate();
 
     analytics = GoogleAnalytics.getInstance(this);
-    tracker = analytics.newTracker("UA-3034872-4");
+    tracker = analytics.newTracker(ANALYTICS_TRACKING_ID);
     state = new State();
 
     updatedCods = new HashSet<>();
