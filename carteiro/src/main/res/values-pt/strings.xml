@@ -143,7 +143,7 @@
   <!-- Preferences Activity -->
   <string name="title_preferences">Configurações</string>
 
-  <string name="pref_general_category">Configurações gerais</string>
+  <string name="pref_syncing_header">Sincronização</string>
   <string name="pref_auto_sync_title">Sincronização automática</string>
   <string name="pref_auto_sync_summary">Sincronizar objetos automaticamente</string>
   <string name="pref_refresh_interval_title">Intervalo de sincronização</string>
@@ -164,7 +164,7 @@
   <string name="pref_activate_notifications_title">Notificações</string>
   <string name="pref_activate_notifications_summary">Ativar notificações do sistema</string>
 
-  <string name="pref_notification_category">Configurações de notificação</string>
+  <string name="pref_notification_header">Notificações</string>
   <string name="pref_notify_sync_title">Sincronizações em andamento</string>
   <string name="pref_notify_sync_summary">Notificar progresso de sincronizações em andamento</string>
   <string name="pref_notify_all_summary">Notificar atualizações de todos os objetos</string>
@@ -175,7 +175,7 @@
   <string name="pref_notify_unknown_summary">Notificar atualizações de objetos não encontrados ou indeterminados</string>
   <string name="pref_notify_returned_summary">Notificar atualizações de objetos devolvidos ou em devolução</string>
 
-  <string name="pref_indication_category">Configurações de indicação</string>
+  <string name="pref_indication_category">Indicação</string>
   <string name="pref_ringtone_title">Toque de notificação</string>
   <string name="pref_ringtone_summary">Definir toque de notificação</string>
   <string name="pref_lights_title">Luz de notificação</string>
@@ -183,21 +183,21 @@
   <string name="pref_vibrate_title">Vibrar</string>
   <string name="pref_vibrate_summary">Vibrar ao receber notificações</string>
 
-  <string name="pref_backup_category">Configurações de backup</string>
+  <string name="pref_backup_header">Fazer backup e restaurar</string>
   <string name="pref_create_backup_title">Criar backup</string>
   <string name="pref_create_backup_summary">Exportar dados para o armazenamento externo</string>
   <string name="pref_restore_backup_title">Restaurar backup</string>
   <string name="pref_restore_backup_summary">Importar dados do armazenamento externo</string>
 
-  <string name="pref_about_category">Sobre</string>
-  <string name="pref_about_title">%1$s %2$s</string>
-  <string name="pref_about_summary">© %d Rafael Bardini</string>
+  <string name="pref_about_header">Sobre o Carteiro</string>
+  <string name="pref_version_category">Versão</string>
+  <string name="pref_version_title">%1$s %2$s</string>
+  <string name="pref_version_summary">© %d Rafael Bardini</string>
   <string name="pref_blog_title">Visite o blog oficial</string>
   <string name="pref_facebook_title">Curta o Carteiro no Facebook</string>
   <string name="pref_twitter_title">Siga o @carteiroapp no Twitter</string>
   <string name="pref_gplus_title">Participe da comunidade no Google+</string>
-  <string name="pref_feedback_title">Dê seu feedback</string>
-  <string name="pref_rate_title">Avalie o aplicativo</string>
+  <string name="pref_rate_title">Avalie o Carteiro no Google Play</string>
 
   <!-- Search Activity -->
   <string name="title_search">Objetos</string>

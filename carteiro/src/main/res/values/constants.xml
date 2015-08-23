@@ -31,11 +31,10 @@
   <string name="pref_key_vibrate">vibrate</string>
   <string name="pref_key_create_backup">createbackup</string>
   <string name="pref_key_restore_backup">restorebackup</string>
-  <string name="pref_key_about">about</string>
+  <string name="pref_key_version">version</string>
   <string name="pref_key_blog">blog</string>
   <string name="pref_key_facebook">facebook</string>
   <string name="pref_key_twitter">twitter</string>
   <string name="pref_key_gplus">gplus</string>
-  <string name="pref_key_feedback">feedback</string>
   <string name="pref_key_rate">rate</string>
 </resources>

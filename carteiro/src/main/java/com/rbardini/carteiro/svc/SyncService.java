@@ -271,7 +271,7 @@ public class SyncService extends IntentService {
     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     long interval = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_refresh_interval), "3600000"));
     am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+interval, interval, getSender(context));
-    Log.i(TAG, "Syncing scheduled");
+    Log.i(TAG, "Syncing scheduled: " + interval);
   }
 
   public static void unscheduleSync(Context context) {

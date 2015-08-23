@@ -143,7 +143,7 @@
   <!-- Preferences Activity -->
   <string name="title_preferences">Settings</string>
 
-  <string name="pref_general_category">General settings</string>
+  <string name="pref_syncing_header">Syncing</string>
   <string name="pref_auto_sync_title">Automatic syncing</string>
   <string name="pref_auto_sync_summary">Automatically sync items</string>
   <string name="pref_refresh_interval_title">Sync interval</string>
@@ -164,7 +164,7 @@
   <string name="pref_activate_notifications_title">Notifications</string>
   <string name="pref_activate_notifications_summary">Enable system notifications</string>
 
-  <string name="pref_notification_category">Notification settings</string>
+  <string name="pref_notification_header">Notifications</string>
   <string name="pref_notify_sync_title">Ongoing syncs</string>
   <string name="pref_notify_sync_summary">Notify progress of ongoing syncs</string>
   <string name="pref_notify_all_summary">Notify updates of all items</string>
@@ -175,7 +175,7 @@
   <string name="pref_notify_unknown_summary">Notify updates of items not found or whose status is indeterminate</string>
   <string name="pref_notify_returned_summary">Notify updates of items refused or being returned</string>
 
-  <string name="pref_indication_category">Indication settings</string>
+  <string name="pref_indication_category">Indication</string>
   <string name="pref_ringtone_title">Notification ringtone</string>
   <string name="pref_ringtone_summary">Set notification ringtone</string>
   <string name="pref_lights_title">Notification light</string>
@@ -183,21 +183,21 @@
   <string name="pref_vibrate_title">Vibrate</string>
   <string name="pref_vibrate_summary">Vibrate on incoming notifications</string>
 
-  <string name="pref_backup_category">Backup settings</string>
+  <string name="pref_backup_header">Backup &amp; restore</string>
   <string name="pref_create_backup_title">Create backup</string>
   <string name="pref_create_backup_summary">Export data to the external storage</string>
   <string name="pref_restore_backup_title">Restore backup</string>
   <string name="pref_restore_backup_summary">Import data from the external storage</string>
 
-  <string name="pref_about_category">About</string>
-  <string name="pref_about_title">%1$s %2$s</string>
-  <string name="pref_about_summary">© %d Rafael Bardini</string>
+  <string name="pref_about_header">About Carteiro</string>
+  <string name="pref_version_category">Version</string>
+  <string name="pref_version_title">%1$s %2$s</string>
+  <string name="pref_version_summary">© %d Rafael Bardini</string>
   <string name="pref_blog_title">Visit the official blog</string>
   <string name="pref_facebook_title">Like Carteiro on Facebook</string>
   <string name="pref_twitter_title">Follow @carteiroapp on Twitter</string>
   <string name="pref_gplus_title">Join Google+ community</string>
-  <string name="pref_feedback_title">Give your feedback</string>
-  <string name="pref_rate_title">Rate the app</string>
+  <string name="pref_rate_title">Rate Carteiro on Google Play</string>
 
   <!-- Search Activity -->
   <string name="title_search">Items</string>
