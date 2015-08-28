@@ -1,5 +1,6 @@
 package com.rbardini.carteiro.ui;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -34,6 +36,8 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.rbardini.carteiro.util.Constants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
 
 public class PreferencesActivity extends AppCompatPreferenceActivity {
   private static CarteiroApplication app;
@@ -75,6 +79,23 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
       default:
         return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    switch (requestCode) {
+      case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+        if (grantResults.length == 0) {
+          onBackPressed();
+          return;
+        }
+
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+          UIUtils.showToast(this, R.string.pref_backup_permission_denied);
+          onBackPressed();
+        }
+      }
     }
   }
 
@@ -171,8 +192,17 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
       super.onCreate(savedInstanceState);
       addPreferencesFromResource(R.xml.preferences_backup);
 
+      checkRequiredPermissions();
       setupCreatePreference();
       setupRestorePreference();
+    }
+
+    private void checkRequiredPermissions() {
+      String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+      if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{permission}, PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+      }
     }
 
     private String getDatabaseFileExtension() {

@@ -184,6 +184,7 @@
   <string name="pref_vibrate_summary">Vibrate on incoming notifications</string>
 
   <string name="pref_backup_header">Backup &amp; restore</string>
+  <string name="pref_backup_permission_denied">Permission to access files is required in order to backup and restore.</string>
   <string name="pref_create_backup_title">Create backup</string>
   <string name="pref_create_backup_summary">Export data to the external storage</string>
   <string name="pref_restore_backup_title">Restore backup</string>
