@@ -161,10 +161,12 @@
   <string name="pref_sync_favorites_only_summary">Sincronizar apenas objetos marcados como favoritos</string>
   <string name="pref_dont_sync_delivered_items_title">Não sincronizar objetos entregues</string>
   <string name="pref_dont_sync_delivered_items_summary">Ignorar objetos já entregues ou devolvidos ao sincronizar</string>
-  <string name="pref_activate_notifications_title">Notificações</string>
-  <string name="pref_activate_notifications_summary">Ativar notificações do sistema</string>
+  <string name="pref_sync_only_wifi_title">Limitar uso de dados móveis</string>
+  <string name="pref_sync_only_wifi_summary">Sincronizar objetos apenas via Wi-Fi</string>
 
   <string name="pref_notification_header">Notificações</string>
+  <string name="pref_activate_notifications_title">Notificações</string>
+  <string name="pref_activate_notifications_summary">Ativar notificações do sistema</string>
   <string name="pref_notify_sync_title">Sincronizações em andamento</string>
   <string name="pref_notify_sync_summary">Notificar progresso de sincronizações em andamento</string>
   <string name="pref_notify_all_summary">Notificar atualizações de todos os objetos</string>

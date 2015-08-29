@@ -161,10 +161,12 @@
   <string name="pref_sync_favorites_only_summary">Only sync items marked as favorites</string>
   <string name="pref_dont_sync_delivered_items_title">Do not sync delivered items</string>
   <string name="pref_dont_sync_delivered_items_summary">Ignore already delivered or returned items when syncing</string>
-  <string name="pref_activate_notifications_title">Notifications</string>
-  <string name="pref_activate_notifications_summary">Enable system notifications</string>
+  <string name="pref_sync_only_wifi_title">Limit mobile data usage</string>
+  <string name="pref_sync_only_wifi_summary">Only sync items on Wi-Fi</string>
 
   <string name="pref_notification_header">Notifications</string>
+  <string name="pref_activate_notifications_title">Notifications</string>
+  <string name="pref_activate_notifications_summary">Enable system notifications</string>
   <string name="pref_notify_sync_title">Ongoing syncs</string>
   <string name="pref_notify_sync_summary">Notify progress of ongoing syncs</string>
   <string name="pref_notify_all_summary">Notify updates of all items</string>

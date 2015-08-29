@@ -17,6 +17,7 @@
   <string name="pref_key_refresh_interval">refreshinterval</string>
   <string name="pref_key_sync_favorites_only">syncfavoritesonly</string>
   <string name="pref_key_dont_sync_delivered_items">dontsyncdelivereditems</string>
+  <string name="pref_key_sync_wifi_only">syncwifionly</string>
   <string name="pref_key_notify">notify</string>
   <string name="pref_key_notify_sync">notifysync</string>
   <string name="pref_key_notify_all">notifyall</string>

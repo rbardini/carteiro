@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -73,118 +75,158 @@ public class SyncService extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
+    if (CarteiroApplication.state.syncing || !shouldSync()) {
+      Log.i(TAG, "Sync skipped");
+      return;
+    }
+
     Log.i(TAG, "Sync started");
 
-    if (!CarteiroApplication.state.syncing) {
-      CarteiroApplication.state.syncing = true;
+    CarteiroApplication.state.syncing = true;
 
-      if (CarteiroApplication.state.receiver != null) {
-        CarteiroApplication.state.receiver.send(STATUS_RUNNING, Bundle.EMPTY);
+    if (CarteiroApplication.state.receiver != null) {
+      CarteiroApplication.state.receiver.send(STATUS_RUNNING, Bundle.EMPTY);
+    }
+
+    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+    boolean shouldNotifySync = prefs.getBoolean(getString(R.string.pref_key_notify_sync), false);
+    if (shouldNotifySync) {
+      notificationBuilder
+        .setSmallIcon(R.drawable.ic_stat_sync)
+        .setContentTitle(getString(R.string.notf_title_syncing))
+        .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
+        .addAction(R.drawable.ic_menu_cancel, getString(R.string.negative_btn), PendingIntent.getBroadcast(this, 0, new Intent(this, CancelSyncReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT))
+        .setOngoing(true);
+    }
+
+    boolean hasUpdate = false;
+
+    String[] cods;
+    Bundle extras = intent.getExtras();
+
+    if (extras != null && extras.containsKey("cods")) {
+      cods = extras.getStringArray("cods");
+
+    } else {
+      cods = dh.getPostalItemCodes(getSyncFlags());
+    }
+
+    SYNC_CANCELED = false;
+    for (int i = 0; i < cods.length; i++) {
+      if (SYNC_CANCELED) {
+        SYNC_CANCELED = false;
+        break;
       }
 
-      NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-      boolean shouldNotifySync = prefs.getBoolean(getString(R.string.pref_key_notify_sync), false);
+      String cod = cods[i];
+
+      Log.i(TAG, "Syncing " + cod + "...");
+      PostalItemRecord pir = new PostalItemRecord(cod).loadFrom(dh);
+
       if (shouldNotifySync) {
         notificationBuilder
-          .setSmallIcon(R.drawable.ic_stat_sync)
-          .setContentTitle(getString(R.string.notf_title_syncing))
-          .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
-          .addAction(R.drawable.ic_menu_cancel, getString(R.string.negative_btn), PendingIntent.getBroadcast(this, 0, new Intent(this, CancelSyncReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT))
-          .setOngoing(true);
+          .setTicker(getString(R.string.notf_title_syncing))
+          .setContentText(pir.getFullDesc())
+          .setContentInfo(String.format(getString(R.string.notf_info_syncing), i + 1, cods.length))
+          .setProgress(cods.length, i + 1, false);
+        nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
       }
 
-      boolean update = false;
+      try {
+        List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
+        RegistroRastreamento lastReg = pir.getLatestPostalRecord().getReg();
 
-      String[] cods;
-      Bundle extras = intent.getExtras();
-      int flags;
+        boolean itemUpdated = !lastReg.equals(list.get(0));
+        boolean listSizeChanged = list.size() != pir.size();
 
-      if (extras != null && extras.containsKey("cods")) {
-        cods = extras.getStringArray("cods");
-      } else {
-        flags = 0;
-        if (prefs.getBoolean(getString(R.string.pref_key_sync_favorites_only), false)) { flags |= Category.FAVORITES; }
-        if (prefs.getBoolean(getString(R.string.pref_key_dont_sync_delivered_items), false)) { flags |= Category.UNDELIVERED; }
-        cods = dh.getPostalItemCodes(flags);
-      }
-
-      SYNC_CANCELED = false;
-      for (int i = 0; i < cods.length; i++) {
-        if (SYNC_CANCELED) {
-          SYNC_CANCELED = false;
-          break;
+        if (itemUpdated || listSizeChanged) {
+          updatePostalItem(cod, list);
         }
 
-        String cod = cods[i];
-
-        Log.i(TAG, "Syncing " + cod + "...");
-        PostalItemRecord pir = new PostalItemRecord(cod).loadFrom(dh);
-
-        if (shouldNotifySync) {
-          notificationBuilder
-            .setTicker(getString(R.string.notf_title_syncing))
-            .setContentText(pir.getFullDesc())
-            .setContentInfo(String.format(getString(R.string.notf_info_syncing), i + 1, cods.length))
-            .setProgress(cods.length, i + 1, false);
-          nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
+        if (itemUpdated) {
+          app.addUpdatedCod(cod);
+          hasUpdate = true;
         }
 
-        try {
-          List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
-          RegistroRastreamento lastReg = pir.getLatestPostalRecord().getReg();
+      } catch (AlfredException e) {
+        Log.w(TAG, String.valueOf(e.getMessage()));
 
-          boolean hasUpdate = !lastReg.equals(list.get(0));
-          boolean listSizeChanged = list.size() != pir.size();
-
-          if (hasUpdate || listSizeChanged) {
-            dh.beginTransaction();
-            dh.deletePostalRecords(cod);
-            for (int j = 0, length = list.size(); j < length; j++) {
-              dh.insertPostalRecord(new PostalRecord(cod, length - j - 1, list.get(j)));
-            }
-            dh.setTransactionSuccessful();
-            dh.endTransaction();
-
-            if (hasUpdate) {
-              app.addUpdatedCod(cod);
-              update = true;
-            }
-          }
-        } catch (AlfredException e) {
-          Log.w(TAG, String.valueOf(e.getMessage()));
-        } catch (Exception e) {
-          Log.e(TAG, String.valueOf(e.getMessage()));
-        }
-      }
-
-      nm.cancel(NOTIFICATION_ONGOING_SYNC);
-
-      if (update && prefs.getBoolean(getString(R.string.pref_key_notify), true)) {
-        flags = 0;
-        if (prefs.getBoolean(getString(R.string.pref_key_notify_all), false)) {
-          flags |= Category.ALL;
-        } else {
-          if (prefs.getBoolean(getString(R.string.pref_key_notify_favorites), true)) { flags |= Category.FAVORITES; }
-          if (prefs.getBoolean(getString(R.string.pref_key_notify_available), true)) { flags |= Category.AVAILABLE; }
-          if (prefs.getBoolean(getString(R.string.pref_key_notify_delivered), true)) { flags |= Category.DELIVERED; }
-          if (prefs.getBoolean(getString(R.string.pref_key_notify_irregular), true)) { flags |= Category.IRREGULAR; }
-          if (prefs.getBoolean(getString(R.string.pref_key_notify_unknown), true)) { flags |= Category.UNKNOWN; }
-          if (prefs.getBoolean(getString(R.string.pref_key_notify_returned), true)) { flags |= Category.RETURNED; }
-        }
-        if (flags != 0) { showNotification(flags); }
-      }
-
-      CarteiroApplication.state.syncing = false;
-      if (CarteiroApplication.state.receiver != null) {
-        CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+      } catch (Exception e) {
+        Log.e(TAG, String.valueOf(e.getMessage()));
       }
     }
+
+    nm.cancel(NOTIFICATION_ONGOING_SYNC);
+
+    int notificationFlags = getNotificationFlags();
+    if (hasUpdate && notificationFlags != 0) {
+      showNotification(notificationFlags);
+    }
+
+    CarteiroApplication.state.syncing = false;
+    if (CarteiroApplication.state.receiver != null) {
+      CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+    }
+
     Log.i(TAG, "Sync finished");
+  }
+
+  private boolean shouldSync() {
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+    boolean syncWifiOnly = prefs.getBoolean(getString(R.string.pref_key_sync_wifi_only), false);
+    boolean hasActiveNetwork = activeNetwork != null;
+
+    boolean isConnected = hasActiveNetwork && activeNetwork.isConnected();
+    boolean isWifi = hasActiveNetwork && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+
+    return isConnected && (!syncWifiOnly || isWifi);
+  }
+
+  private void updatePostalItem(String cod, List<RegistroRastreamento> list) {
+    dh.beginTransaction();
+    dh.deletePostalRecords(cod);
+
+    for (int i = 0, length = list.size(); i < length; i++) {
+      dh.insertPostalRecord(new PostalRecord(cod, length - i - 1, list.get(i)));
+    }
+
+    dh.setTransactionSuccessful();
+    dh.endTransaction();
+  }
+
+  private int getSyncFlags() {
+    int flags = 0;
+
+    if (prefs.getBoolean(getString(R.string.pref_key_sync_favorites_only), false)) { flags |= Category.FAVORITES; }
+    if (prefs.getBoolean(getString(R.string.pref_key_dont_sync_delivered_items), false)) { flags |= Category.UNDELIVERED; }
+
+    return flags;
+  }
+
+  private int getNotificationFlags() {
+    int flags = 0;
+
+    if (prefs.getBoolean(getString(R.string.pref_key_notify), true)) {
+      if (prefs.getBoolean(getString(R.string.pref_key_notify_all), false)) {
+        flags |= Category.ALL;
+
+      } else {
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_favorites), true)) { flags |= Category.FAVORITES; }
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_available), true)) { flags |= Category.AVAILABLE; }
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_delivered), true)) { flags |= Category.DELIVERED; }
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_irregular), true)) { flags |= Category.IRREGULAR; }
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_unknown), true)) { flags |= Category.UNKNOWN; }
+        if (prefs.getBoolean(getString(R.string.pref_key_notify_returned), true)) { flags |= Category.RETURNED; }
+      }
+    }
+
+    return flags;
   }
 
   private void showNotification(int flags) {
     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-    HashSet<PostalItem> postalItems = new HashSet<PostalItem>();
+    HashSet<PostalItem> postalItems = new HashSet<>();
     String ticker, title, desc;
     long date;
     Intent intent;

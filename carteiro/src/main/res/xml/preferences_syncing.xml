@@ -26,4 +26,10 @@
     android:defaultValue="false"
     android:dependency="@string/pref_key_auto_sync" />
 
+  <CheckBoxPreference android:key="@string/pref_key_sync_wifi_only"
+    android:title="@string/pref_sync_only_wifi_title"
+    android:summary="@string/pref_sync_only_wifi_summary"
+    android:defaultValue="false"
+    android:dependency="@string/pref_key_auto_sync" />
+
 </PreferenceScreen>
