@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class PostalListFragment extends PostalFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
   public interface OnPostalListActionListener {
-    public void onPostalListAttached(PostalListFragment f);
+    void onPostalListAttached(PostalListFragment f);
   }
 
   private OnPostalListActionListener mListener;

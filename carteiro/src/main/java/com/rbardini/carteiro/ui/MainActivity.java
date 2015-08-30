@@ -2,7 +2,6 @@ package com.rbardini.carteiro.ui;
 
 import android.app.ActivityOptions;
 import android.app.FragmentManager;
-import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -29,8 +28,6 @@ import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
 public class MainActivity extends PostalActivity {
-  protected static final String TAG = "MainActivity";
-
   // Delay to launch navigation drawer item, to allow close animation to play
   private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
@@ -55,12 +52,6 @@ public class MainActivity extends PostalActivity {
     setContentView(R.layout.activity_main);
 
     mFragmentManager = getFragmentManager();
-    mFragmentManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
-      @Override
-      public void onBackStackChanged() {
-        mCurrentFragment = getCurrentFragment();
-      }
-    });
     mNotificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
     mHandler = new Handler();
 
@@ -158,8 +149,8 @@ public class MainActivity extends PostalActivity {
       return;
     }
 
-    if (mFragmentManager.getBackStackEntryCount() > 0 && !mCurrentFragment.hasSelection()) {
-      mFragmentManager.popBackStack();
+    if (!mCurrentFragment.hasSelection() && mCurrentFragment.getCategory() != Category.ALL) {
+      showCategory(Category.ALL);
       return;
     }
 
@@ -179,7 +170,7 @@ public class MainActivity extends PostalActivity {
     return mCurrentFragment;
   }
 
-  public void setDrawerCategoryChecked(int category) {
+  private void setDrawerCategoryChecked(int category) {
     MenuItem menuItem = mNavigationView.getMenu().findItem(Category.getId(category));
     menuItem.setChecked(true);
   }
@@ -214,8 +205,8 @@ public class MainActivity extends PostalActivity {
       public boolean onNavigationItemSelected(final MenuItem menuItem) {
         final int id = menuItem.getItemId();
 
-        // Fade out activity_main content view if a new category fragment will be shown
-        if (!menuItem.isChecked() && id != R.id.action_preferences && id != R.id.action_feedback) {
+        // Fade out main container if a new category fragment will be shown
+        if (id != R.id.action_preferences && id != R.id.action_feedback) {
           mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
         }
 
@@ -251,11 +242,9 @@ public class MainActivity extends PostalActivity {
       PostalListFragment newFragment = PostalListFragment.newInstance(category);
       String name = getString(Category.getTitle(category));
 
-      mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
       FragmentTransaction ft = mFragmentManager
-          .beginTransaction()
-          .replace(R.id.main_content, newFragment, name);
-      if (mCurrentFragment != null && category != Category.ALL) ft.addToBackStack(name);  // Avoid adding empty activity_main container and duplicate "all" category to the back stack
+        .beginTransaction()
+        .replace(R.id.main_content, newFragment, name);
       ft.commit();
 
       mCurrentFragment = newFragment;

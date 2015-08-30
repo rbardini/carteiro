@@ -8,13 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -51,7 +51,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-    supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+    supportRequestWindowFeature(AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR_OVERLAY);
     setContentView(R.layout.activity_record);
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
