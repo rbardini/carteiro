@@ -31,7 +31,7 @@
 
         <EditText style="@style/TrkCodeField"
           android:id="@+id/trk_code_fld"
-          android:paddingTop="2dp" />
+          android:paddingTop="6dp" />
 
       </android.support.design.widget.TextInputLayout>
 
@@ -43,7 +43,7 @@
         <EditText style="@style/ItemDescField"
           android:id="@+id/item_desc_fld"
           android:imeOptions="actionGo"
-          android:paddingTop="2dp" />
+          android:paddingTop="6dp" />
 
       </android.support.design.widget.TextInputLayout>
 
