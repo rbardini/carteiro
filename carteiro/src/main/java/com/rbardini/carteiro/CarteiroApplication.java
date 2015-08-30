@@ -14,13 +14,10 @@ import com.rbardini.carteiro.svc.SyncService;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.rbardini.carteiro.util.Constants.ANALYTICS_TRACKING_ID;
-
 public class CarteiroApplication extends Application {
-  public static GoogleAnalytics analytics;
-  public static Tracker tracker;
   public static State state;
 
+  private Tracker tracker;
   private Set<String> updatedCods;
   private boolean updatedList;
 
@@ -28,16 +25,14 @@ public class CarteiroApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    analytics = GoogleAnalytics.getInstance(this);
-    tracker = analytics.newTracker(ANALYTICS_TRACKING_ID);
     state = new State();
+
+    GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+    tracker = analytics.newTracker(R.xml.tracker_config);
+    tracker.enableAdvertisingIdCollection(true);
 
     updatedCods = new HashSet<>();
     updatedList = false;
-
-    tracker.enableExceptionReporting(true);      // Provide unhandled exceptions reports
-    tracker.enableAdvertisingIdCollection(true); // Enable Remarketing, Demographics & Interests reports
-    tracker.enableAutoActivityTracking(true);    // Enable automatic activity tracking
 
     // Schedule sync service on first start
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -45,6 +40,10 @@ public class CarteiroApplication extends Application {
       SyncService.scheduleSync(this);
       prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
     }
+  }
+
+  public Tracker getTracker() {
+    return tracker;
   }
 
   public DatabaseHelper getDatabaseHelper() {
