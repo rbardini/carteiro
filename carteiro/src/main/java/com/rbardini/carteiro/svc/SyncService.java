@@ -75,7 +75,7 @@ public class SyncService extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    if (CarteiroApplication.state.syncing || !shouldSync()) {
+    if (CarteiroApplication.state.syncing || !shouldSync(intent)) {
       Log.i(TAG, "Sync skipped");
       return;
     }
@@ -171,16 +171,18 @@ public class SyncService extends IntentService {
     Log.i(TAG, "Sync finished");
   }
 
-  private boolean shouldSync() {
+  private boolean shouldSync(Intent intent) {
+    Bundle extras = intent.getExtras();
     ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
     boolean syncWifiOnly = prefs.getBoolean(getString(R.string.pref_key_sync_wifi_only), false);
     boolean hasActiveNetwork = activeNetwork != null;
 
+    boolean isManualSync = extras != null && extras.containsKey("cods");
     boolean isConnected = hasActiveNetwork && activeNetwork.isConnected();
     boolean isWifi = hasActiveNetwork && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
 
-    return isConnected && (!syncWifiOnly || isWifi);
+    return isConnected && (isManualSync || isWifi || !syncWifiOnly);
   }
 
   private void updatePostalItem(String cod, List<RegistroRastreamento> list) {
