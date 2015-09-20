@@ -1,9 +1,6 @@
-# To enable ProGuard in your project, edit project.properties
-# to define the proguard.config property as described in that file.
-#
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in ${sdk.dir}/tools/proguard/proguard-android.txt
+# in /Applications/Android Studio.app/sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the ProGuard
 # include property in project.properties.
 #
@@ -19,10 +16,21 @@
 #   public *;
 #}
 
--keep class android.support.v4.app.** { *; }
--keep class android.support.v7.** { *; }
+# Support Library v7
+-keep public class android.support.v7.widget.** { *; }
+-keep public class android.support.v7.internal.widget.** { *; }
+-keep public class android.support.v7.internal.view.menu.** { *; }
+-keep public class * extends android.support.v4.view.ActionProvider {
+  public <init>(android.content.Context);
+}
+
+# Support Design Library
 -keep class android.support.design.** { *; }
--keep interface android.support.v4.app.** { *; }
--keep interface android.support.v7.** { *; }
 -keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+
+# Google Play Services
+-dontwarn com.google.android.gms.**
+-keep public class com.google.android.gms.** { *; }
+
 -keepattributes *Annotation*
