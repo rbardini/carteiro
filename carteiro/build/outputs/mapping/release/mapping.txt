@@ -25944,8 +25944,8 @@ com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     void setupNavigationDrawer() -> p
     void showCategory(int) -> d
     com.rbardini.carteiro.ui.PostalListFragment getCurrentFragment() -> q
-    android.view.View access$000(com.rbardini.carteiro.ui.MainActivity) -> a
-    com.rbardini.carteiro.ui.PostalListFragment access$100(com.rbardini.carteiro.ui.MainActivity) -> b
+    com.rbardini.carteiro.ui.PostalListFragment access$000(com.rbardini.carteiro.ui.MainActivity) -> a
+    android.view.View access$100(com.rbardini.carteiro.ui.MainActivity) -> b
     void access$200(com.rbardini.carteiro.ui.MainActivity,int) -> a
     android.os.Handler access$300(com.rbardini.carteiro.ui.MainActivity) -> c
     android.support.v4.widget.DrawerLayout access$400(com.rbardini.carteiro.ui.MainActivity) -> d
