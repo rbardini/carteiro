@@ -204,9 +204,10 @@ public class MainActivity extends PostalActivity {
       @Override
       public boolean onNavigationItemSelected(final MenuItem menuItem) {
         final int id = menuItem.getItemId();
+        final boolean isCategory = id != R.id.action_preferences && id != R.id.action_feedback;
 
         // Fade out main container if a new category fragment will be shown
-        if (id != R.id.action_preferences && id != R.id.action_feedback) {
+        if (isCategory && Category.getCategoryById(id) != mCurrentFragment.getCategory()) {
           mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
         }
 
