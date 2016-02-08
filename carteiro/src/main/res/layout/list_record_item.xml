@@ -19,6 +19,7 @@
       android:layout_alignParentLeft="true"
       android:layout_centerVertical="true"
       android:background="@drawable/circle"
+      android:padding="@dimen/keyline_1_half"
       android:contentDescription="@string/desc_status" />
 
     <LinearLayout

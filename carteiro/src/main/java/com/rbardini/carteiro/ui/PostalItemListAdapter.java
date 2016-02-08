@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.text.format.DateUtils;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
@@ -23,20 +25,22 @@ import java.util.Set;
 public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
   private final Context mContext;
   private final Set<String> mUpdatedCods;
+  private final ListView mListView;
   private final LayoutInflater mInflater;
 
-  PostalItemListAdapter(Context context, List<PostalItem> list, Set<String> updatedCods) {
+  PostalItemListAdapter(Context context, List<PostalItem> list, Set<String> updatedCods, ListView listView) {
     super(list);
 
     mContext = context;
     mUpdatedCods = updatedCods;
+    mListView = listView;
 
     // Cache the LayoutInflate to avoid asking for a new one each time
     mInflater = LayoutInflater.from(mContext);
   }
 
   @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
+  public View getView(final int position, View convertView, final ViewGroup parent) {
     // A ViewHolder keeps references to children views to avoid unneccessary calls to findViewById() on each row
     ViewHolder holder;
 
@@ -67,12 +71,29 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     holder.date.setText(DateUtils.getRelativeTimeSpanString(pi.getDate().getTime(), System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
     holder.loc.setText(pi.getLoc());
     holder.info.setText(pi.getFullInfo());
-    holder.icon.setImageResource(Status.getIcon(pi.getStatus()));
     holder.fav.setChecked(pi.isFav());
     holder.fav.setTag(pi.getCod());
 
-    // Set postal status icon background color
-    ((GradientDrawable) holder.icon.getBackground()).setColor(mContext.getResources().getColor(UIUtils.getPostalStatusColor(pi.getStatus())));
+    Resources res = mContext.getResources();
+    GradientDrawable iconBackground = (GradientDrawable) holder.icon.getBackground();
+    final boolean isChecked = mListView.isItemChecked(position);
+
+    // Set postal status icon and background color depending on checked state
+    if (isChecked) {
+      holder.icon.setImageResource(R.drawable.ic_menu_done);
+      iconBackground.setColor(res.getColor(R.color.theme_accent_dark));
+    } else {
+      holder.icon.setImageResource(Status.getIcon(pi.getStatus()));
+      iconBackground.setColor(res.getColor(UIUtils.getPostalStatusColor(pi.getStatus())));
+    }
+
+    // Add icon click listener to change item checked state
+    holder.icon.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mListView.setItemChecked(position, !isChecked);
+      }
+    });
 
     // Apply highlight if it is an updated item
     int background = R.drawable.list_item_background;

@@ -104,17 +104,19 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    mListAdapter = new PostalItemListAdapter(mActivity, mList, app.getUpdatedCods());
+    ListView listView = getListView();
+
+    mListAdapter = new PostalItemListAdapter(mActivity, mList, app.getUpdatedCods(), listView);
     mMultiChoiceModeListener = new PostalListFragment.MultiChoiceModeListener();
-    getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-    getListView().setMultiChoiceModeListener(mMultiChoiceModeListener);
+    listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    listView.setMultiChoiceModeListener(mMultiChoiceModeListener);
 
     mDismissAdapter = new AnimateDismissAdapter(mListAdapter, this);
-    mDismissAdapter.setAbsListView(getListView());
+    mDismissAdapter.setAbsListView(listView);
 
     mUndoAdapter = new ContextualSwipeUndoAdapter(mListAdapter, shouldDeleteItems() ? R.layout.undo_delete_row : R.layout.undo_archive_row, R.id.undo_button, this, this);
-    mUndoAdapter.setAbsListView(getListView());
-    getListView().setAdapter(mUndoAdapter);
+    mUndoAdapter.setAbsListView(listView);
+    listView.setAdapter(mUndoAdapter);
 
     if (CarteiroApplication.state.syncing) setRefreshing();
 
@@ -246,6 +248,9 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
       // Invalidate CAB to refresh available actions
       mActionMode.invalidate();
+
+      // Force list view refresh to update checked state
+      mListAdapter.notifyDataSetChanged();
     }
 
     @Override
