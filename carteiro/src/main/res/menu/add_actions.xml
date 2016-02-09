@@ -5,6 +5,6 @@
   <item android:id="@+id/scan_opt"
     android:icon="@drawable/ic_menu_barcode"
     android:title="@string/opt_scan_barcode"
-    app:showAsAction="never" />
+    app:showAsAction="ifRoom" />
 
 </menu>
