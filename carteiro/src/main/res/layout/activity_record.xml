@@ -21,7 +21,8 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout style="@style/RecordSubHeader"
-      android:orientation="vertical">
+      android:orientation="vertical"
+      android:focusableInTouchMode="true">
 
       <TextView style="@style/RecordHeading"
         android:id="@+id/legend" />
