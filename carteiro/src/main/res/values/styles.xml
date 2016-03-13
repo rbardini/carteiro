@@ -25,12 +25,12 @@
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">?attr/actionBarSize</item>
     <item name="android:background">?attr/colorPrimary</item>
-    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
   </style>
   <style name="ActionBar.Raised" />
   <style name="ActionBar.Light">
-    <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
   </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>

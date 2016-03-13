@@ -1,12 +1,16 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.AlertDialog;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -20,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -61,8 +64,8 @@ public class AddActivity extends AppCompatActivity {
   private View mLoadingView;
   private TextView mContentText;
   private TextInputLayout mTrackingNumberInput;
-  private EditText mTrackingNumberField;
-  private EditText mItemNameField;
+  private TextInputEditText mTrackingNumberField;
+  private TextInputEditText mItemNameField;
   private Button mCancelButton;
   private Button mAddButton;
   private Button mSkipButton;
@@ -90,8 +93,8 @@ public class AddActivity extends AppCompatActivity {
     mLoadingView = findViewById(R.id.loading_indicator);
     mContentText = (TextView) findViewById(R.id.content_text);
     mTrackingNumberInput = (TextInputLayout) findViewById(R.id.trk_code_input);
-    mTrackingNumberField = (EditText) findViewById(R.id.trk_code_fld);
-    mItemNameField = (EditText) findViewById(R.id.item_desc_fld);
+    mTrackingNumberField = (TextInputEditText) findViewById(R.id.trk_code_fld);
+    mItemNameField = (TextInputEditText) findViewById(R.id.item_desc_fld);
     mCancelButton = (Button) findViewById(R.id.cancel_button);
     mAddButton = (Button) findViewById(R.id.add_button);
     mSkipButton = (Button) findViewById(R.id.skip_button);
@@ -353,20 +356,50 @@ public class AddActivity extends AppCompatActivity {
 
   private void handleIntent() {
     Intent intent = getIntent();
+    String cod;
+
     if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+      // Get tracking number from WebSRO URL
       Uri data = intent.getData();
-      String cod = data.getQueryParameter("P_COD_UNI");
-      if (cod == null) { cod = data.getQueryParameter("P_COD_LIS"); }
+      cod = data.getQueryParameter("P_COD_UNI");
+
+      if (cod == null) {
+        cod = data.getQueryParameter("P_COD_LIS");
+      }
+
       if (cod != null) {
         try {
           cod = parseCod(cod);
           mTrackingNumberField.setText(cod);
           onAddClick(null);
+
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
+
       } else {
         UIUtils.showToast(this, getString(R.string.msg_alert_cod_not_found));
+      }
+
+    } else {
+      // Try to get tracking number from clipboard
+      ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+      if (clipboard.hasPrimaryClip() && clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+        CharSequence text = clipboard.getPrimaryClip().getItemAt(0).getText();
+
+        if (text != null) {
+          cod = text.toString().trim();
+
+          try {
+            cod = parseCod(cod);
+
+            if (!dh.isPostalItem(cod)) {
+              mTrackingNumberField.setText(cod);
+            }
+
+          } catch (Exception e) {}
+        }
       }
     }
   }

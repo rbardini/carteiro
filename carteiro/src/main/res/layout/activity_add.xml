@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/trk_code_input">
 
-        <EditText style="@style/TrkCodeField"
+        <android.support.design.widget.TextInputEditText style="@style/TrkCodeField"
           android:id="@+id/trk_code_fld"
           android:paddingTop="6dp" />
 
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/keyline_1_half">
 
-        <EditText style="@style/ItemDescField"
+        <android.support.design.widget.TextInputEditText style="@style/ItemDescField"
           android:id="@+id/item_desc_fld"
           android:imeOptions="actionGo"
           android:paddingTop="6dp" />
