@@ -10,6 +10,7 @@
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancelar</string>
   <string name="add_btn">Adicionar</string>
+  <string name="skip_btn">Pular</string>
   <string name="rename_btn">Renomear</string>
   <string name="delete_btn">Excluir</string>
   <string name="install_btn">Instalar</string>
@@ -37,6 +38,7 @@
   <string name="hint_tracking_code">Código de rastreamento</string>
   <string name="hint_item_description">Nome do objeto</string>
 
+  <string name="title_fetching_item_data">Buscando dados do objeto…</string>
   <string name="title_alert_not_found">Adicionar objeto não encontrado?</string>
   <string name="title_alert_net_error">Adicionar objeto offline?</string>
   <string name="title_alert_delivered_item">Adicionar objeto entregue?</string>

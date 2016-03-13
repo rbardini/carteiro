@@ -63,11 +63,12 @@ public class AddActivity extends AppCompatActivity {
   private TextInputLayout mTrackingNumberInput;
   private EditText mTrackingNumberField;
   private EditText mItemNameField;
-  private View mButtonBar;
+  private Button mCancelButton;
   private Button mAddButton;
+  private Button mSkipButton;
 
   private PostalItemRecord mPostalItemRecord;
-  private AsyncTask<?, ?, ?> mRequestPostalItemRecordTask;
+  private AsyncTask<?, ?, ?> mFetchPostalItemRecordTask;
   private DatabaseHelper dh;
 
   @Override
@@ -91,8 +92,9 @@ public class AddActivity extends AppCompatActivity {
     mTrackingNumberInput = (TextInputLayout) findViewById(R.id.trk_code_input);
     mTrackingNumberField = (EditText) findViewById(R.id.trk_code_fld);
     mItemNameField = (EditText) findViewById(R.id.item_desc_fld);
-    mButtonBar = findViewById(R.id.button_bar);
+    mCancelButton = (Button) findViewById(R.id.cancel_button);
     mAddButton = (Button) findViewById(R.id.add_button);
+    mSkipButton = (Button) findViewById(R.id.skip_button);
 
     if (savedInstanceState != null) mPostalItemRecord = (PostalItemRecord) savedInstanceState.getSerializable("postalItemRecord");
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
@@ -143,20 +145,14 @@ public class AddActivity extends AppCompatActivity {
     super.onResume();
 
     if (mPostalItemRecord != null) {
-      mRequestPostalItemRecordTask = new RequestPostalItemRecordTask().execute(mPostalItemRecord);
+      mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
     }
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
-
-    if (mRequestPostalItemRecordTask != null && mRequestPostalItemRecordTask.getStatus() == AsyncTask.Status.RUNNING) {
-      mRequestPostalItemRecordTask.cancel(true);
-    }
-    if (dh.inTransaction()) {
-      dh.endTransaction();
-    }
+    cancelPostalItemRecordFetch();
   }
 
   @Override
@@ -243,7 +239,7 @@ public class AddActivity extends AppCompatActivity {
       try {
         cod = parseCod(cod);
         mPostalItemRecord = new PostalItemRecord(new PostalItem(cod, (desc.trim().equals("") ? null : desc)));
-        mRequestPostalItemRecordTask = new RequestPostalItemRecordTask().execute(mPostalItemRecord);
+        mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
       } catch (Exception e) {
         error = e.getMessage();
       } finally {
@@ -265,12 +261,17 @@ public class AddActivity extends AppCompatActivity {
     }
   }
 
+  public void onSkipClick(View v) {
+    cancelPostalItemRecordFetch();
+    addPostalItemRecord();
+  }
+
   private void toggleFormView(boolean show) {
     int visibility = show ? View.VISIBLE : View.GONE;
 
-    if (show) mActionBar.show(); else mActionBar.hide();
     mFormView.setVisibility(visibility);
-    mButtonBar.setVisibility(visibility);
+    mCancelButton.setVisibility(visibility);
+    mAddButton.setVisibility(visibility);
 
     mIsFormView = show;
     invalidateOptionsMenu();
@@ -287,9 +288,11 @@ public class AddActivity extends AppCompatActivity {
   private void toggleLoadingView(boolean show) {
     int visibility = show ? View.VISIBLE : View.GONE;
     mLoadingView.setVisibility(visibility);
+    mSkipButton.setVisibility(visibility);
   }
 
   private void showLoadingView() {
+    mActionBar.setTitle(R.string.title_fetching_item_data);
     toggleLoadingView(true);
   }
 
@@ -300,9 +303,9 @@ public class AddActivity extends AppCompatActivity {
   private void toggleConfirmationView(boolean show) {
     int visibility = show ? View.VISIBLE : View.GONE;
 
-    if (show) mActionBar.show(); else mActionBar.hide();
     mContentText.setVisibility(visibility);
-    mButtonBar.setVisibility(visibility);
+    mCancelButton.setVisibility(visibility);
+    mAddButton.setVisibility(visibility);
   }
 
   private void showConfirmationView() {
@@ -412,7 +415,17 @@ public class AddActivity extends AppCompatActivity {
     finish();
   }
 
-  private class RequestPostalItemRecordTask extends AsyncTask<Object, Void, PostalItemRecord> {
+  private void cancelPostalItemRecordFetch() {
+    if (mFetchPostalItemRecordTask != null && mFetchPostalItemRecordTask.getStatus() == AsyncTask.Status.RUNNING) {
+      mFetchPostalItemRecordTask.cancel(true);
+    }
+
+    if (dh.inTransaction()) {
+      dh.endTransaction();
+    }
+  }
+
+  private class FetchPostalItemRecordTask extends AsyncTask<Object, Void, PostalItemRecord> {
     private String error;
 
     @Override
@@ -426,35 +439,33 @@ public class AddActivity extends AppCompatActivity {
       PostalItemRecord pir = (PostalItemRecord) params[0];
 
       PostalItem pi = pir.getPostalItem();
+      PostalRecord pr = new PostalRecord(pi.getCod(), -1, new Date(), PostalUtils.Status.NAO_ENCONTRADO);
+      pi.setReg(pr.getReg());
+
       List<PostalRecord> prList = new ArrayList<>();
+      prList.add(pr);
+
+      pir.setPostalItem(pi);
+      pir.setPostalRecords(prList);
 
       try {
         List<RegistroRastreamento> rrList = Rastreamento.rastrear(pi.getCod());
         pi.setReg(rrList.get(0));
 
-        for (int i=0, length=rrList.size(); i<length; i++) {
-          PostalRecord pr = new PostalRecord(pi.getCod(), length-i-1, rrList.get(i));
+        for (int i = 0, length = rrList.size(); i < length; i++) {
+          pr = new PostalRecord(pi.getCod(), length - i - 1, rrList.get(i));
           prList.add(pr);
         }
 
         if (pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
-          throw new Exception(getString(R.string.title_alert_delivered_item));
+          error = getString(R.string.title_alert_delivered_item);
         }
         if (pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
-          throw new Exception(getString(R.string.title_alert_returned_item));
+          error = getString(R.string.title_alert_returned_item);
         }
 
       } catch (Exception e) {
         error = e.getMessage();
-        if (error.equals(PostalUtils.Error.NOT_FOUND) || error.startsWith(PostalUtils.Error.NET_ERROR)) {
-          PostalRecord pr = new PostalRecord(pi.getCod(), -1, new Date(), PostalUtils.Status.NAO_ENCONTRADO);
-          pi.setReg(pr.getReg());
-          prList.add(pr);
-        }
-
-      } finally {
-        pir.setPostalItem(pi);
-        pir.setPostalRecords(prList);
       }
 
       return pir;
@@ -480,12 +491,12 @@ public class AddActivity extends AppCompatActivity {
         addPostalItemRecord();
       }
 
-      mRequestPostalItemRecordTask = null;
+      mFetchPostalItemRecordTask = null;
     }
 
     @Override
     protected void onCancelled(PostalItemRecord pir) {
-      mRequestPostalItemRecordTask = null;
+      mFetchPostalItemRecordTask = null;
       hideLoadingView();
       showFormView();
     }

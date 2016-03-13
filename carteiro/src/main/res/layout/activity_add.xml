@@ -58,16 +58,25 @@
       android:textColor="@color/text_secondary"
       android:visibility="gone" />
 
+    <ProgressBar style="?android:attr/progressBarStyleHorizontal"
+      android:id="@+id/loading_indicator"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:indeterminate="true"
+      android:visibility="gone" />
+
     <LinearLayout
-      android:id="@+id/button_bar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
       android:gravity="right">
 
       <Button style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:text="@string/negative_btn"
         android:onClick="onCancelClick" />
 
@@ -80,15 +89,16 @@
         android:onClick="onAddClick"
         android:enabled="false" />
 
-    </LinearLayout>
+      <Button style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/skip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:text="@string/skip_btn"
+        android:onClick="onSkipClick"
+        android:visibility="gone" />
 
-    <ProgressBar
-      android:id="@+id/loading_indicator"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:padding="@dimen/keyline_1"
-      android:visibility="gone" />
+    </LinearLayout>
 
   </LinearLayout>
 

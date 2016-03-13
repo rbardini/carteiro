@@ -10,6 +10,7 @@
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancel</string>
   <string name="add_btn">Add</string>
+  <string name="skip_btn">Skip</string>
   <string name="rename_btn">Rename</string>
   <string name="delete_btn">Delete</string>
   <string name="install_btn">Install</string>
@@ -37,6 +38,7 @@
   <string name="hint_tracking_code">Tracking number</string>
   <string name="hint_item_description">Item name</string>
 
+  <string name="title_fetching_item_data">Fetching item data…</string>
   <string name="title_alert_not_found">Add item not found?</string>
   <string name="title_alert_net_error">Add item offline?</string>
   <string name="title_alert_delivered_item">Add delivered item?</string>
@@ -55,7 +57,7 @@
   <string name="title_alert_barcode_install">Install Barcode Scanner?</string>
   <string name="msg_alert_barcode_install">The app is required to read barcodes and QR codes.</string>
 
-  <string name="msg_alert_cod_not_found">Tracking number not found. Check if the page has informations about the item.</string>
+  <string name="msg_alert_cod_not_found">Tracking number not found. Check if the page has information about the item.</string>
 
   <!-- Notifications -->
   <string name="notf_title_syncing">Syncing items&#8230;</string>
