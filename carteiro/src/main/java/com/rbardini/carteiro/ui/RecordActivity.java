@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -302,7 +303,18 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
       mPostalItem = (PostalItem) extras.getSerializable("postalItem");
 
       if (extras.getBoolean("isNew")) {
-        UIUtils.showToast(this, String.format(getString(R.string.toast_item_added), mPostalItem.getSafeDesc()));
+        String message = String.format(getString(R.string.toast_item_added), mPostalItem.getSafeDesc());
+        Snackbar
+          .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+          .setAction(R.string.add_another_btn, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent intent = new Intent(RecordActivity.this, AddActivity.class);
+              startActivity(intent);
+              finish();
+            }
+          })
+          .show();
         intent.removeExtra("isNew");
       }
 

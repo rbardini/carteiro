@@ -10,6 +10,7 @@
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancelar</string>
   <string name="add_btn">Adicionar</string>
+  <string name="add_another_btn">Adicionar outro</string>
   <string name="skip_btn">Pular</string>
   <string name="rename_btn">Renomear</string>
   <string name="delete_btn">Excluir</string>
@@ -20,7 +21,6 @@
   <string name="quit_btn">Sair</string>
 
   <!-- Main Navigation Drawer -->
-  <string name="drawer_header_tracking">Rastreamento</string>
   <string name="category_all">Todos</string>
   <string name="category_favorites">Favoritos</string>
   <string name="category_available">Disponíveis</string>

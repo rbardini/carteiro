@@ -10,6 +10,7 @@
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancel</string>
   <string name="add_btn">Add</string>
+  <string name="add_another_btn">Add another</string>
   <string name="skip_btn">Skip</string>
   <string name="rename_btn">Rename</string>
   <string name="delete_btn">Delete</string>
@@ -20,7 +21,6 @@
   <string name="quit_btn">Quit</string>
 
   <!-- Main Drawer -->
-  <string name="drawer_header_tracking">Tracking</string>
   <string name="category_all">All</string>
   <string name="category_favorites">Favorite</string>
   <string name="category_available">Available</string>
