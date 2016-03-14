@@ -308,6 +308,7 @@ public class AddActivity extends AppCompatActivity {
 
     mContentText.setVisibility(visibility);
     mCancelButton.setVisibility(visibility);
+    mAddButton.setText(show ? R.string.add_anyway_btn : R.string.add_btn);
     mAddButton.setVisibility(visibility);
   }
 

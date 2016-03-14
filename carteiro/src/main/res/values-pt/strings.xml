@@ -10,6 +10,7 @@
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancelar</string>
   <string name="add_btn">Adicionar</string>
+  <string name="add_anyway_btn">Adicionar mesmo assim</string>
   <string name="add_another_btn">Adicionar outro</string>
   <string name="skip_btn">Pular</string>
   <string name="rename_btn">Renomear</string>
