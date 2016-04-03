@@ -6,10 +6,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -58,9 +60,11 @@ public class AddActivity extends AppCompatActivity {
   private boolean mIsFormView;
 
   private CarteiroApplication app;
+  private SharedPreferences mPrefs;
   private ActionBar mActionBar;
 
   private View mFormView;
+  private View mConfirmationView;
   private View mLoadingView;
   private TextView mContentText;
   private TextInputLayout mTrackingNumberInput;
@@ -69,6 +73,8 @@ public class AddActivity extends AppCompatActivity {
   private Button mCancelButton;
   private Button mAddButton;
   private Button mSkipButton;
+  private Button mJustOnceButton;
+  private Button mAlwaysButton;
 
   private PostalItemRecord mPostalItemRecord;
   private AsyncTask<?, ?, ?> mFetchPostalItemRecordTask;
@@ -87,9 +93,11 @@ public class AddActivity extends AppCompatActivity {
     mIsFormView = true;
 
     app = (CarteiroApplication) getApplication();
+    mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
     mActionBar = getSupportActionBar();
 
     mFormView = findViewById(R.id.form_layout);
+    mConfirmationView = findViewById(R.id.confirmation_layout);
     mLoadingView = findViewById(R.id.loading_indicator);
     mContentText = (TextView) findViewById(R.id.content_text);
     mTrackingNumberInput = (TextInputLayout) findViewById(R.id.trk_code_input);
@@ -98,48 +106,13 @@ public class AddActivity extends AppCompatActivity {
     mCancelButton = (Button) findViewById(R.id.cancel_button);
     mAddButton = (Button) findViewById(R.id.add_button);
     mSkipButton = (Button) findViewById(R.id.skip_button);
+    mJustOnceButton = (Button) findViewById(R.id.just_once_button);
+    mAlwaysButton = (Button) findViewById(R.id.always_button);
 
     if (savedInstanceState != null) mPostalItemRecord = (PostalItemRecord) savedInstanceState.getSerializable("postalItemRecord");
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
-    mTrackingNumberField.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-        int length = s.length();
-        mTrackingNumberField.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
-        mAddButton.setEnabled(length == 13);
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {}
-    });
-    mTrackingNumberField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean hasFocus) {
-        if (hasFocus) return;
-
-        String error = null;
-        try {
-          parseCod(mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault()));
-        } catch (Exception e) {
-          error = e.getMessage();
-        } finally {
-          mTrackingNumberInput.setError(error);
-        }
-      }
-    });
-
-    mItemNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-      @Override
-      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        onAddClick(null);
-        return true;
-      }
-    });
-
+    setupFormFields();
     handleIntent();
   }
 
@@ -233,21 +206,16 @@ public class AddActivity extends AppCompatActivity {
   public void onAddClick(View v) {
     String cod = mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault());
     String desc = mItemNameField.getText().toString();
+    String error = null;
 
-    if (mPostalItemRecord != null) {
-      addPostalItemRecord();
-
-    } else {
-      String error = null;
-      try {
-        cod = parseCod(cod);
-        mPostalItemRecord = new PostalItemRecord(new PostalItem(cod, (desc.trim().equals("") ? null : desc)));
-        mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
-      } catch (Exception e) {
-        error = e.getMessage();
-      } finally {
-        mTrackingNumberInput.setError(error);
-      }
+    try {
+      cod = parseCod(cod);
+      mPostalItemRecord = new PostalItemRecord(new PostalItem(cod, (desc.trim().equals("") ? null : desc)));
+      mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
+    } catch (Exception e) {
+      error = e.getMessage();
+    } finally {
+      mTrackingNumberInput.setError(error);
     }
   }
 
@@ -267,6 +235,17 @@ public class AddActivity extends AppCompatActivity {
   public void onSkipClick(View v) {
     cancelPostalItemRecordFetch();
     addPostalItemRecord();
+  }
+
+  public void onJustOnceClick(View v) {
+    addPostalItemRecord();
+  }
+
+  public void onAlwaysClick(View v) {
+    int preferenceKey = getConfirmationPreferenceKeyById((Integer) v.getTag());
+    mPrefs.edit().putBoolean(getString(preferenceKey), true).apply();
+
+    onJustOnceClick(null);
   }
 
   private void toggleFormView(boolean show) {
@@ -306,13 +285,14 @@ public class AddActivity extends AppCompatActivity {
   private void toggleConfirmationView(boolean show) {
     int visibility = show ? View.VISIBLE : View.GONE;
 
-    mContentText.setVisibility(visibility);
+    mConfirmationView.setVisibility(visibility);
     mCancelButton.setVisibility(visibility);
-    mAddButton.setText(show ? R.string.add_anyway_btn : R.string.add_btn);
-    mAddButton.setVisibility(visibility);
+    mJustOnceButton.setVisibility(visibility);
+    mAlwaysButton.setVisibility(visibility);
   }
 
-  private void showConfirmationView() {
+  private void showConfirmationView(int id) {
+    setConfirmation(id);
     toggleConfirmationView(true);
   }
 
@@ -348,11 +328,53 @@ public class AddActivity extends AppCompatActivity {
 
     mActionBar.setTitle(title);
     mContentText.setText(message);
+    mAlwaysButton.setTag(id);
   }
 
   private void resetConfirmation() {
     mActionBar.setTitle(R.string.title_add);
     mContentText.setText(null);
+  }
+
+  private void setupFormFields() {
+    mTrackingNumberField.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        int length = s.length();
+        mTrackingNumberField.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
+        mAddButton.setEnabled(length == 13);
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {}
+    });
+
+    mTrackingNumberField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        if (hasFocus) return;
+
+        String error = null;
+        try {
+          parseCod(mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault()));
+        } catch (Exception e) {
+          error = e.getMessage();
+        } finally {
+          mTrackingNumberInput.setError(error);
+        }
+      }
+    });
+
+    mItemNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        onAddClick(null);
+        return true;
+      }
+    });
   }
 
   private void handleIntent() {
@@ -459,6 +481,30 @@ public class AddActivity extends AppCompatActivity {
     }
   }
 
+  private int getConfirmationPreferenceKeyById(int id) {
+    switch (id) {
+      case NOT_FOUND:
+        return R.string.pref_key_always_add_not_found;
+
+      case DELIVERED_ITEM:
+        return R.string.pref_key_always_add_delivered;
+
+      case RETURNED_ITEM:
+        return R.string.pref_key_always_add_returned;
+
+      case NET_ERROR:
+        return R.string.pref_key_always_add_net_error;
+
+      default:
+        return -1;
+    }
+  }
+
+  private boolean shouldAskForConfirmation(int id) {
+    int preferenceKey = getConfirmationPreferenceKeyById(id);
+    return preferenceKey != -1 && !mPrefs.getBoolean(getString(preferenceKey), false);
+  }
+
   private class FetchPostalItemRecordTask extends AsyncTask<Object, Void, PostalItemRecord> {
     private String error;
 
@@ -485,6 +531,7 @@ public class AddActivity extends AppCompatActivity {
       try {
         List<RegistroRastreamento> rrList = Rastreamento.rastrear(pi.getCod());
         pi.setReg(rrList.get(0));
+        prList.clear();
 
         for (int i = 0, length = rrList.size(); i < length; i++) {
           pr = new PostalRecord(pi.getCod(), length - i - 1, rrList.get(i));
@@ -514,13 +561,19 @@ public class AddActivity extends AppCompatActivity {
           error.equals(getString(R.string.title_alert_returned_item)) ? RETURNED_ITEM : -1;
 
         if (id != -1) {
-          hideLoadingView();
-          setConfirmation(id);
-          showConfirmationView();
+          if (shouldAskForConfirmation(id)) {
+            hideLoadingView();
+            showConfirmationView(id);
+
+          } else {
+            addPostalItemRecord();
+          }
 
         } else {
+          // TODO check if it is possible to add an item by rotating the device at this point
           UIUtils.showToast(AddActivity.this, error);
         }
+
       } else {
         addPostalItemRecord();
       }

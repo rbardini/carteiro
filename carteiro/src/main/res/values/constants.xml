@@ -13,6 +13,10 @@
 
   <!-- Preferences keys -->
   <string name="pref_key_on_boot">onboot</string>
+  <string name="pref_key_always_add_not_found">alwaysaddnotfound</string>
+  <string name="pref_key_always_add_delivered">alwaysadddelivered</string>
+  <string name="pref_key_always_add_returned">alwaysaddreturned</string>
+  <string name="pref_key_always_add_net_error">alwaysaddneterror</string>
   <string name="pref_key_auto_sync">autosync</string>
   <string name="pref_key_refresh_interval">refreshinterval</string>
   <string name="pref_key_sync_favorites_only">syncfavoritesonly</string>

@@ -10,8 +10,9 @@
   <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancel</string>
   <string name="add_btn">Add</string>
-  <string name="add_anyway_btn">Add anyway</string>
   <string name="add_another_btn">Add another</string>
+  <string name="just_once_btn">Just once</string>
+  <string name="always_btn">Always</string>
   <string name="skip_btn">Skip</string>
   <string name="rename_btn">Rename</string>
   <string name="delete_btn">Delete</string>
