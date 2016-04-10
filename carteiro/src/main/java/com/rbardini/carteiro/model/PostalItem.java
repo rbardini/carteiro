@@ -1,11 +1,12 @@
 package com.rbardini.carteiro.model;
 
+import android.content.Context;
+
+import com.rbardini.carteiro.util.PostalUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-import android.content.Context;
-import com.rbardini.carteiro.util.PostalUtils;
 
 public class PostalItem implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -45,17 +46,6 @@ public class PostalItem implements Serializable {
   public PostalItem(String cod, String desc, boolean fav) {
     this.cod = cod;
     this.desc = desc;
-    this.fav = fav;
-    this.archived = false;
-  }
-
-  public PostalItem(String cod, String desc, RegistroRastreamento rr, boolean fav) {
-    this.cod = cod;
-    this.desc = desc;
-    this.date = rr.getDataHora();
-    this.loc = rr.getLocal();
-    this.info = rr.getDetalhe();
-    this.status = rr.getAcao();
     this.fav = fav;
     this.archived = false;
   }
@@ -100,21 +90,6 @@ public class PostalItem implements Serializable {
   public boolean isArchived() { return archived; }
   public void setArchived(boolean archived) { this.archived = archived; }
   public boolean toggleArchived() { return this.archived = !this.archived; }
-
-  public RegistroRastreamento getReg() {
-    RegistroRastreamento rr = new RegistroRastreamento();
-    rr.setDataHora(date);
-    rr.setLocal(loc);
-    rr.setDetalhe(info);
-    rr.setAcao(status);
-    return rr;
-  }
-  public void setReg(RegistroRastreamento rr) {
-    this.date = rr.getDataHora();
-    this.loc = rr.getLocal();
-    this.info = rr.getDetalhe();
-    this.status = rr.getAcao();
-  }
 
   public String getService() {
     return PostalUtils.Service.getService(cod);

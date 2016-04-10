@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.rbardini.carteiro.util.UIUtils;
 import java.util.ArrayList;
 
 public abstract class PostalActivity extends AppCompatActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
+  private static final String TAG = "PostalActivity";
   protected CarteiroApplication app;
 
   @Override
@@ -68,8 +70,8 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
 
       case SyncService.STATUS_ERROR:
         updateRefreshStatus();
-        final String error = getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
-        UIUtils.showToast(this, error);
+        UIUtils.showToast(this, getString(R.string.toast_unexpected_error));
+        Log.e(TAG, resultData.getString(Intent.EXTRA_TEXT));
         break;
     }
   }

@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public final class PostalUtils {
+  public static final String WEBSRO_URL = "http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&P_TIPO=001&P_COD_UNI=%s";
+
   public static final class Category {
     public static final int ALL         = 0x1;
     public static final int FAVORITES   = 0x2;
@@ -640,8 +642,7 @@ public final class PostalUtils {
   }
 
   public static final class Error {
-    public static final String NOT_FOUND = "O sistema dos Correios não possui dados sobre o objeto informado";
-    public static final String NET_ERROR = "Não foi possível obter contato com o site";
+    public static final String NET_ERROR = "Could not complete the request to Correios server";
   }
 
   public static String getLocation(PostalItem pi, boolean uri) {

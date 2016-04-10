@@ -9,8 +9,6 @@
   <string name="gplus_url">http://plus.google.com/communities/102688961399152413062</string>
   <string name="feedback_url">http://feedback.carteiroapp.com/</string>
 
-  <string name="websro_url">http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&#038;P_TIPO=001&#038;P_COD_UNI=%s</string>
-
   <!-- Preferences keys -->
   <string name="pref_key_on_boot">onboot</string>
   <string name="pref_key_always_add_not_found">alwaysaddnotfound</string>

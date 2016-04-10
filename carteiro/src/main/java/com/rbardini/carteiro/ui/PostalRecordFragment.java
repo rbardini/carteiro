@@ -13,6 +13,7 @@ import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PostalRecordFragment extends PostalFragment {
@@ -72,5 +73,6 @@ public class PostalRecordFragment extends PostalFragment {
 
   public void updateList() {
     dh.getPostalRecords(mList, pi.getCod());
+    Collections.reverse(mList);
   }
 }

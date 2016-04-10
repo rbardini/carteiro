@@ -94,7 +94,7 @@
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_items_deleted">%d objetos excluídos.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
-  <string name="toast_sync_error">Erro de sincronização: %s</string>
+  <string name="toast_unexpected_error">Oops! Algo de errado aconteceu, por favor tente novamente mais tarde.</string>
   <string name="toast_backup_created">Backup criado com sucesso na pasta %s.</string>
   <string name="toast_backup_restored">Backup restaurado com sucesso.</string>
   <string name="toast_backup_creation_fail">Falha ao criar backup: %s</string>

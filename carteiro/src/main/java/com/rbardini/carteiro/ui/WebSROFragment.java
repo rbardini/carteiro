@@ -10,6 +10,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.util.PostalUtils;
 
 public class WebSROFragment extends Fragment {
   public static final String TAG = "WebSROFragment";
@@ -55,7 +56,7 @@ public class WebSROFragment extends Fragment {
       }
     });
     mWebView.setBackgroundColor(getResources().getColor(R.color.websro));
-    mWebView.loadUrl(getString(R.string.websro_url, getArguments().getString("cod")));
+    mWebView.loadUrl(String.format(PostalUtils.WEBSRO_URL, getArguments().getString("cod")));
 
     return view;
   }

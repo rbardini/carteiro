@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,19 +38,17 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.util.PostalUtils;
+import com.rbardini.carteiro.util.Tracker;
 import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidator;
 
-import org.alfredlibrary.utilitarios.correios.Rastreamento;
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class AddActivity extends AppCompatActivity {
+  private static final String TAG = "AddActivity";
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
 
   public static final int NOT_FOUND      = 0x1;
@@ -517,36 +516,34 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected PostalItemRecord doInBackground(Object... params) {
       PostalItemRecord pir = (PostalItemRecord) params[0];
-
-      PostalItem pi = pir.getPostalItem();
-      PostalRecord pr = new PostalRecord(pi.getCod(), -1, new Date(), PostalUtils.Status.NAO_ENCONTRADO);
-      pi.setReg(pr.getReg());
-
-      List<PostalRecord> prList = new ArrayList<>();
-      prList.add(pr);
-
-      pir.setPostalItem(pi);
-      pir.setPostalRecords(prList);
+      String cod = pir.getCod();
 
       try {
-        List<RegistroRastreamento> rrList = Rastreamento.rastrear(pi.getCod());
-        pi.setReg(rrList.get(0));
-        prList.clear();
+        List<PostalRecord> prList = Tracker.track(cod);
 
-        for (int i = 0, length = rrList.size(); i < length; i++) {
-          pr = new PostalRecord(pi.getCod(), length - i - 1, rrList.get(i));
-          prList.add(pr);
-        }
+        if (prList.isEmpty()) {
+          error = getString(R.string.title_alert_not_found);
 
-        if (pi.getStatus().equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
-          error = getString(R.string.title_alert_delivered_item);
-        }
-        if (pi.getStatus().equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
-          error = getString(R.string.title_alert_returned_item);
+        } else {
+          pir.setPostalRecords(prList);
+
+          String status = pir.getLastPostalRecord().getStatus();
+
+          if (status.equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
+            error = getString(R.string.title_alert_delivered_item);
+
+          } else if (status.equals(PostalUtils.Status.DEVOLVIDO_AO_REMETENTE)) {
+            error = getString(R.string.title_alert_returned_item);
+          }
         }
 
       } catch (Exception e) {
         error = e.getMessage();
+
+      } finally {
+        if (pir.getPostalRecords().isEmpty()) {
+          pir.setPostalRecord(new PostalRecord(cod, new Date(), PostalUtils.Status.NAO_ENCONTRADO));
+        }
       }
 
       return pir;
@@ -555,12 +552,18 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onPostExecute(PostalItemRecord pir) {
       if (error != null) {
-        int id = error.equals(PostalUtils.Error.NOT_FOUND) ? NOT_FOUND :
-          error.startsWith(PostalUtils.Error.NET_ERROR) ? NET_ERROR :
+        int id =
+          error.equals(PostalUtils.Error.NET_ERROR) ? NET_ERROR :
+          error.equals(getString(R.string.title_alert_not_found)) ? NOT_FOUND :
           error.equals(getString(R.string.title_alert_delivered_item)) ? DELIVERED_ITEM :
           error.equals(getString(R.string.title_alert_returned_item)) ? RETURNED_ITEM : -1;
 
-        if (id != -1) {
+        if (id == -1) {
+          // TODO check if it is possible to add an item by rotating the device at this point
+          UIUtils.showToast(AddActivity.this, getString(R.string.toast_unexpected_error));
+          Log.e(TAG, error);
+
+        } else {
           if (shouldAskForConfirmation(id)) {
             hideLoadingView();
             showConfirmationView(id);
@@ -568,10 +571,6 @@ public class AddActivity extends AppCompatActivity {
           } else {
             addPostalItemRecord();
           }
-
-        } else {
-          // TODO check if it is possible to add an item by rotating the device at this point
-          UIUtils.showToast(AddActivity.this, error);
         }
 
       } else {

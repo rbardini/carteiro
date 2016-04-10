@@ -131,10 +131,10 @@ public class DatabaseHelper {
     }
   }
 
-  public boolean insertPostalRecord(PostalRecord pr) {
+  public boolean insertPostalRecord(PostalRecord pr, int pos) {
     ContentValues cv = new ContentValues();
     cv.put("cod", pr.getCod().toUpperCase(Locale.getDefault()));
-    cv.put("pos", pr.getPos());
+    cv.put("pos", pos);
     if (pr.getDate() != null) { cv.put("date", iso8601.format(pr.getDate())); }
     cv.put("status", pr.getStatus());
     cv.put("loc", pr.getLoc());
@@ -144,9 +144,20 @@ public class DatabaseHelper {
       db.insertOrThrow(POSTAL_RECORD_TABLE, null, cv);
       notifyDatabaseChanged();
       return true;
+
     } catch (SQLException e) {
       return false;
     }
+  }
+
+  public boolean insertPostalRecords(List<PostalRecord> prList) {
+    for (int i = 0, length = prList.size(); i < length; i++) {
+      if (!insertPostalRecord(prList.get(i), i)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   public int renamePostalItem(String cod, String desc) {
@@ -341,7 +352,7 @@ public class DatabaseHelper {
     PostalRecord pr = null;
     Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos DESC", "1");
     if (c.moveToFirst()) {
-      pr = new PostalRecord(cod, c.getInt(1), iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
+      pr = new PostalRecord(cod, iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
     }
     if (!c.isClosed()) {
       c.close();
@@ -354,7 +365,7 @@ public class DatabaseHelper {
     PostalRecord pr = null;
     Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC", "1");
     if (c.moveToFirst()) {
-      pr = new PostalRecord(cod, c.getInt(1), iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
+      pr = new PostalRecord(cod, iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
     }
     if (!c.isClosed()) {
       c.close();
@@ -365,12 +376,11 @@ public class DatabaseHelper {
 
   public int getPostalRecords(List<PostalRecord> list, String cod) {
     list.clear();
-    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos DESC");
+    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC");
     if (c.moveToFirst()) {
       do {
         try {
-          list.add(new PostalRecord(c.getString(0), c.getInt(1), iso8601.parse(c.getString(2)),
-              c.getString(3), c.getString(4), c.getString(5)));
+          list.add(new PostalRecord(c.getString(0), iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5)));
         } catch (ParseException e) {
           Log.e(TAG, e.getMessage());
         }

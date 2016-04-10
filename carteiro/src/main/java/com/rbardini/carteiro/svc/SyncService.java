@@ -30,11 +30,8 @@ import com.rbardini.carteiro.ui.RecordActivity;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
+import com.rbardini.carteiro.util.Tracker;
 import com.rbardini.carteiro.util.UIUtils;
-
-import org.alfredlibrary.AlfredException;
-import org.alfredlibrary.utilitarios.correios.Rastreamento;
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -133,26 +130,25 @@ public class SyncService extends IntentService {
       }
 
       try {
-        List<RegistroRastreamento> list = Rastreamento.rastrear(cod);
-        RegistroRastreamento lastReg = pir.getLatestPostalRecord().getReg();
+        List<PostalRecord> prList = Tracker.track(cod);
+        PostalRecord lastRecord = pir.getLastPostalRecord();
 
-        boolean itemUpdated = !lastReg.equals(list.get(0));
-        boolean listSizeChanged = list.size() != pir.size();
+        int listSize = prList.size();
+        boolean hasRecord = listSize > 0;
+        boolean itemUpdated = hasRecord && !lastRecord.equals(prList.get(prList.size() - 1));
+        boolean listSizeChanged = hasRecord && listSize != pir.size();
 
         if (itemUpdated || listSizeChanged) {
-          updatePostalItem(cod, list);
-        }
+          updatePostalItem(cod, prList);
 
-        if (itemUpdated) {
-          app.addUpdatedCod(cod);
-          hasUpdate = true;
+          if (itemUpdated) {
+            app.addUpdatedCod(cod);
+            hasUpdate = true;
+          }
         }
-
-      } catch (AlfredException e) {
-        Log.w(TAG, String.valueOf(e.getMessage()));
 
       } catch (Exception e) {
-        Log.e(TAG, String.valueOf(e.getMessage()));
+        Log.e(TAG, e.getMessage());
       }
     }
 
@@ -185,13 +181,11 @@ public class SyncService extends IntentService {
     return isConnected && (isManualSync || isWifi || !syncWifiOnly);
   }
 
-  private void updatePostalItem(String cod, List<RegistroRastreamento> list) {
+  private void updatePostalItem(String cod, List<PostalRecord> prList) {
     dh.beginTransaction();
-    dh.deletePostalRecords(cod);
 
-    for (int i = 0, length = list.size(); i < length; i++) {
-      dh.insertPostalRecord(new PostalRecord(cod, length - i - 1, list.get(i)));
-    }
+    dh.deletePostalRecords(cod);
+    dh.insertPostalRecords(prList);
 
     dh.setTransactionSuccessful();
     dh.endTransaction();

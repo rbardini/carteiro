@@ -1,14 +1,11 @@
 package com.rbardini.carteiro.model;
 
+import com.rbardini.carteiro.db.DatabaseHelper;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-
-import com.rbardini.carteiro.db.DatabaseHelper;
 
 public class PostalItemRecord implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -18,17 +15,17 @@ public class PostalItemRecord implements Serializable {
 
   public PostalItemRecord(String cod) {
     this.pi = new PostalItem(cod);
-    this.prList = new ArrayList<PostalRecord>();
+    this.prList = new ArrayList<>();
   }
 
   public PostalItemRecord(PostalItem pi) {
     this.pi = pi;
-    this.prList = new ArrayList<PostalRecord>();
+    this.prList = new ArrayList<>();
   }
 
   public PostalItemRecord(PostalItem pi, PostalRecord pr) {
     this.pi = pi;
-    this.prList = new ArrayList<PostalRecord>();
+    this.prList = new ArrayList<>();
     this.prList.add(pr);
   }
 
@@ -47,7 +44,7 @@ public class PostalItemRecord implements Serializable {
   public void setPostalRecord(PostalRecord pr) { this.prList.add(pr); }
   public void setPostalRecord(PostalRecord pr, int pos) { this.prList.add(pos, pr); }
 
-  public PostalRecord getLatestPostalRecord() { return this.prList.get(0); } // Make sure the list is descending-ordered
+  public PostalRecord getLastPostalRecord() { return this.prList.get(this.prList.size() - 1); }
 
   // Expose PostalItem getters
   public String getCod() { return this.pi.getCod(); }
@@ -61,7 +58,6 @@ public class PostalItemRecord implements Serializable {
   public String getFullInfo() { return this.pi.getFullInfo(); }
   public String getStatus() { return this.pi.getStatus(); }
   public boolean isFav() { return this.pi.isFav(); }
-  public RegistroRastreamento getReg() { return this.pi.getReg(); }
 
   public PostalItemRecord loadFrom(DatabaseHelper dh) {
     this.pi = dh.getPostalItem(this.getCod());
@@ -74,10 +70,7 @@ public class PostalItemRecord implements Serializable {
     dh.beginTransaction();
 
     dh.insertPostalItem(this.pi);
-
-    for (PostalRecord pr : this.prList) {
-      dh.insertPostalRecord(pr); // TODO: Handle insert error
-    }
+    dh.insertPostalRecords(prList);
 
     dh.setTransactionSuccessful();
     dh.endTransaction();

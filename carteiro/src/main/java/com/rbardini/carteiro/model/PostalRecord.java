@@ -1,7 +1,5 @@
 package com.rbardini.carteiro.model;
 
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +7,6 @@ public class PostalRecord implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String cod;
-  private int pos;
   private Date date;
   private String loc;
   private String info;
@@ -17,30 +14,18 @@ public class PostalRecord implements Serializable {
 
   public PostalRecord() {}
 
-  public PostalRecord(String cod, int pos) {
+  public PostalRecord(String cod) {
     this.cod = cod;
-    this.pos = pos;
   }
 
-  public PostalRecord(String cod, int pos, RegistroRastreamento rr) {
+  public PostalRecord(String cod, Date date, String status) {
     this.cod = cod;
-    this.pos = pos;
-    this.date = rr.getDataHora();
-    this.loc = rr.getLocal();
-    this.info = rr.getDetalhe();
-    this.status = rr.getAcao();
-  }
-
-  public PostalRecord(String cod, int pos, Date date, String status) {
-    this.cod = cod;
-    this.pos = pos;
     this.date = date;
     this.status = status;
   }
 
-  public PostalRecord(String cod, int pos, Date date, String status, String loc, String info) {
+  public PostalRecord(String cod, Date date, String status, String loc, String info) {
     this.cod = cod;
-    this.pos = pos;
     this.date = date;
     this.status = status;
     this.loc = loc;
@@ -49,9 +34,6 @@ public class PostalRecord implements Serializable {
 
   public String getCod() { return cod; }
   public void setCod(String cod) { this.cod = cod; }
-
-  public int getPos() { return pos; }
-  public void setPos(int pos) { this.pos = pos; }
 
   public Date getDate() { return date; }
   public void setDate(Date date) { this.date = date; }
@@ -65,21 +47,6 @@ public class PostalRecord implements Serializable {
 
   public String getStatus() { return status; }
   public void setStatus(String status) { this.status = status; }
-
-  public RegistroRastreamento getReg() {
-    RegistroRastreamento rr = new RegistroRastreamento();
-    rr.setDataHora(date);
-    rr.setLocal(loc);
-    rr.setDetalhe(info);
-    rr.setAcao(status);
-    return rr;
-  }
-  public void setReg(RegistroRastreamento rr) {
-    this.date = rr.getDataHora();
-    this.loc = rr.getLocal();
-    this.info = rr.getDetalhe();
-    this.status = rr.getAcao();
-  }
 
   @Override
   public boolean equals(Object obj) {
