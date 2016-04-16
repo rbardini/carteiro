@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
@@ -172,7 +173,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
       case R.id.fav_opt:
         mPostalItem.toggleFav();
 
-        app.getDatabaseHelper().togglePostalItemFav(mPostalItem.getCod());
+        dh.togglePostalItemFav(mPostalItem.getCod());
         app.setUpdatedList();
 
         invalidateOptionsMenu();
@@ -193,7 +194,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
       case R.id.archive_opt:
         mPostalItem.toggleArchived();
 
-        app.getDatabaseHelper().togglePostalItemArchived(mPostalItem.getCod());
+        dh.togglePostalItemArchived(mPostalItem.getCod());
         app.setUpdatedList();
 
         UIUtils.showToast(this, mPostalItem.isArchived() ? getString(R.string.toast_item_archived, mPostalItem.getSafeDesc())
@@ -232,7 +233,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
 
   @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
-    app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
+    dh.renamePostalItem(pi.getCod(), desc);
     app.setUpdatedList();
     this.mPostalItem.setDesc(desc);
     setTitleBar();
@@ -240,11 +241,12 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
 
   @Override
   public void onDeletePostalItems(ArrayList<PostalItem> piList) {
-    final PostalItem pi = piList.get(0);
+    final PostalItemRecord pir = new PostalItemRecord(piList.get(0));
 
-    app.getDatabaseHelper().deletePostalItem(pi.getCod());
+    pir.deleteFrom(dh);
     app.setUpdatedList();
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pi.getSafeDesc()));
+
+    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pir.getSafeDesc()));
     UIUtils.goHome(this);
   }
 

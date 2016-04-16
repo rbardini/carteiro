@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.model;
 
 import com.rbardini.carteiro.db.DatabaseHelper;
+import com.rbardini.carteiro.util.Tracker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -59,6 +60,11 @@ public class PostalItemRecord implements Serializable {
   public String getStatus() { return this.pi.getStatus(); }
   public boolean isFav() { return this.pi.isFav(); }
 
+  public PostalItemRecord fetch() throws Exception {
+    this.prList = Tracker.track(this.pi.getCod());
+    return this;
+  }
+
   public PostalItemRecord loadFrom(DatabaseHelper dh) {
     this.pi = dh.getPostalItem(this.getCod());
     dh.getPostalRecords(this.prList, this.getCod());
@@ -78,8 +84,34 @@ public class PostalItemRecord implements Serializable {
     return this;
   }
 
+  public PostalItemRecord archiveTo(DatabaseHelper dh) {
+    dh.beginTransaction();
+
+    dh.archivePostalItem(this.pi.getCod());
+
+    dh.setTransactionSuccessful();
+    dh.endTransaction();
+
+    return this;
+  }
+
+  public PostalItemRecord deleteFrom(DatabaseHelper dh) {
+    dh.beginTransaction();
+
+    dh.deletePostalItem(this.pi.getCod());
+
+    dh.setTransactionSuccessful();
+    dh.endTransaction();
+
+    return this;
+  }
+
   public int size() {
     return this.prList.size();
+  }
+
+  public boolean isEmpty() {
+    return this.prList.isEmpty();
   }
 
   @Override

@@ -30,12 +30,10 @@ import com.rbardini.carteiro.ui.RecordActivity;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
-import com.rbardini.carteiro.util.Tracker;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 public class SyncService extends IntentService {
@@ -130,16 +128,20 @@ public class SyncService extends IntentService {
       }
 
       try {
-        List<PostalRecord> prList = Tracker.track(cod);
-        PostalRecord lastRecord = pir.getLastPostalRecord();
+        int oldListSize = pir.size();
+        PostalRecord oldLastRecord = pir.getLastPostalRecord();
 
-        int listSize = prList.size();
-        boolean hasRecord = listSize > 0;
-        boolean itemUpdated = hasRecord && !lastRecord.equals(prList.get(prList.size() - 1));
-        boolean listSizeChanged = hasRecord && listSize != pir.size();
+        pir.fetch();
+
+        int newListSize = pir.size();
+        PostalRecord newLastRecord = pir.getLastPostalRecord();
+
+        boolean hasRecord = newListSize > 0;
+        boolean itemUpdated = hasRecord && !oldLastRecord.equals(newLastRecord);
+        boolean listSizeChanged = hasRecord && newListSize != oldListSize;
 
         if (itemUpdated || listSizeChanged) {
-          updatePostalItem(cod, prList);
+          updatePostalItem(cod, pir);
 
           if (itemUpdated) {
             app.addUpdatedCod(cod);
@@ -181,11 +183,11 @@ public class SyncService extends IntentService {
     return isConnected && (isManualSync || isWifi || !syncWifiOnly);
   }
 
-  private void updatePostalItem(String cod, List<PostalRecord> prList) {
+  private void updatePostalItem(String cod, PostalItemRecord pir) {
     dh.beginTransaction();
 
     dh.deletePostalRecords(cod);
-    dh.insertPostalRecords(prList);
+    dh.insertPostalRecords(pir.getPostalRecords());
 
     dh.setTransactionSuccessful();
     dh.endTransaction();

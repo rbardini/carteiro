@@ -38,13 +38,11 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.util.PostalUtils;
-import com.rbardini.carteiro.util.Tracker;
 import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidator;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class AddActivity extends AppCompatActivity {
@@ -175,7 +173,7 @@ public class AddActivity extends AppCompatActivity {
     if (scanResult != null && data != null) {
       try {
         String contents = data.getStringExtra("SCAN_RESULT");
-        String cod = parseCod(contents);
+        String cod = validateCod(contents);
         mTrackingNumberField.setText(cod);
         mItemNameField.requestFocus();
       } catch (Exception e) {
@@ -208,11 +206,13 @@ public class AddActivity extends AppCompatActivity {
     String error = null;
 
     try {
-      cod = parseCod(cod);
+      cod = validateCod(cod);
       mPostalItemRecord = new PostalItemRecord(new PostalItem(cod, (desc.trim().equals("") ? null : desc)));
       mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
+
     } catch (Exception e) {
       error = e.getMessage();
+
     } finally {
       mTrackingNumberInput.setError(error);
     }
@@ -357,10 +357,13 @@ public class AddActivity extends AppCompatActivity {
         if (hasFocus) return;
 
         String error = null;
+
         try {
-          parseCod(mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault()));
+          validateCod(mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault()));
+
         } catch (Exception e) {
           error = e.getMessage();
+
         } finally {
           mTrackingNumberInput.setError(error);
         }
@@ -391,7 +394,7 @@ public class AddActivity extends AppCompatActivity {
 
       if (cod != null) {
         try {
-          cod = parseCod(cod);
+          cod = validateCod(cod);
           mTrackingNumberField.setText(cod);
           onAddClick(null);
 
@@ -414,7 +417,7 @@ public class AddActivity extends AppCompatActivity {
           cod = text.toString().trim();
 
           try {
-            cod = parseCod(cod);
+            cod = validateCod(cod);
 
             if (!dh.isPostalItem(cod)) {
               mTrackingNumberField.setText(cod);
@@ -426,7 +429,7 @@ public class AddActivity extends AppCompatActivity {
     }
   }
 
-  private String parseCod(String cod) throws Exception {
+  private String validateCod(String cod) throws Exception {
     TrackingCodeValidation validation = TrackingCodeValidator.validate(cod);
     String error;
 
@@ -519,14 +522,12 @@ public class AddActivity extends AppCompatActivity {
       String cod = pir.getCod();
 
       try {
-        List<PostalRecord> prList = Tracker.track(cod);
+        pir.fetch();
 
-        if (prList.isEmpty()) {
+        if (pir.isEmpty()) {
           error = getString(R.string.title_alert_not_found);
 
         } else {
-          pir.setPostalRecords(prList);
-
           String status = pir.getLastPostalRecord().getStatus();
 
           if (status.equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
@@ -541,7 +542,7 @@ public class AddActivity extends AppCompatActivity {
         error = e.getMessage();
 
       } finally {
-        if (pir.getPostalRecords().isEmpty()) {
+        if (pir.isEmpty()) {
           pir.setPostalRecord(new PostalRecord(cod, new Date(), PostalUtils.Status.NAO_ENCONTRADO));
         }
       }

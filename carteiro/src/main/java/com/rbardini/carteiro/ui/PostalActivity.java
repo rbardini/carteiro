@@ -14,7 +14,9 @@ import android.view.View;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.UIUtils;
@@ -97,8 +99,12 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
   @Override
   public void onDeletePostalItems(ArrayList<PostalItem> piList) {
     final int listSize = piList.size();
+    final DatabaseHelper dh = app.getDatabaseHelper();
 
-    for (PostalItem pi : piList) app.getDatabaseHelper().deletePostalItem(pi.getCod());
+    for (PostalItem pi : piList) {
+      PostalItemRecord pir = new PostalItemRecord(pi);
+      pir.deleteFrom(dh);
+    }
 
     String message = listSize == 1
         ? getString(R.string.toast_item_deleted, piList.get(0).getSafeDesc())

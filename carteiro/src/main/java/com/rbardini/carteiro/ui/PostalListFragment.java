@@ -18,6 +18,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
@@ -153,10 +154,14 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
   @Override
   public void deleteItem(int position) {
-    PostalItem pi = mList.get(position);
+    PostalItemRecord pir = new PostalItemRecord(mList.get(position));
 
-    if (shouldDeleteItems()) dh.deletePostalItem(pi.getCod());
-    else dh.archivePostalItem(pi.getCod());
+    if (shouldDeleteItems()) {
+      pir.deleteFrom(dh);
+
+    } else {
+      pir.archiveTo(dh);
+    }
 
     mListAdapter.remove(position);
     app.setUpdatedList();
