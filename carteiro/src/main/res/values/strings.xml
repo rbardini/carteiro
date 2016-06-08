@@ -73,7 +73,7 @@
   </plurals>
 
   <!-- Postal List -->
-  <string name="text_empty_list">No items.</string>
+  <string name="text_empty_list">No item here.</string>
   <string name="text_unknown_location">Unknown location</string>
 
   <string name="title_send_list">Send via</string>

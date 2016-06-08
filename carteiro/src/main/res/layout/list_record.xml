@@ -16,7 +16,4 @@
 
   </android.support.v4.widget.SwipeRefreshLayout>
 
-  <TextView style="@style/EmptyText"
-    android:id="@android:id/empty" />
-
 </FrameLayout>

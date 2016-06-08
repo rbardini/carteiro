@@ -9,6 +9,7 @@
   <color name="theme_accent_light">@color/blue_300</color>
   <color name="theme_accent_hint">@color/blue_500_hint</color>
   <color name="theme_background">@color/grey_50</color>
+  <color name="theme_placeholder">@color/blue_grey_100</color>
 
   <color name="postal_status_all">@color/light_blue_400</color>
   <color name="postal_status_posted">@color/brown_400</color>
