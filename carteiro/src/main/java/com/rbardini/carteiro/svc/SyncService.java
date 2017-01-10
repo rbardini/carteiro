@@ -16,6 +16,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
 
@@ -252,7 +253,7 @@ public class SyncService extends IntentService {
       Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("share");
 
       notificationBuilder
-        .setColor(getResources().getColor(UIUtils.getPostalStatusColor(pi.getStatus())))
+        .setColor(ContextCompat.getColor(this, UIUtils.getPostalStatusColor(pi.getStatus())))
         .setSubText(pi.getLoc())
         .addAction(R.drawable.ic_menu_place, getString(R.string.opt_view_place), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
         .addAction(R.drawable.ic_menu_share, getString(R.string.opt_share), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));

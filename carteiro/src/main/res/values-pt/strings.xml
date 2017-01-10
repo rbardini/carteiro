@@ -189,6 +189,12 @@
   <string name="pref_vibrate_title">Vibrar</string>
   <string name="pref_vibrate_summary">Vibrar ao receber notificações</string>
 
+  <string name="pref_appearance_header">Aparência</string>
+  <string name="pref_theme_title">Tema</string>
+  <string name="pref_theme_summary">Escolher um tema</string>
+  <string name="pref_theme_light">Claro</string>
+  <string name="pref_theme_dark">Escuro</string>
+
   <string name="pref_backup_header">Fazer backup e restaurar</string>
   <string name="pref_backup_permission_denied">Permissão para acessar arquivos é necessária para fazer backup e restaurar.</string>
   <string name="pref_create_backup_title">Criar backup</string>

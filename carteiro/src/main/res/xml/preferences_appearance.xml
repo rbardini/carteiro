@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <com.rbardini.carteiro.ui.ThemePreference android:key="@string/pref_key_theme"
+    android:title="@string/pref_theme_title"
+    android:summary="@string/pref_theme_summary"
+    android:defaultValue="1" />
+
+</PreferenceScreen>

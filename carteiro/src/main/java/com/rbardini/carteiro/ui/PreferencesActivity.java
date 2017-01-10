@@ -15,6 +15,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -83,7 +84,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
   }
 
   @Override
-  public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+  public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
     switch (requestCode) {
       case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
         if (grantResults.length == 0) {
@@ -183,6 +184,27 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
       if (ringtoneTitle == null || ringtoneTitle.equals(unknownRingtoneTitle)) ringtoneTitle = getString(R.string.pref_ringtone_summary);
 
       preference.setSummary(ringtoneTitle);
+    }
+  }
+
+  public static class AppearancePreferences extends PreferencesFragment {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      addPreferencesFromResource(R.xml.preferences_appearance);
+
+      setThemePreference();
+    }
+
+    private void setThemePreference() {
+      ThemePreference pref = (ThemePreference) findPreference(getString(R.string.pref_key_theme));
+
+      if (pref.getValue().equals(getString(R.string.theme_dark))) {
+        pref.setSummary(R.string.pref_theme_dark);
+
+      } else {
+        pref.setSummary(R.string.pref_theme_light);
+      }
     }
   }
 

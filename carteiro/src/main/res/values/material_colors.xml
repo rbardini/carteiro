@@ -553,13 +553,6 @@
   <color name="black_hint">#42000000</color>
   <color name="white_hint">#42ffffff</color>
 
-  <!-- Text, icons and dividers -->
-  <color name="text_primary">#de000000</color>   <!-- 87% #000 -->
-  <color name="text_secondary">#8a000000</color> <!-- 54% #000 -->
-  <color name="text_hint">#42000000</color>      <!-- 26% #000 -->
-  <color name="divider">#1f000000</color>        <!-- 12% #000 -->
-  <color name="icon">@color/text_secondary</color>
-
   <!-- Buttons -->
   <color name="button_light_normal">#00999999</color>   <!--  0% #999 -->
   <color name="button_light_hover">#33999999</color>    <!-- 20% #999 -->

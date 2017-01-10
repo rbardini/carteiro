@@ -6,9 +6,6 @@
     <item name="android:textAllCaps">true</item>
   </style>
   <style name="EditTextStyle" parent="@style/Widget.AppCompat.EditText">
-    <item name="android:textColor">@color/text_primary</item>
-    <item name="android:textColorHint">@color/text_hint</item>
-    <item name="android:textSize">@dimen/text_size_subhead</item>
     <item name="android:singleLine">true</item>
     <item name="android:includeFontPadding">false</item>
   </style>
@@ -18,6 +15,9 @@
     <item name="android:background">@drawable/borderless_button_background</item>
     <item name="android:minWidth">@dimen/button_min_width</item>
   </style>
+  <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
+    <item name="android:colorBackground">@color/theme_background</item>
+  </style>
 
   <!-- Custom Widgets -->
   <style name="ActionBar">
@@ -25,12 +25,12 @@
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">?attr/actionBarSize</item>
     <item name="android:background">?attr/colorPrimary</item>
-    <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="popupTheme">@style/PopupTheme</item>
   </style>
   <style name="ActionBar.Raised" />
   <style name="ActionBar.Light">
-    <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
   </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
@@ -69,7 +69,6 @@
   <style name="ListView" parent="@style/android:Widget.DeviceDefault.ListView">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">match_parent</item>
-    <item name="android:divider">@color/divider_solid</item>
     <item name="android:dividerHeight">1px</item>
     <item name="android:cacheColorHint">@color/theme_background</item>
     <item name="android:clipToPadding">false</item>
@@ -86,7 +85,7 @@
     <item name="android:layout_height">wrap_content</item>
   </style>
   <style name="ListText.Title">
-    <item name="android:textColor">@color/text_primary</item>
+    <item name="android:textColor">?android:attr/textColorPrimary</item>
     <item name="android:textSize">@dimen/text_size_subhead</item>
   </style>
   <style name="ListText.SubTitle">
@@ -95,7 +94,6 @@
   </style>
   <style name="ListText.Info">
     <item name="android:textSize">@dimen/text_size_caption</item>
-    <item name="android:textColor">@color/text_secondary</item>
   </style>
 
   <!-- Record Activity -->

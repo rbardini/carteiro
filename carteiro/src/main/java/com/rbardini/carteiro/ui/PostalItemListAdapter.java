@@ -1,9 +1,9 @@
 package com.rbardini.carteiro.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,10 +41,10 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
 
   @Override
   public View getView(final int position, View convertView, final ViewGroup parent) {
-    // A ViewHolder keeps references to children views to avoid unneccessary calls to findViewById() on each row
+    // A ViewHolder keeps references to children views to avoid unnecessary calls to findViewById() on each row
     ViewHolder holder;
 
-    // When convertView is not null, we can reuse it directly, there is no need to reinflate it
+    // When convertView is not null, we can reuse it directly, there is no need to re-inflate it
     // We only inflate a new View when the convertView supplied by ListView is null
     if (convertView == null) {
       convertView = mInflater.inflate(R.layout.list_postal_item, null);
@@ -74,17 +74,19 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     holder.fav.setChecked(pi.isFav());
     holder.fav.setTag(pi.getCod());
 
-    Resources res = mContext.getResources();
-    GradientDrawable iconBackground = (GradientDrawable) holder.icon.getBackground();
     final boolean isChecked = mListView.isItemChecked(position);
+    final boolean hasUpdate = mUpdatedCods != null && mUpdatedCods.contains(pi.getCod());
+
+    GradientDrawable iconBackground = (GradientDrawable) holder.icon.getBackground();
 
     // Set postal status icon and background color depending on checked state
     if (isChecked) {
       holder.icon.setImageResource(R.drawable.ic_menu_done);
-      iconBackground.setColor(res.getColor(R.color.theme_accent_dark));
+      iconBackground.setColor(ContextCompat.getColor(mContext, R.color.theme_accent_dark));
+
     } else {
       holder.icon.setImageResource(Status.getIcon(pi.getStatus()));
-      iconBackground.setColor(res.getColor(UIUtils.getPostalStatusColor(pi.getStatus())));
+      iconBackground.setColor(ContextCompat.getColor(mContext, UIUtils.getPostalStatusColor(pi.getStatus())));
     }
 
     // Add icon click listener to change item checked state
@@ -96,14 +98,8 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     });
 
     // Apply highlight if it is an updated item
-    int background = R.drawable.list_item_background;
-    int fontStyle = Typeface.NORMAL;
-    if (mUpdatedCods != null && mUpdatedCods.contains(pi.getCod())) {
-      background = R.drawable.list_item_highlight;
-      fontStyle = Typeface.BOLD;
-    }
-    convertView.setBackgroundResource(background);
-    holder.desc.setTypeface(holder.desc.getTypeface(), fontStyle);
+    holder.desc.setTypeface(holder.desc.getTypeface(), hasUpdate ? Typeface.BOLD : Typeface.NORMAL);
+    holder.info.setTypeface(holder.desc.getTypeface(), hasUpdate ? Typeface.BOLD : Typeface.NORMAL);
 
     return convertView;
   }

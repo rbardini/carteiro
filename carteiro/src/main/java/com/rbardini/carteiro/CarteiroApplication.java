@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -34,12 +35,8 @@ public class CarteiroApplication extends Application {
     updatedCods = new HashSet<>();
     updatedList = false;
 
-    // Schedule sync service on first start
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    if (!prefs.getBoolean(getString(R.string.pref_key_on_boot), false) && prefs.getBoolean(getString(R.string.pref_key_auto_sync), true)) {
-      SyncService.scheduleSync(this);
-      prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
-    }
+    setTheme();
+    scheduleSync();
   }
 
   public Tracker getTracker() {
@@ -73,6 +70,29 @@ public class CarteiroApplication extends Application {
   public void clearUpdate() {
     updatedList = false;
     updatedCods.clear();
+  }
+
+  public void setTheme() {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    String lightTheme = getString(R.string.theme_light);
+    String darkTheme = getString(R.string.theme_dark);
+    String currentTheme = prefs.getString(getString(R.string.pref_key_theme), lightTheme);
+
+    if (currentTheme.equals(darkTheme)) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+  }
+
+  public void scheduleSync() {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean onBoot = prefs.getBoolean(getString(R.string.pref_key_on_boot), false);
+    boolean autoSync = prefs.getBoolean(getString(R.string.pref_key_auto_sync), true);
+
+    if (!onBoot && autoSync) {
+      // Schedule sync service on first start
+      SyncService.scheduleSync(this);
+      prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
+    }
   }
 
   public static class State {

@@ -3,7 +3,6 @@
   android:id="@+id/drawer_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/theme_background"
   android:fitsSystemWindows="true">
 
   <FrameLayout
@@ -20,7 +19,8 @@
       <FrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/theme_background" />
 
     </LinearLayout>
 
@@ -41,6 +41,7 @@
     android:layout_gravity="start"
     app:headerLayout="@layout/drawer_header"
     app:menu="@menu/nav_drawer"
-    app:itemTextColor="@color/nav_drawer_state" />
+    app:itemIconTint="@color/nav_drawer_icon_state"
+    app:itemTextColor="@color/nav_drawer_text_state" />
 
 </android.support.v4.widget.DrawerLayout>

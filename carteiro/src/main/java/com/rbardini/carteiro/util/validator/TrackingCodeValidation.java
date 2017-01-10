@@ -1,7 +1,7 @@
 package com.rbardini.carteiro.util.validator;
 
 public class TrackingCodeValidation {
-  public static enum Result {
+  public enum Result {
     EMPTY,
     WRONG_LENGTH,
     BAD_FORMAT,

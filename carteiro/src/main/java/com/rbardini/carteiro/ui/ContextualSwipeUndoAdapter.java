@@ -9,7 +9,7 @@ public class ContextualSwipeUndoAdapter extends ContextualUndoAdapter {
   private final OnSwipeCallback mOnSwipeCallback;
 
   public interface OnSwipeCallback {
-    public void onSwipe(int position);
+    void onSwipe(int position);
   }
 
   public ContextualSwipeUndoAdapter(BaseAdapter baseAdapter, int undoLayoutId, int undoActionId,

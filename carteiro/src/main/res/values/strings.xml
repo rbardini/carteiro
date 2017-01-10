@@ -189,6 +189,12 @@
   <string name="pref_vibrate_title">Vibrate</string>
   <string name="pref_vibrate_summary">Vibrate on incoming notifications</string>
 
+  <string name="pref_appearance_header">Appearance</string>
+  <string name="pref_theme_title">Theme</string>
+  <string name="pref_theme_summary">Choose a theme</string>
+  <string name="pref_theme_light">Light</string>
+  <string name="pref_theme_dark">Dark</string>
+
   <string name="pref_backup_header">Backup &amp; restore</string>
   <string name="pref_backup_permission_denied">Permission to access files is required in order to backup and restore.</string>
   <string name="pref_create_backup_title">Create backup</string>

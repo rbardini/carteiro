@@ -27,6 +27,7 @@ dependencies {
   compile 'com.android.support:design:25.1.0'
   compile 'com.google.android.gms:play-services-analytics:8.4.0'
   compile 'com.google.zxing:android-integration:3.2.0'
+  compile 'com.jakewharton:process-phoenix:1.0.2'
   compile 'com.infstory:switch-preference-compat:1.0.0'
   compile 'com.nhaarman.listviewanimations:library:2.6.0'
 }

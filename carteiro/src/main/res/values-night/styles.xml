@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <item name="android:colorBackground">@color/theme_background</item>
+  </style>
+</resources>

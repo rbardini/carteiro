@@ -23,8 +23,8 @@ public class PostalItemDialogFragment extends DialogFragment {
   public static final String TAG = "PostalItemDialogFragment";
 
   public interface OnPostalItemChangeListener {
-    public void onRenamePostalItem(String desc, PostalItem pi);
-    public void onDeletePostalItems(ArrayList<PostalItem> piList);
+    void onRenamePostalItem(String desc, PostalItem pi);
+    void onDeletePostalItems(ArrayList<PostalItem> piList);
   }
 
   private OnPostalItemChangeListener listener;
@@ -39,13 +39,14 @@ public class PostalItemDialogFragment extends DialogFragment {
   }
 
   @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
+  public void onAttach(Context context) {
+    super.onAttach(context);
 
     try {
-      listener = (OnPostalItemChangeListener) activity;
+      listener = (OnPostalItemChangeListener) context;
+
     } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString() + " must implement OnPostalItemChangeListener");
+      throw new ClassCastException(context.toString() + " must implement OnPostalItemChangeListener");
     }
   }
 

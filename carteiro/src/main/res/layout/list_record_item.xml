@@ -17,7 +17,6 @@
       android:layout_width="@dimen/postal_status_icon_size"
       android:layout_height="@dimen/postal_status_icon_size"
       android:layout_alignParentLeft="true"
-      android:layout_centerVertical="true"
       android:background="@drawable/circle"
       android:padding="@dimen/keyline_1_half"
       android:contentDescription="@string/desc_status" />
@@ -27,7 +26,6 @@
       android:layout_height="wrap_content"
       android:layout_toRightOf="@+id/img_postal_status"
       android:layout_toLeftOf="@+id/layout_postal_date_time"
-      android:layout_centerVertical="true"
       android:orientation="vertical"
       android:paddingLeft="@dimen/keyline_1"
       android:paddingRight="@dimen/keyline_1_half">

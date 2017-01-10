@@ -1,8 +1,9 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,8 @@ public class WebSROFragment extends Fragment {
   public static final String TAG = "WebSROFragment";
 
   public interface OnStateChangeListener {
-    public void onProgress(int progress);
-    public void onLeave();
+    void onProgress(int progress);
+    void onLeave();
   }
 
   private OnStateChangeListener listener;
@@ -33,13 +34,14 @@ public class WebSROFragment extends Fragment {
   }
 
   @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
+  public void onAttach(Context context) {
+    super.onAttach(context);
 
     try {
-      listener = (OnStateChangeListener) activity;
+      listener = (OnStateChangeListener) context;
+
     } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString() + " must implement OnStateChangeListener");
+      throw new ClassCastException(context.toString() + " must implement OnStateChangeListener");
     }
   }
 
@@ -55,7 +57,7 @@ public class WebSROFragment extends Fragment {
         listener.onProgress(progress);
       }
     });
-    mWebView.setBackgroundColor(getResources().getColor(R.color.websro));
+    mWebView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.websro));
     mWebView.loadUrl(String.format(PostalUtils.WEBSRO_URL, getArguments().getString("cod")));
 
     return view;

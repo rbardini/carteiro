@@ -2,6 +2,7 @@ package com.rbardini.carteiro.ui;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,27 +19,26 @@ import com.rbardini.carteiro.util.UIUtils;
 import java.util.List;
 
 public class PostalRecordListAdapter extends BaseAdapter {
-  private final Context context;
-  private final LayoutInflater inflater;
-  private final List<PostalRecord> list;
+  private final Context mContext;
+  private final List<PostalRecord> mList;
+  private final LayoutInflater mInflater;
 
   PostalRecordListAdapter(Context context, List<PostalRecord> list) {
-    this.context = context;
+    mContext = context;
+    mList = list;
 
     // Cache the LayoutInflate to avoid asking for a new one each time
-    inflater = LayoutInflater.from(context);
-
-    this.list = list;
+    mInflater = LayoutInflater.from(context);
   }
 
   @Override
   public int getCount() {
-    return list.size();
+    return mList.size();
   }
 
   @Override
   public PostalRecord getItem(int position) {
-    return list.get(position);
+    return mList.get(position);
   }
 
   @Override
@@ -48,13 +48,13 @@ public class PostalRecordListAdapter extends BaseAdapter {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    // A ViewHolder keeps references to children views to avoid unneccessary calls to findViewById() on each row
+    // A ViewHolder keeps references to children views to avoid unnecessary calls to findViewById() on each row
     ViewHolder holder;
 
-    // When convertView is not null, we can reuse it directly, there is no need to reinflate it
+    // When convertView is not null, we can reuse it directly, there is no need to re-inflate it
     // We only inflate a new View when the convertView supplied by ListView is null
     if (convertView == null) {
-      convertView = inflater.inflate(R.layout.list_record_item, null);
+      convertView = mInflater.inflate(R.layout.list_record_item, null);
 
       // Creates a ViewHolder and store references to the two children views we want to bind data to
       holder = new ViewHolder();
@@ -72,11 +72,11 @@ public class PostalRecordListAdapter extends BaseAdapter {
       holder = (ViewHolder) convertView.getTag();
     }
 
-    PostalRecord pr = list.get(position);
+    PostalRecord pr = mList.get(position);
 
     // Bind the data efficiently with the holder
-    holder.date.setText(DateUtils.formatDateTime(context, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL));
-    holder.time.setText(DateUtils.formatDateTime(context, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_ALL));
+    holder.date.setText(DateUtils.formatDateTime(mContext, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL));
+    holder.time.setText(DateUtils.formatDateTime(mContext, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_ALL));
     holder.status.setText(pr.getStatus());
     holder.loc.setText(pr.getLoc());
     String info = pr.getInfo();
@@ -85,16 +85,19 @@ public class PostalRecordListAdapter extends BaseAdapter {
     holder.icon.setImageResource(Status.getIcon(pr.getStatus()));
 
     // Set postal status icon background color
-    ((GradientDrawable) holder.icon.getBackground()).setColor(this.context.getResources().getColor(UIUtils.getPostalStatusColor(pr.getStatus())));
+    ((GradientDrawable) holder.icon.getBackground()).setColor(ContextCompat.getColor(mContext, UIUtils.getPostalStatusColor(pr.getStatus())));
 
     // Clip timeline ends
-    if (list.size() <= 1) {
+    if (mList.size() <= 1) {
       holder.timeline.setBackgroundResource(0);
+
     } else {
       if (position == 0) {
         holder.timeline.setBackgroundResource(R.drawable.timeline_top);
-      } else if (position == list.size() - 1) {
+
+      } else if (position == mList.size() - 1) {
         holder.timeline.setBackgroundResource(R.drawable.timeline_bottom);
+
       } else {
         holder.timeline.setBackgroundResource(R.drawable.timeline_middle);
       }

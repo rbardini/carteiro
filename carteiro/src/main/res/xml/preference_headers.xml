@@ -7,6 +7,9 @@
   <header android:fragment="com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences"
     android:title="@string/pref_notification_header" />
 
+  <header android:fragment="com.rbardini.carteiro.ui.PreferencesActivity$AppearancePreferences"
+    android:title="@string/pref_appearance_header" />
+
   <header android:fragment="com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences"
     android:title="@string/pref_backup_header" />
 

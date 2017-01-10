@@ -1,6 +1,6 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -65,13 +65,14 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
   }
 
   @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
+  public void onAttach(Context context) {
+    super.onAttach(context);
 
     try {
-      mListener = (OnPostalListActionListener) activity;
+      mListener = (OnPostalListActionListener) context;
+
     } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString() + " must implement OnPostalListActionListener");
+      throw new ClassCastException(context.toString() + " must implement OnPostalListActionListener");
     }
   }
 
