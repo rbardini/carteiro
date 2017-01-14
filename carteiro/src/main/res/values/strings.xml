@@ -50,9 +50,9 @@
   <string name="msg_alert_wrong_length_cod">The tracking number must have 13 digits.</string>
   <string name="msg_alert_bad_format_cod">Nonstandard tracking number. Example: RA123456789US</string>
   <string name="msg_alert_invalid_dv_cod">Invalid tracking number: check digit does not match.</string>
-  <string name="msg_alert_default_error_cod">Invalid tracking number.</string>
-  <string name="msg_alert_not_found">Check if the number %s is correct.\n\nIn case the item has been recently posted, it is typical that its information is not yet available.</string>
-  <string name="msg_alert_net_error">The Correios system might be offline or a network connection was not found.\n\nNew contact attempts will be made during the scheduled syncs.</string>
+  <string name="msg_alert_default_error_cod">Unsupported tracking number :(</string>
+  <string name="msg_alert_not_found">Check if the number %s is correct.\n\nIn case the item has been recently posted, it is normal that its information is not yet available.</string>
+  <string name="msg_alert_net_error">The Correios service is offline, or the connection failed.\n\nDon\'t worry, we will try again in the next the automatic syncs :)</string>
   <string name="msg_alert_delivered_item">The item has already been delivered to its addressee. Newer status updates are unlikely.</string>
   <string name="msg_alert_returned_item">The item has already been returned to its sender. Newer status updates are unlikely.</string>
 
@@ -86,7 +86,7 @@
   <!--  Toasts -->
   <string name="toast_item_added">%s added.</string>
   <string name="toast_item_renamed">%1$s renamed to %2$s.</string>
-  <string name="toast_item_renamed_empty">Description removed from %s.</string>
+  <string name="toast_item_renamed_empty">Name removed from %s.</string>
   <string name="toast_item_archived">%s archived.</string>
   <string name="toast_items_archived">%d items archived.</string>
   <string name="toast_item_unarchived">%1$s moved to %2$s.</string>
@@ -94,9 +94,9 @@
   <string name="toast_item_deleted">%s deleted.</string>
   <string name="toast_items_deleted">%d items deleted.</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
-  <string name="toast_unexpected_error">Oops! Something wrong happened, please try again later.</string>
-  <string name="toast_backup_created">Backup successfully created in %s folder.</string>
-  <string name="toast_backup_restored">Backup successfully restored.</string>
+  <string name="toast_unexpected_error">Oops! Something wrong happened :( Please try again later.</string>
+  <string name="toast_backup_created">Backup created in %s folder.</string>
+  <string name="toast_backup_restored">Backup restored!</string>
   <string name="toast_backup_creation_fail">Backup creation failed: %s</string>
   <string name="toast_backup_restore_fail">Backup restore failed: %s</string>
   <string name="toast_backup_not_found">No backups found.</string>
@@ -135,7 +135,7 @@
   <string name="msg_alert_create_backup">Enter the name for the backup file:</string>
   <string name="title_alert_select_backup">Select a backup</string>
   <string name="title_alert_restore_backup">Restore backup?</string>
-  <string name="msg_alert_restore_backup"><![CDATA[Are you sure you want to restore the following backup?<br/><br/><b>%s</b><br/><br/>Your current tracking list will be lost.]]></string>
+  <string name="msg_alert_restore_backup"><![CDATA[Are you sure you want to restore the following backup?<br/><br/><b>%s</b><br/><br/>Your current tracking list will be replaced.]]></string>
 
   <!-- Record Activity -->
   <string name="title_record">Item history</string>
@@ -216,7 +216,7 @@
   <string name="title_search">Items</string>
   <string name="subtitle_search">Search results</string>
   <string name="search_hint">Search items</string>
-  <string name="search_desc">Number and description of your tracked items</string>
+  <string name="search_desc">Number and name of your tracked items</string>
 
   <!-- Content Description -->
   <string name="desc_status">Status</string>
