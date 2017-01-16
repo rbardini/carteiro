@@ -461,6 +461,11 @@ public class AddActivity extends AppCompatActivity {
   }
 
   private void addPostalItemRecord() {
+    if (mPostalItemRecord.isEmpty()) {
+      PostalRecord pr = new PostalRecord(mPostalItemRecord.getCod(), new Date(), PostalUtils.Status.NAO_ENCONTRADO);
+      mPostalItemRecord.setPostalRecord(pr);
+    }
+
     mPostalItemRecord.saveTo(dh);
     app.setUpdatedList();
 
@@ -517,7 +522,6 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected PostalItemRecord doInBackground(Object... params) {
       PostalItemRecord pir = (PostalItemRecord) params[0];
-      String cod = pir.getCod();
 
       try {
         pir.fetch();
@@ -538,11 +542,6 @@ public class AddActivity extends AppCompatActivity {
 
       } catch (Exception e) {
         error = e.getMessage();
-
-      } finally {
-        if (pir.isEmpty()) {
-          pir.setPostalRecord(new PostalRecord(cod, new Date(), PostalUtils.Status.NAO_ENCONTRADO));
-        }
       }
 
       return pir;
@@ -558,7 +557,6 @@ public class AddActivity extends AppCompatActivity {
           error.equals(getString(R.string.title_alert_returned_item)) ? RETURNED_ITEM : -1;
 
         if (id == -1) {
-          // TODO check if it is possible to add an item by rotating the device at this point
           UIUtils.showToast(AddActivity.this, getString(R.string.toast_unexpected_error));
           Log.e(TAG, error);
 
@@ -582,8 +580,6 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCancelled(PostalItemRecord pir) {
       mFetchPostalItemRecordTask = null;
-      hideLoadingView();
-      showFormView();
     }
   }
 }
