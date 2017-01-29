@@ -415,20 +415,24 @@ public class AddActivity extends AppCompatActivity {
       // Try to get tracking number from clipboard
       ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-      if (clipboard.hasPrimaryClip() && clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-        CharSequence text = clipboard.getPrimaryClip().getItemAt(0).getText();
+      if (clipboard.hasPrimaryClip()) {
+        ClipDescription clipDesc = clipboard.getPrimaryClipDescription();
 
-        if (text != null) {
-          cod = text.toString().trim();
+        if (clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) || clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_HTML)) {
+          CharSequence text = clipboard.getPrimaryClip().getItemAt(0).getText();
 
-          try {
-            cod = validateCod(cod);
+          if (text != null) {
+            cod = text.toString().trim();
 
-            if (!dh.isPostalItem(cod)) {
-              mTrackingNumberField.setText(cod);
-            }
+            try {
+              cod = validateCod(cod);
 
-          } catch (Exception e) {}
+              if (!dh.isPostalItem(cod)) {
+                mTrackingNumberField.setText(cod);
+              }
+
+            } catch (Exception e) {}
+          }
         }
       }
     }
