@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -245,6 +246,11 @@ public class AddActivity extends AppCompatActivity {
     onJustOnceClick(null);
   }
 
+  private void hideSoftKeyboard() {
+    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+    imm.hideSoftInputFromWindow(mAddButton.getWindowToken(), 0);
+  }
+
   private void toggleFormView(boolean show) {
     int visibility = show ? View.VISIBLE : View.GONE;
 
@@ -262,6 +268,7 @@ public class AddActivity extends AppCompatActivity {
 
   private void hideFormView() {
     toggleFormView(false);
+    hideSoftKeyboard();
   }
 
   private void toggleLoadingView(boolean show) {
