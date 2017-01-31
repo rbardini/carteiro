@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 25
-  buildToolsVersion "25.0.1"
+  buildToolsVersion "25.0.2"
 
   defaultConfig {
     minSdkVersion 15
@@ -24,9 +24,9 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:25.1.0'
-  compile 'com.android.support:design:25.1.0'
-  compile 'com.google.android.gms:play-services-analytics:8.4.0'
+  compile 'com.android.support:appcompat-v7:25.1.1'
+  compile 'com.android.support:design:25.1.1'
+  compile 'com.google.android.gms:play-services-analytics:10.0.1'
   compile 'com.google.zxing:android-integration:3.2.0'
   compile 'com.jakewharton:process-phoenix:1.0.2'
   compile 'com.infstory:switch-preference-compat:1.0.0'
