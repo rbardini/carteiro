@@ -37,6 +37,7 @@
   <string name="pref_key_lights">lights</string>
   <string name="pref_key_vibrate">vibrate</string>
   <string name="pref_key_theme">theme</string>
+  <string name="pref_key_use_adaptive_keyboard">useadaptivekeyboard</string>
   <string name="pref_key_create_backup">createbackup</string>
   <string name="pref_key_restore_backup">restorebackup</string>
   <string name="pref_key_version">version</string>

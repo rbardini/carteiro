@@ -341,20 +341,22 @@ public class AddActivity extends AppCompatActivity {
   }
 
   private void setupFormFields() {
-    mTrackingNumberField.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    if (mPrefs.getBoolean(getString(R.string.pref_key_use_adaptive_keyboard), true)) {
+      mTrackingNumberField.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-        int length = s.length();
-        mTrackingNumberField.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
-        mAddButton.setEnabled(length == 13);
-      }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+          int length = s.length();
+          mTrackingNumberField.setInputType(DEFAULT_INPUT_TYPES | (length < 2 || length > 10 ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_CLASS_NUMBER));
+          mAddButton.setEnabled(length == 13);
+        }
 
-      @Override
-      public void afterTextChanged(Editable s) {}
-    });
+        @Override
+        public void afterTextChanged(Editable s) {}
+      });
+    }
 
     mTrackingNumberField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
       @Override

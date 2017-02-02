@@ -194,6 +194,8 @@
   <string name="pref_theme_summary">Choose a theme</string>
   <string name="pref_theme_light">Light</string>
   <string name="pref_theme_dark">Dark</string>
+  <string name="pref_use_adaptive_keyboard_title">Use adaptive keyboard</string>
+  <string name="pref_use_adaptive_keyboard_summary">Automatically change keyboard layout while adding item</string>
 
   <string name="pref_backup_header">Backup &amp; restore</string>
   <string name="pref_backup_permission_denied">Permission to access files is required in order to backup and restore.</string>
