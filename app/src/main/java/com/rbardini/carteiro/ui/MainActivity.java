@@ -197,7 +197,6 @@ public class MainActivity extends PostalActivity {
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
     mDrawerLayout.addDrawerListener(mDrawerToggle);
-    mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

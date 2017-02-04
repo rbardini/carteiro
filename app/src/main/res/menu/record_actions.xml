@@ -3,32 +3,32 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item android:id="@+id/fav_opt"
-    android:icon="@drawable/ic_menu_star_border"
+    android:icon="@drawable/ic_star_border_white_24dp"
     android:title="@string/opt_mark_as_fav"
     app:showAsAction="ifRoom" />
 
   <item android:id="@+id/share_opt"
-    android:icon="@drawable/ic_menu_share"
+    android:icon="@drawable/ic_share_white_24dp"
     android:title="@string/opt_share"
     app:showAsAction="ifRoom" />
 
   <item android:id="@+id/place_opt"
-    android:icon="@drawable/ic_menu_place"
+    android:icon="@drawable/ic_place_white_24dp"
     android:title="@string/opt_view_place"
     app:showAsAction="ifRoom" />
 
   <item android:id="@+id/archive_opt"
-    android:icon="@drawable/ic_menu_archive"
+    android:icon="@drawable/ic_archive_white_24dp"
     android:title="@string/opt_archive_item"
     app:showAsAction="never" />
 
   <item android:id="@+id/delete_opt"
-    android:icon="@drawable/ic_menu_delete"
+    android:icon="@drawable/ic_delete_white_24dp"
     android:title="@string/opt_delete_item"
     app:showAsAction="never" />
 
   <item android:id="@+id/websro_opt"
-    android:icon="@drawable/ic_menu_web"
+    android:icon="@drawable/ic_public_white_24dp"
     android:title="@string/opt_open_websro"
     app:showAsAction="never" />
 

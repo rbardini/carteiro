@@ -81,7 +81,7 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
 
     // Set postal status icon and background color depending on checked state
     if (isChecked) {
-      holder.icon.setImageResource(R.drawable.ic_menu_done);
+      holder.icon.setImageResource(R.drawable.ic_done_white_24dp);
       iconBackground.setColor(ContextCompat.getColor(mContext, R.color.theme_accent_dark));
 
     } else {

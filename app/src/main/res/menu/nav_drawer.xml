@@ -5,35 +5,35 @@
      android:checkableBehavior="single">
 
     <item android:id="@id/category_all"
-      android:icon="@drawable/ic_menu_packages"
+      android:icon="@drawable/ic_package_all_white_24dp"
       android:title="@string/category_all" />
 
     <item android:id="@id/category_favorites"
-      android:icon="@drawable/ic_menu_star"
+      android:icon="@drawable/ic_star_white_24dp"
       android:title="@string/category_favorites" />
 
     <item android:id="@id/category_available"
-      android:icon="@drawable/ic_menu_schedule"
+      android:icon="@drawable/ic_schedule_white_24dp"
       android:title="@string/category_available" />
 
     <item android:id="@id/category_delivered"
-      android:icon="@drawable/ic_menu_done"
+      android:icon="@drawable/ic_done_white_24dp"
       android:title="@string/category_delivered" />
 
     <item android:id="@id/category_irregular"
-      android:icon="@drawable/ic_menu_info"
+      android:icon="@drawable/ic_info_white_24dp"
       android:title="@string/category_irregular" />
 
     <item android:id="@id/category_unknown"
-      android:icon="@drawable/ic_menu_warning"
+      android:icon="@drawable/ic_warning_white_24dp"
       android:title="@string/category_unknown" />
 
     <item android:id="@id/category_returned"
-      android:icon="@drawable/ic_menu_undo"
+      android:icon="@drawable/ic_undo_white_24dp"
       android:title="@string/category_returned" />
 
     <item android:id="@id/category_archived"
-      android:icon="@drawable/ic_menu_archive"
+      android:icon="@drawable/ic_archive_white_24dp"
       android:title="@string/category_archived" />
 
   </group>
@@ -42,11 +42,11 @@
     android:checkableBehavior="none">
 
     <item android:id="@+id/action_preferences"
-      android:icon="@drawable/ic_menu_settings"
+      android:icon="@drawable/ic_settings_white_24dp"
       android:title="@string/action_preferences" />
 
     <item android:id="@+id/action_feedback"
-      android:icon="@drawable/ic_menu_help"
+      android:icon="@drawable/ic_help_white_24dp"
       android:title="@string/action_feedback" />
 
   </group>
