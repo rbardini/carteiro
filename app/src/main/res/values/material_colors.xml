@@ -550,8 +550,8 @@
   <!-- Black and white -->
   <color name="black">#000000</color>
   <color name="white">#ffffff</color>
-  <color name="black_hint">#42000000</color>
-  <color name="white_hint">#42ffffff</color>
+  <color name="black_hint">#61000000</color> <!-- 38% #000 -->
+  <color name="white_hint">#80ffffff</color> <!-- 50% #fff -->
 
   <!-- Buttons -->
   <color name="button_light_normal">#00999999</color>   <!--  0% #999 -->
