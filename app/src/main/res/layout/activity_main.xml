@@ -39,6 +39,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
+    android:maxWidth="@dimen/drawer_max_width"
     app:headerLayout="@layout/drawer_header"
     app:menu="@menu/nav_drawer"
     app:itemIconTint="@color/nav_drawer_icon_state"
