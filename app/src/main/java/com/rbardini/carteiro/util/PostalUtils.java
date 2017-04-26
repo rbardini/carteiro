@@ -409,6 +409,7 @@ public final class PostalUtils {
       map.put("AL", "Agentes de leitura");
       map.put("AR", "Avisos de recebimento");
       map.put("AS", "PAC - Ação Social");
+      map.put("BE", "Remessa Econômica Talão/Cartão (sem AR Digital)");
       map.put("CA", "Encomenda Internacional - Colis");
       map.put("CB", "Encomenda Internacional - Colis");
       map.put("CC", "Encomenda Internacional - Colis");
@@ -450,12 +451,13 @@ public final class PostalUtils {
       map.put("DN", "SEDEX");
       map.put("DO", "SEDEX ou Remessa Expressa com AR Digital (Itaú)");
       map.put("DP", "SEDEX Pagamento na Entrega");
-      map.put("DQ", "SEDEX ou Remessa Expressa com AR Digital (Santander)");
+      map.put("DQ", "SEDEX ou Remessa Expressa com AR Digital (Bradesco)");
       map.put("DR", "Remessa Expressa com AR Digital (Santander)");
       map.put("DS", "SEDEX ou Remessa Expressa com AR Digital (Santander)");
       map.put("DT", "Remessa econômica com AR Digital (DETRAN)");
       map.put("DU", "e-SEDEX");
       map.put("DV", "SEDEX com AR digital");
+      map.put("DW", "Encomenda SEDEX (Etiqueta Lógica)");
       map.put("DX", "SEDEX 10");
       map.put("EA", "Encomenda Internacional - EMS");
       map.put("EB", "Encomenda Internacional - EMS");
@@ -469,7 +471,7 @@ public final class PostalUtils {
       map.put("EJ", "Encomenda Internacional - EMS");
       map.put("EK", "Encomenda Internacional - EMS");
       map.put("EL", "Encomenda Internacional - EMS");
-      map.put("EM", "Encomenda Internacional");
+      map.put("EM", "Encomenda Internacional - EMS Importação ou SEDEX Mundi");
       map.put("EN", "Encomenda Internacional - EMS");
       map.put("EO", "Encomenda Internacional - EMS");
       map.put("EP", "Encomenda Internacional - EMS");
@@ -501,7 +503,7 @@ public final class PostalUtils {
       map.put("IP", "Logística Integrada (Programada)");
       map.put("IR", "Impresso Registrado");
       map.put("IS", "Logística integrada standard (medicamentos)");
-      map.put("IT", "Remessa Expressa Medicamentos/Logística Integrada Termolábil");
+      map.put("IT", "Remessa Expressa Medicamentos / Logística Integrada Termolábil");
       map.put("IU", "Logística Integrada (urgente)");
       map.put("IX", "EDEI Expresso");
       map.put("JA", "Remessa econômica com AR Digital");
@@ -557,6 +559,8 @@ public final class PostalUtils {
       map.put("MZ", "Telegrama (Correios Online)");
       map.put("NE", "Tele Sena resgatada");
       map.put("NX", "EDEI Econômico (não urgente)");
+      map.put("OA", "Encomenda SEDEX");
+      map.put("OB", "Encomenda E-SEDEX");
       map.put("PA", "Passaporte");
       map.put("PB", "PAC");
       map.put("PC", "PAC a Cobrar");
@@ -569,6 +573,7 @@ public final class PostalUtils {
       map.put("PJ", "PAC");
       map.put("PK", "PAC Extra Grande");
       map.put("PL", "PAC");
+      map.put("PN", "PAC");
       map.put("PR", "Reembolso Postal");
       map.put("QQ", "Objeto de teste (SIGEP Web)");
       map.put("RA", "Objeto registrado/prioritário");
@@ -604,7 +609,7 @@ public final class PostalUtils {
       map.put("SE", "SEDEX");
       map.put("SF", "SEDEX");
       map.put("SG", "SEDEX");
-      map.put("SH", "SEDEX com AR Digital/SEDEX ou AR Digital");
+      map.put("SH", "SEDEX com/ou AR Digital");
       map.put("SI", "SEDEX");
       map.put("SJ", "SEDEX Hoje");
       map.put("SK", "SEDEX");
