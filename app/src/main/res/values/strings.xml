@@ -73,7 +73,9 @@
   </plurals>
 
   <!-- Postal List -->
-  <string name="text_empty_list">No item here.</string>
+  <string name="text_empty_list">No item here</string>
+  <string name="text_empty_list_name"><![CDATA[No item in <b>%s</b>]]></string>
+  <string name="text_empty_list_found">No item found</string>
   <string name="text_unknown_location">Unknown location</string>
 
   <string name="title_send_list">Send via</string>

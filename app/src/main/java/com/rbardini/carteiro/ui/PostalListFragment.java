@@ -3,6 +3,7 @@ package com.rbardini.carteiro.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
@@ -119,6 +121,14 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     mUndoAdapter = new ContextualSwipeUndoAdapter(mListAdapter, shouldDeleteItems() ? R.layout.undo_delete_row : R.layout.undo_archive_row, R.id.undo_button, this, this);
     mUndoAdapter.setAbsListView(listView);
     listView.setAdapter(mUndoAdapter);
+
+    TextView emptyText = (TextView) listView.getEmptyView().findViewById(R.id.empty_text);
+    if (query == null) {
+      String title = getString(Category.getTitle(category));
+      emptyText.setText(Html.fromHtml(getString(R.string.text_empty_list_name, title)));
+    } else {
+      emptyText.setText(R.string.text_empty_list_found);
+    }
 
     if (CarteiroApplication.state.syncing) setRefreshing();
 
