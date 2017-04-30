@@ -8,8 +8,8 @@ android {
     applicationId "com.rbardini.carteiro"
     minSdkVersion 21
     targetSdkVersion 25
-    versionCode 17
-    versionName "2.2.1"
+    versionCode 18
+    versionName "3.0.0"
   }
 
   lintOptions {
