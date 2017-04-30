@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <com.cgollner.unclouded.preferences.SwitchPreferenceCompat android:key="@string/pref_key_auto_sync"
+  <SwitchPreference android:key="@string/pref_key_auto_sync"
    android:title="@string/pref_auto_sync_title"
    android:summary="@string/pref_auto_sync_summary"
    android:defaultValue="true" />

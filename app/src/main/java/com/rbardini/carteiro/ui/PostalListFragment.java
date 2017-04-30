@@ -1,6 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -32,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PostalListFragment extends PostalFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
-  public interface OnPostalListActionListener {
+  interface OnPostalListActionListener {
     void onPostalListAttached(PostalListFragment f);
   }
 
@@ -66,21 +65,16 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     return f;
   }
 
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-
-    try {
-      mListener = (OnPostalListActionListener) context;
-
-    } catch (ClassCastException e) {
-      throw new ClassCastException(context.toString() + " must implement OnPostalListActionListener");
-    }
-  }
-
   @Override @SuppressWarnings("unchecked")
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    try {
+      mListener = (OnPostalListActionListener) mActivity;
+
+    } catch (ClassCastException e) {
+      throw new ClassCastException(mActivity.toString() + " must implement OnPostalListActionListener");
+    }
 
     Bundle arguments = getArguments();
     setCategory(arguments.getInt("category"));

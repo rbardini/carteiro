@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class PostalItemDialogFragment extends DialogFragment {
   public static final String TAG = "PostalItemDialogFragment";
 
-  public interface OnPostalItemChangeListener {
+  interface OnPostalItemChangeListener {
     void onRenamePostalItem(String desc, PostalItem pi);
     void onDeletePostalItems(ArrayList<PostalItem> piList);
   }
@@ -39,14 +39,16 @@ public class PostalItemDialogFragment extends DialogFragment {
   }
 
   @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    Activity activity = getActivity();
 
     try {
-      listener = (OnPostalItemChangeListener) context;
+      listener = (OnPostalItemChangeListener) activity;
 
     } catch (ClassCastException e) {
-      throw new ClassCastException(context.toString() + " must implement OnPostalItemChangeListener");
+      throw new ClassCastException(activity.toString() + " must implement OnPostalItemChangeListener");
     }
   }
 

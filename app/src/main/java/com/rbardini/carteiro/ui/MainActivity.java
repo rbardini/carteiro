@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -182,13 +181,8 @@ public class MainActivity extends PostalActivity {
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-          ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
-          startActivity(intent, scaleAnim.toBundle());
-
-        } else {
-          startActivity(intent);
-        }
+        ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
+        startActivity(intent, scaleAnim.toBundle());
       }
     });
   }

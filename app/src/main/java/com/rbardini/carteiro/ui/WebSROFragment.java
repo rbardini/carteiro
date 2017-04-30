@@ -1,7 +1,7 @@
 package com.rbardini.carteiro.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import com.rbardini.carteiro.util.PostalUtils;
 public class WebSROFragment extends Fragment {
   public static final String TAG = "WebSROFragment";
 
-  public interface OnStateChangeListener {
+  interface OnStateChangeListener {
     void onProgress(int progress);
     void onLeave();
   }
@@ -34,14 +34,16 @@ public class WebSROFragment extends Fragment {
   }
 
   @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    Activity activity = getActivity();
 
     try {
-      listener = (OnStateChangeListener) context;
+      listener = (OnStateChangeListener) activity;
 
     } catch (ClassCastException e) {
-      throw new ClassCastException(context.toString() + " must implement OnStateChangeListener");
+      throw new ClassCastException(activity.toString() + " must implement OnStateChangeListener");
     }
   }
 
