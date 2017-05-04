@@ -30925,6 +30925,10 @@ com.rbardini.carteiro.ui.PostalActivity -> com.rbardini.carteiro.ui.c:
     void refreshList() -> l
     void clearSelection() -> m
     com.rbardini.carteiro.ui.PostalFragment getPostalFragment() -> j
+com.rbardini.carteiro.ui.PostalActivity$1 -> com.rbardini.carteiro.ui.c$1:
+    com.rbardini.carteiro.ui.PostalActivity this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.PostalActivity) -> <init>
+    void onClick(android.view.View) -> onClick
 com.rbardini.carteiro.ui.PostalFragment -> com.rbardini.carteiro.ui.d:
     android.app.Activity mActivity -> a
     com.rbardini.carteiro.CarteiroApplication app -> b
