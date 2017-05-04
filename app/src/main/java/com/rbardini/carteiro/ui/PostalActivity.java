@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -19,6 +21,7 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
@@ -72,7 +75,19 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
 
       case SyncService.STATUS_ERROR:
         updateRefreshStatus();
-        UIUtils.showToast(this, getString(R.string.toast_unexpected_error));
+
+        Snackbar snackbar = Snackbar
+          .make(findViewById(R.id.content), R.string.toast_net_error, Snackbar.LENGTH_LONG)
+          .setAction(R.string.status_btn, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              UIUtils.openURL(PostalActivity.this, PostalUtils.HEALTH_URL);
+            }
+          })
+          .setActionTextColor(ContextCompat.getColor(this, R.color.error_foreground));
+        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.error_background));
+        snackbar.show();
+
         Log.e(TAG, resultData.getString(Intent.EXTRA_TEXT));
         break;
     }

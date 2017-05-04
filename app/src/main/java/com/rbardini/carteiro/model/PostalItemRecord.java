@@ -45,7 +45,10 @@ public class PostalItemRecord implements Serializable {
   public void setPostalRecord(PostalRecord pr) { this.prList.add(pr); }
   public void setPostalRecord(PostalRecord pr, int pos) { this.prList.add(pos, pr); }
 
-  public PostalRecord getLastPostalRecord() { return this.prList.get(this.prList.size() - 1); }
+  public PostalRecord getLastPostalRecord() {
+    int size = this.prList.size();
+    return size > 0 ? this.prList.get(size - 1) : null;
+  }
 
   // Expose PostalItem getters
   public String getCod() { return this.pi.getCod(); }

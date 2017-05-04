@@ -21,6 +21,7 @@
   <string name="restore_btn">Restaurar</string>
   <string name="undo_btn">Desfazer</string>
   <string name="quit_btn">Sair</string>
+  <string name="status_btn">Status</string>
 
   <!-- Main Navigation Drawer -->
   <string name="category_all">Todos</string>
@@ -96,6 +97,7 @@
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_items_deleted">%d objetos excluídos.</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
+  <string name="toast_net_error">Oops! O serviço dos Correios está fora do ar, ou a conexão falhou :(</string>
   <string name="toast_unexpected_error">Oops! Algo de errado aconteceu :( Por favor, tente novamente mais tarde.</string>
   <string name="toast_backup_created">Backup criado na pasta %s.</string>
   <string name="toast_backup_restored">Backup restaurado!</string>

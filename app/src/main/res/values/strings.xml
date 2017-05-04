@@ -21,6 +21,7 @@
   <string name="restore_btn">Restore</string>
   <string name="undo_btn">Undo</string>
   <string name="quit_btn">Quit</string>
+  <string name="status_btn">Status</string>
 
   <!-- Main Drawer -->
   <string name="category_all">All</string>
@@ -96,6 +97,7 @@
   <string name="toast_item_deleted">%s deleted.</string>
   <string name="toast_items_deleted">%d items deleted.</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
+  <string name="toast_net_error">Oops! The Correios service is offline, or the connection failed :(</string>
   <string name="toast_unexpected_error">Oops! Something wrong happened :( Please try again later.</string>
   <string name="toast_backup_created">Backup created in %s folder.</string>
   <string name="toast_backup_restored">Backup restored!</string>

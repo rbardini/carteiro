@@ -19,6 +19,8 @@
   <color name="postal_status_unknown">@color/blue_grey_400</color>
   <color name="postal_status_returned">@color/red_400</color>
 
+  <color name="error_foreground">@color/red_100</color>
+  <color name="error_background">@color/red_900</color>
   <color name="list_background">#1f000000</color>
   <color name="websro">#d8e6ed</color>
 </resources>

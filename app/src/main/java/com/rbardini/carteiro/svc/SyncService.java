@@ -95,6 +95,7 @@ public class SyncService extends IntentService {
         .setOngoing(true);
     }
 
+    int errors = 0;
     boolean hasUpdate = false;
 
     String[] cods;
@@ -152,6 +153,7 @@ public class SyncService extends IntentService {
 
       } catch (Exception e) {
         Log.e(TAG, e.getMessage());
+        errors++;
       }
     }
 
@@ -164,7 +166,14 @@ public class SyncService extends IntentService {
 
     CarteiroApplication.state.syncing = false;
     if (CarteiroApplication.state.receiver != null) {
-      CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+      if (errors > 0 && errors == cods.length) {
+        Bundle resultData = new Bundle();
+        resultData.putString(Intent.EXTRA_TEXT, "All " + cods.length + " requests have failed");
+        CarteiroApplication.state.receiver.send(STATUS_ERROR, resultData);
+
+      } else {
+        CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+      }
     }
 
     Log.i(TAG, "Sync finished");

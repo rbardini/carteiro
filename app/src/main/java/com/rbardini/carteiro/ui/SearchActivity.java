@@ -74,7 +74,7 @@ public class SearchActivity extends PostalActivity {
 
       if (mCurrentFragment == null) {
         mCurrentFragment = PostalListFragment.newInstance(mQuery);
-        getFragmentManager().beginTransaction().replace(R.id.search_list, mCurrentFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content, mCurrentFragment).commit();
 
       } else {
         mCurrentFragment.setQuery(mQuery);

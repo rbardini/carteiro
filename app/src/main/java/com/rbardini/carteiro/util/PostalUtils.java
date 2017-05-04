@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 public final class PostalUtils {
   public static final String WEBSRO_URL = "http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&P_TIPO=001&P_COD_UNI=%s";
+  public static final String HEALTH_URL = "http://caiutudo.com/fora-do-ar/correios";
 
   public static final class Category {
     public static final int ALL         = 0x1;

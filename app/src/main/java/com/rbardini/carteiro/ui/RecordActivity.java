@@ -208,7 +208,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
 
       case R.id.websro_opt:
         if (mWebSROFragment == null) mWebSROFragment = WebSROFragment.newInstance(mPostalItem.getCod());
-        mFragManager.beginTransaction().replace(R.id.record_list, mWebSROFragment, WebSROFragment.TAG).addToBackStack(null).commit();
+        mFragManager.beginTransaction().replace(R.id.content, mWebSROFragment, WebSROFragment.TAG).addToBackStack(null).commit();
         return true;
 
       default:
@@ -294,7 +294,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
   }
 
   private Fragment getCurrentFragment() {
-    return mFragManager.findFragmentById(R.id.record_list);
+    return mFragManager.findFragmentById(R.id.content);
   }
 
   private void handleNewIntent() {
@@ -354,11 +354,11 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
   private void initialize(boolean isNewInstance) {
     if (mOnlyWebSRO) {
       mWebSROFragment = WebSROFragment.newInstance(mPostalItem.getCod());
-      mFragManager.beginTransaction().replace(R.id.record_list, mWebSROFragment, WebSROFragment.TAG).commit();
+      mFragManager.beginTransaction().replace(R.id.content, mWebSROFragment, WebSROFragment.TAG).commit();
 
     } else if (isNewInstance) {
       mRecordFragment = PostalRecordFragment.newInstance(mPostalItem);
-      mFragManager.beginTransaction().replace(R.id.record_list, mRecordFragment, PostalRecordFragment.TAG).commit();
+      mFragManager.beginTransaction().replace(R.id.content, mRecordFragment, PostalRecordFragment.TAG).commit();
 
     } else {
       mRecordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
