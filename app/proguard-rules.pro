@@ -33,4 +33,13 @@
 -dontwarn com.google.android.gms.**
 -keep public class com.google.android.gms.** { *; }
 
+# ksoap2-android
+-keep class org.kobjects.** { *; }
+-keep class org.ksoap2.** { *; }
+-keep class org.kxml2.** { *; }
+-keep class org.xmlpull.** { *; }
+-dontwarn org.xmlpull.**
+-dontwarn java.nio.file.**
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
 -keepattributes *Annotation*
