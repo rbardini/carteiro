@@ -31,10 +31,12 @@ import com.rbardini.carteiro.ui.RecordActivity;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
+import com.rbardini.carteiro.util.Tracker;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 public class SyncService extends IntentService {
@@ -46,8 +48,6 @@ public class SyncService extends IntentService {
 
   public static final int NOTIFICATION_ONGOING_SYNC = 1;
   public static final int NOTIFICATION_NEW_UPDATE = 2;
-
-  private static boolean SYNC_CANCELED = false;
 
   private CarteiroApplication app;
   private DatabaseHelper dh;
@@ -71,8 +71,18 @@ public class SyncService extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    if (CarteiroApplication.state.syncing || !shouldSync(intent)) {
+    if (CarteiroApplication.state.syncing) {
+      Log.i(TAG, "Sync already running");
+      return;
+    }
+
+    if (!shouldSync(intent)) {
       Log.i(TAG, "Sync skipped");
+
+      if (CarteiroApplication.state.receiver != null) {
+        CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+      }
+
       return;
     }
 
@@ -91,11 +101,10 @@ public class SyncService extends IntentService {
         .setSmallIcon(R.drawable.ic_stat_sync)
         .setContentTitle(getString(R.string.notf_title_syncing))
         .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
-        .addAction(R.drawable.ic_cancel_white_24dp, getString(R.string.negative_btn), PendingIntent.getBroadcast(this, 0, new Intent(this, CancelSyncReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT))
         .setOngoing(true);
     }
 
-    int errors = 0;
+    boolean hasError = false;
     boolean hasUpdate = false;
 
     String[] cods;
@@ -108,41 +117,36 @@ public class SyncService extends IntentService {
       cods = dh.getPostalItemCodes(getSyncFlags());
     }
 
-    SYNC_CANCELED = false;
-    for (int i = 0; i < cods.length; i++) {
-      if (SYNC_CANCELED) {
-        SYNC_CANCELED = false;
-        break;
-      }
-
-      String cod = cods[i];
-
-      Log.i(TAG, "Syncing " + cod + "...");
-      PostalItemRecord pir = new PostalItemRecord(cod).loadFrom(dh);
+    try {
+      Log.i(TAG, "Syncing " + cods.length + " items...");
 
       if (shouldNotifySync) {
         notificationBuilder
           .setTicker(getString(R.string.notf_title_syncing))
-          .setContentText(pir.getFullDesc())
-          .setContentInfo(String.format(getString(R.string.notf_info_syncing), i + 1, cods.length))
-          .setProgress(cods.length, i + 1, false);
+          .setProgress(0, 0, true);
         nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
       }
 
-      try {
-        int oldListSize = pir.size();
+      List<List<PostalRecord>> prLists = Tracker.track(cods);
+
+      for (List<PostalRecord> prList : prLists) {
+        if (prList.isEmpty()) continue;
+
+        int newListSize = prList.size();
+        PostalRecord newLastRecord = prList.get(newListSize - 1);
+
+        String cod = newLastRecord.getCod();
+
+        PostalItemRecord pir = new PostalItemRecord(cod).loadFrom(dh);
         PostalRecord oldLastRecord = pir.getLastPostalRecord();
-
-        pir.fetch();
-
-        int newListSize = pir.size();
-        PostalRecord newLastRecord = pir.getLastPostalRecord();
+        int oldListSize = pir.size();
 
         boolean hasRecord = newListSize > 0;
         boolean itemUpdated = hasRecord && !oldLastRecord.equals(newLastRecord);
         boolean listSizeChanged = hasRecord && newListSize != oldListSize;
 
         if (itemUpdated || listSizeChanged) {
+          pir.setPostalRecords(prList);
           updatePostalItem(cod, pir);
 
           if (itemUpdated) {
@@ -150,11 +154,10 @@ public class SyncService extends IntentService {
             hasUpdate = true;
           }
         }
-
-      } catch (Exception e) {
-        Log.e(TAG, e.getMessage());
-        errors++;
       }
+    } catch (Exception e) {
+      Log.e(TAG, e.getMessage());
+      hasError = true;
     }
 
     nm.cancel(NOTIFICATION_ONGOING_SYNC);
@@ -166,9 +169,9 @@ public class SyncService extends IntentService {
 
     CarteiroApplication.state.syncing = false;
     if (CarteiroApplication.state.receiver != null) {
-      if (errors > 0 && errors == cods.length) {
+      if (hasError) {
         Bundle resultData = new Bundle();
-        resultData.putString(Intent.EXTRA_TEXT, "All " + cods.length + " requests have failed");
+        resultData.putString(Intent.EXTRA_TEXT, "Request for " + cods.length + " items has failed");
         CarteiroApplication.state.receiver.send(STATUS_ERROR, resultData);
 
       } else {
@@ -328,9 +331,5 @@ public class SyncService extends IntentService {
     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     am.cancel(getSender(context));
     Log.i(TAG, "Syncing unscheduled");
-  }
-
-  public static void cancelSync() {
-    SyncService.SYNC_CANCELED = true;
   }
 }

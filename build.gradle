@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
   repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/ksoap2-android-releases' }
     jcenter()
   }
   dependencies {
@@ -10,6 +11,7 @@ buildscript {
 
 allprojects {
   repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/ksoap2-android-releases' }
     jcenter()
   }
 }

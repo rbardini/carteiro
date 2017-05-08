@@ -69,7 +69,7 @@
   <string name="notf_tckr_multi_obj">%d items updated</string>
   <string name="notf_line_multi_obj"><![CDATA[<b>%1$s</b> %2$s]]></string>
   <plurals name="notf_summ_multi_obj">
-    <item quantity="one">1 item delivered</item>
+    <item quantity="one">%d item delivered</item>
     <item quantity="other">%d items delivered</item>
   </plurals>
 
@@ -121,7 +121,7 @@
   <string name="opt_unmark_as_fav">Unmark as favorite</string>
   <string name="opt_view_place">View on map</string>
   <string name="opt_share">Share</string>
-  <string name="opt_open_websro">Open in SRO</string>
+  <string name="opt_open_sro">Open in SRO</string>
   <string name="opt_archive_item">Archive</string>
   <string name="opt_unarchive_item">Move to %s</string>
   <string name="opt_delete_item">Delete</string>

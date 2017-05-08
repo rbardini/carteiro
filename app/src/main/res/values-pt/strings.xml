@@ -69,7 +69,7 @@
   <string name="notf_tckr_multi_obj">%d objetos atualizados</string>
   <string name="notf_line_multi_obj"><![CDATA[<b>%1$s</b> %2$s]]></string>
   <plurals name="notf_summ_multi_obj">
-    <item quantity="one">1 objeto entregue</item>
+    <item quantity="one">%d objeto entregue</item>
     <item quantity="other">%d objetos entregues</item>
   </plurals>
 
@@ -121,7 +121,7 @@
   <string name="opt_unmark_as_fav">Desmarcar como favorito</string>
   <string name="opt_view_place">Ver no mapa</string>
   <string name="opt_share">Compartilhar</string>
-  <string name="opt_open_websro">Abrir no SRO</string>
+  <string name="opt_open_sro">Abrir no SRO</string>
   <string name="opt_archive_item">Arquivar</string>
   <string name="opt_unarchive_item">Mover para %s</string>
   <string name="opt_delete_item">Excluir</string>

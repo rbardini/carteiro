@@ -33,16 +33,16 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public class RecordActivity extends PostalActivity implements WebSROFragment.OnStateChangeListener {
+public class RecordActivity extends PostalActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
 
   private DatabaseHelper dh;
   private FragmentManager mFragManager;
 
   private PostalItem mPostalItem;
-  private boolean mOnlyWebSRO;
+  private boolean mOnlySRO;
   private PostalRecordFragment mRecordFragment;
-  private WebSROFragment mWebSROFragment;
+  private SROFragment mSROFragment;
 
   private EditText mTitle;
   private TextView mSubtitle;
@@ -107,7 +107,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
 
     if (savedInstanceState != null) {
       mPostalItem = (PostalItem) savedInstanceState.getSerializable("postalItem");
-      mOnlyWebSRO = savedInstanceState.getBoolean("onlyWebSRO");
+      mOnlySRO = savedInstanceState.getBoolean("onlySRO");
     } else {
       handleNewIntent();
     }
@@ -118,7 +118,7 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
     savedInstanceState.putSerializable("postalItem", mPostalItem);
-    savedInstanceState.putSerializable("onlyWebSRO", mOnlyWebSRO);
+    savedInstanceState.putSerializable("onlySRO", mOnlySRO);
 
     super.onSaveInstanceState(savedInstanceState);
   }
@@ -206,9 +206,9 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
         PostalItemDialogFragment.newInstance(R.id.delete_opt, piList).show(mFragManager, PostalItemDialogFragment.TAG);
         return true;
 
-      case R.id.websro_opt:
-        if (mWebSROFragment == null) mWebSROFragment = WebSROFragment.newInstance(mPostalItem.getCod());
-        mFragManager.beginTransaction().replace(R.id.content, mWebSROFragment, WebSROFragment.TAG).addToBackStack(null).commit();
+      case R.id.sro_opt:
+        if (mSROFragment == null) mSROFragment = SROFragment.newInstance(mPostalItem.getCod());
+        mFragManager.beginTransaction().replace(R.id.content, mSROFragment, SROFragment.TAG).addToBackStack(null).commit();
         return true;
 
       default:
@@ -218,8 +218,8 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
 
   @Override
   public void onBackPressed() {
-    if (mWebSROFragment != null && mWebSROFragment.isVisible() && mWebSROFragment.canGoBack()) {
-      mWebSROFragment.goBack();
+    if (mSROFragment != null && mSROFragment.isVisible() && mSROFragment.canGoBack()) {
+      mSROFragment.goBack();
       return;
     }
 
@@ -339,8 +339,8 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
           UIUtils.shareItem(this, mPostalItem);
           break;
 
-        case "webSRO":
-          mOnlyWebSRO = true;
+        case "sro":
+          mOnlySRO = true;
           break;
       }
 
@@ -352,9 +352,9 @@ public class RecordActivity extends PostalActivity implements WebSROFragment.OnS
   }
 
   private void initialize(boolean isNewInstance) {
-    if (mOnlyWebSRO) {
-      mWebSROFragment = WebSROFragment.newInstance(mPostalItem.getCod());
-      mFragManager.beginTransaction().replace(R.id.content, mWebSROFragment, WebSROFragment.TAG).commit();
+    if (mOnlySRO) {
+      mSROFragment = SROFragment.newInstance(mPostalItem.getCod());
+      mFragManager.beginTransaction().replace(R.id.content, mSROFragment, SROFragment.TAG).commit();
 
     } else if (isNewInstance) {
       mRecordFragment = PostalRecordFragment.newInstance(mPostalItem);

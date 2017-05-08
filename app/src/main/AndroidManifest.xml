@@ -91,8 +91,6 @@
       </intent-filter>
     </receiver>
 
-    <receiver android:name=".svc.CancelSyncReceiver" />
-
     <provider android:name=".svc.SearchProvider"
       android:exported="false"
       android:authorities="com.rbardini.carteiro.SearchProvider" />

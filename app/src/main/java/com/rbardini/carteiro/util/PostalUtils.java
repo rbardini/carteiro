@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public final class PostalUtils {
-  public static final String WEBSRO_URL = "http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&P_TIPO=001&P_COD_UNI=%s";
   public static final String HEALTH_URL = "http://caiutudo.com/fora-do-ar/correios";
 
   public static final class Category {
@@ -38,79 +37,117 @@ public final class PostalUtils {
       TreeMap<Integer, String[]> map = new TreeMap<>();
 
       map.put(POSTED, new String[] {
+          Status.COLETADO,
           Status.POSTADO,
+          Status.POSTAGEM_DH,
           Status.POSTADO_DEPOIS_HORARIO_LIMITE,
-          Status.POSTAGEM_DH
+          Status.POSTADO_APOS_HORARIO_LIMITE
       });
       map.put(AVAILABLE, new String[] {
           Status.AGUARDANDO_RETIRADA,
+          Status.AGUARDANDO_RETIRADA_ENDERECO,
           Status.SAIU_PARA_ENTREGA,
           Status.SAIU_PARA_ENTREGA_DESTINATARIO,
+          Status.SAIU_PARA_ENTREGA_REMETENTE,
           Status.DISPONIVEL_EM_CAIXA_POSTAL,
           Status.DISPONIVEL_NA_CAIXA_POSTAL,
-          Status.DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL
+          Status.DISPONIVEL_PARA_RETIRADA_NA_CAIXA_POSTAL,
+          Status.DISPONIVEL_PARA_RETIRADA_EM_CAIXA_POSTAL
       });
       map.put(DELIVERED, new String[] {
           Status.ENTREGUE,
+          Status.ENTREGUE_DESTINATARIO,
           Status.ENTREGA_EFETUADA
       });
       map.put(IRREGULAR, new String[] {
           Status.DESTINATARIO_DESCONHECIDO_ENDERECO,
           Status.DESTINATARIO_DESCONHECIDO,
+          Status.CLIENTE_DESCONHECIDO,
           Status.DESTINATARIO_MUDOU_SE,
+          Status.CLIENTE_MUDOU_SE,
           Status.DESTINATARIO_AUSENTE_3_TENTATIVAS,
           Status.DESTINATARIO_RECUSOU_SE,
+          Status.CLIENTE_RECUSOU_SE,
           Status.DESTINATARIO_NAO_APRESENTOU_SE,
+          Status.DESTINATARIO_NAO_RETIROU,
+          Status.REMETENTE_NAO_RETIROU,
+          Status.NAO_PROCURADO,
           Status.ENDERECO_INSUFICIENTE,
           Status.MAL_ENDERECADO,
           Status.ENDERECO_INCOMPLETO,
           Status.ENDERECO_INCORRETO,
           Status.ENDERECO_SEM_DISTRIBUICAO,
           Status.DISTRIBUICAO_NAO_AUTORIZADA,
+          Status.RETIRADA_NAO_AUTORIZADA,
           Status.LOGRADOURO_IRREGULAR,
           Status.ENDERECO_IRREGULAR,
           Status.NUMERO_INEXISTENTE,
           Status.EMPRESA_SEM_EXPEDIENTE,
+          Status.EMPRESA_FALIDA,
           Status.MERCADORIA_AVARIADA,
+          Status.AVARIADO,
           Status.OBJETO_AVARIADO,
+          Status.AVARIADO_ACIDENTE_VEICULO,
           Status.DOCUMENTACAO_NAO_FORNECIDA,
           Status.DESTINATARIO_NAO_APRESENTOU_DOCUMENTACAO,
+          Status.DESTINATARIO_NAO_APRESENTOU_DOCUMENTO,
           Status.OBJETO_FORA_PADRAO,
           Status.DIMENSOES_IMPOSSIBILITAM_ENTREGA,
+          Status.DIMENSOES_IMPOSSIBILITAM_TRATAMENTO,
           Status.PEDIDO_NAO_SOLICITADO,
           Status.RECUSADO,
-          Status.NAO_PROCURADO,
+          Status.EM_DEVOLUCAO,
+          Status.DEVOLVIDO_SOLICITACAO_REMETENTE,
+          Status.ROUBADO,
           Status.OBJETO_PERDIDO_ASSALTO_CARTEIRO,
           Status.OBJETO_PERDIDO_ASSALTO_VEICULO,
           Status.OBJETO_PERDIDO_ASSALTO_UNIDADE,
+          Status.RECEBIMENTO_PAGAMENTO_ICMS,
           Status.OBJETO_RETIDO,
-          Status.IMPORTACAO_NAO_AUTORIZADA,
+          Status.APREENDIDO_POR_ORGAO,
+          Status.IMPORTACAO_NAO_AUTORIZADA_RECEITA,
+          Status.IMPORTACAO_NAO_AUTORIZADA_FISCALIZADORES,
+          Status.DECLARAO_ADUANEIRA_AUSENTE,
           Status.MAL_ENCAMINHADO,
           Status.DESTINATARIO_AUSENTE,
+          Status.CARTEIRO_NAO_ATENDIDO,
           Status.DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO,
+          Status.AINDA_NAO_CHEGOU,
           Status.ATRASADO,
+          Status.ATRASO_ENTREGA,
           Status.LOG_REVERSA_SIMULTANEA,
           Status.LOGISTICA_REVERSA_SIMULTANEA,
           Status.REINTEGRADO,
           Status.DEVOLVIDO_AOS_CORREIOS,
           Status.SAIDA_CANCELADA,
           Status.SAIDA_NAO_EFETUADA,
+          Status.SAIDA_ENTREGA_CANCELADA,
+          Status.REIMPRESSO,
+          Status.ENTREGA_BLOQUEADA,
           Status.ENTREGA_NAO_EFETUADA,
+          Status.ENTREGA_NAO_PODE_SER_EFETUADA,
           Status.ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS,
+          Status.TENTATIVA_ENTREGA_NAO_EFETUADA,
+          Status.COLETA_ENTREGA_NAO_EFETUADA,
           Status.AGUARDANDO_DOCUMENTACAO_FISCAL,
           Status.ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO,
+          Status.LOTE_INCOMPLETO,
+          Status.ESTORNADO,
           Status.CANCELADA_ULTIMA_INFORMACAO,
-          Status.EM_REVISAO_DE_TRIBUTO,
-          Status.TRIBUTO_ALTERADO
+          Status.DESCONSIDERAR_INFORMACAO_ANTERIOR,
+          Status.EM_REVISAO_DE_TRIBUTO_U,
+          Status.SOLICITADA_REVISAO_TRIBUTO,
+          Status.TRIBUTO_ALTERADO_U,
+          Status.TRIBUTO_ALTERADO,
+          Status.TRIBUTO_MANTIDO
       });
       map.put(UNKNOWN, new String[] {
           Status.INDETERMINADO,
           Status.NAO_ENCONTRADO,
+          Status.NAO_LOCALIZADO,
           Status.NAO_LOCALIZADO_FLUXO_POSTAL
       });
       map.put(RETURNED, new String[] {
-          Status.EM_DEVOLUCAO,
-          Status.ESTORNADO,
           Status.DISTRIBUIDO_AO_REMETENTE,
           Status.DEVOLVIDO_AO_REMETENTE
       });
@@ -197,90 +234,140 @@ public final class PostalUtils {
 
   public static final class Status {
     // Posted
-    public static final String POSTADO = "Postado";
+    public static final String COLETADO = "Coletado"; // New
+    public static final String POSTADO = "Postado"; // New + old
     public static final String POSTAGEM_DH = "Postagem - DH";
     public static final String POSTADO_DEPOIS_HORARIO_LIMITE = "Postado depois do horário limite da agência";
+    public static final String POSTADO_APOS_HORARIO_LIMITE = "Postado após o horário limite da agência"; // New
 
     // Available
     public static final String AGUARDANDO_RETIRADA = "Aguardando retirada";
+    public static final String AGUARDANDO_RETIRADA_ENDERECO = "Aguardando retirada no endereço indicado"; // New
     public static final String SAIU_PARA_ENTREGA = "Saiu para entrega";
-    public static final String SAIU_PARA_ENTREGA_DESTINATARIO = "Saiu para entrega ao destinatário";
+    public static final String SAIU_PARA_ENTREGA_DESTINATARIO = "Saiu para entrega ao destinatário"; // New + old
+    public static final String SAIU_PARA_ENTREGA_REMETENTE = "Saiu para entrega ao remetente"; // New
     public static final String DISPONIVEL_EM_CAIXA_POSTAL = "Disponível em caixa postal";
     public static final String DISPONIVEL_NA_CAIXA_POSTAL = "Disponível na caixa postal";
-    public static final String DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL = "Disponível para retirada na caixa postal";
+    public static final String DISPONIVEL_PARA_RETIRADA_NA_CAIXA_POSTAL = "Disponível para retirada na caixa postal";
+    public static final String DISPONIVEL_PARA_RETIRADA_EM_CAIXA_POSTAL = "Disponível para retirada em Caixa Postal"; // New
 
     // Delivered
     public static final String ENTREGUE = "Entregue";
+    public static final String ENTREGUE_DESTINATARIO = "Entregue ao destinatário"; // New
     public static final String ENTREGA_EFETUADA = "Entrega Efetuada";
 
     // Irregular
     public static final String DESTINATARIO_DESCONHECIDO_ENDERECO = "Destinatário desconhecido no endereço";
     public static final String DESTINATARIO_DESCONHECIDO = "Destinatário desconhecido";
+    public static final String CLIENTE_DESCONHECIDO = "Cliente desconhecido no local"; // New
     public static final String DESTINATARIO_MUDOU_SE = "Destinatário mudou-se";
+    public static final String CLIENTE_MUDOU_SE = "Cliente mudou-se"; // New
     public static final String DESTINATARIO_AUSENTE_3_TENTATIVAS = "Destinatário ausente em 3 tentativas de entrega";
     public static final String DESTINATARIO_RECUSOU_SE = "Destinatário recusou-se a receber";
+    public static final String CLIENTE_RECUSOU_SE = "Cliente recusou-se a receber"; // New
     public static final String DESTINATARIO_NAO_APRESENTOU_SE = "Destinatário não apresentou-se para receber";
+    public static final String DESTINATARIO_NAO_RETIROU = "Destinatário não retirou objeto na Unidade dos Correios"; // New
+    public static final String REMETENTE_NAO_RETIROU = "Remetente não retirou objeto na Unidade dos Correios"; // New
+    public static final String NAO_PROCURADO = "Não procurado";
     public static final String ENDERECO_INSUFICIENTE = "Endereço insuficiente para entrega";
     public static final String MAL_ENDERECADO = "Mal endereçado";
     public static final String ENDERECO_INCOMPLETO = "Endereço incompleto - em pesquisa";
-    public static final String ENDERECO_INCORRETO = "Endereço incorreto";
+    public static final String ENDERECO_INCORRETO = "Endereço incorreto"; // New + old
     public static final String ENDERECO_SEM_DISTRIBUICAO = "Endereço sem distribuição domiciliária - Entrega interna não autorizada";
     public static final String DISTRIBUICAO_NAO_AUTORIZADA = "Distribuição não autorizada";
-    public static final String LOGRADOURO_IRREGULAR = "Logradouro com numeração irregular";
+    public static final String RETIRADA_NAO_AUTORIZADA = "Retirada em Unidade dos Correios não autorizada pelo remetente"; // New
+    public static final String LOGRADOURO_IRREGULAR = "Logradouro com numeração irregular"; // New + old
     public static final String ENDERECO_IRREGULAR = "Endereço com numeração irregular - Em pesquisa";
     public static final String NUMERO_INEXISTENTE = "Não existe o número indicado";
-    public static final String EMPRESA_SEM_EXPEDIENTE = "Empresa sem expediente";
+    public static final String EMPRESA_SEM_EXPEDIENTE = "Empresa sem expediente"; // New + old
+    public static final String EMPRESA_FALIDA = "Endereçado à empresa falida"; // New
     public static final String MERCADORIA_AVARIADA = "Mercadoria avariada";
+    public static final String AVARIADO = "Avariado"; // New
     public static final String OBJETO_AVARIADO = "Objeto avariado";
+    public static final String AVARIADO_ACIDENTE_VEICULO = "Avariado por acidente com veículo"; // New
     public static final String DOCUMENTACAO_NAO_FORNECIDA = "Documentação não fornecida pelo destinatário";
     public static final String DESTINATARIO_NAO_APRESENTOU_DOCUMENTACAO = "Destinatário não apresentou a documentação";
+    public static final String DESTINATARIO_NAO_APRESENTOU_DOCUMENTO = "Destinatário não apresentou documento exigido"; // New
     public static final String OBJETO_FORA_PADRAO = "Objeto fora do padrão - Limites de dimensão";
     public static final String DIMENSOES_IMPOSSIBILITAM_ENTREGA = "Dimensões impossibilitam a entrega";
+    public static final String DIMENSOES_IMPOSSIBILITAM_TRATAMENTO = "As dimensões do objeto impossibilitam o tratamento e a entrega"; // New
     public static final String PEDIDO_NAO_SOLICITADO = "Pedido não solicitado";
     public static final String RECUSADO = "Recusado";
-    public static final String NAO_PROCURADO = "Não procurado";
+    public static final String EM_DEVOLUCAO = "Em devolução";
+    public static final String DEVOLVIDO_SOLICITACAO_REMETENTE = "Será devolvido por solicitação do remetente"; // New
+    public static final String ROUBADO = "Roubado"; // New
     public static final String OBJETO_PERDIDO_ASSALTO_CARTEIRO = "Objeto perdido em assalto ao carteiro";
     public static final String OBJETO_PERDIDO_ASSALTO_VEICULO = "Objeto perdido em assalto a veículo dos correios";
     public static final String OBJETO_PERDIDO_ASSALTO_UNIDADE = "Objeto perdido em assalto a unidade dos correios";
+    public static final String RECEBIMENTO_PAGAMENTO_ICMS = "Para recebimento do objeto é necessário o pagamento do ICMS Importação"; // New
     public static final String OBJETO_RETIDO = "Objeto retido pelo órgão de fiscalização";
-    public static final String IMPORTACAO_NAO_AUTORIZADA = "Importação não autorizada por órgão da receita";
-    public static final String MAL_ENCAMINHADO = "Mal encaminhado";
+    public static final String APREENDIDO_POR_ORGAO = "Apreendido por órgão de fiscalização ou outro órgão anuente"; // New
+    public static final String IMPORTACAO_NAO_AUTORIZADA_RECEITA = "Importação não autorizada por órgão da receita";
+    public static final String IMPORTACAO_NAO_AUTORIZADA_FISCALIZADORES = "A importação do objeto não foi autorizada pelos órgãos fiscalizadores"; // New
+    public static final String DECLARAO_ADUANEIRA_AUSENTE = "Declaração aduaneira ausente ou incorreta"; // New
+    public static final String MAL_ENCAMINHADO = "Mal encaminhado"; // New + old
     public static final String DESTINATARIO_AUSENTE = "Destinatário ausente";
-    public static final String DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO = "Área com distribuição sujeita a prazo diferenciado";
+    public static final String CARTEIRO_NAO_ATENDIDO = "Carteiro não atendido"; // New
+    public static final String DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO = "Área com distribuição sujeita a prazo diferenciado"; // New + old
+    public static final String AINDA_NAO_CHEGOU = "Ainda não chegou na unidade"; // New
     public static final String ATRASADO = "Atrasado";
+    public static final String ATRASO_ENTREGA = "Com atraso na entrega"; // New
     public static final String LOG_REVERSA_SIMULTANEA = "Log. reversa simultânea";
     public static final String LOGISTICA_REVERSA_SIMULTANEA = "Logística reversa simultânea";
     public static final String REINTEGRADO = "Reintegrado";
-    public static final String DEVOLVIDO_AOS_CORREIOS = "Objeto devolvido aos correios";
+    public static final String DEVOLVIDO_AOS_CORREIOS = "Devolvido aos Correios"; // New
+    public static final String OBJETO_DEVOLVIDO_AOS_CORREIOS = "Objeto devolvido aos correios";
     public static final String SAIDA_CANCELADA = "Saída cancelada";
     public static final String SAIDA_NAO_EFETUADA = "Saída não efetuada";
+    public static final String SAIDA_ENTREGA_CANCELADA = "Saída para entrega cancelada"; // New
+    public static final String REIMPRESSO = "Reimpresso e reenviado"; // New
+    public static final String ENTREGA_BLOQUEADA = "Entrega de objeto bloqueada a pedido do remetente"; // New
     public static final String ENTREGA_NAO_EFETUADA = "Entrega não efetuada";
+    public static final String ENTREGA_NAO_PODE_SER_EFETUADA = "A entrega não pode ser efetuada"; // New
     public static final String ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS = "Entrega não efetuada por motivos operacionais";
+    public static final String TENTATIVA_ENTREGA_NAO_EFETUADA = "Tentativa de entrega não efetuada"; // New
+    public static final String COLETA_ENTREGA_NAO_EFETUADA = "Coleta ou entrega de objeto não efetuada"; // New
     public static final String AGUARDANDO_DOCUMENTACAO_FISCAL = "Aguardando documentação fiscal";
     public static final String ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO = "Entrega condicionada ao complemento da documentação";
+    public static final String LOTE_INCOMPLETO = "Lote de objetos incompleto"; // New
+    public static final String ESTORNADO = "Estornado";
     public static final String CANCELADA_ULTIMA_INFORMACAO = "Cancelada a última informação";
-    public static final String EM_REVISAO_DE_TRIBUTO = "EM REVISÃO DE TRIBUTO";
-    public static final String TRIBUTO_ALTERADO = "TRIBUTO ALTERADO";
+    public static final String DESCONSIDERAR_INFORMACAO_ANTERIOR = "Favor desconsiderar a informação anterior"; // New
+    public static final String EM_REVISAO_DE_TRIBUTO_U = "EM REVISÃO DE TRIBUTO";
+    public static final String SOLICITADA_REVISAO_TRIBUTO = "Solicitada revisão do tributo estabelecido"; // New
+    public static final String TRIBUTO_ALTERADO_U = "TRIBUTO ALTERADO";
+    public static final String TRIBUTO_ALTERADO = "Tributo alterado"; // New
+    public static final String TRIBUTO_MANTIDO = "Tributo mantido"; // New
 
     // Unknown
     public static final String INDETERMINADO = "Indeterminado";
     public static final String NAO_ENCONTRADO = "Não encontrado";
+    public static final String NAO_LOCALIZADO = "Não localizado"; // New
     public static final String NAO_LOCALIZADO_FLUXO_POSTAL = "Não localizado no fluxo postal";
 
     // Returned
-    public static final String EM_DEVOLUCAO = "Em devolução";
-    public static final String ESTORNADO = "Estornado";
     public static final String DISTRIBUIDO_AO_REMETENTE = "Distribuido ao Remetente";
-    public static final String DEVOLVIDO_AO_REMETENTE = "Devolvido ao remetente";
+    public static final String DEVOLVIDO_AO_REMETENTE = "Devolvido ao remetente"; // New + old
 
     // Other
     public static final String ENCAMINHADO = "Encaminhado";
-    public static final String RECEBIDO = "Recebido na unidade de distribuição";
+    public static final String ENCAMINHADO_PARA = "Encaminhado para"; // New
+    public static final String SAIU_UNIDADE_INTERNACIONAL = "Saiu da Unidade Internacional"; // New
+    public static final String RECEBIDO_EM = "Recebido em"; // New
+    public static final String RECEBIDO_UNIDADE_DISTRIBUICAO = "Recebido na unidade de distribuição"; // New + old
+    public static final String RECEBIDO_UNIDADE_EXPORTACAO = "Recebido na unidade de exportação"; // New
+    public static final String RECEBIDO_UNIDADE_CORREIOS = "Recebido na Unidade dos Correios"; // New
+    public static final String RECEBIDO_BRASIL = "Recebido no Brasil"; // New
+    public static final String RECEBIDO_CORREIOS_BRASIL = "Recebido pelos Correios do Brasil"; // New
     public static final String CONFERIDO = "Conferido";
+    public static final String LIBERADO = "Liberado"; // New
+    public static final String LIBERADO_ALFANDEGA = "Liberado pela alfândega"; // New
     public static final String ENTREGA_PROGRAMADA = "Entrega programada";
+    public static final String ENTREGA_AGENDADA = "Com data de entrega agendada"; // New
     public static final String DISTRIBUICAO_ESPECIAL_AGENDADA = "Distribuição especial agendada";
     public static final String AGUARDANDO_PARTE_LOTE = "Aguardando parte do lote";
     public static final String ENTREGA_CONDICIONADA_COMPOSICAO_LOTE = "Entrega condicionada à composição do lote";
+    public static final String ENTREGA_OBJETO_CONDICIONADA_COMPOSICAO_LOTE = "A entrega do objeto está condicionada à composição do lote"; // New
 
     private static final Map<String, Integer> CategoryMap = buildCategoryMap();
     private static final Map<String, Integer> IconMap = buildIconMap();
@@ -304,88 +391,136 @@ public final class PostalUtils {
       TreeMap<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
       // Posted
+      map.put(COLETADO, R.drawable.ic_postal_distribuido_ao_remetente);
       map.put(POSTADO, R.drawable.ic_postal_postado);
       map.put(POSTAGEM_DH, R.drawable.ic_postal_postado);
       map.put(POSTADO_DEPOIS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
+      map.put(POSTADO_APOS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
 
       // Available
       map.put(AGUARDANDO_RETIRADA, R.drawable.ic_postal_aguardando_retirada);
+      map.put(AGUARDANDO_RETIRADA_ENDERECO, R.drawable.ic_postal_aguardando_retirada);
       map.put(SAIU_PARA_ENTREGA, R.drawable.ic_postal_saiu_entrega);
       map.put(SAIU_PARA_ENTREGA_DESTINATARIO, R.drawable.ic_postal_saiu_entrega);
+      map.put(SAIU_PARA_ENTREGA_REMETENTE, R.drawable.ic_postal_saiu_entrega);
       map.put(DISPONIVEL_EM_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
       map.put(DISPONIVEL_NA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
-      map.put(DISPONIVEL_PARA_RETIRADA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
+      map.put(DISPONIVEL_PARA_RETIRADA_NA_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
+      map.put(DISPONIVEL_PARA_RETIRADA_EM_CAIXA_POSTAL, R.drawable.ic_postal_disponivel_caixa_postal);
 
       // Delivered
       map.put(ENTREGUE, R.drawable.ic_postal_entregue);
+      map.put(ENTREGUE_DESTINATARIO, R.drawable.ic_postal_entregue);
       map.put(ENTREGA_EFETUADA, R.drawable.ic_postal_entregue);
 
       // Irregular
       map.put(DESTINATARIO_DESCONHECIDO_ENDERECO, R.drawable.ic_postal_destinatario_desconhecido);
       map.put(DESTINATARIO_DESCONHECIDO, R.drawable.ic_postal_destinatario_desconhecido);
+      map.put(CLIENTE_DESCONHECIDO, R.drawable.ic_postal_destinatario_desconhecido);
       map.put(DESTINATARIO_MUDOU_SE, R.drawable.ic_postal_destinatario_mudou);
+      map.put(CLIENTE_MUDOU_SE, R.drawable.ic_postal_destinatario_mudou);
       map.put(DESTINATARIO_AUSENTE_3_TENTATIVAS, R.drawable.ic_postal_destinatario_ausente);
       map.put(DESTINATARIO_RECUSOU_SE, R.drawable.ic_postal_recusado);
+      map.put(CLIENTE_RECUSOU_SE, R.drawable.ic_postal_recusado);
       map.put(DESTINATARIO_NAO_APRESENTOU_SE, R.drawable.ic_postal_nao_procurado);
+      map.put(DESTINATARIO_NAO_RETIROU, R.drawable.ic_postal_nao_procurado);
+      map.put(REMETENTE_NAO_RETIROU, R.drawable.ic_postal_nao_procurado);
+      map.put(NAO_PROCURADO, R.drawable.ic_postal_nao_procurado);
       map.put(ENDERECO_INSUFICIENTE, R.drawable.ic_postal_endereco_insuficiente);
       map.put(MAL_ENDERECADO, R.drawable.ic_postal_endereco_insuficiente);
       map.put(ENDERECO_INCOMPLETO, R.drawable.ic_postal_endereco_insuficiente);
       map.put(ENDERECO_INCORRETO, R.drawable.ic_postal_endereco_incorreto);
       map.put(ENDERECO_SEM_DISTRIBUICAO, R.drawable.ic_postal_endereco_sem_distribuicao);
-      map.put(DISTRIBUICAO_NAO_AUTORIZADA, R.drawable.ic_postal_endereco_sem_distribuicao);
+      map.put(DISTRIBUICAO_NAO_AUTORIZADA, R.drawable.ic_postal_saida_cancelada);
+      map.put(RETIRADA_NAO_AUTORIZADA, R.drawable.ic_postal_retirada_nao_autorizada);
       map.put(LOGRADOURO_IRREGULAR, R.drawable.ic_postal_endereco_insuficiente);
       map.put(ENDERECO_IRREGULAR, R.drawable.ic_postal_endereco_insuficiente);
       map.put(NUMERO_INEXISTENTE, R.drawable.ic_postal_endereco_incorreto);
       map.put(EMPRESA_SEM_EXPEDIENTE, R.drawable.ic_postal_empresa_sem_expediente);
+      map.put(EMPRESA_FALIDA, R.drawable.ic_postal_empresa_falida);
+      map.put(AVARIADO_ACIDENTE_VEICULO, R.drawable.ic_postal_objeto_perdido_assalto_veiculo);
       map.put(DOCUMENTACAO_NAO_FORNECIDA, R.drawable.ic_postal_documentacao_nao_fornecida);
       map.put(DESTINATARIO_NAO_APRESENTOU_DOCUMENTACAO, R.drawable.ic_postal_documentacao_nao_fornecida);
+      map.put(DESTINATARIO_NAO_APRESENTOU_DOCUMENTO, R.drawable.ic_postal_documentacao_nao_fornecida);
       map.put(OBJETO_FORA_PADRAO, R.drawable.ic_postal_objeto_fora_padrao);
       map.put(DIMENSOES_IMPOSSIBILITAM_ENTREGA, R.drawable.ic_postal_objeto_fora_padrao);
+      map.put(DIMENSOES_IMPOSSIBILITAM_TRATAMENTO, R.drawable.ic_postal_objeto_fora_padrao);
       map.put(PEDIDO_NAO_SOLICITADO, R.drawable.ic_postal_pedido_nao_solicitado);
       map.put(RECUSADO, R.drawable.ic_postal_recusado);
-      map.put(NAO_PROCURADO, R.drawable.ic_postal_nao_procurado);
+      map.put(EM_DEVOLUCAO, R.drawable.ic_postal_em_devolucao);
+      map.put(DEVOLVIDO_SOLICITACAO_REMETENTE, R.drawable.ic_postal_em_devolucao);
+      map.put(ROUBADO, R.drawable.ic_postal_objeto_perdido_assalto_carteiro);
       map.put(OBJETO_PERDIDO_ASSALTO_CARTEIRO, R.drawable.ic_postal_objeto_perdido_assalto_carteiro);
       map.put(OBJETO_PERDIDO_ASSALTO_VEICULO, R.drawable.ic_postal_objeto_perdido_assalto_veiculo);
       map.put(OBJETO_PERDIDO_ASSALTO_UNIDADE, R.drawable.ic_postal_objeto_perdido_assalto_unidade);
+      map.put(RECEBIMENTO_PAGAMENTO_ICMS, R.drawable.ic_postal_aguardando_documentacao_fiscal);
       map.put(OBJETO_RETIDO, R.drawable.ic_postal_objeto_retido);
-      map.put(IMPORTACAO_NAO_AUTORIZADA, R.drawable.ic_postal_objeto_retido);
+      map.put(APREENDIDO_POR_ORGAO, R.drawable.ic_postal_objeto_retido);
+      map.put(IMPORTACAO_NAO_AUTORIZADA_RECEITA, R.drawable.ic_postal_objeto_retido);
+      map.put(IMPORTACAO_NAO_AUTORIZADA_FISCALIZADORES, R.drawable.ic_postal_objeto_retido);
+      map.put(DECLARAO_ADUANEIRA_AUSENTE, R.drawable.ic_postal_documentacao_nao_fornecida);
       map.put(MAL_ENCAMINHADO, R.drawable.ic_postal_mal_encaminhado);
       map.put(DESTINATARIO_AUSENTE, R.drawable.ic_postal_destinatario_ausente);
+      map.put(CARTEIRO_NAO_ATENDIDO, R.drawable.ic_postal_destinatario_ausente);
       map.put(DISTRIBUICAO_SUJEITA_PRAZO_DIFERENCIADO, R.drawable.ic_postal_entrega_programada);
+      map.put(AINDA_NAO_CHEGOU, R.drawable.ic_postal_atrasado);
       map.put(ATRASADO, R.drawable.ic_postal_atrasado);
+      map.put(ATRASO_ENTREGA, R.drawable.ic_postal_atrasado);
       map.put(LOG_REVERSA_SIMULTANEA, R.drawable.ic_postal_log_reversa_simultanea);
       map.put(LOGISTICA_REVERSA_SIMULTANEA, R.drawable.ic_postal_log_reversa_simultanea);
-      map.put(REINTEGRADO, R.drawable.ic_postal_reintegrado);
-      map.put(DEVOLVIDO_AOS_CORREIOS, R.drawable.ic_postal_reintegrado);
+      map.put(REINTEGRADO, R.drawable.ic_postal_distribuido_ao_remetente);
+      map.put(OBJETO_DEVOLVIDO_AOS_CORREIOS, R.drawable.ic_postal_distribuido_ao_remetente);
       map.put(SAIDA_CANCELADA, R.drawable.ic_postal_saida_cancelada);
       map.put(SAIDA_NAO_EFETUADA, R.drawable.ic_postal_saida_cancelada);
+      map.put(SAIDA_ENTREGA_CANCELADA, R.drawable.ic_postal_saida_cancelada);
+      map.put(REIMPRESSO, R.drawable.ic_postal_reintegrado);
+      map.put(ENTREGA_BLOQUEADA, R.drawable.ic_postal_saida_cancelada);
       map.put(ENTREGA_NAO_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
+      map.put(ENTREGA_NAO_PODE_SER_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
       map.put(ENTREGA_NAO_EFETUADA_MOTIVOS_OPERACIONAIS, R.drawable.ic_postal_entrega_nao_efetuada);
+      map.put(TENTATIVA_ENTREGA_NAO_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
+      map.put(COLETA_ENTREGA_NAO_EFETUADA, R.drawable.ic_postal_entrega_nao_efetuada);
       map.put(AGUARDANDO_DOCUMENTACAO_FISCAL, R.drawable.ic_postal_aguardando_documentacao_fiscal);
       map.put(ENTREGA_CONDICIONADA_COMPLEMENTO_DOCUMENTACAO, R.drawable.ic_postal_aguardando_documentacao_fiscal);
+      map.put(LOTE_INCOMPLETO, R.drawable.ic_postal_lote_incompleto);
+      map.put(ESTORNADO, R.drawable.ic_postal_cancelada_ultima_informacao);
       map.put(CANCELADA_ULTIMA_INFORMACAO, R.drawable.ic_postal_cancelada_ultima_informacao);
-      map.put(EM_REVISAO_DE_TRIBUTO, R.drawable.ic_postal_em_revisao_de_tributo);
+      map.put(DESCONSIDERAR_INFORMACAO_ANTERIOR, R.drawable.ic_postal_cancelada_ultima_informacao);
+      map.put(EM_REVISAO_DE_TRIBUTO_U, R.drawable.ic_postal_em_revisao_de_tributo);
+      map.put(SOLICITADA_REVISAO_TRIBUTO, R.drawable.ic_postal_em_revisao_de_tributo);
+      map.put(TRIBUTO_ALTERADO_U, R.drawable.ic_postal_tributo_alterado);
       map.put(TRIBUTO_ALTERADO, R.drawable.ic_postal_tributo_alterado);
+      map.put(TRIBUTO_MANTIDO, R.drawable.ic_postal_tributo_alterado);
 
       // Unknown
       map.put(INDETERMINADO, R.drawable.ic_postal_indeterminado);
       map.put(NAO_ENCONTRADO, R.drawable.ic_postal_nao_encontrado);
+      map.put(NAO_LOCALIZADO, R.drawable.ic_postal_nao_encontrado);
       map.put(NAO_LOCALIZADO_FLUXO_POSTAL, R.drawable.ic_postal_nao_encontrado);
 
       // Returned
-      map.put(EM_DEVOLUCAO, R.drawable.ic_postal_em_devolucao);
-      map.put(ESTORNADO, R.drawable.ic_postal_em_devolucao);
-      map.put(DISTRIBUIDO_AO_REMETENTE, R.drawable.ic_postal_distribuido_ao_remetente);
-      map.put(DEVOLVIDO_AO_REMETENTE, R.drawable.ic_postal_em_devolucao);
+      map.put(DISTRIBUIDO_AO_REMETENTE, R.drawable.ic_postal_entregue);
+      map.put(DEVOLVIDO_AO_REMETENTE, R.drawable.ic_postal_entregue);
 
       // Other
-      map.put(RECEBIDO, R.drawable.ic_postal_recebido);
-      map.put(CONFERIDO, R.drawable.ic_postal_conferido);
       map.put(ENCAMINHADO, R.drawable.ic_postal_encaminhado);
+      map.put(ENCAMINHADO_PARA, R.drawable.ic_postal_encaminhado);
+      map.put(SAIU_UNIDADE_INTERNACIONAL, R.drawable.ic_postal_encaminhado);
+      map.put(RECEBIDO_EM, R.drawable.ic_postal_recebido);
+      map.put(RECEBIDO_UNIDADE_DISTRIBUICAO, R.drawable.ic_postal_recebido);
+      map.put(RECEBIDO_UNIDADE_EXPORTACAO, R.drawable.ic_postal_recebido);
+      map.put(RECEBIDO_UNIDADE_CORREIOS, R.drawable.ic_postal_recebido);
+      map.put(RECEBIDO_BRASIL, R.drawable.ic_postal_recebido);
+      map.put(RECEBIDO_CORREIOS_BRASIL, R.drawable.ic_postal_recebido);
+      map.put(CONFERIDO, R.drawable.ic_postal_conferido);
+      map.put(LIBERADO, R.drawable.ic_postal_conferido);
+      map.put(LIBERADO_ALFANDEGA, R.drawable.ic_postal_conferido);
+      map.put(ENTREGA_PROGRAMADA, R.drawable.ic_postal_entrega_programada);
+      map.put(ENTREGA_AGENDADA, R.drawable.ic_postal_entrega_programada);
+      map.put(DISTRIBUICAO_ESPECIAL_AGENDADA, R.drawable.ic_postal_entrega_programada);
       map.put(AGUARDANDO_PARTE_LOTE, R.drawable.ic_postal_aguardando_parte_lote);
       map.put(ENTREGA_CONDICIONADA_COMPOSICAO_LOTE, R.drawable.ic_postal_aguardando_parte_lote);
-      map.put(ENTREGA_PROGRAMADA, R.drawable.ic_postal_entrega_programada);
-      map.put(DISTRIBUICAO_ESPECIAL_AGENDADA, R.drawable.ic_postal_entrega_programada);
+      map.put(ENTREGA_OBJETO_CONDICIONADA_COMPOSICAO_LOTE, R.drawable.ic_postal_aguardando_parte_lote);
 
       return map;
     }

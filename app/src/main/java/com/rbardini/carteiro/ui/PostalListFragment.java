@@ -281,7 +281,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
       // Show or hide actions depending on selection size
       menu.findItem(R.id.place_opt).setVisible(isSingleSelection);
       menu.findItem(R.id.rename_opt).setVisible(isSingleSelection);
-      menu.findItem(R.id.websro_opt).setVisible(isSingleSelection);
+      menu.findItem(R.id.sro_opt).setVisible(isSingleSelection);
 
       // Disable refresh action if sync is in progress
       if (CarteiroApplication.state.syncing) {
@@ -398,8 +398,8 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
           PostalItemDialogFragment.newInstance(R.id.rename_opt, mSelectedList).show(getFragmentManager(), PostalItemDialogFragment.TAG);
           return true;
 
-        case R.id.websro_opt:
-          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", firstItem).setAction("webSRO");
+        case R.id.sro_opt:
+          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", firstItem).setAction("sro");
           startActivity(intent);
           return true;
       }

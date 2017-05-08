@@ -3,7 +3,6 @@ package com.rbardini.carteiro.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.util.PostalUtils;
 
-public class WebSROFragment extends Fragment {
-  public static final String TAG = "WebSROFragment";
+public class SROFragment extends Fragment {
+  public static final String TAG = "SROFragment";
+
+  private static final String SRO_URL = "http://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm";
 
   interface OnStateChangeListener {
     void onProgress(int progress);
@@ -24,8 +24,8 @@ public class WebSROFragment extends Fragment {
   private OnStateChangeListener listener;
   private WebView mWebView;
 
-  public static WebSROFragment newInstance(String cod) {
-    WebSROFragment f = new WebSROFragment();
+  public static SROFragment newInstance(String cod) {
+    SROFragment f = new SROFragment();
     Bundle args = new Bundle();
     args.putString("cod", cod);
     f.setArguments(args);
@@ -41,7 +41,6 @@ public class WebSROFragment extends Fragment {
 
     try {
       listener = (OnStateChangeListener) activity;
-
     } catch (ClassCastException e) {
       throw new ClassCastException(activity.toString() + " must implement OnStateChangeListener");
     }
@@ -52,15 +51,15 @@ public class WebSROFragment extends Fragment {
     View view = inflater.inflate(R.layout.webview, container, false);
 
     mWebView = (WebView) view.findViewById(R.id.webview);
-
     mWebView.setWebChromeClient(new WebChromeClient() {
       @Override
       public void onProgressChanged(WebView view, int progress) {
         listener.onProgress(progress);
       }
     });
-    mWebView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.websro));
-    mWebView.loadUrl(String.format(PostalUtils.WEBSRO_URL, getArguments().getString("cod")));
+
+    String postData = "objetos=" + getArguments().getString("cod");
+    mWebView.postUrl(SRO_URL, postData.getBytes());
 
     return view;
   }

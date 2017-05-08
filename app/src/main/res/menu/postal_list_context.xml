@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item android:id="@+id/refresh_opt"
     android:icon="@drawable/ic_sync_white_24dp"
@@ -37,9 +36,9 @@
     android:title="@string/opt_rename_item"
     app:showAsAction="ifRoom" />
 
-  <item android:id="@+id/websro_opt"
+  <item android:id="@+id/sro_opt"
     android:icon="@drawable/ic_public_white_24dp"
-    android:title="@string/opt_open_websro"
+    android:title="@string/opt_open_sro"
     app:showAsAction="ifRoom" />
 
 </menu>

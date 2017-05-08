@@ -2,12 +2,14 @@ package com.rbardini.carteiro.util;
 
 import com.rbardini.carteiro.model.PostalRecord;
 
-import java.io.BufferedReader;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,97 +17,173 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public final class Tracker {
-  public static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
-  public static int CONN_TIMEOUT = 15000;
+  private static final String NAMESPACE = "http://resource.webservice.correios.com.br/";
+  private static final String METHOD_NAME = "buscaEventosLista";
+  private static final String SOAP_ACTION = METHOD_NAME;
+  private static final String URL = "http://webservice.correios.com.br/service/rastro";
+  private static final String REQ_USERNAME = "ECT";
+  private static final String REQ_PASSWORD = "SRO";
+  private static final String REQ_TYPE = "L";
+  private static final String REQ_RESULT = "T";
+  private static final String REQ_LANGUAGE = "101";
 
-  public static List<PostalRecord> track(String cod) throws IOException, ParseException {
-    List<PostalRecord> prList = new ArrayList<>();
-    String html = fetchPage(cod);
+  private static Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
+  private static Pattern SEPARATOR_PATTERN = Pattern.compile("^(.+?) - ");
+  private static Pattern OBJETO_PATTERN = Pattern.compile("^Objeto");
+  private static Pattern CONTEUDO_PATTERN = Pattern.compile("(e?/?(ou)?\\s?)conteúdo");
+  private static Pattern COMMA_PATTERN = Pattern.compile(",");
+  private static Pattern PERIOD_PATTERN = Pattern.compile("\\.$");
 
-    if (html.contains("O nosso sistema não possui dados sobre o objeto")) {
-      return prList;
-    }
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
 
-    if (!html.contains("O horário não indica quando a situação ocorreu")) {
-      throw new IOException(PostalUtils.Error.NET_ERROR);
-    }
+  public static List<List<PostalRecord>> track(String[] cods) throws IOException, ParseException {
+    List<List<PostalRecord>> prLists = new ArrayList<>();
 
-    BufferedReader br = new BufferedReader(new StringReader(html));
-    String line;
+    SoapSerializationEnvelope envelope = buildEnvelope(cods);
+    HttpTransportSE httpTransport = new HttpTransportSE(URL);
 
     try {
-      while ((line = br.readLine()) != null) {
-        if (line.contains("<tr><td ")) {
-          int index = line.indexOf("rowspan=");
+      httpTransport.call(SOAP_ACTION, envelope);
+      SoapObject result = (SoapObject) envelope.getResponse();
+      List<SoapObject> objetos = getPropertyValues(result, "objeto");
 
-          if (index != -1) {
-            PostalRecord pr = new PostalRecord(cod);
-            index += 8;
+      for (SoapObject objeto : objetos) {
+        String cod = getStringProperty(objeto, "numero");
+        List<PostalRecord> prList = new ArrayList<>();
 
-            int rowSpan = Integer.parseInt(line.substring(index, index + 1));
-            index += 2;
+        if (!objeto.hasProperty("erro")) {
+          List<SoapObject> eventos = getPropertyValues(objeto, "evento");
 
-            pr.setDate(DATE_FORMAT.parse(line.substring(index, line.indexOf("</td><td>", index) + 1)));
-            index = line.indexOf("</td><td>", index) + 9;
+          for (SoapObject evento : eventos) {
+            String data = getStringProperty(evento, "data");
+            String hora = getStringProperty(evento, "hora");
+            String descricao = getStringProperty(evento, "descricao");;
+            String local = buildLocation(evento);
+            String detalhe = getStringProperty(evento, "detalhe");
 
-            pr.setLoc(line.substring(index, line.indexOf("</td><td>", index)).replaceAll("\\s+", " "));
-            index = line.indexOf("</td><td>", index) + 30;
+            PostalRecord pr = new PostalRecord(cod, DATE_FORMAT.parse(data + " " + hora), formatStatus(descricao), local, formatInfo(detalhe));
 
-            pr.setStatus(line.substring(index, line.indexOf("</font></td></tr>", index)));
+            if (detalhe == null) {
+              SoapObject destino = getPropertyValue(evento, "destino");
 
-            if (pr.getStatus().trim().equals("")) {
-              pr.setStatus(PostalUtils.Status.INDETERMINADO);
-            }
-
-            if (rowSpan > 1) {
-              line = br.readLine();
-              index = line.indexOf("colspan=") + 10;
-
-              pr.setInfo(line.substring(index, line.indexOf("</td></tr>", index)).replaceAll("\\s+", " "));
-
-              if (pr.getInfo().startsWith("Por favor, entre em contato")) {
-                pr.setInfo("Entre em contato com os Correios");
+              if (destino != null) {
+                local = buildLocation(destino);
+                if (local != null) pr.setInfo("Em trânsito para " + local);
               }
             }
 
             prList.add(pr);
           }
         }
+
+        Collections.reverse(prList);
+        prLists.add(prList);
       }
 
-    } finally {
-      br.close();
-    }
-
-    Collections.reverse(prList);
-
-    return prList;
-  }
-
-  public static String fetchPage(String cod) throws IOException {
-    try {
-      URL url = new URL(String.format(PostalUtils.WEBSRO_URL, cod));
-      URLConnection conn = url.openConnection();
-      conn.setConnectTimeout(CONN_TIMEOUT);
-      conn.setReadTimeout(CONN_TIMEOUT);
-
-      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-      StringBuilder builder = new StringBuilder();
-      String line;
-
-      while ((line = br.readLine()) != null) {
-        builder.append(line);
-        builder.append(System.getProperty("line.separator"));
-      }
-
-      br.close();
-
-      return builder.toString();
-
-    } catch (IOException e) {
+    } catch (XmlPullParserException e) {
       throw new IOException(PostalUtils.Error.NET_ERROR);
     }
+
+    return prLists;
+  }
+
+  public static List<PostalRecord> track(String cod) throws IOException, ParseException {
+    List<List<PostalRecord>> prLists = track(new String[] {cod});
+    return prLists.get(0);
+  }
+
+  private static SoapSerializationEnvelope buildEnvelope(String[] cods) {
+    SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+    request.addProperty("usuario", REQ_USERNAME);
+    request.addProperty("senha", REQ_PASSWORD);
+    request.addProperty("tipo", REQ_TYPE);
+    request.addProperty("resultado", REQ_RESULT);
+    request.addProperty("lingua", REQ_LANGUAGE);
+
+    for (String cod : cods) {
+      request.addProperty("objetos", cod);
+    }
+
+    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    envelope.setOutputSoapObject(request);
+
+    return envelope;
+  }
+
+  private static SoapObject getPropertyValue(SoapObject obj, String name) {
+    int propertyCount = obj.getPropertyCount();
+
+    for (int i = 0; i < propertyCount; i++) {
+      PropertyInfo propertyInfo = obj.getPropertyInfo(i);
+
+      if (propertyInfo.getName().equals(name)) {
+        return (SoapObject) propertyInfo.getValue();
+      }
+    }
+
+    return null;
+  }
+
+  private static List<SoapObject> getPropertyValues(SoapObject obj, String name) {
+    List<SoapObject> result = new ArrayList<>();
+    int propertyCount = obj.getPropertyCount();
+
+    for (int i = 0; i < propertyCount; i++) {
+      PropertyInfo propertyInfo = obj.getPropertyInfo(i);
+
+      if (propertyInfo.getName().equals(name)) {
+        SoapObject value = (SoapObject) propertyInfo.getValue();
+        result.add(value);
+      }
+    }
+
+    return result;
+  }
+
+  private static String getStringProperty(SoapObject obj, String name) {
+    return normalizeString(obj.getPropertySafely(name).toString());
+  }
+
+  private static String normalizeString(String str) {
+    if (str != null) {
+      return WHITESPACE_PATTERN.matcher(str).replaceAll(" ").trim();
+    }
+
+    return str;
+  }
+
+  private static String formatStatus(String status) {
+    status = SEPARATOR_PATTERN.matcher(status).replaceAll("");
+    status = OBJETO_PATTERN.matcher(status).replaceAll("");
+    status = CONTEUDO_PATTERN.matcher(status).replaceAll("");
+    status = COMMA_PATTERN.matcher(status).replaceAll("");
+    status = PERIOD_PATTERN.matcher(status).replaceAll("");
+    status = status.trim();
+
+    return status.substring(0, 1).toUpperCase() + status.substring(1);
+  }
+
+  private static String formatInfo(String info) {
+    if (info == null) return info;
+    return PERIOD_PATTERN.matcher(info).replaceAll("").trim();
+  }
+
+  private static String buildLocation(SoapObject obj) {
+    String local = getStringProperty(obj, "local");
+    String bairro = getStringProperty(obj, "bairro");
+    String cidade = getStringProperty(obj, "cidade");
+    String uf = getStringProperty(obj, "uf");
+
+    if (cidade != null && uf != null) {
+      local += " - ";
+
+      if (bairro != null) local += bairro + ", ";
+      local += cidade + "/" + uf;
+    }
+
+    return local;
   }
 }
