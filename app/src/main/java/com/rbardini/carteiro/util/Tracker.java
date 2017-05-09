@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -39,7 +40,7 @@ public final class Tracker {
 
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
 
-  public static List<List<PostalRecord>> track(String[] cods) throws IOException, ParseException {
+  public static List<List<PostalRecord>> track(String[] cods) throws IOException {
     List<List<PostalRecord>> prLists = new ArrayList<>();
 
     SoapSerializationEnvelope envelope = buildEnvelope(cods);
@@ -64,7 +65,15 @@ public final class Tracker {
             String local = buildLocation(evento);
             String detalhe = getStringProperty(evento, "detalhe");
 
-            PostalRecord pr = new PostalRecord(cod, DATE_FORMAT.parse(data + " " + hora), formatStatus(descricao), local, formatInfo(detalhe));
+            Date date;
+
+            try {
+              date = DATE_FORMAT.parse(data + " " + hora);
+            } catch (ParseException e) {
+              continue;
+            }
+
+            PostalRecord pr = new PostalRecord(cod, date, formatStatus(descricao), local, formatInfo(detalhe));
 
             if (detalhe == null) {
               SoapObject destino = getPropertyValue(evento, "destino");
@@ -83,7 +92,7 @@ public final class Tracker {
         prLists.add(prList);
       }
 
-    } catch (XmlPullParserException e) {
+    } catch (Exception e) {
       throw new IOException(PostalUtils.Error.NET_ERROR);
     }
 
