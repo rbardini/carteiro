@@ -43,6 +43,8 @@ public final class Tracker {
   public static List<List<PostalRecord>> track(String[] cods) throws IOException {
     List<List<PostalRecord>> prLists = new ArrayList<>();
 
+    if (cods.length == 0) return prLists;
+
     SoapSerializationEnvelope envelope = buildEnvelope(cods);
     HttpTransportSE httpTransport = new HttpTransportSE(URL);
 
