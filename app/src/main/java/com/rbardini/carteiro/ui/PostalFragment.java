@@ -31,6 +31,8 @@ public abstract class PostalFragment extends ListFragment implements SwipeRefres
     mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
     mSwipeRefreshLayout.setOnRefreshListener(this);
     mSwipeRefreshLayout.setColorSchemeResources(R.color.theme_accent, R.color.theme_primary_light, R.color.theme_accent, R.color.theme_primary_dark);
+
+    updateRefreshStatus();
   }
 
   @Override
@@ -38,12 +40,10 @@ public abstract class PostalFragment extends ListFragment implements SwipeRefres
 
   public abstract void refreshList();
 
-  public void setRefreshing() {
-    mSwipeRefreshLayout.setRefreshing(true);
-  }
+  public void updateRefreshStatus() {
+    if (mSwipeRefreshLayout == null) return;
 
-  public void onRefreshComplete() {
-    mSwipeRefreshLayout.setRefreshing(false);
+    mSwipeRefreshLayout.setRefreshing(CarteiroApplication.state.syncing);
   }
 
   public void clearSelection() {}

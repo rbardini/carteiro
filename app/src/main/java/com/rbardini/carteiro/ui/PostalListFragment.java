@@ -124,8 +124,6 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
       emptyText.setText(R.string.text_empty_list_found);
     }
 
-    if (CarteiroApplication.state.syncing) setRefreshing();
-
     mListener.onPostalListAttached(this);
   }
 

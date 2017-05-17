@@ -145,11 +145,7 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
     PostalFragment f = getPostalFragment();
     if (f == null) return;
 
-    if (CarteiroApplication.state.syncing) {
-      f.setRefreshing();
-    } else {
-      f.onRefreshComplete();
-    }
+    f.updateRefreshStatus();
   }
 
   public void refreshList() {
