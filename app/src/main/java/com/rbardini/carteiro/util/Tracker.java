@@ -7,13 +7,13 @@ import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +30,7 @@ public final class Tracker {
   private static final String REQ_TYPE = "L";
   private static final String REQ_RESULT = "T";
   private static final String REQ_LANGUAGE = "101";
+  private static final int MAX_ITEMS_PER_REQ = 5000;
 
   private static Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
   private static Pattern SEPARATOR_PATTERN = Pattern.compile("^(.+?) - ");
@@ -45,57 +46,59 @@ public final class Tracker {
 
     if (cods.length == 0) return prLists;
 
-    SoapSerializationEnvelope envelope = buildEnvelope(cods);
-    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+    for (String[] codsChunk : chunk(cods, MAX_ITEMS_PER_REQ)) {
+      SoapSerializationEnvelope envelope = buildEnvelope(codsChunk);
+      HttpTransportSE httpTransport = new HttpTransportSE(URL);
 
-    try {
-      httpTransport.call(SOAP_ACTION, envelope);
-      SoapObject result = (SoapObject) envelope.getResponse();
-      List<SoapObject> objetos = getPropertyValues(result, "objeto");
+      try {
+        httpTransport.call(SOAP_ACTION, envelope);
+        SoapObject result = (SoapObject) envelope.getResponse();
+        List<SoapObject> objetos = getPropertyValues(result, "objeto");
 
-      for (SoapObject objeto : objetos) {
-        String cod = getStringProperty(objeto, "numero");
-        List<PostalRecord> prList = new ArrayList<>();
+        for (SoapObject objeto : objetos) {
+          String cod = getStringProperty(objeto, "numero");
+          List<PostalRecord> prList = new ArrayList<>();
 
-        if (!objeto.hasProperty("erro")) {
-          List<SoapObject> eventos = getPropertyValues(objeto, "evento");
+          if (!objeto.hasProperty("erro")) {
+            List<SoapObject> eventos = getPropertyValues(objeto, "evento");
 
-          for (SoapObject evento : eventos) {
-            String data = getStringProperty(evento, "data");
-            String hora = getStringProperty(evento, "hora");
-            String descricao = getStringProperty(evento, "descricao");;
-            String local = buildLocation(evento);
-            String detalhe = getStringProperty(evento, "detalhe");
+            for (SoapObject evento : eventos) {
+              String data = getStringProperty(evento, "data");
+              String hora = getStringProperty(evento, "hora");
+              String descricao = getStringProperty(evento, "descricao");
+              String local = buildLocation(evento);
+              String detalhe = getStringProperty(evento, "detalhe");
 
-            Date date;
+              Date date;
 
-            try {
-              date = DATE_FORMAT.parse(data + " " + hora);
-            } catch (ParseException e) {
-              continue;
-            }
-
-            PostalRecord pr = new PostalRecord(cod, date, formatStatus(descricao), local, formatInfo(detalhe));
-
-            if (detalhe == null) {
-              SoapObject destino = getPropertyValue(evento, "destino");
-
-              if (destino != null) {
-                local = buildLocation(destino);
-                if (local != null) pr.setInfo("Em trânsito para " + local);
+              try {
+                date = DATE_FORMAT.parse(data + " " + hora);
+              } catch (ParseException e) {
+                continue;
               }
-            }
 
-            prList.add(pr);
+              PostalRecord pr = new PostalRecord(cod, date, formatStatus(descricao), local, formatInfo(detalhe));
+
+              if (detalhe == null) {
+                SoapObject destino = getPropertyValue(evento, "destino");
+
+                if (destino != null) {
+                  local = buildLocation(destino);
+                  if (local != null) pr.setInfo("Em trânsito para " + local);
+                }
+              }
+
+              prList.add(pr);
+            }
           }
+
+          Collections.reverse(prList);
+          prLists.add(prList);
         }
 
-        Collections.reverse(prList);
-        prLists.add(prList);
+      } catch (Exception e) {
+        throw new IOException(PostalUtils.Error.NET_ERROR);
       }
-
-    } catch (Exception e) {
-      throw new IOException(PostalUtils.Error.NET_ERROR);
     }
 
     return prLists;
@@ -122,6 +125,17 @@ public final class Tracker {
     envelope.setOutputSoapObject(request);
 
     return envelope;
+  }
+
+  private static List<String[]> chunk(String[] cods, int size) {
+    List<String[]> chunks = new ArrayList<>();
+    int length = cods.length;
+
+    for (int i = 0; i < length; i += size) {
+      chunks.add(Arrays.copyOfRange(cods, i, Math.min(length, i + size)));
+    }
+
+    return chunks;
   }
 
   private static SoapObject getPropertyValue(SoapObject obj, String name) {
