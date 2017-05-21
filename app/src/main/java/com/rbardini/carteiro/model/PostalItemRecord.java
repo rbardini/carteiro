@@ -36,6 +36,7 @@ public class PostalItemRecord implements Serializable {
   }
 
   public PostalItem getPostalItem() { return this.pi; }
+  public PostalItem getSafePostalItem() { return new PostalItem(this.pi, getLastPostalRecord()); }
   public void setPostalItem(PostalItem pi) { this.pi = pi; }
 
   public List<PostalRecord> getPostalRecords() { return this.prList; }

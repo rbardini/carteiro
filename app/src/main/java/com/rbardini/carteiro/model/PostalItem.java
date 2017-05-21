@@ -22,32 +22,19 @@ public class PostalItem implements Serializable {
 
   public PostalItem() {}
 
-  public PostalItem(String cod) {
+  public PostalItem(String cod, String desc, boolean fav, boolean archived) {
     this.cod = cod;
-    this.desc = null;
-    this.fav = false;
-    this.archived = false;
+    this.desc = desc;
+    this.fav = fav;
+    this.archived = archived;
   }
 
   public PostalItem(String cod, String desc) {
-    this.cod = cod;
-    this.desc = desc;
-    this.fav = false;
-    this.archived = false;
+    this(cod, desc, false, false);
   }
 
-  public PostalItem(String cod, boolean fav) {
-    this.cod = cod;
-    this.desc = null;
-    this.fav = fav;
-    this.archived = false;
-  }
-
-  public PostalItem(String cod, String desc, boolean fav) {
-    this.cod = cod;
-    this.desc = desc;
-    this.fav = fav;
-    this.archived = false;
+  public PostalItem(String cod) {
+    this(cod, null);
   }
 
   public PostalItem(String cod, String desc, Date date, String loc, String info, String status, boolean fav, boolean archived) {
@@ -59,6 +46,22 @@ public class PostalItem implements Serializable {
     this.status = status;
     this.fav = fav;
     this.archived = archived;
+  }
+
+  public PostalItem(PostalItem pi, PostalRecord pr) {
+    if (pi != null) {
+      this.cod = pi.getCod();
+      this.desc = pi.getDesc();
+      this.fav = pi.isFav();
+      this.archived = pi.isArchived();
+    }
+
+    if (pr != null) {
+      this.date = pr.getDate();
+      this.loc = pr.getLoc();
+      this.info = pr.getInfo();
+      this.status = pr.getStatus();
+    }
   }
 
   public String getCod() { return cod; }
