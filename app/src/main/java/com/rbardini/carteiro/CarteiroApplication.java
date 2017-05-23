@@ -1,22 +1,25 @@
 package com.rbardini.carteiro;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class CarteiroApplication extends Application {
-  public static State state;
+  public static boolean syncing = false;
 
   private Tracker tracker;
   private Set<String> updatedCods;
@@ -26,7 +29,12 @@ public class CarteiroApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    state = new State();
+    LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        syncing = intent.getBooleanExtra(SyncService.EXTRA_RUNNING, false);
+      }
+    }, new IntentFilter(SyncService.ACTION_SYNC));
 
     GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
     tracker = analytics.newTracker(R.xml.tracker_config);
@@ -92,15 +100,6 @@ public class CarteiroApplication extends Application {
       // Schedule sync service on first start
       SyncService.scheduleSync(this);
       prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
-    }
-  }
-
-  public static class State {
-    public DetachableResultReceiver receiver;
-    public boolean syncing = false;
-
-    private State() {
-      receiver = new DetachableResultReceiver(new Handler());
     }
   }
 }

@@ -1,11 +1,14 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -19,33 +22,41 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
-import com.rbardini.carteiro.svc.DetachableResultReceiver;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public abstract class PostalActivity extends AppCompatActivity implements DetachableResultReceiver.Receiver, PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
+public abstract class PostalActivity extends AppCompatActivity implements PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
   private static final String TAG = "PostalActivity";
+
   protected CarteiroApplication app;
+  private BroadcastReceiver mReceiver;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     app = (CarteiroApplication) getApplication();
+    mReceiver = new BroadcastReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        onSyncStatusChange(intent);
+      }
+    };
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    CarteiroApplication.state.receiver.setReceiver(this);
+    LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(SyncService.ACTION_SYNC));
     updateRefreshStatus();
   }
 
   @Override
   protected void onPause() {
-    CarteiroApplication.state.receiver.clearReceiver();
+    LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     super.onPause();
   }
 
@@ -61,9 +72,10 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
     return super.onCreateOptionsMenu(menu);
   }
 
-  @Override
-  public void onReceiveResult(int resultCode, Bundle resultData) {
-    switch (resultCode) {
+  public void onSyncStatusChange(Intent intent) {
+    int status = intent.getIntExtra(SyncService.EXTRA_STATUS, SyncService.STATUS_FINISHED);
+
+    switch (status) {
       case SyncService.STATUS_RUNNING:
         updateRefreshStatus();
         break;
@@ -88,7 +100,7 @@ public abstract class PostalActivity extends AppCompatActivity implements Detach
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.error_background));
         snackbar.show();
 
-        Log.e(TAG, resultData.getString(Intent.EXTRA_TEXT));
+        Log.e(TAG, intent.getStringExtra(SyncService.EXTRA_ERROR));
         break;
     }
   }

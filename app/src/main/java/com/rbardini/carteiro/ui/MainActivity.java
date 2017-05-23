@@ -85,7 +85,7 @@ public class MainActivity extends PostalActivity {
 
   @Override
   protected void onPause() {
-    if (!CarteiroApplication.state.syncing) app.clearUpdate();
+    if (!CarteiroApplication.syncing) app.clearUpdate();
     super.onPause();
   }
 

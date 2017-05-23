@@ -183,7 +183,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
   @Override
   public void onRefresh() {
-    if (!CarteiroApplication.state.syncing) {
+    if (!CarteiroApplication.syncing) {
       Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
       List<String> cods = new ArrayList<>();
       for (PostalItem pi : mList) {
@@ -282,7 +282,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
       menu.findItem(R.id.sro_opt).setVisible(isSingleSelection);
 
       // Disable refresh action if sync is in progress
-      if (CarteiroApplication.state.syncing) {
+      if (CarteiroApplication.syncing) {
         menu.findItem(R.id.refresh_opt).setEnabled(false);
       }
 
@@ -320,7 +320,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
       /* Multiple items actions */
       switch (actionId) {
         case R.id.refresh_opt:
-          if (!CarteiroApplication.state.syncing) {
+          if (!CarteiroApplication.syncing) {
             String[] cods = new String[selectionSize];
             for (int i = 0; i < selectionSize; i++) cods[i] = mSelectedList.get(i).getCod();
             Intent refresh = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("cods", cods);

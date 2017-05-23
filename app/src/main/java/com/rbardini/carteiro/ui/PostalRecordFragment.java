@@ -54,7 +54,7 @@ public class PostalRecordFragment extends PostalFragment {
 
   @Override
   public void onRefresh() {
-    if (!CarteiroApplication.state.syncing) {
+    if (!CarteiroApplication.syncing) {
       Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
       intent.putExtra("cods", new String[] {pi.getCod()});
       mActivity.startService(intent);

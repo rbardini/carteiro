@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.util.Log;
 
@@ -42,6 +43,11 @@ import java.util.Locale;
 public class SyncService extends IntentService {
   private static final String TAG = "SyncService";
 
+  public static final String ACTION_SYNC = TAG + ".ACTION_SYNC";
+  public static final String EXTRA_STATUS = TAG + ".EXTRA_STATUS";
+  public static final String EXTRA_RUNNING = TAG + ".EXTRA_RUNNING";
+  public static final String EXTRA_ERROR = TAG + ".EXTRA_ERROR";
+
   public static final int STATUS_RUNNING = 1;
   public static final int STATUS_ERROR = 2;
   public static final int STATUS_FINISHED = 3;
@@ -53,6 +59,7 @@ public class SyncService extends IntentService {
   private DatabaseHelper dh;
   private NotificationManager nm;
   private SharedPreferences prefs;
+  private LocalBroadcastManager broadcaster;
 
   public SyncService() {
     super(TAG);
@@ -67,32 +74,27 @@ public class SyncService extends IntentService {
     dh = app.getDatabaseHelper();
     nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    broadcaster = LocalBroadcastManager.getInstance(this);
   }
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    if (CarteiroApplication.state.syncing) {
+    if (CarteiroApplication.syncing) {
       Log.i(TAG, "Sync already running");
       return;
     }
 
     if (!shouldSync(intent)) {
       Log.i(TAG, "Sync skipped");
-
-      if (CarteiroApplication.state.receiver != null) {
-        CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
-      }
-
+      broadcaster.sendBroadcast(new Intent(ACTION_SYNC).putExtra(EXTRA_STATUS, STATUS_FINISHED));
       return;
     }
 
     Log.i(TAG, "Sync started");
 
-    CarteiroApplication.state.syncing = true;
-
-    if (CarteiroApplication.state.receiver != null) {
-      CarteiroApplication.state.receiver.send(STATUS_RUNNING, Bundle.EMPTY);
-    }
+    broadcaster.sendBroadcast(new Intent(ACTION_SYNC)
+      .putExtra(EXTRA_STATUS, STATUS_RUNNING)
+      .putExtra(EXTRA_RUNNING, true));
 
     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
     boolean shouldNotifySync = prefs.getBoolean(getString(R.string.pref_key_notify_sync), false);
@@ -167,16 +169,13 @@ public class SyncService extends IntentService {
       showNotification(notificationFlags);
     }
 
-    CarteiroApplication.state.syncing = false;
-    if (CarteiroApplication.state.receiver != null) {
-      if (hasError) {
-        Bundle resultData = new Bundle();
-        resultData.putString(Intent.EXTRA_TEXT, "Request for " + cods.length + " items has failed");
-        CarteiroApplication.state.receiver.send(STATUS_ERROR, resultData);
+    if (hasError) {
+      broadcaster.sendBroadcast(new Intent(ACTION_SYNC)
+        .putExtra(EXTRA_STATUS, STATUS_ERROR)
+        .putExtra(EXTRA_ERROR, "Request for " + cods.length + " items has failed"));
 
-      } else {
-        CarteiroApplication.state.receiver.send(STATUS_FINISHED, Bundle.EMPTY);
-      }
+    } else {
+      broadcaster.sendBroadcast(new Intent(ACTION_SYNC).putExtra(EXTRA_STATUS, STATUS_FINISHED));
     }
 
     Log.i(TAG, "Sync finished");

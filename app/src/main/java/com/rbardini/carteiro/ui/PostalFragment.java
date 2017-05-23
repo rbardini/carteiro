@@ -43,7 +43,7 @@ public abstract class PostalFragment extends ListFragment implements SwipeRefres
   public void updateRefreshStatus() {
     if (mSwipeRefreshLayout == null) return;
 
-    mSwipeRefreshLayout.setRefreshing(CarteiroApplication.state.syncing);
+    mSwipeRefreshLayout.setRefreshing(CarteiroApplication.syncing);
   }
 
   public void clearSelection() {}

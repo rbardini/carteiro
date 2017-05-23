@@ -131,15 +131,17 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   }
 
   @Override
-  public void onReceiveResult(int resultCode, Bundle resultData) {
-    switch (resultCode) {
+  public void onSyncStatusChange(Intent intent) {
+    int status = intent.getIntExtra(SyncService.EXTRA_STATUS, SyncService.STATUS_FINISHED);
+
+    switch (status) {
       case SyncService.STATUS_FINISHED:
         updateRefreshStatus();
         if (app.hasUpdate() && app.isUpdatedCod(mPostalItem.getCod())) mRecordFragment.refreshList();
         break;
 
       default:
-        super.onReceiveResult(resultCode, resultData);
+        super.onSyncStatusChange(intent);
     }
   }
 
