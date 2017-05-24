@@ -76,6 +76,7 @@
   <style name="ListText">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
+    <item name="android:fontFamily">sans-serif-light</item>
   </style>
   <style name="ListText.Title">
     <item name="android:textColor">?android:attr/textColorPrimary</item>
@@ -117,7 +118,7 @@
     <item name="android:hint">@string/hint_item_description</item>
   </style>
   <style name="RecordHeading.Subtitle">
-    <item name="android:textStyle">italic</item>
+    <item name="android:fontFamily">sans-serif-light</item>
     <item name="android:textAllCaps">true</item>
   </style>
 

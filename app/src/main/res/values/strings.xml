@@ -7,7 +7,6 @@
   <string name="date_relative_over_year">Over a year ago</string>
 
   <!-- Buttons -->
-  <string name="positive_btn">OK</string>
   <string name="negative_btn">Cancel</string>
   <string name="add_btn">Add</string>
   <string name="add_another_btn">Add another</string>
@@ -20,7 +19,6 @@
   <string name="backup_btn">Create</string>
   <string name="restore_btn">Restore</string>
   <string name="undo_btn">Undo</string>
-  <string name="quit_btn">Quit</string>
   <string name="status_btn">Status</string>
 
   <!-- Main Drawer -->
@@ -64,7 +62,6 @@
 
   <!-- Notifications -->
   <string name="notf_title_syncing">Syncing items&#8230;</string>
-  <string name="notf_info_syncing">%1$d/%2$d</string>
   <string name="notf_tckr_single_obj">%1$s: %2$s</string>
   <string name="notf_tckr_multi_obj">%d items updated</string>
   <string name="notf_line_multi_obj"><![CDATA[<b>%1$s</b> %2$s]]></string>
@@ -112,7 +109,6 @@
   <string name="label_item_deleted">Deleted</string>
 
   <!-- Context Menu -->
-  <string name="opt_add">Add</string>
   <string name="opt_search">Search</string>
   <string name="opt_scan_barcode">Scan</string>
   <string name="opt_refresh_item">Refresh</string>

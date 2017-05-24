@@ -44,7 +44,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
   private static CarteiroApplication app;
   private static DatabaseHelper dh;
 
-  private static List<String> fragments = new ArrayList<>();
+  private static final List<String> fragments = new ArrayList<>();
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

@@ -32,11 +32,12 @@ import java.util.Locale;
 import java.util.Map;
 
 public class DatabaseHelper {
-  public static final String TAG = "CarteiroDatabase";
+  private static final String TAG = "CarteiroDatabase";
+
   public static final String DB_NAME = "carteiro.db";
   public static final int DB_VERSION = 2;
 
-  public static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+  private static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
   private static final String POSTAL_ITEM_TABLE = "Postal_Item";
   private static final String POSTAL_RECORD_TABLE = "Postal_Record";
@@ -229,8 +230,7 @@ public class DatabaseHelper {
   }
 
   public boolean isPostalItem(String cod) {
-    Cursor c = db.query(POSTAL_ITEM_TABLE, new String[] {"cod"}, "cod = ?", new String[] {cod}, null, null, null);
-    return c.moveToFirst();
+    return db.query(POSTAL_ITEM_TABLE, new String[] {"cod"}, "cod = ?", new String[] {cod}, null, null, null).moveToFirst();
   }
 
   public PostalItem getPostalItem(String cod) {
@@ -249,7 +249,7 @@ public class DatabaseHelper {
   }
 
   public String[] getPostalItemCodes(int flags) {
-    List<String> cods = new ArrayList<String>();
+    List<String> cods = new ArrayList<>();
     String selection = "archived = ?";
     String[] selectionArgs = new String[] {"0"};
 
@@ -398,7 +398,7 @@ public class DatabaseHelper {
   }
 
   private static HashMap<String, String> buildColumnMap() {
-    HashMap<String, String> map = new HashMap<String, String>();
+    HashMap<String, String> map = new HashMap<>();
     map.put(SUGGEST_ID, "cod AS "+SUGGEST_ID);
     map.put(SUGGEST_TITLE, "cod AS "+SUGGEST_TITLE);
     map.put(SUGGEST_DESC, "desc AS "+SUGGEST_DESC);
@@ -414,7 +414,7 @@ public class DatabaseHelper {
     try {
       c = db.query(tableName, null, null, null, null, null, null, "1");
       if (c != null) {
-        columns = new ArrayList<String>(Arrays.asList(c.getColumnNames()));
+        columns = new ArrayList<>(Arrays.asList(c.getColumnNames()));
       }
     } catch (Exception e) {
       Log.v(tableName, e.getMessage(), e);
@@ -457,7 +457,7 @@ public class DatabaseHelper {
     private static final Map<String, String> DropMap = buildDropMap();
 
     private static Map<String, String> buildCreateMap() {
-      Map<String, String> map = new HashMap<String, String>();
+      Map<String, String> map = new HashMap<>();
 
       map.put(POSTAL_ITEM_TABLE, "CREATE TABLE IF NOT EXISTS " + POSTAL_ITEM_TABLE + " ("
           + "cod TEXT NOT NULL PRIMARY KEY, "
@@ -493,7 +493,7 @@ public class DatabaseHelper {
     }
 
     private static Map<String, String> buildDropMap() {
-      Map<String, String> map = new HashMap<String, String>();
+      Map<String, String> map = new HashMap<>();
 
       map.put(POSTAL_ITEM_TABLE, "DROP TABLE IF EXISTS " + POSTAL_ITEM_TABLE);
       map.put(POSTAL_RECORD_TABLE, "DROP TABLE IF EXISTS " + POSTAL_RECORD_TABLE);

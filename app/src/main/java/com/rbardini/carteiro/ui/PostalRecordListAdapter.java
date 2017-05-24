@@ -54,11 +54,11 @@ public class PostalRecordListAdapter extends BaseAdapter {
     // When convertView is not null, we can reuse it directly, there is no need to re-inflate it
     // We only inflate a new View when the convertView supplied by ListView is null
     if (convertView == null) {
-      convertView = mInflater.inflate(R.layout.list_record_item, null);
+      convertView = mInflater.inflate(R.layout.list_record_item, parent, false);
 
       // Creates a ViewHolder and store references to the two children views we want to bind data to
       holder = new ViewHolder();
-      holder.timeline = (View) convertView.findViewById(R.id.timeline);
+      holder.timeline = convertView.findViewById(R.id.timeline);
       holder.date = (TextView) convertView.findViewById(R.id.text_postal_status_date);
       holder.time = (TextView) convertView.findViewById(R.id.text_postal_status_time);
       holder.status = (TextView) convertView.findViewById(R.id.text_postal_status_title);

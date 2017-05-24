@@ -23,7 +23,7 @@ public final class IOUtils {
 
   public static boolean isExternalStorageReadable() {
     String storageState = Environment.getExternalStorageState();
-    return (Environment.MEDIA_MOUNTED.equals(storageState) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(storageState));
+    return Environment.MEDIA_MOUNTED.equals(storageState) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(storageState);
   }
 
   public static File getExternalStoragePublicAppDocumentsDirectory() {

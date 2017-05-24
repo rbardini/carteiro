@@ -13,9 +13,9 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import java.io.IOException;
 
 public class BackupAgent extends BackupAgentHelper {
-  public static final String TAG = "BackupAgent";
-  public static final String PREFS_KEY = "prefs";
-  public static final String DB_KEY = "db";
+  private static final String TAG = "BackupAgent";
+  private static final String PREFS_KEY = "prefs";
+  private static final String DB_KEY = "db";
 
   @Override
   public void onCreate() {

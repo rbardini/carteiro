@@ -13,7 +13,7 @@
         android:id="@+id/progress_bar"
         android:layout_width="@dimen/min_touch_target"
         android:layout_height="@dimen/min_touch_target"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:padding="12dp"
         android:indeterminate="true"
         android:visibility="gone" />

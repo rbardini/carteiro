@@ -164,7 +164,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    final ArrayList<PostalItem> piList = new ArrayList<PostalItem>();
+    final ArrayList<PostalItem> piList = new ArrayList<>();
     piList.add(mPostalItem);
 
     switch (item.getItemId()) {

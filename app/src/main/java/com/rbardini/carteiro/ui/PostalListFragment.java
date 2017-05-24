@@ -26,9 +26,7 @@ import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PostalListFragment extends PostalFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
   interface OnPostalListActionListener {
@@ -244,7 +242,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
   private final class MultiChoiceModeListener implements AbsListView.MultiChoiceModeListener {
     private ActionMode mActionMode;
-    private Map<Integer, Boolean> mCollectiveActionMap;
+    private SparseBooleanArray mCollectiveActionMap;
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -264,7 +262,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
       mActionMode = mode;
-      mCollectiveActionMap = new HashMap<>();
+      mCollectiveActionMap = new SparseBooleanArray();
 
       mActionMode.getMenuInflater().inflate(R.menu.postal_list_context, menu);
 

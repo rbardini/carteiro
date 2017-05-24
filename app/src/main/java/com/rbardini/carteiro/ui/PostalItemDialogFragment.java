@@ -70,7 +70,7 @@ public class PostalItemDialogFragment extends DialogFragment {
         itemDesc.setOnEditorActionListener(new TextView.OnEditorActionListener() {
           @Override
           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            onRenamePostemItem(itemDesc, pi);
+            onRenamePostalItem(itemDesc, pi);
             dismiss();
             return true;
           }
@@ -82,7 +82,7 @@ public class PostalItemDialogFragment extends DialogFragment {
           .setPositiveButton(R.string.rename_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-              onRenamePostemItem(itemDesc, pi);
+              onRenamePostalItem(itemDesc, pi);
             }
           })
           .setNegativeButton(R.string.negative_btn, null);
@@ -107,7 +107,7 @@ public class PostalItemDialogFragment extends DialogFragment {
     return builder.create();
   }
 
-  private void onRenamePostemItem(EditText itemDesc, PostalItem pi) {
+  private void onRenamePostalItem(EditText itemDesc, PostalItem pi) {
     String desc = itemDesc.getText().toString().trim();
     if (desc.equals("")) desc = null;
     listener.onRenamePostalItem(desc, pi);

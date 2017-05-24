@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 public class BackupManagerWrapper {
-  public static final String TAG = "BackupManagerWrapper";
+  private static final String TAG = "BackupManagerWrapper";
 
   private static BackupManager instance;
 

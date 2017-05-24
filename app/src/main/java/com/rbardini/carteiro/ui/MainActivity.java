@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -195,7 +196,7 @@ public class MainActivity extends PostalActivity {
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
       @Override
-      public boolean onNavigationItemSelected(final MenuItem menuItem) {
+      public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         final int id = menuItem.getItemId();
         final boolean isCategory = id != R.id.action_preferences && id != R.id.action_feedback;
 

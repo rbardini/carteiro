@@ -32,12 +32,12 @@ public final class Tracker {
   private static final String REQ_LANGUAGE = "101";
   private static final int MAX_ITEMS_PER_REQ = 5000;
 
-  private static Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
-  private static Pattern SEPARATOR_PATTERN = Pattern.compile("^(.+?) - ");
-  private static Pattern OBJETO_PATTERN = Pattern.compile("^Objeto");
-  private static Pattern CONTEUDO_PATTERN = Pattern.compile("(e?/?(ou)?\\s?)conteúdo");
-  private static Pattern COMMA_PATTERN = Pattern.compile(",");
-  private static Pattern PERIOD_PATTERN = Pattern.compile("\\.$");
+  private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
+  private static final Pattern SEPARATOR_PATTERN = Pattern.compile("^(.+?) - ");
+  private static final Pattern OBJETO_PATTERN = Pattern.compile("^Objeto");
+  private static final Pattern CONTEUDO_PATTERN = Pattern.compile("(e?/?(ou)?\\s?)conteúdo");
+  private static final Pattern COMMA_PATTERN = Pattern.compile(",");
+  private static final Pattern PERIOD_PATTERN = Pattern.compile("\\.$");
 
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
 
@@ -104,7 +104,7 @@ public final class Tracker {
     return prLists;
   }
 
-  public static List<PostalRecord> track(String cod) throws IOException, ParseException {
+  public static List<PostalRecord> track(String cod) throws IOException {
     List<List<PostalRecord>> prLists = track(new String[] {cod});
     return prLists.get(0);
   }
@@ -173,11 +173,8 @@ public final class Tracker {
   }
 
   private static String normalizeString(String str) {
-    if (str != null) {
-      return WHITESPACE_PATTERN.matcher(str).replaceAll(" ").trim();
-    }
-
-    return str;
+    if (str == null) return null;
+    return WHITESPACE_PATTERN.matcher(str).replaceAll(" ").trim();
   }
 
   private static String formatStatus(String status) {
@@ -192,7 +189,7 @@ public final class Tracker {
   }
 
   private static String formatInfo(String info) {
-    if (info == null) return info;
+    if (info == null) return null;
     return PERIOD_PATTERN.matcher(info).replaceAll("").trim();
   }
 

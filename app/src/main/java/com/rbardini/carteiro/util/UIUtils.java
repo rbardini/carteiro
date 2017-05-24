@@ -1,13 +1,9 @@
 package com.rbardini.carteiro.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.format.DateUtils;
-import android.view.View;
 import android.widget.Toast;
 
 import com.rbardini.carteiro.R;
@@ -65,30 +61,8 @@ public final class UIUtils {
     context.startActivity(locateIntent);
   }
 
-  public static int getStatusBarHeight(Context context) {
-    Resources res = context.getResources();
-    int resourceId = res.getIdentifier("status_bar_height", "dimen", "android");
-
-    return resourceId > 0 ? res.getDimensionPixelSize(resourceId) : 0;
-  }
-
-  public static void addStatusBarPadding(Activity activity, int rootLayoutId) {
-    int paddingTop = getStatusBarHeight(activity);
-    View rootLayout = activity.findViewById(rootLayoutId);
-
-    rootLayout.setPadding(rootLayout.getPaddingLeft(), rootLayout.getPaddingTop() + paddingTop, rootLayout.getPaddingRight(), rootLayout.getPaddingBottom());
-  }
-
   public static int getPostalStatusColor(String status) {
     int category = PostalUtils.Status.getCategory(status);
     return PostalUtils.Category.getColor(category == 0 ? PostalUtils.Category.ALL : category);
-  }
-
-  public static Bitmap createScaledDpBitmap(Context context, Bitmap src, int dstWidthDp, int dstHeightDp) {
-    final float density = context.getResources().getDisplayMetrics().density;
-    final int dstWidthPx = (int) (dstWidthDp * density + 0.5f);
-    final int dstHeightPx = (int) (dstHeightDp * density + 0.5f);
-
-    return Bitmap.createScaledBitmap(src, dstWidthPx, dstHeightPx, true);
   }
 }

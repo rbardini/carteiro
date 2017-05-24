@@ -6,6 +6,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 public class SearchProvider extends ContentProvider {
   public static final String AUTHORITY = "com.rbardini.carteiro.SearchProvider";
@@ -20,27 +21,27 @@ public class SearchProvider extends ContentProvider {
   }
 
   @Override
-  public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+  public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     return dh.getSearchSuggestions(selectionArgs[0]);
   }
 
   @Override
-  public Uri insert(Uri uri, ContentValues values) {
+  public Uri insert(@NonNull Uri uri, ContentValues values) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+  public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int delete(Uri uri, String selection, String[] selectionArgs) {
+  public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public String getType(Uri uri) {
+  public String getType(@NonNull Uri uri) {
     return null;
   }
 }

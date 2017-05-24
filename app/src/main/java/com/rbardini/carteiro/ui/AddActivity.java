@@ -51,10 +51,10 @@ public class AddActivity extends AppCompatActivity {
   private static final String TAG = "AddActivity";
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
 
-  public static final int NOT_FOUND      = 0x1;
-  public static final int DELIVERED_ITEM = 0x2;
-  public static final int RETURNED_ITEM  = 0x4;
-  public static final int NET_ERROR      = 0x8;
+  private static final int NOT_FOUND      = 0x1;
+  private static final int DELIVERED_ITEM = 0x2;
+  private static final int RETURNED_ITEM  = 0x4;
+  private static final int NET_ERROR      = 0x8;
 
   private boolean mIsFormView;
 
@@ -187,7 +187,7 @@ public class AddActivity extends AppCompatActivity {
     handleIntent();
   }
 
-  public void scanBarcode() {
+  private void scanBarcode() {
     IntentIntegrator scan = new IntentIntegrator(this);
     AlertDialog install = scan.initiateScan();
 
