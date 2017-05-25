@@ -391,8 +391,13 @@ public class AddActivity extends AppCompatActivity {
     String cod;
 
     if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-      // Get tracking number from WebSRO URL
       Uri data = intent.getData();
+
+      if (data == null) {
+        fillFromClipboard();
+        return;
+      }
+
       cod = data.getQueryParameter("P_COD_UNI");
 
       if (cod == null) {
@@ -414,27 +419,31 @@ public class AddActivity extends AppCompatActivity {
       }
 
     } else {
-      // Try to get tracking number from clipboard
-      ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+      fillFromClipboard();
+    }
+  }
 
-      if (clipboard.hasPrimaryClip()) {
-        ClipDescription clipDesc = clipboard.getPrimaryClipDescription();
+  private void fillFromClipboard() {
+    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+    String cod;
 
-        if (clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) || clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_HTML)) {
-          CharSequence text = clipboard.getPrimaryClip().getItemAt(0).getText();
+    if (clipboard.hasPrimaryClip()) {
+      ClipDescription clipDesc = clipboard.getPrimaryClipDescription();
 
-          if (text != null) {
-            cod = text.toString().trim();
+      if (clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) || clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_HTML)) {
+        CharSequence text = clipboard.getPrimaryClip().getItemAt(0).getText();
 
-            try {
-              cod = validateCod(cod);
+        if (text != null) {
+          cod = text.toString().trim();
 
-              if (!dh.isPostalItem(cod)) {
-                mTrackingNumberField.setText(cod);
-              }
+          try {
+            cod = validateCod(cod);
 
-            } catch (Exception e) {}
-          }
+            if (!dh.isPostalItem(cod)) {
+              mTrackingNumberField.setText(cod);
+            }
+
+          } catch (Exception e) {}
         }
       }
     }

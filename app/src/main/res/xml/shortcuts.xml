@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+  <shortcut android:shortcutId="add"
+    android:icon="@drawable/ic_shortcut_add"
+    android:shortcutShortLabel="@string/title_add">
+    <intent android:action="android.intent.action.VIEW"
+      android:targetPackage="com.rbardini.carteiro"
+      android:targetClass="com.rbardini.carteiro.ui.AddActivity" />
+  </shortcut>
+</shortcuts>
