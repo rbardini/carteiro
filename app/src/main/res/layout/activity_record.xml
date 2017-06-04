@@ -1,48 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:orientation="vertical">
+  android:layout_height="match_parent">
 
-  <LinearLayout style="@style/RecordHeader.Raised"
-    android:orientation="vertical">
+  <android.support.design.widget.AppBarLayout android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:id="@+id/app_bar"
+    android:transitionName="@string/transition_postal_record"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.Toolbar style="@style/ActionBar">
+    <android.support.design.widget.CollapsingToolbarLayout
+      android:id="@+id/collapsing_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed|snap"
+      app:expandedTitleMarginStart="?attr/actionBarSize">
 
-      <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="@dimen/min_touch_target"
-        android:layout_height="@dimen/min_touch_target"
-        android:layout_gravity="end"
-        android:padding="12dp"
-        android:indeterminate="true"
-        android:visibility="gone" />
+      <android.support.v7.widget.Toolbar style="@style/ActionBar.Flat"
+        app:layout_collapseMode="pin">
 
-    </android.support.v7.widget.Toolbar>
+        <ProgressBar
+          android:id="@+id/progress_bar"
+          android:layout_width="@dimen/min_touch_target"
+          android:layout_height="@dimen/min_touch_target"
+          android:layout_gravity="end"
+          android:padding="12dp"
+          android:indeterminate="true"
+          android:visibility="gone" />
 
-    <LinearLayout style="@style/RecordSubHeader"
-      android:orientation="vertical"
-      android:focusableInTouchMode="true">
+      </android.support.v7.widget.Toolbar>
 
-      <TextView style="@style/RecordHeading"
-        android:id="@+id/legend" />
+      <LinearLayout style="@style/RecordSubHeader"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingBottom="@dimen/keyline_3"
+        android:focusableInTouchMode="true">
 
-      <EditText style="@style/RecordHeading.Title"
-        android:id="@+id/title"
-        android:imeOptions="actionDone" />
+        <TextView style="@style/RecordHeading"
+          android:id="@+id/legend"
+          android:drawablePadding="@dimen/keyline_1_quarter" />
 
-      <TextView style="@style/RecordHeading.Subtitle"
-        android:id="@+id/subtitle"
-        android:drawablePadding="4dp" />
+        <TextView style="@style/RecordHeading.Subtitle"
+          android:id="@+id/subtitle" />
 
-    </LinearLayout>
+      </LinearLayout>
 
-  </LinearLayout>
+    </android.support.design.widget.CollapsingToolbarLayout>
 
-  <FrameLayout
-    android:id="@+id/content"
+  </android.support.design.widget.AppBarLayout>
+
+  <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_background" />
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</LinearLayout>
+    <FrameLayout
+      android:id="@+id/content"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/theme_background" />
+
+  </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

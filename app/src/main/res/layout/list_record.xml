@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/swipe_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/swipe_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+  <ListView style="@style/ListView"
+    android:id="@android:id/list"
+    android:nestedScrollingEnabled="true"
+    android:listSelector="@android:color/transparent"
+    android:divider="@null"
+    android:dividerHeight="0dp" />
 
-    <ListView style="@style/ListView"
-      android:id="@android:id/list"
-      android:listSelector="@android:color/transparent"
-      android:divider="@null"
-      android:dividerHeight="0dp" />
-
-  </android.support.v4.widget.SwipeRefreshLayout>
-
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

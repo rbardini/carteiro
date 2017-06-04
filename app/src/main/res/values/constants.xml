@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-  <string name="app_name">Carteiro</string>
-  <string name="app_url">http://carteiroapp.com/</string>
+<resources>
+  <string name="app_name" translatable="false">Carteiro</string>
+  <string name="app_url" translatable="false">http://carteiroapp.com/</string>
 
-  <string name="blog_url">http://blog.carteiroapp.com/</string>
-  <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
-  <string name="twitter_url">http://twitter.com/carteiroapp</string>
-  <string name="gplus_url">http://plus.google.com/communities/102688961399152413062</string>
-  <string name="feedback_url">http://feedback.carteiroapp.com/</string>
+  <string name="blog_url" translatable="false">http://blog.carteiroapp.com/</string>
+  <string name="facebook_url" translatable="false">http://www.facebook.com/carteiroapp</string>
+  <string name="twitter_url" translatable="false">http://twitter.com/carteiroapp</string>
+  <string name="gplus_url" translatable="false">http://plus.google.com/communities/102688961399152413062</string>
+  <string name="feedback_url" translatable="false">http://feedback.carteiroapp.com/</string>
 
   <!-- Theme names -->
-  <string name="theme_light">light</string>
-  <string name="theme_dark">dark</string>
+  <string name="theme_light" translatable="false">light</string>
+  <string name="theme_dark" translatable="false">dark</string>
+
+  <!-- Transition names -->
+  <string name="transition_add_item" translatable="false">transition_add_item</string>
+  <string name="transition_postal_record" translatable="false">transition_record</string>
 
   <!-- Preferences keys -->
-  <string name="pref_key_on_boot">onboot</string>
-  <string name="pref_key_always_add_not_found">alwaysaddnotfound</string>
-  <string name="pref_key_always_add_delivered">alwaysadddelivered</string>
-  <string name="pref_key_always_add_returned">alwaysaddreturned</string>
-  <string name="pref_key_always_add_net_error">alwaysaddneterror</string>
-  <string name="pref_key_auto_sync">autosync</string>
-  <string name="pref_key_refresh_interval">refreshinterval</string>
-  <string name="pref_key_sync_favorites_only">syncfavoritesonly</string>
-  <string name="pref_key_dont_sync_delivered_items">dontsyncdelivereditems</string>
-  <string name="pref_key_sync_wifi_only">syncwifionly</string>
-  <string name="pref_key_notify">notify</string>
-  <string name="pref_key_notify_sync">notifysync</string>
-  <string name="pref_key_notify_all">notifyall</string>
-  <string name="pref_key_notify_returned">notifyreturned</string>
-  <string name="pref_key_notify_unknown">notifyunknown</string>
-  <string name="pref_key_notify_irregular">notifyirregular</string>
-  <string name="pref_key_notify_favorites">notifyfavorites</string>
-  <string name="pref_key_notify_available">notifyavailable</string>
-  <string name="pref_key_notify_delivered">notifydelivered</string>
-  <string name="pref_key_ringtone">ringtone</string>
-  <string name="pref_key_lights">lights</string>
-  <string name="pref_key_vibrate">vibrate</string>
-  <string name="pref_key_theme">theme</string>
-  <string name="pref_key_use_adaptive_keyboard">useadaptivekeyboard</string>
-  <string name="pref_key_create_backup">createbackup</string>
-  <string name="pref_key_restore_backup">restorebackup</string>
-  <string name="pref_key_version">version</string>
-  <string name="pref_key_blog">blog</string>
-  <string name="pref_key_facebook">facebook</string>
-  <string name="pref_key_twitter">twitter</string>
-  <string name="pref_key_gplus">gplus</string>
-  <string name="pref_key_rate">rate</string>
+  <string name="pref_key_on_boot" translatable="false">onboot</string>
+  <string name="pref_key_always_add_not_found" translatable="false">alwaysaddnotfound</string>
+  <string name="pref_key_always_add_delivered" translatable="false">alwaysadddelivered</string>
+  <string name="pref_key_always_add_returned" translatable="false">alwaysaddreturned</string>
+  <string name="pref_key_always_add_net_error" translatable="false">alwaysaddneterror</string>
+  <string name="pref_key_auto_sync" translatable="false">autosync</string>
+  <string name="pref_key_refresh_interval" translatable="false">refreshinterval</string>
+  <string name="pref_key_sync_favorites_only" translatable="false">syncfavoritesonly</string>
+  <string name="pref_key_dont_sync_delivered_items" translatable="false">dontsyncdelivereditems</string>
+  <string name="pref_key_sync_wifi_only" translatable="false">syncwifionly</string>
+  <string name="pref_key_notify" translatable="false">notify</string>
+  <string name="pref_key_notify_sync" translatable="false">notifysync</string>
+  <string name="pref_key_notify_all" translatable="false">notifyall</string>
+  <string name="pref_key_notify_returned" translatable="false">notifyreturned</string>
+  <string name="pref_key_notify_unknown" translatable="false">notifyunknown</string>
+  <string name="pref_key_notify_irregular" translatable="false">notifyirregular</string>
+  <string name="pref_key_notify_favorites" translatable="false">notifyfavorites</string>
+  <string name="pref_key_notify_available" translatable="false">notifyavailable</string>
+  <string name="pref_key_notify_delivered" translatable="false">notifydelivered</string>
+  <string name="pref_key_ringtone" translatable="false">ringtone</string>
+  <string name="pref_key_lights" translatable="false">lights</string>
+  <string name="pref_key_vibrate" translatable="false">vibrate</string>
+  <string name="pref_key_theme" translatable="false">theme</string>
+  <string name="pref_key_use_adaptive_keyboard" translatable="false">useadaptivekeyboard</string>
+  <string name="pref_key_create_backup" translatable="false">createbackup</string>
+  <string name="pref_key_restore_backup" translatable="false">restorebackup</string>
+  <string name="pref_key_version" translatable="false">version</string>
+  <string name="pref_key_blog" translatable="false">blog</string>
+  <string name="pref_key_facebook" translatable="false">facebook</string>
+  <string name="pref_key_twitter" translatable="false">twitter</string>
+  <string name="pref_key_gplus" translatable="false">gplus</string>
+  <string name="pref_key_rate" translatable="false">rate</string>
 </resources>

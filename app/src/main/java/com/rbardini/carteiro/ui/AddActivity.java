@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +40,8 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.ui.transition.FabTransform;
+import com.rbardini.carteiro.ui.transition.MorphTransform;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
@@ -111,6 +114,7 @@ public class AddActivity extends AppCompatActivity {
     if (savedInstanceState != null) mPostalItemRecord = (PostalItemRecord) savedInstanceState.getSerializable("postalItemRecord");
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
+    setupTransform();
     setupFormFields();
     handleIntent();
   }
@@ -218,15 +222,15 @@ public class AddActivity extends AppCompatActivity {
   }
 
   public void onCancelClick(View v) {
-    if (mPostalItemRecord != null) {
+    if (mIsFormView) {
+      dismiss(v);
+
+    } else {
       hideConfirmationView();
       resetConfirmation();
       showFormView();
 
       mPostalItemRecord = null;
-
-    } else {
-      finish();
     }
   }
 
@@ -244,6 +248,10 @@ public class AddActivity extends AppCompatActivity {
     mPrefs.edit().putBoolean(getString(preferenceKey), true).apply();
 
     onJustOnceClick(null);
+  }
+
+  public void dismiss(View v) {
+    finishAfterTransition();
   }
 
   private void hideSoftKeyboard() {
@@ -340,6 +348,17 @@ public class AddActivity extends AppCompatActivity {
     mContentText.setText(null);
   }
 
+  private void setupTransform() {
+    View content = findViewById(R.id.content);
+
+    if (!FabTransform.setup(this, content)) {
+      int dialogColor = ContextCompat.getColor(this, R.color.theme_background);
+      int dialogRadius = getResources().getDimensionPixelSize(R.dimen.dialog_radius);
+
+      MorphTransform.setup(this, content, dialogColor, dialogRadius);
+    }
+  }
+
   private void setupFormFields() {
     if (mPrefs.getBoolean(getString(R.string.pref_key_use_adaptive_keyboard), true)) {
       mTrackingNumberField.addTextChangedListener(new TextWatcher() {
@@ -415,7 +434,7 @@ public class AddActivity extends AppCompatActivity {
         }
 
       } else {
-        UIUtils.showToast(this, getString(R.string.msg_alert_cod_not_found));
+        UIUtils.showToast(this, R.string.msg_alert_cod_not_found);
       }
 
     } else {
@@ -579,7 +598,7 @@ public class AddActivity extends AppCompatActivity {
           error.equals(getString(R.string.title_alert_returned_item)) ? RETURNED_ITEM : -1;
 
         if (id == -1) {
-          UIUtils.showToast(AddActivity.this, getString(R.string.toast_unexpected_error));
+          UIUtils.showToast(AddActivity.this, R.string.toast_unexpected_error);
           Log.e(TAG, error);
 
         } else {

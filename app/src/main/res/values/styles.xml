@@ -2,35 +2,23 @@
 <resources>
 
   <!-- Widget -->
-  <style name="TextAppearanceButton" parent="@style/TextAppearance.AppCompat.Button">
-    <item name="android:textAllCaps">true</item>
-  </style>
-  <style name="EditTextStyle" parent="@style/Widget.AppCompat.EditText">
-    <item name="android:singleLine">true</item>
-    <item name="android:includeFontPadding">false</item>
-  </style>
-  <style name="BorderlessButtonStyle" parent="@android:style/Widget.DeviceDefault.Light.Button">
-    <item name="android:textAppearance">?android:textAppearanceButton</item>
-    <item name="android:textColor">@color/borderless_button_text</item>
-    <item name="android:background">@drawable/borderless_button_background</item>
-    <item name="android:minWidth">@dimen/button_min_width</item>
-  </style>
   <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
     <item name="android:colorBackground">@color/theme_background</item>
   </style>
-
-  <!-- Custom Widgets -->
   <style name="ActionBar">
     <item name="android:id">@id/toolbar</item>
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">?attr/actionBarSize</item>
     <item name="android:background">?attr/colorPrimary</item>
-    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="android:elevation">4dp</item>
+    <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     <item name="popupTheme">@style/PopupTheme</item>
   </style>
-  <style name="ActionBar.Raised" />
-  <style name="ActionBar.Light">
-    <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+  <style name="ActionBar.Flat">
+    <item name="android:elevation">0dp</item>
+  </style>
+  <style name="ActionBar.Flat.Light">
+    <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
   </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
@@ -91,12 +79,6 @@
   </style>
 
   <!-- Record Activity -->
-  <style name="RecordHeader">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:background">@color/theme_primary</item>
-  </style>
-  <style name="RecordHeader.Raised" />
   <style name="RecordSubHeader">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>

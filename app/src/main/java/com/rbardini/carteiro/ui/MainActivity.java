@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import android.view.View;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.ui.transition.FabTransform;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
@@ -176,14 +178,16 @@ public class MainActivity extends PostalActivity {
   }
 
   private void setupAddButton() {
-    FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.fab);
-    addButton.setOnClickListener(new View.OnClickListener() {
+    final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
 
-        ActivityOptions scaleAnim = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight());
-        startActivity(intent, scaleAnim.toBundle());
+        FabTransform.addExtras(intent, ContextCompat.getColor(MainActivity.this, R.color.theme_accent), R.drawable.ic_add_white_24dp, 1);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));
+
+        startActivity(intent, options.toBundle());
       }
     });
   }

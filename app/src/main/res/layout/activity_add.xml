@@ -1,125 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
-  android:animateLayoutChanges="true">
-
-  <android.support.v7.widget.Toolbar style="@style/ActionBar.Light"
-    android:background="@android:color/transparent" />
+  android:onClick="dismiss">
 
   <LinearLayout
+    android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginEnd="@dimen/keyline_2"
+    android:layout_marginStart="@dimen/keyline_2"
     android:orientation="vertical"
-    android:paddingTop="@dimen/keyline_1_quarter"
-    android:paddingBottom="@dimen/keyline_1_quarter"
-    android:paddingLeft="@dimen/keyline_1"
-    android:paddingRight="@dimen/keyline_1">
+    android:background="@drawable/dialog_background"
+    android:padding="@dimen/keyline_1_half"
+    android:elevation="@dimen/dialog_elevation"
+    android:transitionName="@string/transition_add_item"
+    android:clickable="true">
+
+    <android.support.v7.widget.Toolbar style="@style/ActionBar.Flat.Light"
+      android:background="@android:color/transparent" />
 
     <LinearLayout
-      android:id="@+id/form_layout"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:orientation="vertical"
-      android:paddingBottom="@dimen/keyline_1_half">
+      android:animateLayoutChanges="true"
+      android:paddingTop="@dimen/keyline_1_quarter"
+      android:paddingBottom="@dimen/keyline_1_quarter"
+      android:paddingLeft="@dimen/keyline_1"
+      android:paddingRight="@dimen/keyline_1">
 
-      <android.support.design.widget.TextInputLayout
-        android:id="@+id/trk_code_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputEditText style="@style/TrkCodeField"
-          android:id="@+id/trk_code_fld"
-          android:paddingTop="6dp" />
-
-      </android.support.design.widget.TextInputLayout>
-
-      <android.support.design.widget.TextInputLayout
+      <LinearLayout
+        android:id="@+id/form_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/keyline_1_half">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/keyline_1_half">
 
-        <android.support.design.widget.TextInputEditText style="@style/ItemDescField"
-          android:id="@+id/item_desc_fld"
-          android:imeOptions="actionGo"
-          android:paddingTop="6dp" />
+        <android.support.design.widget.TextInputLayout
+          android:id="@+id/trk_code_input"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
 
-      </android.support.design.widget.TextInputLayout>
+          <android.support.design.widget.TextInputEditText style="@style/TrkCodeField"
+            android:id="@+id/trk_code_fld"
+            android:paddingTop="6dp" />
 
-    </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-      android:id="@+id/confirmation_layout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:visibility="gone">
+        <android.support.design.widget.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/keyline_1_half">
 
-      <TextView
-        android:id="@+id/content_text"
+          <android.support.design.widget.TextInputEditText style="@style/ItemDescField"
+            android:id="@+id/item_desc_fld"
+            android:imeOptions="actionGo"
+            android:paddingTop="6dp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/confirmation_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/keyline_1_half"
-        android:textSize="@dimen/text_size_subhead" />
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    </LinearLayout>
+        <TextView
+          android:id="@+id/content_text"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingBottom="@dimen/keyline_1_half"
+          android:textSize="@dimen/text_size_subhead" />
 
-    <ProgressBar style="?android:attr/progressBarStyleHorizontal"
-      android:id="@+id/loading_indicator"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:indeterminate="true"
-      android:visibility="gone" />
+      </LinearLayout>
 
-    <LinearLayout style="?attr/buttonBarStyle"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:gravity="end">
-
-      <Button style="?attr/buttonBarButtonStyle"
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
+      <ProgressBar style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/loading_indicator"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/negative_btn"
-        android:onClick="onCancelClick" />
-
-      <Button style="?attr/buttonBarButtonStyle"
-        android:id="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_btn"
-        android:onClick="onAddClick"
-        android:enabled="false" />
-
-      <Button style="?attr/buttonBarButtonStyle"
-        android:id="@+id/skip_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/skip_btn"
-        android:onClick="onSkipClick"
+        android:layout_gravity="center"
+        android:indeterminate="true"
         android:visibility="gone" />
 
-      <Button style="?attr/buttonBarButtonStyle"
-        android:id="@+id/just_once_button"
-        android:layout_width="wrap_content"
+      <LinearLayout style="?attr/buttonBarStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/just_once_btn"
-        android:onClick="onJustOnceClick"
-        android:visibility="gone" />
+        android:orientation="horizontal"
+        android:gravity="end">
 
-      <Button style="?attr/buttonBarButtonStyle"
-        android:id="@+id/always_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/always_btn"
-        android:onClick="onAlwaysClick"
-        android:visibility="gone" />
+        <Button style="?attr/buttonBarButtonStyle"
+          android:id="@+id/cancel_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/negative_btn"
+          android:onClick="onCancelClick" />
+
+        <Button style="?attr/buttonBarButtonStyle"
+          android:id="@+id/add_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/add_btn"
+          android:onClick="onAddClick"
+          android:enabled="false" />
+
+        <Button style="?attr/buttonBarButtonStyle"
+          android:id="@+id/skip_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/skip_btn"
+          android:onClick="onSkipClick"
+          android:visibility="gone" />
+
+        <Button style="?attr/buttonBarButtonStyle"
+          android:id="@+id/just_once_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/just_once_btn"
+          android:onClick="onJustOnceClick"
+          android:visibility="gone" />
+
+        <Button style="?attr/buttonBarButtonStyle"
+          android:id="@+id/always_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/always_btn"
+          android:onClick="onAlwaysClick"
+          android:visibility="gone" />
+
+      </LinearLayout>
 
     </LinearLayout>
 
   </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

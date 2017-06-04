@@ -15,7 +15,7 @@
       android:layout_height="match_parent"
       android:orientation="vertical">
 
-      <android.support.v7.widget.Toolbar style="@style/ActionBar.Raised" />
+      <android.support.v7.widget.Toolbar style="@style/ActionBar" />
 
       <FrameLayout
         android:id="@+id/main_content"
@@ -31,7 +31,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom|end"
       android:layout_margin="@dimen/keyline_1"
-      app:srcCompat="@drawable/ic_add_white_24dp" />
+      android:src="@drawable/ic_add_white_24dp"
+      android:transitionName="@string/transition_add_item" />
 
   </android.support.design.widget.CoordinatorLayout>
 

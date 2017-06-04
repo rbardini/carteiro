@@ -80,7 +80,7 @@ public class CarteiroApplication extends Application {
     updatedCods.clear();
   }
 
-  public void setTheme() {
+  private void setTheme() {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     String lightTheme = getString(R.string.theme_light);
     String darkTheme = getString(R.string.theme_dark);
@@ -91,7 +91,7 @@ public class CarteiroApplication extends Application {
     }
   }
 
-  public void scheduleSync() {
+  private void scheduleSync() {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     boolean onBoot = prefs.getBoolean(getString(R.string.pref_key_on_boot), false);
     boolean autoSync = prefs.getBoolean(getString(R.string.pref_key_auto_sync), true);

@@ -22,4 +22,5 @@
   <color name="error_foreground">@color/red_100</color>
   <color name="error_background">@color/red_900</color>
   <color name="list_background">#1f000000</color>
+  <color name="dialog_scrim">#99000000</color>
 </resources>

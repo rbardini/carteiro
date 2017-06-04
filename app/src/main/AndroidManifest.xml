@@ -42,10 +42,8 @@
 
     <activity android:name=".ui.AddActivity"
       android:label="@string/title_add"
-      android:theme="@style/Theme.Carteiro.AddPopup"
+      android:theme="@style/Theme.Carteiro.Translucent.Dialog"
       android:parentActivityName=".ui.MainActivity">
-      <meta-data android:name="android.support.PARENT_ACTIVITY"
-        android:value=".ui.MainActivity" />
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
@@ -59,16 +57,12 @@
       android:launchMode="singleTop"
       android:parentActivityName=".ui.MainActivity"
       android:windowSoftInputMode="stateUnchanged">
-      <meta-data android:name="android.support.PARENT_ACTIVITY"
-        android:value=".ui.MainActivity" />
     </activity>
 
     <activity android:name=".ui.SearchActivity"
       android:label="@string/title_search"
       android:launchMode="singleTop"
       android:parentActivityName=".ui.MainActivity">
-      <meta-data android:name="android.support.PARENT_ACTIVITY"
-        android:value=".ui.MainActivity" />
       <meta-data android:name="android.app.searchable"
         android:resource="@xml/searchable" />
       <intent-filter>
@@ -79,8 +73,6 @@
     <activity android:name=".ui.PreferencesActivity"
       android:label="@string/title_preferences"
       android:parentActivityName=".ui.MainActivity">
-      <meta-data android:name="android.support.PARENT_ACTIVITY"
-        android:value=".ui.MainActivity" />
     </activity>
 
     <service android:name=".svc.SyncService" />

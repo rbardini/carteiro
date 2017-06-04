@@ -16,6 +16,11 @@
     android:title="@string/opt_view_place"
     app:showAsAction="ifRoom" />
 
+  <item android:id="@+id/rename_opt"
+    android:icon="@drawable/ic_edit_white_24dp"
+    android:title="@string/opt_rename_item"
+    app:showAsAction="ifRoom" />
+
   <item android:id="@+id/archive_opt"
     android:icon="@drawable/ic_archive_white_24dp"
     android:title="@string/opt_archive_item"

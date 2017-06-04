@@ -77,17 +77,16 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     final boolean isChecked = mListView.isItemChecked(position);
     final boolean hasUpdate = mUpdatedCods != null && mUpdatedCods.contains(pi.getCod());
 
-    GradientDrawable iconBackground = (GradientDrawable) holder.icon.getBackground();
+    // Define postal status icon and background color depending on checked state
+    final int iconId = isChecked ? R.drawable.ic_done_white_24dp : Status.getIcon(pi.getStatus());
+    final int colorId = isChecked ? R.color.theme_accent_dark : UIUtils.getPostalStatusColor(pi.getStatus());
 
-    // Set postal status icon and background color depending on checked state
-    if (isChecked) {
-      holder.icon.setImageResource(R.drawable.ic_done_white_24dp);
-      iconBackground.setColor(ContextCompat.getColor(mContext, R.color.theme_accent_dark));
+    holder.icon.setTag(R.id.postal_item_icon, iconId);
+    holder.icon.setImageResource(iconId);
 
-    } else {
-      holder.icon.setImageResource(Status.getIcon(pi.getStatus()));
-      iconBackground.setColor(ContextCompat.getColor(mContext, UIUtils.getPostalStatusColor(pi.getStatus())));
-    }
+    final int color = ContextCompat.getColor(mContext, colorId);
+    holder.icon.setTag(R.id.postal_item_color, color);
+    ((GradientDrawable) holder.icon.getBackground()).setColor(color);
 
     // Add icon click listener to change item checked state
     holder.icon.setOnClickListener(new View.OnClickListener() {

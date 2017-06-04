@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar style="@style/ActionBar.Raised" />
+<android.support.v7.widget.Toolbar style="@style/ActionBar" />

@@ -4,21 +4,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,10 +23,13 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.ui.transition.FabTransform;
+import com.rbardini.carteiro.ui.transition.MorphTransform;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RecordActivity extends PostalActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
@@ -44,7 +42,6 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   private PostalRecordFragment mRecordFragment;
   private SROFragment mSROFragment;
 
-  private EditText mTitle;
   private TextView mSubtitle;
   private TextView mLegend;
   private ProgressBar mProgressBar;
@@ -52,14 +49,10 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-    supportRequestWindowFeature(AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR_OVERLAY);
     setContentView(R.layout.activity_record);
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setDisplayShowTitleEnabled(false);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     dh = app.getDatabaseHelper();
     mFragManager = getFragmentManager();
@@ -70,40 +63,9 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       }
     });
 
-    mTitle = (EditText) findViewById(R.id.title);
     mSubtitle = (TextView) findViewById(R.id.subtitle);
     mLegend = (TextView) findViewById(R.id.legend);
     mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
-    // Hack to enable soft-wrapping on multiple lines in a single line text field
-    // http://stackoverflow.com/a/13563946
-    mTitle.setHorizontallyScrolling(false);
-    mTitle.setMaxLines(3);
-
-    mTitle.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-      @Override
-      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-          String oldDesc = mPostalItem.getSafeDesc();
-          String newDesc = mTitle.getText().toString().trim();
-
-          if (newDesc.equals("")) newDesc = null;
-          onRenamePostalItem(newDesc, mPostalItem);
-
-          InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-          imm.hideSoftInputFromWindow(mTitle.getWindowToken(), 0);
-
-          String toast;
-          if (newDesc == null) toast = getString(R.string.toast_item_renamed_empty, mPostalItem.getCod());
-          else toast = getString(R.string.toast_item_renamed, oldDesc, newDesc);
-          UIUtils.showToast(RecordActivity.this, toast);
-
-          return true;
-        }
-
-        return false;
-      }
-    });
 
     if (savedInstanceState != null) {
       mPostalItem = (PostalItem) savedInstanceState.getSerializable("postalItem");
@@ -112,7 +74,9 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       handleNewIntent();
     }
 
-    initialize(savedInstanceState == null);
+    setupTransform();
+    setTitleBar();
+    setFragment(savedInstanceState == null);
   }
 
   @Override
@@ -127,7 +91,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   protected void onNewIntent(Intent intent) {
     setIntent(intent);
     handleNewIntent();
-    initialize(false);
+    setFragment(false);
   }
 
   @Override
@@ -169,7 +133,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
     switch (item.getItemId()) {
       case android.R.id.home:
-        finish();
+        finishAfterTransition();
         return true;
 
       case R.id.fav_opt:
@@ -191,6 +155,11 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
+        return true;
+
+      case R.id.rename_opt:
+        PostalItemDialogFragment.newInstance(R.id.rename_opt,
+            new ArrayList<>(Collections.singletonList(mPostalItem))).show(getFragmentManager(), PostalItemDialogFragment.TAG);
         return true;
 
       case R.id.archive_opt:
@@ -235,10 +204,10 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
   @Override
   public void onRenamePostalItem(String desc, PostalItem pi) {
-    dh.renamePostalItem(pi.getCod(), desc);
-    app.setUpdatedList();
-    this.mPostalItem.setDesc(desc);
-    setTitleBar();
+    super.onRenamePostalItem(desc, pi);
+
+    mPostalItem.setDesc(desc);
+    setActionBarTitle(mPostalItem.getSafeDesc());
   }
 
   @Override
@@ -263,19 +232,24 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   }
 
   @Override
-  public void finish() {
-    super.finish();
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-  }
-
-  @Override
   public PostalFragment getPostalFragment() {
     return mRecordFragment;
   }
 
+  private void setupTransform() {
+    View content = findViewById(R.id.app_bar);
+
+    if (!FabTransform.setup(this, content)) {
+      int appBarColor = ContextCompat.getColor(this, R.color.theme_accent);
+      int appBarRadius = 0;
+
+      MorphTransform.setup(this, content, appBarColor, appBarRadius);
+    }
+  }
+
   private void setTitleBar() {
-    mTitle.setText(mPostalItem.getDesc());
     mLegend.setText(mPostalItem.getCod());
+    setActionBarTitle(mPostalItem.getSafeDesc());
 
     CharSequence relativeDays = "";
     try {
@@ -292,7 +266,12 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       // TODO Set title bar again when postal records updated
     }
 
-    mSubtitle.setCompoundDrawablesWithIntrinsicBounds(mPostalItem.getFlag(this), 0, 0, 0);
+    mLegend.setCompoundDrawablesWithIntrinsicBounds(0, 0, mPostalItem.getFlag(this), 0);
+  }
+
+  private void setActionBarTitle(CharSequence title) {
+    CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+    collapsingToolbar.setTitle(title);
   }
 
   private Fragment getCurrentFragment() {
@@ -353,7 +332,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
     intent.removeExtra("postalItem");
   }
 
-  private void initialize(boolean isNewInstance) {
+  private void setFragment(boolean isNewInstance) {
     if (mOnlySRO) {
       mSROFragment = SROFragment.newInstance(mPostalItem.getCod());
       mFragManager.beginTransaction().replace(R.id.content, mSROFragment, SROFragment.TAG).commit();
@@ -367,7 +346,5 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       mRecordFragment.setPostalItem(mPostalItem);
       mRecordFragment.refreshList();
     }
-
-    setTitleBar();
   }
 }
