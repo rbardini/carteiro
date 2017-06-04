@@ -22,7 +22,7 @@ import com.rbardini.carteiro.util.AnimUtils;
  * An extension to {@link ChangeBounds} that also morphs the views background (color & corner
  * radius).
  */
-public class MorphTransform extends ChangeBounds {
+public class MorphTransition extends ChangeBounds {
   private  static final String EXTRA_SHARED_ELEMENT_START_COLOR = "EXTRA_SHARED_ELEMENT_START_COLOR";
   private static final String EXTRA_SHARED_ELEMENT_START_CORNER_RADIUS = "EXTRA_SHARED_ELEMENT_START_CORNER_RADIUS";
   private static final long DEFAULT_DURATION = 300L;
@@ -32,7 +32,7 @@ public class MorphTransform extends ChangeBounds {
   private final int startCornerRadius;
   private final int endCornerRadius;
 
-  public MorphTransform(@ColorInt int startColor, @ColorInt int endColor, int startCornerRadius, int endCornerRadius) {
+  public MorphTransition(@ColorInt int startColor, @ColorInt int endColor, int startCornerRadius, int endCornerRadius) {
     this.startColor = startColor;
     this.endColor = endColor;
     this.startCornerRadius = startCornerRadius;
@@ -50,7 +50,7 @@ public class MorphTransform extends ChangeBounds {
   }
 
   /**
-   * Configure {@link MorphTransform}s & set as {@code activity}'s shared element enter and return
+   * Configure {@link MorphTransition}s & set as {@code activity}'s shared element enter and return
    * transitions.
    */
   public static void setup(@NonNull Activity activity, @Nullable View target, @ColorInt int endColor, int endCornerRadius) {
@@ -62,9 +62,9 @@ public class MorphTransform extends ChangeBounds {
     final int startColor = activity.getIntent().getIntExtra(EXTRA_SHARED_ELEMENT_START_COLOR, Color.TRANSPARENT);
     final int startCornerRadius = intent.getIntExtra(EXTRA_SHARED_ELEMENT_START_CORNER_RADIUS, 0);
 
-    final MorphTransform sharedEnter = new MorphTransform(startColor, endColor, startCornerRadius, endCornerRadius);
+    final MorphTransition sharedEnter = new MorphTransition(startColor, endColor, startCornerRadius, endCornerRadius);
     // Reverse the start/end params for the return transition
-    final MorphTransform sharedReturn = new MorphTransform(endColor, startColor, endCornerRadius, startCornerRadius);
+    final MorphTransition sharedReturn = new MorphTransition(endColor, startColor, endCornerRadius, startCornerRadius);
     if (target != null) {
       sharedEnter.addTarget(target);
       sharedReturn.addTarget(target);

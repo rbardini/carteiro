@@ -36,16 +36,16 @@ import java.util.List;
 import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 /**
- * A transition between a FAB & another surface using a circular reveal moving along an arc.
+ * A transition between a round icon & another surface using a circular reveal moving along an arc.
  * <p>
  * See: https://www.google.com/design/spec/motion/transforming-material.html#transforming-material-radial-transformation
  */
-public class FabTransform extends Transition {
-  private static final String EXTRA_FAB_COLOR = "EXTRA_FAB_COLOR";
-  private static final String EXTRA_FAB_ICON_RES_ID = "EXTRA_FAB_ICON_RES_ID";
-  private static final String EXTRA_FAB_ICON_SCALE_FACTOR = "EXTRA_FAB_ICON_SCALE_FACTOR";
+public class RoundIconTransition extends Transition {
+  private static final String EXTRA_ROUND_ICON_COLOR = "EXTRA_ROUND_ICON_COLOR";
+  private static final String EXTRA_ROUND_ICON_RES_ID = "EXTRA_ROUND_ICON_RES_ID";
+  private static final String EXTRA_ROUND_ICON_SCALE_FACTOR = "EXTRA_ROUND_ICON_SCALE_FACTOR";
   private static final long DEFAULT_DURATION = 300L;
-  private static final String PROP_BOUNDS = "carteiro:fabTransform:bounds";
+  private static final String PROP_BOUNDS = "carteiro:roundIconTransition:bounds";
   private static final String[] TRANSITION_PROPERTIES = {
     PROP_BOUNDS
   };
@@ -54,25 +54,25 @@ public class FabTransform extends Transition {
   private final int icon;
   private final int scale;
 
-  public FabTransform(@ColorInt int fabColor, @DrawableRes int fabIconResId, int fabScaleFactor) {
-    color = fabColor;
-    icon = fabIconResId;
-    scale = fabScaleFactor;
+  public RoundIconTransition(@ColorInt int iconColor, @DrawableRes int iconResId, int iconScaleFactor) {
+    color = iconColor;
+    icon = iconResId;
+    scale = iconScaleFactor;
     setPathMotion(new GravityArcMotion());
     setDuration(DEFAULT_DURATION);
   }
 
-  public FabTransform(Context context, AttributeSet attrs) {
+  public RoundIconTransition(Context context, AttributeSet attrs) {
     super(context, attrs);
     TypedArray a = null;
     try {
-      a = context.obtainStyledAttributes(attrs, R.styleable.FabTransform);
-      if (!a.hasValue(R.styleable.FabTransform_fabColor) || !a.hasValue(R.styleable.FabTransform_fabIcon)) {
+      a = context.obtainStyledAttributes(attrs, R.styleable.RoundIconTransition);
+      if (!a.hasValue(R.styleable.RoundIconTransition_color) || !a.hasValue(R.styleable.RoundIconTransition_icon)) {
         throw new IllegalArgumentException("Must provide both color & icon.");
       }
-      color = a.getColor(R.styleable.FabTransform_fabColor, Color.TRANSPARENT);
-      icon = a.getResourceId(R.styleable.FabTransform_fabIcon, 0);
-      scale = a.getInt(R.styleable.FabTransform_fabScale, 1);
+      color = a.getColor(R.styleable.RoundIconTransition_color, Color.TRANSPARENT);
+      icon = a.getResourceId(R.styleable.RoundIconTransition_icon, 0);
+      scale = a.getInt(R.styleable.RoundIconTransition_scale, 1);
       setPathMotion(new GravityArcMotion());
       if (getDuration() < 0) {
         setDuration(DEFAULT_DURATION);
@@ -85,26 +85,26 @@ public class FabTransform extends Transition {
   /**
    * Configure {@code intent} with the extras needed to initialize this transition.
    */
-  public static void addExtras(@NonNull Intent intent, @ColorInt int fabColor, @DrawableRes int fabIconResId, int fabScaleFactor) {
-    intent.putExtra(EXTRA_FAB_COLOR, fabColor);
-    intent.putExtra(EXTRA_FAB_ICON_RES_ID, fabIconResId);
-    intent.putExtra(EXTRA_FAB_ICON_SCALE_FACTOR, fabScaleFactor);
+  public static void addExtras(@NonNull Intent intent, @ColorInt int iconColor, @DrawableRes int iconResId, int iconScaleFactor) {
+    intent.putExtra(EXTRA_ROUND_ICON_COLOR, iconColor);
+    intent.putExtra(EXTRA_ROUND_ICON_RES_ID, iconResId);
+    intent.putExtra(EXTRA_ROUND_ICON_SCALE_FACTOR, iconScaleFactor);
   }
 
   /**
-   * Create a {@link FabTransform} from the supplied {@code activity} extras and set as its
+   * Create a {@link RoundIconTransition} from the supplied {@code activity} extras and set as its
    * shared element enter/return transition.
    */
   public static boolean setup(@NonNull Activity activity, @Nullable View target) {
     final Intent intent = activity.getIntent();
-    if (!intent.hasExtra(EXTRA_FAB_COLOR) || !intent.hasExtra(EXTRA_FAB_ICON_RES_ID)) {
+    if (!intent.hasExtra(EXTRA_ROUND_ICON_COLOR) || !intent.hasExtra(EXTRA_ROUND_ICON_RES_ID)) {
       return false;
     }
 
-    final int color = intent.getIntExtra(EXTRA_FAB_COLOR, Color.TRANSPARENT);
-    final int icon = intent.getIntExtra(EXTRA_FAB_ICON_RES_ID, -1);
-    final int scale = intent.getIntExtra(EXTRA_FAB_ICON_SCALE_FACTOR, 1);
-    final FabTransform sharedEnter = new FabTransform(color, icon, scale);
+    final int color = intent.getIntExtra(EXTRA_ROUND_ICON_COLOR, Color.TRANSPARENT);
+    final int icon = intent.getIntExtra(EXTRA_ROUND_ICON_RES_ID, -1);
+    final int scale = intent.getIntExtra(EXTRA_ROUND_ICON_SCALE_FACTOR, 1);
+    final RoundIconTransition sharedEnter = new RoundIconTransition(color, icon, scale);
     if (target != null) {
       sharedEnter.addTarget(target);
     }
@@ -134,16 +134,16 @@ public class FabTransform extends Transition {
     final Rect startBounds = (Rect) startValues.values.get(PROP_BOUNDS);
     final Rect endBounds = (Rect) endValues.values.get(PROP_BOUNDS);
 
-    final boolean fromFab = endBounds.width() > startBounds.width();
+    final boolean fromRoundIcon = endBounds.width() > startBounds.width();
     final View view = endValues.view;
-    final Rect dialogBounds = fromFab ? endBounds : startBounds;
-    final Rect fabBounds = fromFab ? startBounds : endBounds;
+    final Rect dialogBounds = fromRoundIcon ? endBounds : startBounds;
+    final Rect roundIconBounds = fromRoundIcon ? startBounds : endBounds;
     final Interpolator fastOutSlowInInterpolator = AnimUtils.getFastOutSlowInInterpolator(sceneRoot.getContext());
     final long duration = getDuration();
     final long halfDuration = duration / 2;
     final long twoThirdsDuration = duration * 2 / 3;
 
-    if (!fromFab) {
+    if (!fromRoundIcon) {
       // Force measure / layout the dialog back to its original bounds
       view.measure(makeMeasureSpec(startBounds.width(), View.MeasureSpec.EXACTLY),
           makeMeasureSpec(startBounds.height(), View.MeasureSpec.EXACTLY));
@@ -152,30 +152,30 @@ public class FabTransform extends Transition {
 
     final int translationX = startBounds.centerX() - endBounds.centerX();
     final int translationY = startBounds.centerY() - endBounds.centerY();
-    if (fromFab) {
+    if (fromRoundIcon) {
       view.setTranslationX(translationX);
       view.setTranslationY(translationY);
     }
 
-    // Add a color overlay to fake appearance of the FAB
-    final ColorDrawable fabColor = new ColorDrawable(color);
-    fabColor.setBounds(0, 0, dialogBounds.width(), dialogBounds.height());
-    if (!fromFab) fabColor.setAlpha(0);
-    view.getOverlay().add(fabColor);
+    // Add a color overlay to fake appearance of the round icon
+    final ColorDrawable roundIconColor = new ColorDrawable(color);
+    roundIconColor.setBounds(0, 0, dialogBounds.width(), dialogBounds.height());
+    if (!fromRoundIcon) roundIconColor.setAlpha(0);
+    view.getOverlay().add(roundIconColor);
 
-    // Add an icon overlay again to fake the appearance of the FAB
-    final Drawable fabIcon = ContextCompat.getDrawable(sceneRoot.getContext(), icon).mutate();
-    final int iconWidth = fabIcon.getIntrinsicWidth() / scale;
-    final int iconHeight = fabIcon.getIntrinsicHeight() / scale;
+    // Add an icon overlay again to fake the appearance of the round icon
+    final Drawable iconDrawable = ContextCompat.getDrawable(sceneRoot.getContext(), icon).mutate();
+    final int iconWidth = iconDrawable.getIntrinsicWidth() / scale;
+    final int iconHeight = iconDrawable.getIntrinsicHeight() / scale;
     final int iconLeft = (dialogBounds.width() - iconWidth) / 2;
     final int iconTop = (dialogBounds.height() - iconHeight) / 2;
-    fabIcon.setBounds(iconLeft, iconTop, iconLeft + iconWidth, iconTop + iconHeight);
-    if (!fromFab) fabIcon.setAlpha(0);
-    view.getOverlay().add(fabIcon);
+    iconDrawable.setBounds(iconLeft, iconTop, iconLeft + iconWidth, iconTop + iconHeight);
+    if (!fromRoundIcon) iconDrawable.setAlpha(0);
+    view.getOverlay().add(iconDrawable);
 
-    // Circular clip from/to the FAB size
+    // Circular clip from/to the round icon size
     final Animator circularReveal;
-    if (fromFab) {
+    if (fromRoundIcon) {
       circularReveal = ViewAnimationUtils.createCircularReveal(view,
           view.getWidth() / 2,
           view.getHeight() / 2,
@@ -190,16 +190,16 @@ public class FabTransform extends Transition {
           endBounds.width() / 2);
       circularReveal.setInterpolator(AnimUtils.getLinearOutSlowInInterpolator(sceneRoot.getContext()));
 
-      // Persist the end clip i.e. stay at FAB size after the reveal has run
+      // Persist the end clip i.e. stay at round icon size after the reveal has run
       circularReveal.addListener(new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {
           view.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
-              final int left = (view.getWidth() - fabBounds.width()) / 2;
-              final int top = (view.getHeight() - fabBounds.height()) / 2;
-              outline.setOval(left, top, left + fabBounds.width(), top + fabBounds.height());
+              final int left = (view.getWidth() - roundIconBounds.width()) / 2;
+              final int top = (view.getHeight() - roundIconBounds.height()) / 2;
+              outline.setOval(left, top, left + roundIconBounds.width(), top + roundIconBounds.height());
               view.setClipToOutline(true);
             }
           });
@@ -210,20 +210,20 @@ public class FabTransform extends Transition {
 
     // Translate to end position along an arc
     final Animator translate = ObjectAnimator.ofFloat(view, View.TRANSLATION_X, View.TRANSLATION_Y,
-        fromFab ? getPathMotion().getPath(translationX, translationY, 0, 0)
+        fromRoundIcon ? getPathMotion().getPath(translationX, translationY, 0, 0)
                 : getPathMotion().getPath(0, 0, -translationX, -translationY));
     translate.setDuration(duration);
     translate.setInterpolator(fastOutSlowInInterpolator);
 
-    // Fade contents of non-FAB view in/out
+    // Fade contents of non-round icon view in/out
     List<Animator> fadeContents = null;
     if (view instanceof ViewGroup) {
       final ViewGroup vg = ((ViewGroup) view);
       fadeContents = new ArrayList<>(vg.getChildCount());
       for (int i = vg.getChildCount() - 1; i >= 0; i--) {
         final View child = vg.getChildAt(i);
-        final Animator fade = ObjectAnimator.ofFloat(child, View.ALPHA, fromFab ? 1f : 0f);
-        if (fromFab) {
+        final Animator fade = ObjectAnimator.ofFloat(child, View.ALPHA, fromRoundIcon ? 1f : 0f);
+        if (fromRoundIcon) {
           child.setAlpha(0f);
         }
         fade.setDuration(twoThirdsDuration);
@@ -232,9 +232,9 @@ public class FabTransform extends Transition {
       }
     }
 
-    // Fade in/out the fab color & icon overlays
-    final Animator colorFade = ObjectAnimator.ofInt(fabColor, "alpha", fromFab ? 0 : 255);
-    final Animator iconFade = ObjectAnimator.ofInt(fabIcon, "alpha", fromFab ? 0 : 255);
+    // Fade in/out the round icon color & icon overlays
+    final Animator colorFade = ObjectAnimator.ofInt(roundIconColor, "alpha", fromRoundIcon ? 0 : 255);
+    final Animator iconFade = ObjectAnimator.ofInt(iconDrawable, "alpha", fromRoundIcon ? 0 : 255);
     colorFade.setDuration(halfDuration);
     iconFade.setDuration(halfDuration);
     colorFade.setInterpolator(fastOutSlowInInterpolator);
@@ -244,7 +244,7 @@ public class FabTransform extends Transition {
     // element's shadow is drawn twice (by each activity) which is jarring. This workaround
     // still causes the shadow to snap, but it's better than seeing it double drawn.
     Animator elevation = null;
-    if (!fromFab) {
+    if (!fromRoundIcon) {
       elevation = ObjectAnimator.ofFloat(view, View.TRANSLATION_Z, -view.getElevation());
       elevation.setDuration(duration);
       elevation.setInterpolator(fastOutSlowInInterpolator);
@@ -255,7 +255,7 @@ public class FabTransform extends Transition {
     transition.playTogether(circularReveal, translate, colorFade, iconFade);
     transition.playTogether(fadeContents);
     if (elevation != null) transition.play(elevation);
-    if (fromFab) {
+    if (fromRoundIcon) {
       transition.addListener(new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {

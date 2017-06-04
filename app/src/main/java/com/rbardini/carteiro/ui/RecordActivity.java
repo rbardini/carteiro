@@ -23,8 +23,8 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.ui.transition.FabTransform;
-import com.rbardini.carteiro.ui.transition.MorphTransform;
+import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -74,7 +74,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       handleNewIntent();
     }
 
-    setupTransform();
+    setupTransition();
     setTitleBar();
     setFragment(savedInstanceState == null);
   }
@@ -236,14 +236,14 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
     return mRecordFragment;
   }
 
-  private void setupTransform() {
+  private void setupTransition() {
     View content = findViewById(R.id.app_bar);
 
-    if (!FabTransform.setup(this, content)) {
+    if (!RoundIconTransition.setup(this, content)) {
       int appBarColor = ContextCompat.getColor(this, R.color.theme_accent);
       int appBarRadius = 0;
 
-      MorphTransform.setup(this, content, appBarColor, appBarRadius);
+      MorphTransition.setup(this, content, appBarColor, appBarRadius);
     }
   }
 

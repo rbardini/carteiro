@@ -22,7 +22,7 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.ui.transition.FabTransform;
+import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
@@ -154,7 +154,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     View icon = v.findViewById(R.id.img_postal_status);
 
     Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", pi);
-    FabTransform.addExtras(intent, (int) icon.getTag(R.id.postal_item_color), (int) icon.getTag(R.id.postal_item_icon), 2);
+    RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.postal_item_color), (int) icon.getTag(R.id.postal_item_icon), 2);
     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_postal_record));
 
     startActivity(intent, options.toBundle());

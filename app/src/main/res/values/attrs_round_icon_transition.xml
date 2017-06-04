@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="RoundIconTransition">
+    <attr name="color" format="color" />
+    <attr name="icon" format="reference" />
+    <attr name="scale" format="integer" />
+  </declare-styleable>
+</resources>

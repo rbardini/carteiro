@@ -40,8 +40,8 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
-import com.rbardini.carteiro.ui.transition.FabTransform;
-import com.rbardini.carteiro.ui.transition.MorphTransform;
+import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
@@ -114,7 +114,7 @@ public class AddActivity extends AppCompatActivity {
     if (savedInstanceState != null) mPostalItemRecord = (PostalItemRecord) savedInstanceState.getSerializable("postalItemRecord");
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
-    setupTransform();
+    setupTransition();
     setupFormFields();
     handleIntent();
   }
@@ -348,14 +348,14 @@ public class AddActivity extends AppCompatActivity {
     mContentText.setText(null);
   }
 
-  private void setupTransform() {
+  private void setupTransition() {
     View content = findViewById(R.id.content);
 
-    if (!FabTransform.setup(this, content)) {
+    if (!RoundIconTransition.setup(this, content)) {
       int dialogColor = ContextCompat.getColor(this, R.color.theme_background);
       int dialogRadius = getResources().getDimensionPixelSize(R.dimen.dialog_radius);
 
-      MorphTransform.setup(this, content, dialogColor, dialogRadius);
+      MorphTransition.setup(this, content, dialogColor, dialogRadius);
     }
   }
 

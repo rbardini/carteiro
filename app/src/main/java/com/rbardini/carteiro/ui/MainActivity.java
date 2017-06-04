@@ -24,7 +24,7 @@ import android.view.View;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.ui.transition.FabTransform;
+import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
@@ -184,7 +184,7 @@ public class MainActivity extends PostalActivity {
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
 
-        FabTransform.addExtras(intent, ContextCompat.getColor(MainActivity.this, R.color.theme_accent), R.drawable.ic_add_white_24dp, 1);
+        RoundIconTransition.addExtras(intent, ContextCompat.getColor(MainActivity.this, R.color.theme_accent), R.drawable.ic_add_white_24dp, 1);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));
 
         startActivity(intent, options.toBundle());
