@@ -82,7 +82,7 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
 
       case SyncService.STATUS_FINISHED:
         updateRefreshStatus();
-        if (app.hasUpdate()) refreshList();
+        refreshList();
         break;
 
       case SyncService.STATUS_ERROR:
@@ -119,8 +119,6 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
 
     clearSelection();
     refreshList();
-
-    app.setUpdatedList();
   }
 
   @Override
@@ -140,17 +138,11 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
 
     clearSelection();
     refreshList();
-
-    // Calling CarteiroApplication.setUpdatedList here is unnecessary,
-    // as the PostalListFragment class already does it when (un)archived
-    // or deleted item animations are finished
   }
 
   public void onFavClick(View v) {
     app.getDatabaseHelper().togglePostalItemFav((String) v.getTag());
     refreshList();  // TODO Don't refresh the whole list, just update the item acted on
-
-    app.setUpdatedList();
   }
 
   public void updateRefreshStatus() {

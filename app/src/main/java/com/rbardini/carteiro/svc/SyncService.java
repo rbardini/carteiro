@@ -39,6 +39,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class SyncService extends IntentService {
   private static final String TAG = "SyncService";
@@ -61,6 +62,8 @@ public class SyncService extends IntentService {
   private SharedPreferences prefs;
   private LocalBroadcastManager broadcaster;
 
+  private Set<String> updatedCods;
+
   public SyncService() {
     super(TAG);
     setIntentRedelivery(true);
@@ -75,6 +78,8 @@ public class SyncService extends IntentService {
     nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     prefs = PreferenceManager.getDefaultSharedPreferences(this);
     broadcaster = LocalBroadcastManager.getInstance(this);
+
+    updatedCods = new HashSet<>();
   }
 
   @Override
@@ -149,10 +154,10 @@ public class SyncService extends IntentService {
 
         if (itemUpdated || listSizeChanged) {
           pir.setPostalRecords(prList);
-          updatePostalItem(cod, pir);
+          updatePostalItem(pir);
 
           if (itemUpdated) {
-            app.addUpdatedCod(cod);
+            updatedCods.add(cod);
             hasUpdate = true;
           }
         }
@@ -195,11 +200,14 @@ public class SyncService extends IntentService {
     return isConnected && (isManualSync || isWifi || !syncWifiOnly);
   }
 
-  private void updatePostalItem(String cod, PostalItemRecord pir) {
+  private void updatePostalItem(PostalItemRecord pir) {
+    String cod = pir.getCod();
+
     dh.beginTransaction();
 
     dh.deletePostalRecords(cod);
     dh.insertPostalRecords(pir.getPostalRecords());
+    dh.setPostalItemUnread(cod, 1);
 
     dh.setTransactionSuccessful();
     dh.endTransaction();
@@ -241,7 +249,7 @@ public class SyncService extends IntentService {
     long date;
     Intent intent;
 
-    for (String cod : app.getUpdatedCods()) {
+    for (String cod : updatedCods) {
       PostalItem pi = dh.getPostalItem(cod);
       if (notifiable(pi, flags)) {
         postalItems.add(pi);

@@ -508,7 +508,6 @@ public class AddActivity extends AppCompatActivity {
     }
 
     mPostalItemRecord.saveTo(dh);
-    app.setUpdatedList();
 
     Intent intent = new Intent(this, RecordActivity.class);
     intent.putExtra("postalItem", mPostalItemRecord.getSafePostalItem());

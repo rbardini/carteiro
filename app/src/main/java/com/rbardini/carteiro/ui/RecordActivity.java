@@ -3,7 +3,6 @@ package com.rbardini.carteiro.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,8 +22,8 @@ import com.rbardini.carteiro.model.PostalItem;
 import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.svc.SyncService;
-import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
+import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -101,7 +100,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
     switch (status) {
       case SyncService.STATUS_FINISHED:
         updateRefreshStatus();
-        if (app.hasUpdate() && app.isUpdatedCod(mPostalItem.getCod())) mRecordFragment.refreshList();
+        mRecordFragment.refreshList();
         break;
 
       default:
@@ -138,9 +137,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
       case R.id.fav_opt:
         mPostalItem.toggleFav();
-
         dh.togglePostalItemFav(mPostalItem.getCod());
-        app.setUpdatedList();
 
         invalidateOptionsMenu();
         return true;
@@ -164,9 +161,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
       case R.id.archive_opt:
         mPostalItem.toggleArchived();
-
         dh.togglePostalItemArchived(mPostalItem.getCod());
-        app.setUpdatedList();
 
         UIUtils.showToast(this, mPostalItem.isArchived() ? getString(R.string.toast_item_archived, mPostalItem.getSafeDesc())
             : getString(R.string.toast_item_unarchived, mPostalItem.getSafeDesc(), getString(R.string.category_all)));
@@ -213,9 +208,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   @Override
   public void onDeletePostalItems(ArrayList<PostalItem> piList) {
     final PostalItemRecord pir = new PostalItemRecord(piList.get(0));
-
     pir.deleteFrom(dh);
-    app.setUpdatedList();
 
     UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pir.getSafeDesc()));
     UIUtils.goHome(this);
@@ -282,69 +275,76 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
     Intent intent = getIntent();
     Bundle extras = intent.getExtras();
 
-    if (extras != null) {
-      mPostalItem = (PostalItem) extras.getSerializable("postalItem");
+    if (extras == null) {
+      finishAfterTransition();
+      return;
+    }
 
-      if (extras.getBoolean("isNew")) {
-        String message = String.format(getString(R.string.toast_item_added), mPostalItem.getSafeDesc());
-        Snackbar
-          .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-          .setAction(R.string.add_another_btn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              Intent intent = new Intent(RecordActivity.this, AddActivity.class);
-              startActivity(intent);
-              finish();
-            }
-          })
-          .show();
-        intent.removeExtra("isNew");
-      }
+    mPostalItem = (PostalItem) extras.getSerializable("postalItem");
+    intent.removeExtra("postalItem");
 
-    } else {
-      finish();
+    if (mPostalItem.isUnread()) {
+      dh.setPostalItemUnread(mPostalItem.getCod(), 0);
+      mPostalItem.toggleUnread();
+    }
+
+    if (extras.getBoolean("isNew")) {
+      String message = String.format(getString(R.string.toast_item_added), mPostalItem.getSafeDesc());
+      Snackbar
+        .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+        .setAction(R.string.add_another_btn, new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent intent = new Intent(RecordActivity.this, AddActivity.class);
+            startActivity(intent);
+            finishAfterTransition();
+          }
+        })
+        .show();
+      intent.removeExtra("isNew");
     }
 
     String action = intent.getAction();
     if (action != null) {
-      switch (action) {
-        case "locate":
-          try {
-            UIUtils.locateItem(this, mPostalItem);
-          } catch (Exception e) {
-            UIUtils.showToast(this, e.getMessage());
-          }
-          break;
-
-        case "share":
-          UIUtils.shareItem(this, mPostalItem);
-          break;
-
-        case "sro":
-          mOnlySRO = true;
-          break;
-      }
-
-      NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-      nm.cancel(R.string.app_name);
+      handleAction(action);
     }
+  }
 
-    intent.removeExtra("postalItem");
+  private void handleAction(String action) {
+    switch (action) {
+      case "locate":
+        try {
+          UIUtils.locateItem(this, mPostalItem);
+        } catch (Exception e) {
+          UIUtils.showToast(this, e.getMessage());
+        }
+        break;
+
+      case "share":
+        UIUtils.shareItem(this, mPostalItem);
+        break;
+
+      case "sro":
+        mOnlySRO = true;
+        break;
+    }
   }
 
   private void setFragment(boolean isNewInstance) {
     if (mOnlySRO) {
       mSROFragment = SROFragment.newInstance(mPostalItem.getCod());
       mFragManager.beginTransaction().replace(R.id.content, mSROFragment, SROFragment.TAG).commit();
+      return;
+    }
 
-    } else if (isNewInstance) {
+    if (isNewInstance) {
       mRecordFragment = PostalRecordFragment.newInstance(mPostalItem);
       mFragManager.beginTransaction().replace(R.id.content, mRecordFragment, PostalRecordFragment.TAG).commit();
-
-    } else {
-      mRecordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
-      mRecordFragment.setPostalItem(mPostalItem);
-      mRecordFragment.refreshList();
+      return;
     }
+
+    mRecordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
+    mRecordFragment.setPostalItem(mPostalItem);
+    mRecordFragment.refreshList();
   }
 }

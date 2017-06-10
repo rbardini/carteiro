@@ -15,15 +15,10 @@ import com.google.android.gms.analytics.Tracker;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncService;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class CarteiroApplication extends Application {
   public static boolean syncing = false;
 
   private Tracker tracker;
-  private Set<String> updatedCods;
-  private boolean updatedList;
 
   @Override
   public void onCreate() {
@@ -40,9 +35,6 @@ public class CarteiroApplication extends Application {
     tracker = analytics.newTracker(R.xml.tracker_config);
     tracker.enableAdvertisingIdCollection(true);
 
-    updatedCods = new HashSet<>();
-    updatedList = false;
-
     setTheme();
     scheduleSync();
   }
@@ -53,31 +45,6 @@ public class CarteiroApplication extends Application {
 
   public DatabaseHelper getDatabaseHelper() {
     return DatabaseHelper.getInstance(this);
-  }
-
-  public boolean addUpdatedCod(String cod) {
-    return updatedCods.add(cod);
-  }
-
-  public Set<String> getUpdatedCods() {
-    return updatedCods;
-  }
-
-  public boolean isUpdatedCod(String cod) {
-    return updatedCods.contains(cod);
-  }
-
-  public void setUpdatedList() {
-    updatedList = true;
-  }
-
-  public boolean hasUpdate() {
-    return updatedList || !updatedCods.isEmpty();
-  }
-
-  public void clearUpdate() {
-    updatedList = false;
-    updatedCods.clear();
   }
 
   private void setTheme() {

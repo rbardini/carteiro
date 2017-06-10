@@ -19,25 +19,27 @@ public class PostalItem implements Serializable {
   private String status;
   private boolean fav;
   private boolean archived;
+  private boolean unread;
 
   public PostalItem() {}
 
-  public PostalItem(String cod, String desc, boolean fav, boolean archived) {
+  public PostalItem(String cod, String desc, boolean fav, boolean archived, boolean unread) {
     this.cod = cod;
     this.desc = desc;
     this.fav = fav;
     this.archived = archived;
+    this.unread = unread;
   }
 
   public PostalItem(String cod, String desc) {
-    this(cod, desc, false, false);
+    this(cod, desc, false, false, false);
   }
 
   public PostalItem(String cod) {
     this(cod, null);
   }
 
-  public PostalItem(String cod, String desc, Date date, String loc, String info, String status, boolean fav, boolean archived) {
+  public PostalItem(String cod, String desc, Date date, String loc, String info, String status, boolean fav, boolean archived, boolean unread) {
     this.cod = cod;
     this.desc = desc;
     this.date = date;
@@ -46,6 +48,7 @@ public class PostalItem implements Serializable {
     this.status = status;
     this.fav = fav;
     this.archived = archived;
+    this.unread = unread;
   }
 
   public PostalItem(PostalItem pi, PostalRecord pr) {
@@ -54,6 +57,7 @@ public class PostalItem implements Serializable {
       this.desc = pi.getDesc();
       this.fav = pi.isFav();
       this.archived = pi.isArchived();
+      this.unread = pi.isUnread();
     }
 
     if (pr != null) {
@@ -93,6 +97,10 @@ public class PostalItem implements Serializable {
   public boolean isArchived() { return archived; }
   public void setArchived(boolean archived) { this.archived = archived; }
   public boolean toggleArchived() { return this.archived = !this.archived; }
+
+  public boolean isUnread() { return unread; }
+  public void setUnread(boolean unread) { this.unread = unread; }
+  public boolean toggleUnread() { return this.unread = !this.unread; }
 
   public String getService() {
     return PostalUtils.Service.getService(cod);

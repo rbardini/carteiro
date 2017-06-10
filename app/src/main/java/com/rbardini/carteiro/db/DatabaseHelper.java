@@ -35,7 +35,7 @@ public class DatabaseHelper {
   private static final String TAG = "CarteiroDatabase";
 
   public static final String DB_NAME = "carteiro.db";
-  public static final int DB_VERSION = 2;
+  public static final int DB_VERSION = 3;
 
   private static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
@@ -200,6 +200,11 @@ public class DatabaseHelper {
     notifyDatabaseChanged();
   }
 
+  public void setPostalItemUnread(String cod, int unread) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET unread = ? WHERE cod = ?", new Object[] {unread, cod});
+    notifyDatabaseChanged();
+  }
+
   public void archivePostalItem(String cod) {
     setPostalItemArchived(cod, 1);
   }
@@ -238,8 +243,8 @@ public class DatabaseHelper {
     Cursor c = db.query(POSTAL_LIST_VIEW, null, "cod = ?", new String[] {cod}, null, null, null);
     if (c.moveToFirst()) {
       try {
-        pi = new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)),
-              c.getString(3), c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0);
+        pi = new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)), c.getString(3),
+            c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0, c.getInt(8)>0);
       } catch (ParseException e) {}
     }
     if (!c.isClosed()) {
@@ -285,8 +290,8 @@ public class DatabaseHelper {
     if (c.moveToFirst()) {
       do {
         try {
-          list.add(new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)),
-                      c.getString(3), c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0));
+          list.add(new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)), c.getString(3),
+              c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0, c.getInt(8)>0));
         } catch (ParseException e) {
           Log.e(TAG, e.getMessage());
         }
@@ -448,6 +453,11 @@ public class DatabaseHelper {
           db.execSQL("ALTER TABLE " + POSTAL_ITEM_TABLE + " ADD COLUMN archived BOOLEAN NOT NULL DEFAULT 0");
           db.execSQL(Query.getDrop(POSTAL_LIST_VIEW));
           db.execSQL(Query.getCreate(POSTAL_LIST_VIEW));
+
+        case 2:
+          db.execSQL("ALTER TABLE " + POSTAL_ITEM_TABLE + " ADD COLUMN unread BOOLEAN NOT NULL DEFAULT 0");
+          db.execSQL(Query.getDrop(POSTAL_LIST_VIEW));
+          db.execSQL(Query.getCreate(POSTAL_LIST_VIEW));
       }
     }
   }
@@ -464,7 +474,8 @@ public class DatabaseHelper {
           + "desc TEXT, "
           + "fav BOOLEAN, "
           + "added DATETIME NOT NULL DEFAULT (DATETIME('now','localtime')), "
-          + "archived BOOLEAN NOT NULL DEFAULT 0)");
+          + "archived BOOLEAN NOT NULL DEFAULT 0, "
+          + "unread BOOLEAN NOT NULL DEFAULT 0)");
 
       map.put(POSTAL_RECORD_TABLE, "CREATE TABLE IF NOT EXISTS " + POSTAL_RECORD_TABLE + " ("
           + "cod TEXT NOT NULL, "
@@ -476,7 +487,7 @@ public class DatabaseHelper {
           + "PRIMARY KEY (cod, pos) ON CONFLICT REPLACE)");
 
       map.put(POSTAL_LIST_VIEW, "CREATE VIEW IF NOT EXISTS " + POSTAL_LIST_VIEW + " AS "
-          + "SELECT pi.cod AS cod, pi.desc AS desc, pr.date AS date, pr.loc AS loc, pr.info AS info, pr.status AS status, pi.fav AS fav, pi.archived AS archived "
+          + "SELECT pi.cod AS cod, pi.desc AS desc, pr.date AS date, pr.loc AS loc, pr.info AS info, pr.status AS status, pi.fav AS fav, pi.archived AS archived, pi.unread as unread "
           + "FROM " + POSTAL_ITEM_TABLE + " pi JOIN " + POSTAL_RECORD_TABLE + " pr ON pi.cod = pr.cod "
           + "WHERE pr.pos = ("
           +   "SELECT MAX(pr2.pos) FROM " + POSTAL_RECORD_TABLE + " pr2 WHERE pr2.cod = pi.cod"

@@ -333,7 +333,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                             restoreResult = getString(R.string.toast_backup_restore_fail, getString(R.string.toast_external_storage_read_error));
                           } else {
                             restoreResult = getString(R.string.toast_backup_restored);
-                            app.setUpdatedList();
                           }
                         } catch (Exception e) {
                           restoreResult = getString(R.string.toast_backup_restore_fail, e.getMessage());

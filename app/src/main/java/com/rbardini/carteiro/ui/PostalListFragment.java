@@ -104,7 +104,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
     ListView listView = getListView();
 
-    mListAdapter = new PostalItemListAdapter(mActivity, mList, app.getUpdatedCods(), listView);
+    mListAdapter = new PostalItemListAdapter(mActivity, mList, listView);
     mMultiChoiceModeListener = new PostalListFragment.MultiChoiceModeListener();
     listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     listView.setMultiChoiceModeListener(mMultiChoiceModeListener);
@@ -130,7 +130,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
   @Override
   public void onResume() {
     super.onResume();
-    if (app.hasUpdate()) refreshList();
+    refreshList();
   }
 
   @Override
@@ -172,7 +172,6 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     }
 
     mListAdapter.remove(position);
-    app.setUpdatedList();
   }
 
   @Override
@@ -183,7 +182,6 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
   @Override
   public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
     for (int position : reverseSortedPositions) mListAdapter.remove(position);
-    app.setUpdatedList();
   }
 
   @Override
@@ -378,7 +376,6 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
           mListAdapter.notifyDataSetChanged();
           mActionMode.invalidate();
 
-          app.setUpdatedList();
           return true;
 
         case R.id.share_opt:

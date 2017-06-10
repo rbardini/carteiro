@@ -14,14 +14,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
@@ -38,7 +36,6 @@ public class MainActivity extends PostalActivity {
   private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
   private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
-  private ActionBar mActionBar;
   private FragmentManager mFragmentManager;
   private PostalListFragment mCurrentFragment;
   private NotificationManager mNotificationManager;
@@ -58,9 +55,7 @@ public class MainActivity extends PostalActivity {
     mHandler = new Handler();
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    mActionBar = getSupportActionBar();
-    mActionBar.setHomeButtonEnabled(true);
-    mActionBar.setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     mMainContainer = findViewById(R.id.main_content);
 
@@ -84,12 +79,6 @@ public class MainActivity extends PostalActivity {
   protected void onResume() {
     super.onResume();
     mNotificationManager.cancel(SyncService.NOTIFICATION_NEW_UPDATE);
-  }
-
-  @Override
-  protected void onPause() {
-    if (!CarteiroApplication.syncing) app.clearUpdate();
-    super.onPause();
   }
 
   @Override
@@ -141,7 +130,7 @@ public class MainActivity extends PostalActivity {
 
   @Override
   public void setTitle(CharSequence title) {
-    mActionBar.setTitle(title);
+    getSupportActionBar().setTitle(title);
   }
 
   @Override

@@ -20,19 +20,16 @@ import com.rbardini.carteiro.util.PostalUtils.Status;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.List;
-import java.util.Set;
 
 public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
   private final Context mContext;
-  private final Set<String> mUpdatedCods;
   private final ListView mListView;
   private final LayoutInflater mInflater;
 
-  PostalItemListAdapter(Context context, List<PostalItem> list, Set<String> updatedCods, ListView listView) {
+  PostalItemListAdapter(Context context, List<PostalItem> list, ListView listView) {
     super(list);
 
     mContext = context;
-    mUpdatedCods = updatedCods;
     mListView = listView;
 
     // Cache the LayoutInflate to avoid asking for a new one each time
@@ -75,7 +72,7 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     holder.fav.setTag(pi.getCod());
 
     final boolean isChecked = mListView.isItemChecked(position);
-    final boolean hasUpdate = mUpdatedCods != null && mUpdatedCods.contains(pi.getCod());
+    final boolean isUnread = pi.isUnread();
 
     // Define postal status icon and background color depending on checked state
     final int iconId = isChecked ? R.drawable.ic_done_white_24dp : Status.getIcon(pi.getStatus());
@@ -96,9 +93,10 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
       }
     });
 
-    // Apply highlight if it is an updated item
-    holder.desc.setTypeface(holder.desc.getTypeface(), hasUpdate ? Typeface.BOLD : Typeface.NORMAL);
-    holder.info.setTypeface(holder.desc.getTypeface(), hasUpdate ? Typeface.BOLD : Typeface.NORMAL);
+    // Apply highlight if it is an unread item
+    Typeface typeface = Typeface.create(holder.desc.getTypeface(), isUnread ? Typeface.BOLD : Typeface.NORMAL);
+    holder.desc.setTypeface(typeface);
+    holder.info.setTypeface(typeface);
 
     return convertView;
   }
