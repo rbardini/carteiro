@@ -1,7 +1,9 @@
 package com.rbardini.carteiro.model;
 
+import android.content.Context;
+
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.util.Tracker;
+import com.rbardini.carteiro.util.MobileTracker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,8 +66,8 @@ public class PostalItemRecord implements Serializable {
   public String getStatus() { return this.pi.getStatus(); }
   public boolean isFav() { return this.pi.isFav(); }
 
-  public PostalItemRecord fetch() throws Exception {
-    this.prList = Tracker.track(this.pi.getCod());
+  public PostalItemRecord fetch(Context context) throws Exception {
+    this.prList = MobileTracker.track(this.pi.getCod(), context);
     return this;
   }
 

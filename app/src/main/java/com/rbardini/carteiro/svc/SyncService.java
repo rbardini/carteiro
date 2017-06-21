@@ -29,10 +29,10 @@ import com.rbardini.carteiro.model.PostalItemRecord;
 import com.rbardini.carteiro.model.PostalRecord;
 import com.rbardini.carteiro.ui.MainActivity;
 import com.rbardini.carteiro.ui.RecordActivity;
+import com.rbardini.carteiro.util.MobileTracker;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
-import com.rbardini.carteiro.util.Tracker;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.HashSet;
@@ -134,7 +134,7 @@ public class SyncService extends IntentService {
         nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
       }
 
-      List<List<PostalRecord>> prLists = Tracker.track(cods);
+      List<List<PostalRecord>> prLists = MobileTracker.track(cods, this);
 
       for (List<PostalRecord> prList : prLists) {
         if (prList.isEmpty()) continue;

@@ -564,7 +564,7 @@ public class AddActivity extends AppCompatActivity {
       PostalItemRecord pir = (PostalItemRecord) params[0];
 
       try {
-        pir.fetch();
+        pir.fetch(AddActivity.this);
 
         if (pir.isEmpty()) {
           error = getString(R.string.title_alert_not_found);
