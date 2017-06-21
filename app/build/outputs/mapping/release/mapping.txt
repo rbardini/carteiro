@@ -19763,6 +19763,405 @@ android.support.v7.widget.util.SortedListAdapterCallback -> android.support.v7.w
     void onRemoved(int,int) -> onRemoved
     void onMoved(int,int) -> onMoved
     void onChanged(int,int) -> onChanged
+com.android.volley.AuthFailureError -> com.a.a.a:
+    android.content.Intent mResolutionIntent -> b
+    void <init>() -> <init>
+    void <init>(com.android.volley.NetworkResponse) -> <init>
+    java.lang.String getMessage() -> getMessage
+com.android.volley.Cache -> com.a.a.b:
+    com.android.volley.Cache$Entry get(java.lang.String) -> a
+    void put(java.lang.String,com.android.volley.Cache$Entry) -> a
+    void initialize() -> a
+com.android.volley.Cache$Entry -> com.a.a.b$a:
+    byte[] data -> a
+    java.lang.String etag -> b
+    long serverDate -> c
+    long lastModified -> d
+    long ttl -> e
+    long softTtl -> f
+    java.util.Map responseHeaders -> g
+    void <init>() -> <init>
+    boolean isExpired() -> a
+    boolean refreshNeeded() -> b
+com.android.volley.CacheDispatcher -> com.a.a.c:
+    boolean DEBUG -> a
+    java.util.concurrent.BlockingQueue mCacheQueue -> b
+    java.util.concurrent.BlockingQueue mNetworkQueue -> c
+    com.android.volley.Cache mCache -> d
+    com.android.volley.ResponseDelivery mDelivery -> e
+    boolean mQuit -> f
+    void <init>(java.util.concurrent.BlockingQueue,java.util.concurrent.BlockingQueue,com.android.volley.Cache,com.android.volley.ResponseDelivery) -> <init>
+    void quit() -> a
+    void run() -> run
+    java.util.concurrent.BlockingQueue access$000(com.android.volley.CacheDispatcher) -> a
+    void <clinit>() -> <clinit>
+com.android.volley.CacheDispatcher$1 -> com.a.a.c$1:
+    com.android.volley.Request val$request -> a
+    com.android.volley.CacheDispatcher this$0 -> b
+    void <init>(com.android.volley.CacheDispatcher,com.android.volley.Request) -> <init>
+    void run() -> run
+com.android.volley.DefaultRetryPolicy -> com.a.a.d:
+    int mCurrentTimeoutMs -> a
+    int mCurrentRetryCount -> b
+    int mMaxNumRetries -> c
+    float mBackoffMultiplier -> d
+    void <init>() -> <init>
+    void <init>(int,int,float) -> <init>
+    int getCurrentTimeout() -> a
+    int getCurrentRetryCount() -> b
+    void retry(com.android.volley.VolleyError) -> a
+    boolean hasAttemptRemaining() -> c
+com.android.volley.ExecutorDelivery -> com.a.a.e:
+    java.util.concurrent.Executor mResponsePoster -> a
+    void <init>(android.os.Handler) -> <init>
+    void postResponse(com.android.volley.Request,com.android.volley.Response) -> a
+    void postResponse(com.android.volley.Request,com.android.volley.Response,java.lang.Runnable) -> a
+    void postError(com.android.volley.Request,com.android.volley.VolleyError) -> a
+com.android.volley.ExecutorDelivery$1 -> com.a.a.e$1:
+    android.os.Handler val$handler -> a
+    com.android.volley.ExecutorDelivery this$0 -> b
+    void <init>(com.android.volley.ExecutorDelivery,android.os.Handler) -> <init>
+    void execute(java.lang.Runnable) -> execute
+com.android.volley.ExecutorDelivery$ResponseDeliveryRunnable -> com.a.a.e$a:
+    com.android.volley.Request mRequest -> b
+    com.android.volley.Response mResponse -> c
+    java.lang.Runnable mRunnable -> d
+    com.android.volley.ExecutorDelivery this$0 -> a
+    void <init>(com.android.volley.ExecutorDelivery,com.android.volley.Request,com.android.volley.Response,java.lang.Runnable) -> <init>
+    void run() -> run
+com.android.volley.Network -> com.a.a.f:
+    com.android.volley.NetworkResponse performRequest(com.android.volley.Request) -> a
+com.android.volley.NetworkDispatcher -> com.a.a.g:
+    java.util.concurrent.BlockingQueue mQueue -> a
+    com.android.volley.Network mNetwork -> b
+    com.android.volley.Cache mCache -> c
+    com.android.volley.ResponseDelivery mDelivery -> d
+    boolean mQuit -> e
+    void <init>(java.util.concurrent.BlockingQueue,com.android.volley.Network,com.android.volley.Cache,com.android.volley.ResponseDelivery) -> <init>
+    void quit() -> a
+    void addTrafficStatsTag(com.android.volley.Request) -> a
+    void run() -> run
+    void parseAndDeliverNetworkError(com.android.volley.Request,com.android.volley.VolleyError) -> a
+com.android.volley.NetworkError -> com.a.a.h:
+    void <init>() -> <init>
+    void <init>(java.lang.Throwable) -> <init>
+    void <init>(com.android.volley.NetworkResponse) -> <init>
+com.android.volley.NetworkResponse -> com.a.a.i:
+    int statusCode -> a
+    byte[] data -> b
+    java.util.Map headers -> c
+    boolean notModified -> d
+    long networkTimeMs -> e
+    void <init>(int,byte[],java.util.Map,boolean,long) -> <init>
+    void <init>(byte[],java.util.Map) -> <init>
+com.android.volley.NoConnectionError -> com.a.a.j:
+    void <init>() -> <init>
+    void <init>(java.lang.Throwable) -> <init>
+com.android.volley.ParseError -> com.a.a.k:
+    void <init>() -> <init>
+    void <init>(java.lang.Throwable) -> <init>
+com.android.volley.Request -> com.a.a.l:
+    com.android.volley.VolleyLog$MarkerLog mEventLog -> a
+    int mMethod -> b
+    java.lang.String mUrl -> c
+    int mDefaultTrafficStatsTag -> d
+    com.android.volley.Response$ErrorListener mErrorListener -> e
+    java.lang.Integer mSequence -> f
+    com.android.volley.RequestQueue mRequestQueue -> g
+    boolean mShouldCache -> h
+    boolean mCanceled -> i
+    boolean mResponseDelivered -> j
+    com.android.volley.RetryPolicy mRetryPolicy -> k
+    com.android.volley.Cache$Entry mCacheEntry -> l
+    void <init>(int,java.lang.String,com.android.volley.Response$ErrorListener) -> <init>
+    int getMethod() -> a
+    int getTrafficStatsTag() -> b
+    int findDefaultTrafficStatsTag(java.lang.String) -> c
+    com.android.volley.Request setRetryPolicy(com.android.volley.RetryPolicy) -> a
+    void addMarker(java.lang.String) -> a
+    void finish(java.lang.String) -> b
+    com.android.volley.Request setRequestQueue(com.android.volley.RequestQueue) -> a
+    com.android.volley.Request setSequence(int) -> a
+    java.lang.String getUrl() -> c
+    java.lang.String getCacheKey() -> d
+    com.android.volley.Request setCacheEntry(com.android.volley.Cache$Entry) -> a
+    com.android.volley.Cache$Entry getCacheEntry() -> e
+    void cancel() -> f
+    boolean isCanceled() -> g
+    java.util.Map getHeaders() -> h
+    java.util.Map getPostParams() -> i
+    java.lang.String getPostParamsEncoding() -> j
+    java.lang.String getPostBodyContentType() -> k
+    byte[] getPostBody() -> l
+    java.util.Map getParams() -> m
+    java.lang.String getParamsEncoding() -> n
+    java.lang.String getBodyContentType() -> o
+    byte[] getBody() -> p
+    byte[] encodeParameters(java.util.Map,java.lang.String) -> a
+    boolean shouldCache() -> q
+    com.android.volley.Request$Priority getPriority() -> r
+    int getTimeoutMs() -> s
+    com.android.volley.RetryPolicy getRetryPolicy() -> t
+    void markDelivered() -> u
+    boolean hasHadResponseDelivered() -> v
+    com.android.volley.Response parseNetworkResponse(com.android.volley.NetworkResponse) -> a
+    com.android.volley.VolleyError parseNetworkError(com.android.volley.VolleyError) -> a
+    void deliverResponse(java.lang.Object) -> a
+    void deliverError(com.android.volley.VolleyError) -> b
+    int compareTo(com.android.volley.Request) -> a
+    java.lang.String toString() -> toString
+    int compareTo(java.lang.Object) -> compareTo
+    com.android.volley.VolleyLog$MarkerLog access$000(com.android.volley.Request) -> b
+com.android.volley.Request$1 -> com.a.a.l$1:
+    java.lang.String val$tag -> a
+    long val$threadId -> b
+    com.android.volley.Request this$0 -> c
+    void <init>(com.android.volley.Request,java.lang.String,long) -> <init>
+    void run() -> run
+com.android.volley.Request$Priority -> com.a.a.l$a:
+    com.android.volley.Request$Priority LOW -> a
+    com.android.volley.Request$Priority NORMAL -> b
+    com.android.volley.Request$Priority HIGH -> c
+    com.android.volley.Request$Priority IMMEDIATE -> d
+    com.android.volley.Request$Priority[] $VALUES -> e
+    com.android.volley.Request$Priority[] values() -> values
+    com.android.volley.Request$Priority valueOf(java.lang.String) -> valueOf
+    void <init>(java.lang.String,int) -> <init>
+    void <clinit>() -> <clinit>
+com.android.volley.RequestQueue -> com.a.a.m:
+    java.util.concurrent.atomic.AtomicInteger mSequenceGenerator -> a
+    java.util.Map mWaitingRequests -> b
+    java.util.Set mCurrentRequests -> c
+    java.util.concurrent.PriorityBlockingQueue mCacheQueue -> d
+    java.util.concurrent.PriorityBlockingQueue mNetworkQueue -> e
+    com.android.volley.Cache mCache -> f
+    com.android.volley.Network mNetwork -> g
+    com.android.volley.ResponseDelivery mDelivery -> h
+    com.android.volley.NetworkDispatcher[] mDispatchers -> i
+    com.android.volley.CacheDispatcher mCacheDispatcher -> j
+    java.util.List mFinishedListeners -> k
+    void <init>(com.android.volley.Cache,com.android.volley.Network,int,com.android.volley.ResponseDelivery) -> <init>
+    void <init>(com.android.volley.Cache,com.android.volley.Network,int) -> <init>
+    void <init>(com.android.volley.Cache,com.android.volley.Network) -> <init>
+    void start() -> a
+    void stop() -> b
+    int getSequenceNumber() -> c
+    com.android.volley.Request add(com.android.volley.Request) -> a
+    void finish(com.android.volley.Request) -> b
+com.android.volley.RequestQueue$RequestFinishedListener -> com.a.a.m$a:
+    void onRequestFinished(com.android.volley.Request) -> a
+com.android.volley.Response -> com.a.a.n:
+    java.lang.Object result -> a
+    com.android.volley.Cache$Entry cacheEntry -> b
+    com.android.volley.VolleyError error -> c
+    boolean intermediate -> d
+    com.android.volley.Response success(java.lang.Object,com.android.volley.Cache$Entry) -> a
+    com.android.volley.Response error(com.android.volley.VolleyError) -> a
+    boolean isSuccess() -> a
+    void <init>(java.lang.Object,com.android.volley.Cache$Entry) -> <init>
+    void <init>(com.android.volley.VolleyError) -> <init>
+com.android.volley.Response$ErrorListener -> com.a.a.n$a:
+    void onErrorResponse(com.android.volley.VolleyError) -> a
+com.android.volley.Response$Listener -> com.a.a.n$b:
+    void onResponse(java.lang.Object) -> a
+com.android.volley.ResponseDelivery -> com.a.a.o:
+    void postResponse(com.android.volley.Request,com.android.volley.Response) -> a
+    void postResponse(com.android.volley.Request,com.android.volley.Response,java.lang.Runnable) -> a
+    void postError(com.android.volley.Request,com.android.volley.VolleyError) -> a
+com.android.volley.RetryPolicy -> com.a.a.p:
+    int getCurrentTimeout() -> a
+    int getCurrentRetryCount() -> b
+    void retry(com.android.volley.VolleyError) -> a
+com.android.volley.ServerError -> com.a.a.q:
+    void <init>(com.android.volley.NetworkResponse) -> <init>
+    void <init>() -> <init>
+com.android.volley.TimeoutError -> com.a.a.r:
+    void <init>() -> <init>
+com.android.volley.VolleyError -> com.a.a.s:
+    com.android.volley.NetworkResponse networkResponse -> a
+    long networkTimeMs -> b
+    void <init>() -> <init>
+    void <init>(com.android.volley.NetworkResponse) -> <init>
+    void <init>(java.lang.Throwable) -> <init>
+    void setNetworkTimeMs(long) -> a
+com.android.volley.VolleyLog -> com.a.a.t:
+    java.lang.String TAG -> a
+    boolean DEBUG -> b
+    void <init>() -> <init>
+    void v(java.lang.String,java.lang.Object[]) -> a
+    void d(java.lang.String,java.lang.Object[]) -> b
+    void e(java.lang.String,java.lang.Object[]) -> c
+    void e(java.lang.Throwable,java.lang.String,java.lang.Object[]) -> a
+    void wtf(java.lang.String,java.lang.Object[]) -> d
+    java.lang.String buildMessage(java.lang.String,java.lang.Object[]) -> e
+    void <clinit>() -> <clinit>
+com.android.volley.VolleyLog$MarkerLog -> com.a.a.t$a:
+    boolean ENABLED -> a
+    java.util.List mMarkers -> b
+    boolean mFinished -> c
+    void <init>() -> <init>
+    void add(java.lang.String,long) -> a
+    void finish(java.lang.String) -> a
+    void finalize() -> finalize
+    long getTotalDuration() -> a
+    void <clinit>() -> <clinit>
+com.android.volley.VolleyLog$MarkerLog$Marker -> com.a.a.t$a$a:
+    java.lang.String name -> a
+    long thread -> b
+    long time -> c
+    void <init>(java.lang.String,long,long) -> <init>
+com.android.volley.toolbox.BasicNetwork -> com.a.a.a.a:
+    boolean DEBUG -> a
+    int SLOW_REQUEST_THRESHOLD_MS -> d
+    int DEFAULT_POOL_SIZE -> e
+    com.android.volley.toolbox.HttpStack mHttpStack -> b
+    com.android.volley.toolbox.ByteArrayPool mPool -> c
+    void <init>(com.android.volley.toolbox.HttpStack) -> <init>
+    void <init>(com.android.volley.toolbox.HttpStack,com.android.volley.toolbox.ByteArrayPool) -> <init>
+    com.android.volley.NetworkResponse performRequest(com.android.volley.Request) -> a
+    void logSlowRequests(long,com.android.volley.Request,byte[],org.apache.http.StatusLine) -> a
+    void attemptRetryOnException(java.lang.String,com.android.volley.Request,com.android.volley.VolleyError) -> a
+    void addCacheHeaders(java.util.Map,com.android.volley.Cache$Entry) -> a
+    byte[] entityToBytes(org.apache.http.HttpEntity) -> a
+    java.util.Map convertHeaders(org.apache.http.Header[]) -> a
+    void <clinit>() -> <clinit>
+com.android.volley.toolbox.ByteArrayPool -> com.a.a.a.b:
+    java.util.List mBuffersByLastUse -> b
+    java.util.List mBuffersBySize -> c
+    int mCurrentSize -> d
+    int mSizeLimit -> e
+    java.util.Comparator BUF_COMPARATOR -> a
+    void <init>(int) -> <init>
+    byte[] getBuf(int) -> a
+    void returnBuf(byte[]) -> a
+    void trim() -> a
+    void <clinit>() -> <clinit>
+com.android.volley.toolbox.ByteArrayPool$1 -> com.a.a.a.b$1:
+    void <init>() -> <init>
+    int compare(byte[],byte[]) -> a
+    int compare(java.lang.Object,java.lang.Object) -> compare
+com.android.volley.toolbox.DiskBasedCache -> com.a.a.a.c:
+    java.util.Map mEntries -> a
+    long mTotalSize -> b
+    java.io.File mRootDirectory -> c
+    int mMaxCacheSizeInBytes -> d
+    void <init>(java.io.File,int) -> <init>
+    void <init>(java.io.File) -> <init>
+    com.android.volley.Cache$Entry get(java.lang.String) -> a
+    void initialize() -> a
+    void put(java.lang.String,com.android.volley.Cache$Entry) -> a
+    void remove(java.lang.String) -> b
+    java.lang.String getFilenameForKey(java.lang.String) -> d
+    java.io.File getFileForKey(java.lang.String) -> c
+    void pruneIfNeeded(int) -> a
+    void putEntry(java.lang.String,com.android.volley.toolbox.DiskBasedCache$CacheHeader) -> a
+    void removeEntry(java.lang.String) -> e
+    byte[] streamToBytes(java.io.InputStream,int) -> a
+    int read(java.io.InputStream) -> e
+    void writeInt(java.io.OutputStream,int) -> a
+    int readInt(java.io.InputStream) -> a
+    void writeLong(java.io.OutputStream,long) -> a
+    long readLong(java.io.InputStream) -> b
+    void writeString(java.io.OutputStream,java.lang.String) -> a
+    java.lang.String readString(java.io.InputStream) -> c
+    void writeStringStringMap(java.util.Map,java.io.OutputStream) -> a
+    java.util.Map readStringStringMap(java.io.InputStream) -> d
+com.android.volley.toolbox.DiskBasedCache$1 -> com.a.a.a.c$1:
+com.android.volley.toolbox.DiskBasedCache$CacheHeader -> com.a.a.a.c$a:
+    long size -> a
+    java.lang.String key -> b
+    java.lang.String etag -> c
+    long serverDate -> d
+    long lastModified -> e
+    long ttl -> f
+    long softTtl -> g
+    java.util.Map responseHeaders -> h
+    void <init>() -> <init>
+    void <init>(java.lang.String,com.android.volley.Cache$Entry) -> <init>
+    com.android.volley.toolbox.DiskBasedCache$CacheHeader readHeader(java.io.InputStream) -> a
+    com.android.volley.Cache$Entry toCacheEntry(byte[]) -> a
+    boolean writeHeader(java.io.OutputStream) -> a
+com.android.volley.toolbox.DiskBasedCache$CountingInputStream -> com.a.a.a.c$b:
+    int bytesRead -> a
+    void <init>(java.io.InputStream) -> <init>
+    int read() -> read
+    int read(byte[],int,int) -> read
+    void <init>(java.io.InputStream,com.android.volley.toolbox.DiskBasedCache$1) -> <init>
+    int access$100(com.android.volley.toolbox.DiskBasedCache$CountingInputStream) -> a
+com.android.volley.toolbox.HttpClientStack -> com.a.a.a.d:
+    org.apache.http.client.HttpClient mClient -> a
+    void <init>(org.apache.http.client.HttpClient) -> <init>
+    void addHeaders(org.apache.http.client.methods.HttpUriRequest,java.util.Map) -> a
+    org.apache.http.HttpResponse performRequest(com.android.volley.Request,java.util.Map) -> a
+    org.apache.http.client.methods.HttpUriRequest createHttpRequest(com.android.volley.Request,java.util.Map) -> b
+    void setEntityIfNonEmptyBody(org.apache.http.client.methods.HttpEntityEnclosingRequestBase,com.android.volley.Request) -> a
+    void onPrepareRequest(org.apache.http.client.methods.HttpUriRequest) -> a
+com.android.volley.toolbox.HttpClientStack$HttpPatch -> com.a.a.a.d$a:
+    void <init>() -> <init>
+    void <init>(java.lang.String) -> <init>
+    java.lang.String getMethod() -> getMethod
+com.android.volley.toolbox.HttpHeaderParser -> com.a.a.a.e:
+    com.android.volley.Cache$Entry parseCacheHeaders(com.android.volley.NetworkResponse) -> a
+    long parseDateAsEpoch(java.lang.String) -> a
+    java.lang.String parseCharset(java.util.Map,java.lang.String) -> a
+com.android.volley.toolbox.HttpStack -> com.a.a.a.f:
+    org.apache.http.HttpResponse performRequest(com.android.volley.Request,java.util.Map) -> a
+com.android.volley.toolbox.HurlStack -> com.a.a.a.g:
+    com.android.volley.toolbox.HurlStack$UrlRewriter mUrlRewriter -> a
+    javax.net.ssl.SSLSocketFactory mSslSocketFactory -> b
+    void <init>() -> <init>
+    void <init>(com.android.volley.toolbox.HurlStack$UrlRewriter) -> <init>
+    void <init>(com.android.volley.toolbox.HurlStack$UrlRewriter,javax.net.ssl.SSLSocketFactory) -> <init>
+    org.apache.http.HttpResponse performRequest(com.android.volley.Request,java.util.Map) -> a
+    boolean hasResponseBody(int,int) -> a
+    org.apache.http.HttpEntity entityFromConnection(java.net.HttpURLConnection) -> a
+    java.net.HttpURLConnection createConnection(java.net.URL) -> a
+    java.net.HttpURLConnection openConnection(java.net.URL,com.android.volley.Request) -> a
+    void setConnectionParametersForRequest(java.net.HttpURLConnection,com.android.volley.Request) -> a
+    void addBodyIfExists(java.net.HttpURLConnection,com.android.volley.Request) -> b
+com.android.volley.toolbox.HurlStack$UrlRewriter -> com.a.a.a.g$a:
+    java.lang.String rewriteUrl(java.lang.String) -> a
+com.android.volley.toolbox.JsonObjectRequest -> com.a.a.a.h:
+    void <init>(int,java.lang.String,org.json.JSONObject,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener) -> <init>
+    com.android.volley.Response parseNetworkResponse(com.android.volley.NetworkResponse) -> a
+com.android.volley.toolbox.JsonRequest -> com.a.a.a.i:
+    java.lang.String PROTOCOL_CONTENT_TYPE -> a
+    com.android.volley.Response$Listener mListener -> b
+    java.lang.String mRequestBody -> c
+    void <init>(int,java.lang.String,java.lang.String,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener) -> <init>
+    void deliverResponse(java.lang.Object) -> a
+    com.android.volley.Response parseNetworkResponse(com.android.volley.NetworkResponse) -> a
+    java.lang.String getPostBodyContentType() -> k
+    byte[] getPostBody() -> l
+    java.lang.String getBodyContentType() -> o
+    byte[] getBody() -> p
+    void <clinit>() -> <clinit>
+com.android.volley.toolbox.PoolingByteArrayOutputStream -> com.a.a.a.j:
+    com.android.volley.toolbox.ByteArrayPool mPool -> a
+    void <init>(com.android.volley.toolbox.ByteArrayPool,int) -> <init>
+    void close() -> close
+    void finalize() -> finalize
+    void expand(int) -> a
+    void write(byte[],int,int) -> write
+    void write(int) -> write
+com.android.volley.toolbox.RequestFuture -> com.a.a.a.k:
+    com.android.volley.Request mRequest -> a
+    boolean mResultReceived -> b
+    java.lang.Object mResult -> c
+    com.android.volley.VolleyError mException -> d
+    com.android.volley.toolbox.RequestFuture newFuture() -> a
+    void <init>() -> <init>
+    boolean cancel(boolean) -> cancel
+    java.lang.Object get() -> get
+    java.lang.Object get(long,java.util.concurrent.TimeUnit) -> get
+    java.lang.Object doGet(java.lang.Long) -> a
+    boolean isCancelled() -> isCancelled
+    boolean isDone() -> isDone
+    void onResponse(java.lang.Object) -> a
+    void onErrorResponse(com.android.volley.VolleyError) -> a
+com.android.volley.toolbox.Volley -> com.a.a.a.l:
+    com.android.volley.RequestQueue newRequestQueue(android.content.Context,com.android.volley.toolbox.HttpStack) -> a
+    com.android.volley.RequestQueue newRequestQueue(android.content.Context) -> a
 com.google.android.gms.R -> com.google.android.gms.R:
     void <init>() -> <init>
 com.google.android.gms.R$attr -> com.google.android.gms.R$attr:
@@ -28755,7 +29154,7 @@ com.jakewharton.processphoenix.ProcessPhoenix -> com.jakewharton.processphoenix.
     void triggerRebirth(android.content.Context,android.content.Intent) -> a
     android.content.Intent getRestartIntent(android.content.Context) -> b
     void onCreate(android.os.Bundle) -> onCreate
-com.nhaarman.listviewanimations.ArrayAdapter -> com.a.a.a:
+com.nhaarman.listviewanimations.ArrayAdapter -> com.b.a.a:
     java.util.List mItems -> a
     android.widget.BaseAdapter mDataSetChangedSlavedAdapter -> b
     void <init>() -> <init>
@@ -28788,7 +29187,7 @@ com.nhaarman.listviewanimations.ArrayAdapter -> com.a.a.a:
     java.util.ListIterator listIterator(int) -> listIterator
     void swapItems(int,int) -> a
     void notifyDataSetChanged() -> notifyDataSetChanged
-com.nhaarman.listviewanimations.BaseAdapterDecorator -> com.a.a.b:
+com.nhaarman.listviewanimations.BaseAdapterDecorator -> com.b.a.b:
     android.widget.BaseAdapter mDecoratedBaseAdapter -> a
     android.widget.AbsListView mListView -> b
     boolean mIsParentHorizontalScrollContainer -> c
@@ -28817,9 +29216,9 @@ com.nhaarman.listviewanimations.BaseAdapterDecorator -> com.a.a.b:
     void swapItems(int,int) -> a
     boolean isParentHorizontalScrollContainer() -> b
     int getTouchChild() -> c
-com.nhaarman.listviewanimations.ListViewSetter -> com.a.a.c:
+com.nhaarman.listviewanimations.ListViewSetter -> com.b.a.c:
     void setAbsListView(android.widget.AbsListView) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter -> com.a.a.a.a:
+com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter -> com.b.a.a.a:
     com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback mCallback -> b
     void <init>(android.widget.BaseAdapter,com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback) -> <init>
     void animateDismiss(java.util.Collection) -> a
@@ -28827,30 +29226,30 @@ com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter -> com.a.
     java.util.List getVisibleViewsForPositions(java.util.Collection) -> c
     com.nineoldandroids.animation.Animator createAnimatorForView(android.view.View) -> a
     void access$000(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,java.util.Collection) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$1 -> com.a.a.a.a$1:
+com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$1 -> com.b.a.a.a$1:
     java.util.List val$positionsCopy -> a
     com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter this$0 -> b
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,java.util.List) -> <init>
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$2 -> com.a.a.a.a$2:
+com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$2 -> com.b.a.a.a$2:
     android.view.ViewGroup$LayoutParams val$lp -> a
     android.view.View val$view -> b
     com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter this$0 -> c
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,android.view.ViewGroup$LayoutParams,android.view.View) -> <init>
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$3 -> com.a.a.a.a$3:
+com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$3 -> com.b.a.a.a$3:
     android.view.ViewGroup$LayoutParams val$lp -> a
     android.view.View val$view -> b
     com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter this$0 -> c
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,android.view.ViewGroup$LayoutParams,android.view.View) -> <init>
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback -> com.a.a.a.b:
+com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback -> com.b.a.a.b:
     void onDismiss(android.widget.AbsListView,int[]) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager -> com.a.a.a.a.a:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager -> com.b.a.a.a.a:
     boolean isDismissable(long,int) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeOnTouchListener -> com.a.a.a.a.b:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeOnTouchListener -> com.b.a.a.a.b:
     boolean isSwiping() -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter -> com.a.a.a.a.a.a:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter -> com.b.a.a.a.a.a:
     int mUndoLayoutId -> b
     int mUndoActionId -> c
     int mCountDownTextViewResId -> d
@@ -28893,27 +29292,27 @@ com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.Con
     void access$1400(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> h
     long access$1500(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> i
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$502(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1 -> com.a.a.a.a.a.a$1:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1 -> com.b.a.a.a.a.a$1:
     android.view.View val$view -> a
     int val$dismissPosition -> b
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownFormatter -> com.a.a.a.a.a.a$a:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownFormatter -> com.b.a.a.a.a.a$a:
     java.lang.String getCountDownString(long) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownRunnable -> com.a.a.a.a.a.a$b:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownRunnable -> com.b.a.a.a.a.a$b:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> <init>
     void run() -> run
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1) -> <init>
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback -> com.a.a.a.a.a.a$c:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback -> com.b.a.a.a.a.a$c:
     void deleteItem(int) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$HierarchyChangeListener -> com.a.a.a.a.a.a$d:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$HierarchyChangeListener -> com.b.a.a.a.a.a$d:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> <init>
     void onChildViewAdded(android.view.View,android.view.View) -> onChildViewAdded
     void onChildViewRemoved(android.view.View,android.view.View) -> onChildViewRemoved
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1) -> <init>
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter -> com.a.a.a.a.a.a$e:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter -> com.b.a.a.a.a.a$e:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mDismissView -> b
     long mDismissViewId -> c
     int mOriginalHeight -> d
@@ -28925,25 +29324,25 @@ com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.Con
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView getViewBeingAnimated() -> a
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$1200(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter) -> a
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$1300(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter) -> b
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorUpdateListener -> com.a.a.a.a.a.a$f:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorUpdateListener -> com.b.a.a.a.a.a$f:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter mParentAdapter -> a
     android.view.ViewGroup$LayoutParams mLayoutParams -> c
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> b
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter) -> <init>
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$UndoListener -> com.a.a.a.a.a.a$g:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$UndoListener -> com.b.a.a.a.a.a$g:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mContextualUndoView -> b
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> <init>
     void onClick(android.view.View) -> onClick
     void moveViewOffScreen() -> a
     void animateViewComingBack() -> b
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$ViewHolder -> com.a.a.a.a.a.a$h:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$ViewHolder -> com.b.a.a.a.a.a$h:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mContextualUndoView -> a
     long mItemId -> b
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$ViewHolder getViewHolder(android.view.View) -> a
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> <init>
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener -> com.a.a.a.a.a.b:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener -> com.b.a.a.a.a.b:
     int mSlop -> a
     int mMinFlingVelocity -> b
     int mMaxFlingVelocity -> c
@@ -28977,21 +29376,21 @@ com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.Con
     boolean access$000(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener) -> a
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback access$100(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener) -> b
     boolean access$202(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener,boolean) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$1 -> com.a.a.a.a.a.b$1:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$1 -> com.b.a.a.a.a.b$1:
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener this$0 -> a
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener) -> <init>
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
     void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$2 -> com.a.a.a.a.a.b$2:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$2 -> com.b.a.a.a.a.b$2:
     long val$itemId -> a
     int val$downPosition -> b
     com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener this$0 -> c
     void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener,long,int) -> <init>
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback -> com.a.a.a.a.a.b$a:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback -> com.b.a.a.a.a.b$a:
     void onViewSwiped(long,int) -> a
     void onListScrolled() -> d
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView -> com.a.a.a.a.a.c:
+com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView -> com.b.a.a.a.a.c:
     android.view.View mUndoView -> a
     android.view.View mContentView -> b
     android.widget.TextView mCountDownTV -> c
@@ -29006,9 +29405,9 @@ com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.Con
     boolean isContentDisplayed() -> a
     void displayUndo() -> b
     void displayContentView() -> c
-com.nhaarman.listviewanimations.util.AdapterViewUtil -> com.a.a.b.a:
+com.nhaarman.listviewanimations.util.AdapterViewUtil -> com.b.a.b.a:
     int getPositionForView(android.widget.AdapterView,android.view.View) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView -> com.a.a.c.a:
+com.nhaarman.listviewanimations.widget.DynamicListView -> com.b.a.c.a:
     int mOriginalTranscriptMode -> a
     int mLastEventY -> b
     int mLastEventX -> c
@@ -29069,7 +29468,7 @@ com.nhaarman.listviewanimations.widget.DynamicListView -> com.a.a.c.a:
     com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener access$900(com.nhaarman.listviewanimations.widget.DynamicListView) -> a
     int access$1000(com.nhaarman.listviewanimations.widget.DynamicListView) -> b
     void <clinit>() -> <clinit>
-com.nhaarman.listviewanimations.widget.DynamicListView$2 -> com.a.a.c.a$1:
+com.nhaarman.listviewanimations.widget.DynamicListView$2 -> com.b.a.c.a$1:
     android.view.ViewTreeObserver val$observer -> a
     long val$switchItemId -> b
     int val$deltaY -> c
@@ -29077,28 +29476,28 @@ com.nhaarman.listviewanimations.widget.DynamicListView$2 -> com.a.a.c.a$1:
     com.nhaarman.listviewanimations.widget.DynamicListView this$0 -> e
     void <init>(com.nhaarman.listviewanimations.widget.DynamicListView,android.view.ViewTreeObserver,long,int,int) -> <init>
     boolean onPreDraw() -> onPreDraw
-com.nhaarman.listviewanimations.widget.DynamicListView$3 -> com.a.a.c.a$2:
+com.nhaarman.listviewanimations.widget.DynamicListView$3 -> com.b.a.c.a$2:
     com.nhaarman.listviewanimations.widget.DynamicListView this$0 -> a
     void <init>(com.nhaarman.listviewanimations.widget.DynamicListView) -> <init>
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$4 -> com.a.a.c.a$3:
+com.nhaarman.listviewanimations.widget.DynamicListView$4 -> com.b.a.c.a$3:
     android.view.View val$mobileView -> a
     com.nhaarman.listviewanimations.widget.DynamicListView this$0 -> b
     void <init>(com.nhaarman.listviewanimations.widget.DynamicListView,android.view.View) -> <init>
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$5 -> com.a.a.c.a$4:
+com.nhaarman.listviewanimations.widget.DynamicListView$5 -> com.b.a.c.a$4:
     void <init>() -> <init>
     android.graphics.Rect evaluate(float,android.graphics.Rect,android.graphics.Rect) -> a
     int interpolate(int,int,float) -> a
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$OnHoverCellListener -> com.a.a.c.a$a:
+com.nhaarman.listviewanimations.widget.DynamicListView$OnHoverCellListener -> com.b.a.c.a$a:
     android.graphics.drawable.Drawable onHoverCellCreated(android.graphics.drawable.Drawable) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener -> com.a.a.c.a$b:
+com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener -> com.b.a.c.a$b:
     void onItemMoved(int) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$Swappable -> com.a.a.c.a$c:
+com.nhaarman.listviewanimations.widget.DynamicListView$Swappable -> com.b.a.c.a$c:
     void swapItems(int,int) -> a
-com.nineoldandroids.animation.Animator -> com.b.a.a:
+com.nineoldandroids.animation.Animator -> com.c.a.a:
     java.util.ArrayList mListeners -> a
     void <init>() -> <init>
     void start() -> a
@@ -29110,18 +29509,18 @@ com.nineoldandroids.animation.Animator -> com.b.a.a:
     java.util.ArrayList getListeners() -> e
     com.nineoldandroids.animation.Animator clone() -> f
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Animator$AnimatorListener -> com.b.a.a$a:
+com.nineoldandroids.animation.Animator$AnimatorListener -> com.c.a.a$a:
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-com.nineoldandroids.animation.AnimatorListenerAdapter -> com.b.a.b:
+com.nineoldandroids.animation.AnimatorListenerAdapter -> com.c.a.b:
     void <init>() -> <init>
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.nineoldandroids.animation.AnimatorSet -> com.b.a.c:
+com.nineoldandroids.animation.AnimatorSet -> com.c.a.c:
     java.util.ArrayList mPlayingSet -> c
     java.util.HashMap mNodeMap -> d
     java.util.ArrayList mNodes -> e
@@ -29149,14 +29548,14 @@ com.nineoldandroids.animation.AnimatorSet -> com.b.a.c:
     java.util.ArrayList access$200(com.nineoldandroids.animation.AnimatorSet) -> c
     boolean access$302(com.nineoldandroids.animation.AnimatorSet,boolean) -> a
     java.util.ArrayList access$400(com.nineoldandroids.animation.AnimatorSet) -> d
-com.nineoldandroids.animation.AnimatorSet$1 -> com.b.a.c$1:
+com.nineoldandroids.animation.AnimatorSet$1 -> com.c.a.c$1:
     boolean canceled -> a
     java.util.ArrayList val$nodesToStart -> b
     com.nineoldandroids.animation.AnimatorSet this$0 -> c
     void <init>(com.nineoldandroids.animation.AnimatorSet,java.util.ArrayList) -> <init>
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener -> com.b.a.c$a:
+com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener -> com.c.a.c$a:
     com.nineoldandroids.animation.AnimatorSet mAnimatorSet -> b
     com.nineoldandroids.animation.AnimatorSet this$0 -> a
     void <init>(com.nineoldandroids.animation.AnimatorSet,com.nineoldandroids.animation.AnimatorSet) -> <init>
@@ -29164,16 +29563,16 @@ com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener -> com.b.a.c$a:
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.nineoldandroids.animation.AnimatorSet$Builder -> com.b.a.c$b:
+com.nineoldandroids.animation.AnimatorSet$Builder -> com.c.a.c$b:
     com.nineoldandroids.animation.AnimatorSet$Node mCurrentNode -> b
     com.nineoldandroids.animation.AnimatorSet this$0 -> a
     void <init>(com.nineoldandroids.animation.AnimatorSet,com.nineoldandroids.animation.Animator) -> <init>
     com.nineoldandroids.animation.AnimatorSet$Builder with(com.nineoldandroids.animation.Animator) -> a
-com.nineoldandroids.animation.AnimatorSet$Dependency -> com.b.a.c$c:
+com.nineoldandroids.animation.AnimatorSet$Dependency -> com.c.a.c$c:
     com.nineoldandroids.animation.AnimatorSet$Node node -> a
     int rule -> b
     void <init>(com.nineoldandroids.animation.AnimatorSet$Node,int) -> <init>
-com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.b.a.c$d:
+com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.c.a.c$d:
     com.nineoldandroids.animation.AnimatorSet mAnimatorSet -> a
     com.nineoldandroids.animation.AnimatorSet$Node mNode -> b
     int mRule -> c
@@ -29183,7 +29582,7 @@ com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.b.a.c$d:
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void startIfReady(com.nineoldandroids.animation.Animator) -> e
-com.nineoldandroids.animation.AnimatorSet$Node -> com.b.a.c$e:
+com.nineoldandroids.animation.AnimatorSet$Node -> com.c.a.c$e:
     com.nineoldandroids.animation.Animator animation -> a
     java.util.ArrayList dependencies -> b
     java.util.ArrayList tmpDependencies -> c
@@ -29194,11 +29593,11 @@ com.nineoldandroids.animation.AnimatorSet$Node -> com.b.a.c$e:
     void addDependency(com.nineoldandroids.animation.AnimatorSet$Dependency) -> a
     com.nineoldandroids.animation.AnimatorSet$Node clone() -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.FloatEvaluator -> com.b.a.d:
+com.nineoldandroids.animation.FloatEvaluator -> com.c.a.d:
     void <init>() -> <init>
     java.lang.Float evaluate(float,java.lang.Number,java.lang.Number) -> a
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.FloatKeyframeSet -> com.b.a.e:
+com.nineoldandroids.animation.FloatKeyframeSet -> com.c.a.e:
     float firstValue -> g
     float lastValue -> h
     float deltaValue -> i
@@ -29209,11 +29608,11 @@ com.nineoldandroids.animation.FloatKeyframeSet -> com.b.a.e:
     float getFloatValue(float) -> b
     com.nineoldandroids.animation.KeyframeSet clone() -> b
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.IntEvaluator -> com.b.a.f:
+com.nineoldandroids.animation.IntEvaluator -> com.c.a.f:
     void <init>() -> <init>
     java.lang.Integer evaluate(float,java.lang.Integer,java.lang.Integer) -> a
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.IntKeyframeSet -> com.b.a.g:
+com.nineoldandroids.animation.IntKeyframeSet -> com.c.a.g:
     int firstValue -> g
     int lastValue -> h
     int deltaValue -> i
@@ -29224,7 +29623,7 @@ com.nineoldandroids.animation.IntKeyframeSet -> com.b.a.g:
     int getIntValue(float) -> b
     com.nineoldandroids.animation.KeyframeSet clone() -> b
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe -> com.b.a.h:
+com.nineoldandroids.animation.Keyframe -> com.c.a.h:
     float mFraction -> a
     java.lang.Class mValueType -> b
     android.view.animation.Interpolator mInterpolator -> d
@@ -29244,7 +29643,7 @@ com.nineoldandroids.animation.Keyframe -> com.b.a.h:
     void setInterpolator(android.view.animation.Interpolator) -> a
     com.nineoldandroids.animation.Keyframe clone() -> e
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.b.a.h$a:
+com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.c.a.h$a:
     float mValue -> d
     void <init>(float,float) -> <init>
     void <init>(float) -> <init>
@@ -29254,7 +29653,7 @@ com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.b.a.h$a:
     com.nineoldandroids.animation.Keyframe$FloatKeyframe clone() -> g
     com.nineoldandroids.animation.Keyframe clone() -> e
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$IntKeyframe -> com.b.a.h$b:
+com.nineoldandroids.animation.Keyframe$IntKeyframe -> com.c.a.h$b:
     int mValue -> d
     void <init>(float,int) -> <init>
     void <init>(float) -> <init>
@@ -29264,7 +29663,7 @@ com.nineoldandroids.animation.Keyframe$IntKeyframe -> com.b.a.h$b:
     com.nineoldandroids.animation.Keyframe$IntKeyframe clone() -> g
     com.nineoldandroids.animation.Keyframe clone() -> e
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$ObjectKeyframe -> com.b.a.h$c:
+com.nineoldandroids.animation.Keyframe$ObjectKeyframe -> com.c.a.h$c:
     java.lang.Object mValue -> d
     void <init>(float,java.lang.Object) -> <init>
     java.lang.Object getValue() -> b
@@ -29272,7 +29671,7 @@ com.nineoldandroids.animation.Keyframe$ObjectKeyframe -> com.b.a.h$c:
     com.nineoldandroids.animation.Keyframe$ObjectKeyframe clone() -> f
     com.nineoldandroids.animation.Keyframe clone() -> e
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.KeyframeSet -> com.b.a.i:
+com.nineoldandroids.animation.KeyframeSet -> com.c.a.i:
     int mNumKeyframes -> a
     com.nineoldandroids.animation.Keyframe mFirstKeyframe -> b
     com.nineoldandroids.animation.Keyframe mLastKeyframe -> c
@@ -29288,7 +29687,7 @@ com.nineoldandroids.animation.KeyframeSet -> com.b.a.i:
     java.lang.Object getValue(float) -> a
     java.lang.String toString() -> toString
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.ObjectAnimator -> com.b.a.j:
+com.nineoldandroids.animation.ObjectAnimator -> com.c.a.j:
     java.util.Map PROXY_PROPERTIES -> h
     java.lang.Object mTarget -> i
     java.lang.String mPropertyName -> j
@@ -29313,7 +29712,7 @@ com.nineoldandroids.animation.ObjectAnimator -> com.b.a.j:
     com.nineoldandroids.animation.Animator clone() -> f
     java.lang.Object clone() -> clone
     void <clinit>() -> <clinit>
-com.nineoldandroids.animation.PreHoneycombCompat -> com.b.a.k:
+com.nineoldandroids.animation.PreHoneycombCompat -> com.c.a.k:
     com.nineoldandroids.util.Property ALPHA -> a
     com.nineoldandroids.util.Property PIVOT_X -> b
     com.nineoldandroids.util.Property PIVOT_Y -> c
@@ -29329,91 +29728,91 @@ com.nineoldandroids.animation.PreHoneycombCompat -> com.b.a.k:
     com.nineoldandroids.util.Property X -> m
     com.nineoldandroids.util.Property Y -> n
     void <clinit>() -> <clinit>
-com.nineoldandroids.animation.PreHoneycombCompat$1 -> com.b.a.k$1:
+com.nineoldandroids.animation.PreHoneycombCompat$1 -> com.c.a.k$1:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$10 -> com.b.a.k$2:
+com.nineoldandroids.animation.PreHoneycombCompat$10 -> com.c.a.k$2:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$11 -> com.b.a.k$3:
+com.nineoldandroids.animation.PreHoneycombCompat$11 -> com.c.a.k$3:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,int) -> a
     java.lang.Integer get(android.view.View) -> a
     void setValue(java.lang.Object,int) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$12 -> com.b.a.k$4:
+com.nineoldandroids.animation.PreHoneycombCompat$12 -> com.c.a.k$4:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,int) -> a
     java.lang.Integer get(android.view.View) -> a
     void setValue(java.lang.Object,int) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$13 -> com.b.a.k$5:
+com.nineoldandroids.animation.PreHoneycombCompat$13 -> com.c.a.k$5:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$14 -> com.b.a.k$6:
+com.nineoldandroids.animation.PreHoneycombCompat$14 -> com.c.a.k$6:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$2 -> com.b.a.k$7:
+com.nineoldandroids.animation.PreHoneycombCompat$2 -> com.c.a.k$7:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$3 -> com.b.a.k$8:
+com.nineoldandroids.animation.PreHoneycombCompat$3 -> com.c.a.k$8:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$4 -> com.b.a.k$9:
+com.nineoldandroids.animation.PreHoneycombCompat$4 -> com.c.a.k$9:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$5 -> com.b.a.k$10:
+com.nineoldandroids.animation.PreHoneycombCompat$5 -> com.c.a.k$10:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$6 -> com.b.a.k$11:
+com.nineoldandroids.animation.PreHoneycombCompat$6 -> com.c.a.k$11:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$7 -> com.b.a.k$12:
+com.nineoldandroids.animation.PreHoneycombCompat$7 -> com.c.a.k$12:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$8 -> com.b.a.k$13:
+com.nineoldandroids.animation.PreHoneycombCompat$8 -> com.c.a.k$13:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$9 -> com.b.a.k$14:
+com.nineoldandroids.animation.PreHoneycombCompat$9 -> com.c.a.k$14:
     void <init>(java.lang.String) -> <init>
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PropertyValuesHolder -> com.b.a.l:
+com.nineoldandroids.animation.PropertyValuesHolder -> com.c.a.l:
     java.lang.String mPropertyName -> a
     com.nineoldandroids.util.Property mProperty -> b
     java.lang.reflect.Method mSetter -> c
@@ -29462,8 +29861,8 @@ com.nineoldandroids.animation.PropertyValuesHolder -> com.b.a.l:
     void <init>(java.lang.String,com.nineoldandroids.animation.PropertyValuesHolder$1) -> <init>
     void <init>(com.nineoldandroids.util.Property,com.nineoldandroids.animation.PropertyValuesHolder$1) -> <init>
     void <clinit>() -> <clinit>
-com.nineoldandroids.animation.PropertyValuesHolder$1 -> com.b.a.l$1:
-com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> com.b.a.l$a:
+com.nineoldandroids.animation.PropertyValuesHolder$1 -> com.c.a.l$1:
+com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> com.c.a.l$a:
     com.nineoldandroids.util.FloatProperty mFloatProperty -> j
     com.nineoldandroids.animation.FloatKeyframeSet mFloatKeyframeSet -> h
     float mFloatAnimatedValue -> i
@@ -29477,7 +29876,7 @@ com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> 
     void setupSetter(java.lang.Class) -> a
     com.nineoldandroids.animation.PropertyValuesHolder clone() -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.PropertyValuesHolder$IntPropertyValuesHolder -> com.b.a.l$b:
+com.nineoldandroids.animation.PropertyValuesHolder$IntPropertyValuesHolder -> com.c.a.l$b:
     com.nineoldandroids.util.IntProperty mIntProperty -> j
     com.nineoldandroids.animation.IntKeyframeSet mIntKeyframeSet -> h
     int mIntAnimatedValue -> i
@@ -29491,9 +29890,9 @@ com.nineoldandroids.animation.PropertyValuesHolder$IntPropertyValuesHolder -> co
     void setupSetter(java.lang.Class) -> a
     com.nineoldandroids.animation.PropertyValuesHolder clone() -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.TypeEvaluator -> com.b.a.m:
+com.nineoldandroids.animation.TypeEvaluator -> com.c.a.m:
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.ValueAnimator -> com.b.a.n:
+com.nineoldandroids.animation.ValueAnimator -> com.c.a.n:
     long mStartTime -> b
     long mSeekTime -> c
     java.lang.ThreadLocal sAnimationHandler -> h
@@ -29566,58 +29965,58 @@ com.nineoldandroids.animation.ValueAnimator -> com.b.a.n:
     void access$900(com.nineoldandroids.animation.ValueAnimator) -> c
     long access$1000() -> r
     void <clinit>() -> <clinit>
-com.nineoldandroids.animation.ValueAnimator$1 -> com.b.a.n$1:
+com.nineoldandroids.animation.ValueAnimator$1 -> com.c.a.n$1:
     void <init>() -> <init>
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$2 -> com.b.a.n$2:
+com.nineoldandroids.animation.ValueAnimator$2 -> com.c.a.n$2:
     void <init>() -> <init>
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$3 -> com.b.a.n$3:
+com.nineoldandroids.animation.ValueAnimator$3 -> com.c.a.n$3:
     void <init>() -> <init>
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$4 -> com.b.a.n$4:
+com.nineoldandroids.animation.ValueAnimator$4 -> com.c.a.n$4:
     void <init>() -> <init>
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$5 -> com.b.a.n$5:
+com.nineoldandroids.animation.ValueAnimator$5 -> com.c.a.n$5:
     void <init>() -> <init>
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$AnimationHandler -> com.b.a.n$a:
+com.nineoldandroids.animation.ValueAnimator$AnimationHandler -> com.c.a.n$a:
     void <init>() -> <init>
     void handleMessage(android.os.Message) -> handleMessage
     void <init>(com.nineoldandroids.animation.ValueAnimator$1) -> <init>
-com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener -> com.b.a.n$b:
+com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener -> com.c.a.n$b:
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nineoldandroids.util.FloatProperty -> com.b.b.a:
+com.nineoldandroids.util.FloatProperty -> com.c.b.a:
     void <init>(java.lang.String) -> <init>
     void setValue(java.lang.Object,float) -> a
     void set(java.lang.Object,java.lang.Float) -> a
     void set(java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.util.IntProperty -> com.b.b.b:
+com.nineoldandroids.util.IntProperty -> com.c.b.b:
     void <init>(java.lang.String) -> <init>
     void setValue(java.lang.Object,int) -> a
     void set(java.lang.Object,java.lang.Integer) -> a
     void set(java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.util.Property -> com.b.b.c:
+com.nineoldandroids.util.Property -> com.c.b.c:
     java.lang.String mName -> a
     java.lang.Class mType -> b
     void <init>(java.lang.Class,java.lang.String) -> <init>
     void set(java.lang.Object,java.lang.Object) -> a
     java.lang.Object get(java.lang.Object) -> a
     java.lang.String getName() -> a
-com.nineoldandroids.view.ViewHelper -> com.b.c.a:
+com.nineoldandroids.view.ViewHelper -> com.c.c.a:
     void setAlpha(android.view.View,float) -> a
     void setTranslationX(android.view.View,float) -> b
     void setTranslationY(android.view.View,float) -> c
-com.nineoldandroids.view.ViewHelper$Honeycomb -> com.b.c.a$a:
+com.nineoldandroids.view.ViewHelper$Honeycomb -> com.c.c.a$a:
     void setAlpha(android.view.View,float) -> a
     void setTranslationX(android.view.View,float) -> b
     void setTranslationY(android.view.View,float) -> c
-com.nineoldandroids.view.ViewPropertyAnimator -> com.b.c.b:
+com.nineoldandroids.view.ViewPropertyAnimator -> com.c.c.b:
     java.util.WeakHashMap ANIMATORS -> a
     void <init>() -> <init>
     com.nineoldandroids.view.ViewPropertyAnimator animate(android.view.View) -> a
@@ -29626,7 +30025,7 @@ com.nineoldandroids.view.ViewPropertyAnimator -> com.b.c.b:
     com.nineoldandroids.view.ViewPropertyAnimator translationX(float) -> a
     com.nineoldandroids.view.ViewPropertyAnimator alpha(float) -> b
     void <clinit>() -> <clinit>
-com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.b.c.c:
+com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.c.c.c:
     java.lang.ref.WeakReference mView -> b
     long mDuration -> c
     boolean mDurationSet -> d
@@ -29655,11 +30054,11 @@ com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.b.c.c:
     com.nineoldandroids.animation.Animator$AnimatorListener access$202(com.nineoldandroids.view.ViewPropertyAnimatorHC,com.nineoldandroids.animation.Animator$AnimatorListener) -> a
     java.lang.ref.WeakReference access$400(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> d
     void access$500(com.nineoldandroids.view.ViewPropertyAnimatorHC,int,float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorHC$1 -> com.b.c.c$1:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$1 -> com.c.c.c$1:
     com.nineoldandroids.view.ViewPropertyAnimatorHC this$0 -> a
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> <init>
     void run() -> run
-com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener -> com.b.c.c$a:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener -> com.c.c.c$a:
     com.nineoldandroids.view.ViewPropertyAnimatorHC this$0 -> a
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> <init>
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
@@ -29668,24 +30067,24 @@ com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener -> com.b.c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorHC,com.nineoldandroids.view.ViewPropertyAnimatorHC$1) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorHC$NameValuesHolder -> com.b.c.c$b:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$NameValuesHolder -> com.c.c.c$b:
     int mNameConstant -> a
     float mFromValue -> b
     float mDeltaValue -> c
     void <init>(int,float,float) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorHC$PropertyBundle -> com.b.c.c$c:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$PropertyBundle -> com.c.c.c$c:
     int mPropertyMask -> a
     java.util.ArrayList mNameValuesHolder -> b
     void <init>(int,java.util.ArrayList) -> <init>
     boolean cancel(int) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorICS -> com.b.c.d:
+com.nineoldandroids.view.ViewPropertyAnimatorICS -> com.c.c.d:
     java.lang.ref.WeakReference mNative -> a
     void <init>(android.view.View) -> <init>
     com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
     com.nineoldandroids.view.ViewPropertyAnimator setListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> a
     com.nineoldandroids.view.ViewPropertyAnimator translationX(float) -> a
     com.nineoldandroids.view.ViewPropertyAnimator alpha(float) -> b
-com.nineoldandroids.view.ViewPropertyAnimatorICS$1 -> com.b.c.d$1:
+com.nineoldandroids.view.ViewPropertyAnimatorICS$1 -> com.c.c.d$1:
     com.nineoldandroids.animation.Animator$AnimatorListener val$listener -> a
     com.nineoldandroids.view.ViewPropertyAnimatorICS this$0 -> b
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorICS,com.nineoldandroids.animation.Animator$AnimatorListener) -> <init>
@@ -29693,7 +30092,7 @@ com.nineoldandroids.view.ViewPropertyAnimatorICS$1 -> com.b.c.d$1:
     void onAnimationRepeat(android.animation.Animator) -> onAnimationRepeat
     void onAnimationEnd(android.animation.Animator) -> onAnimationEnd
     void onAnimationCancel(android.animation.Animator) -> onAnimationCancel
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.b.c.e:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.c.c.e:
     com.nineoldandroids.view.animation.AnimatorProxy mProxy -> b
     java.lang.ref.WeakReference mView -> c
     long mDuration -> d
@@ -29723,11 +30122,11 @@ com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.b.c.e:
     com.nineoldandroids.animation.Animator$AnimatorListener access$202(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,com.nineoldandroids.animation.Animator$AnimatorListener) -> a
     java.lang.ref.WeakReference access$400(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> d
     void access$500(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,int,float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1 -> com.b.c.e$1:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1 -> com.c.c.e$1:
     com.nineoldandroids.view.ViewPropertyAnimatorPreHC this$0 -> a
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> <init>
     void run() -> run
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener -> com.b.c.e$a:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener -> com.c.c.e$a:
     com.nineoldandroids.view.ViewPropertyAnimatorPreHC this$0 -> a
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> <init>
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
@@ -29736,17 +30135,17 @@ com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener -> com.
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
     void <init>(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$NameValuesHolder -> com.b.c.e$b:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$NameValuesHolder -> com.c.c.e$b:
     int mNameConstant -> a
     float mFromValue -> b
     float mDeltaValue -> c
     void <init>(int,float,float) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$PropertyBundle -> com.b.c.e$c:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$PropertyBundle -> com.c.c.e$c:
     int mPropertyMask -> a
     java.util.ArrayList mNameValuesHolder -> b
     void <init>(int,java.util.ArrayList) -> <init>
     boolean cancel(int) -> a
-com.nineoldandroids.view.animation.AnimatorProxy -> com.b.c.a.a:
+com.nineoldandroids.view.animation.AnimatorProxy -> com.c.c.a.a:
     boolean NEEDS_PROXY -> a
     java.util.WeakHashMap PROXIES -> b
     java.lang.ref.WeakReference mView -> c
@@ -29920,13 +30319,13 @@ com.rbardini.carteiro.model.PostalItemRecord -> com.rbardini.carteiro.b.b:
     com.rbardini.carteiro.model.PostalRecord getLastPostalRecord() -> d
     java.lang.String getCod() -> e
     java.lang.String getSafeDesc() -> f
-    com.rbardini.carteiro.model.PostalItemRecord fetch() -> g
+    com.rbardini.carteiro.model.PostalItemRecord fetch(android.content.Context) -> a
     com.rbardini.carteiro.model.PostalItemRecord loadFrom(com.rbardini.carteiro.db.DatabaseHelper) -> a
     com.rbardini.carteiro.model.PostalItemRecord saveTo(com.rbardini.carteiro.db.DatabaseHelper) -> b
     com.rbardini.carteiro.model.PostalItemRecord archiveTo(com.rbardini.carteiro.db.DatabaseHelper) -> c
     com.rbardini.carteiro.model.PostalItemRecord deleteFrom(com.rbardini.carteiro.db.DatabaseHelper) -> d
-    int size() -> h
-    boolean isEmpty() -> i
+    int size() -> g
+    boolean isEmpty() -> h
     boolean equals(java.lang.Object) -> equals
 com.rbardini.carteiro.model.PostalRecord -> com.rbardini.carteiro.b.c:
     java.lang.String cod -> a
@@ -30677,11 +31076,23 @@ com.rbardini.carteiro.util.IOUtils -> com.rbardini.carteiro.c.b:
     java.io.File createFile(java.io.File,java.lang.String) -> a
     void copyFile(java.io.FileInputStream,java.io.FileOutputStream) -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.PostalUtils -> com.rbardini.carteiro.c.c:
+com.rbardini.carteiro.util.MobileTracker -> com.rbardini.carteiro.c.c:
+    java.util.List track(java.lang.String[],android.content.Context) -> a
+    java.util.List track(java.lang.String,android.content.Context) -> a
+    java.lang.String buildRequestBody(java.lang.String[]) -> b
+    java.lang.String buildLocation(org.json.JSONObject) -> a
+    java.lang.String access$000(java.lang.String[]) -> a
+com.rbardini.carteiro.util.MobileTracker$1 -> com.rbardini.carteiro.c.c$1:
+    java.lang.String[] val$cods -> a
+    void <init>(int,java.lang.String,org.json.JSONObject,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener,java.lang.String[]) -> <init>
+    java.util.Map getHeaders() -> h
+    java.lang.String getBodyContentType() -> o
+    byte[] getBody() -> p
+com.rbardini.carteiro.util.PostalUtils -> com.rbardini.carteiro.c.d:
     java.lang.String getLocation(com.rbardini.carteiro.model.PostalItem,boolean) -> a
     android.content.Intent getShareIntent(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> a
     android.content.Intent getShareIntent(android.content.Context,java.util.List) -> a
-com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.c$a:
+com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.d$a:
     java.util.Map StatusesMap -> a
     java.util.Map IdMap -> b
     java.util.Map TitleMap -> c
@@ -30699,12 +31110,12 @@ com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.c$a:
     int getCategoryById(int) -> e
     java.util.Map access$000() -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.PostalUtils$Service -> com.rbardini.carteiro.c.c$b:
+com.rbardini.carteiro.util.PostalUtils$Service -> com.rbardini.carteiro.c.d$b:
     java.util.Map ServicesMap -> a
     java.util.TreeMap buildServicesMap() -> a
     java.lang.String getService(java.lang.String) -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.PostalUtils$Status -> com.rbardini.carteiro.c.c$c:
+com.rbardini.carteiro.util.PostalUtils$Status -> com.rbardini.carteiro.c.d$c:
     java.util.Map CategoryMap -> a
     java.util.Map IconMap -> b
     java.util.TreeMap buildCategoryMap() -> a
@@ -30712,27 +31123,20 @@ com.rbardini.carteiro.util.PostalUtils$Status -> com.rbardini.carteiro.c.c$c:
     int getCategory(java.lang.String) -> a
     int getIcon(java.lang.String) -> b
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.Tracker -> com.rbardini.carteiro.c.d:
-    java.util.regex.Pattern WHITESPACE_PATTERN -> a
-    java.util.regex.Pattern SEPARATOR_PATTERN -> b
-    java.util.regex.Pattern OBJETO_PATTERN -> c
-    java.util.regex.Pattern CONTEUDO_PATTERN -> d
-    java.util.regex.Pattern COMMA_PATTERN -> e
-    java.util.regex.Pattern PERIOD_PATTERN -> f
-    java.text.DateFormat DATE_FORMAT -> g
-    java.util.List track(java.lang.String[]) -> a
-    java.util.List track(java.lang.String) -> a
-    org.ksoap2.serialization.SoapSerializationEnvelope buildEnvelope(java.lang.String[]) -> b
-    java.util.List chunk(java.lang.String[],int) -> a
-    org.ksoap2.serialization.SoapObject getPropertyValue(org.ksoap2.serialization.SoapObject,java.lang.String) -> a
-    java.util.List getPropertyValues(org.ksoap2.serialization.SoapObject,java.lang.String) -> b
-    java.lang.String getStringProperty(org.ksoap2.serialization.SoapObject,java.lang.String) -> c
-    java.lang.String normalizeString(java.lang.String) -> b
-    java.lang.String formatStatus(java.lang.String) -> c
-    java.lang.String formatInfo(java.lang.String) -> d
-    java.lang.String buildLocation(org.ksoap2.serialization.SoapObject) -> a
+com.rbardini.carteiro.util.Tracker -> com.rbardini.carteiro.c.e:
+    java.text.DateFormat DATE_FORMAT -> a
+    java.util.regex.Pattern WHITESPACE_PATTERN -> b
+    java.util.regex.Pattern SEPARATOR_PATTERN -> c
+    java.util.regex.Pattern OBJETO_PATTERN -> d
+    java.util.regex.Pattern CONTEUDO_PATTERN -> e
+    java.util.regex.Pattern COMMA_PATTERN -> f
+    java.util.regex.Pattern PERIOD_PATTERN -> g
+    java.lang.String normalizeString(java.lang.String) -> a
+    java.lang.String formatStatus(java.lang.String) -> b
+    java.lang.String formatInfo(java.lang.String) -> c
+    java.lang.String buildLocation(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.e:
+com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.f:
     void goHome(android.content.Context) -> a
     void openURL(android.content.Context,java.lang.String) -> a
     void openMarket(android.content.Context) -> b
