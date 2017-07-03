@@ -76,7 +76,6 @@
   </style>
   <style name="ListText.Info">
     <item name="android:textSize">@dimen/text_size_caption</item>
-    <item name="android:textAllCaps">true</item>
   </style>
 
   <!-- Record Activity -->

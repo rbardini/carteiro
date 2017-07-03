@@ -37,7 +37,8 @@
         android:id="@+id/text_postal_status_info" />
 
       <TextView style="@style/ListText.Info"
-        android:id="@+id/text_postal_status_loc" />
+        android:id="@+id/text_postal_status_loc"
+        android:textAllCaps="true" />
 
     </LinearLayout>
 
