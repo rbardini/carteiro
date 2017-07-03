@@ -20,16 +20,15 @@ import android.view.View;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalItemRecord;
+import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 
-public abstract class PostalActivity extends AppCompatActivity implements PostalListFragment.OnPostalListActionListener, PostalItemDialogFragment.OnPostalItemChangeListener {
-  private static final String TAG = "PostalActivity";
+public abstract class ShipmentActivity extends AppCompatActivity implements ShipmentListFragment.OnPostalListActionListener, ShipmentDialogFragment.OnShipmentChangeListener {
+  private static final String TAG = "ShipmentActivity";
 
   protected CarteiroApplication app;
   private BroadcastReceiver mReceiver;
@@ -93,7 +92,7 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
           .setAction(R.string.status_btn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              UIUtils.openURL(PostalActivity.this, PostalUtils.HEALTH_URL);
+              UIUtils.openURL(ShipmentActivity.this, PostalUtils.HEALTH_URL);
             }
           })
           .setActionTextColor(ContextCompat.getColor(this, R.color.error_foreground));
@@ -106,15 +105,15 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
   }
 
   @Override
-  public void onPostalListAttached(PostalListFragment f) {}
+  public void onPostalListAttached(ShipmentListFragment f) {}
 
   @Override
-  public void onRenamePostalItem(String desc, PostalItem pi) {
-    app.getDatabaseHelper().renamePostalItem(pi.getCod(), desc);
+  public void onRenameShipment(String desc, Shipment shipment) {
+    app.getDatabaseHelper().renamePostalItem(shipment.getNumber(), desc);
 
     String toast;
-    if (desc == null) toast = getString(R.string.toast_item_renamed_empty, pi.getCod());
-    else toast = getString(R.string.toast_item_renamed, pi.getSafeDesc(), desc);
+    if (desc == null) toast = getString(R.string.toast_item_renamed_empty, shipment.getNumber());
+    else toast = getString(R.string.toast_item_renamed, shipment.getDescription(), desc);
     UIUtils.showToast(this, toast);
 
     clearSelection();
@@ -122,17 +121,16 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
   }
 
   @Override
-  public void onDeletePostalItems(ArrayList<PostalItem> piList) {
-    final int listSize = piList.size();
+  public void onDeleteShipments(ArrayList<Shipment> shipments) {
+    final int listSize = shipments.size();
     final DatabaseHelper dh = app.getDatabaseHelper();
 
-    for (PostalItem pi : piList) {
-      PostalItemRecord pir = new PostalItemRecord(pi);
-      pir.deleteFrom(dh);
+    for (Shipment shipment : shipments) {
+      dh.deletePostalItem(shipment.getNumber());
     }
 
     String message = listSize == 1
-        ? getString(R.string.toast_item_deleted, piList.get(0).getSafeDesc())
+        ? getString(R.string.toast_item_deleted, shipments.get(0).getDescription())
         : getString(R.string.toast_items_deleted, listSize);
     UIUtils.showToast(this, message);
 
@@ -146,25 +144,25 @@ public abstract class PostalActivity extends AppCompatActivity implements Postal
   }
 
   public void updateRefreshStatus() {
-    PostalFragment f = getPostalFragment();
+    ShipmentFragment f = getPostalFragment();
     if (f == null) return;
 
     f.updateRefreshStatus();
   }
 
   public void refreshList() {
-    PostalFragment f = getPostalFragment();
+    ShipmentFragment f = getPostalFragment();
     if (f == null) return;
 
     f.refreshList();
   }
 
   public void clearSelection() {
-    PostalFragment f = getPostalFragment();
+    ShipmentFragment f = getPostalFragment();
     if (f == null) return;
 
     f.clearSelection();
   }
 
-  public abstract PostalFragment getPostalFragment();
+  public abstract ShipmentFragment getPostalFragment();
 }

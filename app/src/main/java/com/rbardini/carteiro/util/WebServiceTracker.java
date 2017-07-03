@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.util;
 
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
@@ -26,10 +27,10 @@ public final class WebServiceTracker extends Tracker {
   private static final String REQ_RESULT = "T";
   private static final String REQ_LANGUAGE = "101";
 
-  public static List<List<PostalRecord>> track(String[] cods) throws IOException {
-    List<List<PostalRecord>> prLists = new ArrayList<>();
+  public static List<Shipment> track(String[] cods) throws IOException {
+    List<Shipment> shipments = new ArrayList<>();
 
-    if (cods.length == 0) return prLists;
+    if (cods.length == 0) return shipments;
 
     for (String[] codsChunk : chunk(cods, MAX_ITEMS_PER_REQ)) {
       SoapSerializationEnvelope envelope = buildEnvelope(codsChunk);
@@ -42,7 +43,7 @@ public final class WebServiceTracker extends Tracker {
 
         for (SoapObject objeto : objetos) {
           String cod = getStringProperty(objeto, "numero");
-          List<PostalRecord> prList = new ArrayList<>();
+          List<ShipmentRecord> records = new ArrayList<>();
 
           if (!objeto.hasProperty("erro")) {
             List<SoapObject> eventos = getPropertyValues(objeto, "evento");
@@ -62,23 +63,24 @@ public final class WebServiceTracker extends Tracker {
                 continue;
               }
 
-              PostalRecord pr = new PostalRecord(cod, date, formatStatus(descricao), local, formatInfo(detalhe));
-
               if (detalhe == null) {
                 SoapObject destino = getPropertyValue(evento, "destino");
 
                 if (destino != null) {
                   local = buildLocation(destino);
-                  if (local != null) pr.setInfo("Em trânsito para " + local);
+                  if (local != null) detalhe = "Em trânsito para " + local;
                 }
               }
 
-              prList.add(pr);
+              records.add(new ShipmentRecord(date, formatStatus(descricao), local, formatInfo(detalhe)));
             }
           }
 
-          Collections.reverse(prList);
-          prLists.add(prList);
+          Collections.reverse(records);
+
+          Shipment shipment = new Shipment(cod);
+          shipment.addRecords(records);
+          shipments.add(shipment);
         }
 
       } catch (Exception e) {
@@ -86,12 +88,12 @@ public final class WebServiceTracker extends Tracker {
       }
     }
 
-    return prLists;
+    return shipments;
   }
 
-  public static List<PostalRecord> track(String cod) throws IOException {
-    List<List<PostalRecord>> prLists = track(new String[] {cod});
-    return prLists.get(0);
+  public static Shipment track(String cod) throws IOException {
+    List<Shipment> shipments = track(new String[] {cod});
+    return shipments.get(0);
   }
 
   private static SoapSerializationEnvelope buildEnvelope(String[] cods) {

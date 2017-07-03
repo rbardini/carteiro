@@ -8,26 +8,19 @@ import android.view.ViewGroup;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncService;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public class RecordFragment extends ShipmentFragment {
+  public static final String TAG = "RecordFragment";
 
-public class PostalRecordFragment extends PostalFragment {
-  public static final String TAG = "PostalRecordFragment";
+  private Shipment mShipment;
+  private ShipmentAdapter mListAdapter;
 
-  private static PostalItem pi;
-
-  private List<PostalRecord> mList;
-  private PostalRecordListAdapter mListAdapter;
-
-  public static PostalRecordFragment newInstance(PostalItem pi) {
-    PostalRecordFragment f = new PostalRecordFragment();
+  public static RecordFragment newInstance(Shipment shipment) {
+    RecordFragment f = new RecordFragment();
     Bundle args = new Bundle();
-    args.putSerializable("postalItem", pi);
+    args.putSerializable("shipment", shipment);
     f.setArguments(args);
 
     return f;
@@ -38,10 +31,8 @@ public class PostalRecordFragment extends PostalFragment {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
 
-    pi = (PostalItem) getArguments().getSerializable("postalItem");
-
-    mList = new ArrayList<>();
-    mListAdapter = new PostalRecordListAdapter(mActivity, mList);
+    mShipment = (Shipment) getArguments().getSerializable("shipment");
+    mListAdapter = new ShipmentAdapter(mActivity, mShipment);
     setListAdapter(mListAdapter);
 
     updateList();
@@ -56,7 +47,7 @@ public class PostalRecordFragment extends PostalFragment {
   public void onRefresh() {
     if (!CarteiroApplication.syncing) {
       Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
-      intent.putExtra("cods", new String[] {pi.getCod()});
+      intent.putExtra("cods", new String[] {mShipment.getNumber()});
       mActivity.startService(intent);
     }
   }
@@ -67,12 +58,11 @@ public class PostalRecordFragment extends PostalFragment {
     mListAdapter.notifyDataSetChanged();
   }
 
-  public void setPostalItem(PostalItem newPostalItem) {
-    pi = newPostalItem;
+  public void setShipment(Shipment shipment) {
+    mShipment = shipment;
   }
 
   public void updateList() {
-    dh.getPostalRecords(mList, pi.getCod());
-    Collections.reverse(mList);
+    mShipment.loadRecords(dh);
   }
 }

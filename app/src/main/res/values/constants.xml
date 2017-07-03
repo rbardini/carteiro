@@ -15,7 +15,7 @@
 
   <!-- Transition names -->
   <string name="transition_add_item" translatable="false">transition_add_item</string>
-  <string name="transition_postal_record" translatable="false">transition_record</string>
+  <string name="transition_record" translatable="false">transition_record</string>
 
   <!-- Preferences keys -->
   <string name="pref_key_on_boot" translatable="false">onboot</string>

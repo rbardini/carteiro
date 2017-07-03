@@ -11,6 +11,6 @@
   <item type="id" name="category_returned" />
   <item type="id" name="category_archived" />
 
-  <item type="id" name="postal_item_icon" />
-  <item type="id" name="postal_item_color" />
+  <item type="id" name="shipment_icon" />
+  <item type="id" name="shipment_color" />
 </resources>

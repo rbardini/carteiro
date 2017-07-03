@@ -37,11 +37,10 @@ import com.google.zxing.integration.android.IntentResult;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalItemRecord;
-import com.rbardini.carteiro.model.PostalRecord;
-import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
+import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
@@ -61,7 +60,6 @@ public class AddActivity extends AppCompatActivity {
 
   private boolean mIsFormView;
 
-  private CarteiroApplication app;
   private SharedPreferences mPrefs;
   private ActionBar mActionBar;
 
@@ -78,8 +76,8 @@ public class AddActivity extends AppCompatActivity {
   private Button mJustOnceButton;
   private Button mAlwaysButton;
 
-  private PostalItemRecord mPostalItemRecord;
-  private AsyncTask<?, ?, ?> mFetchPostalItemRecordTask;
+  private Shipment mShipment;
+  private AsyncTask<?, ?, ?> mFetchShipmentTask;
   private DatabaseHelper dh;
 
   @Override
@@ -89,29 +87,28 @@ public class AddActivity extends AppCompatActivity {
     setContentView(R.layout.activity_add);
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
     mIsFormView = true;
 
-    app = (CarteiroApplication) getApplication();
     mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
     mActionBar = getSupportActionBar();
 
     mFormView = findViewById(R.id.form_layout);
     mConfirmationView = findViewById(R.id.confirmation_layout);
     mLoadingView = findViewById(R.id.loading_indicator);
-    mContentText = (TextView) findViewById(R.id.content_text);
-    mTrackingNumberInput = (TextInputLayout) findViewById(R.id.trk_code_input);
-    mTrackingNumberField = (TextInputEditText) findViewById(R.id.trk_code_fld);
-    mItemNameField = (TextInputEditText) findViewById(R.id.item_desc_fld);
-    mCancelButton = (Button) findViewById(R.id.cancel_button);
-    mAddButton = (Button) findViewById(R.id.add_button);
-    mSkipButton = (Button) findViewById(R.id.skip_button);
-    mJustOnceButton = (Button) findViewById(R.id.just_once_button);
-    mAlwaysButton = (Button) findViewById(R.id.always_button);
+    mContentText = findViewById(R.id.content_text);
+    mTrackingNumberInput = findViewById(R.id.trk_code_input);
+    mTrackingNumberField = findViewById(R.id.trk_code_fld);
+    mItemNameField = findViewById(R.id.item_desc_fld);
+    mCancelButton = findViewById(R.id.cancel_button);
+    mAddButton = findViewById(R.id.add_button);
+    mSkipButton = findViewById(R.id.skip_button);
+    mJustOnceButton = findViewById(R.id.just_once_button);
+    mAlwaysButton = findViewById(R.id.always_button);
 
-    if (savedInstanceState != null) mPostalItemRecord = (PostalItemRecord) savedInstanceState.getSerializable("postalItemRecord");
+    if (savedInstanceState != null) mShipment = (Shipment) savedInstanceState.getSerializable("shipment");
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
     setupTransition();
@@ -123,20 +120,20 @@ public class AddActivity extends AppCompatActivity {
   public void onResume() {
     super.onResume();
 
-    if (mPostalItemRecord != null) {
-      mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
+    if (mShipment != null) {
+      mFetchShipmentTask = new FetchShipmentTask().execute(mShipment);
     }
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
-    cancelPostalItemRecordFetch();
+    cancelShipmentFetch();
   }
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    savedInstanceState.putSerializable("postalItemRecord", mPostalItemRecord);
+    savedInstanceState.putSerializable("shipment", mShipment);
     super.onSaveInstanceState(savedInstanceState);
   }
 
@@ -205,13 +202,15 @@ public class AddActivity extends AppCompatActivity {
 
   public void onAddClick(View v) {
     String cod = mTrackingNumberField.getText().toString().toUpperCase(Locale.getDefault());
-    String desc = mItemNameField.getText().toString();
+    String desc = mItemNameField.getText().toString().trim();
     String error = null;
 
     try {
       cod = validateCod(cod);
-      mPostalItemRecord = new PostalItemRecord(new PostalItem(cod, (desc.trim().equals("") ? null : desc)));
-      mFetchPostalItemRecordTask = new FetchPostalItemRecordTask().execute(mPostalItemRecord);
+
+      mShipment = new Shipment(cod);
+      if (!desc.equals("")) mShipment.setName(desc);
+      mFetchShipmentTask = new FetchShipmentTask().execute(mShipment);
 
     } catch (Exception e) {
       error = e.getMessage();
@@ -230,17 +229,17 @@ public class AddActivity extends AppCompatActivity {
       resetConfirmation();
       showFormView();
 
-      mPostalItemRecord = null;
+      mShipment = null;
     }
   }
 
   public void onSkipClick(View v) {
-    cancelPostalItemRecordFetch();
-    addPostalItemRecord();
+    cancelShipmentFetch();
+    addShipment();
   }
 
   public void onJustOnceClick(View v) {
-    addPostalItemRecord();
+    addShipment();
   }
 
   public void onAlwaysClick(View v) {
@@ -318,7 +317,7 @@ public class AddActivity extends AppCompatActivity {
     switch (id) {
       case NOT_FOUND:
         title = getString(R.string.title_alert_not_found);
-        message = getString(R.string.msg_alert_not_found, mPostalItemRecord.getCod());
+        message = getString(R.string.msg_alert_not_found, mShipment.getNumber());
         break;
 
       case DELIVERED_ITEM:
@@ -501,24 +500,22 @@ public class AddActivity extends AppCompatActivity {
     throw new Exception(error);
   }
 
-  private void addPostalItemRecord() {
-    if (mPostalItemRecord.isEmpty()) {
-      PostalRecord pr = new PostalRecord(mPostalItemRecord.getCod(), new Date(), PostalUtils.Status.NAO_ENCONTRADO);
-      mPostalItemRecord.setPostalRecord(pr);
+  private void addShipment() {
+    if (mShipment.isEmpty()) {
+      mShipment.addRecord(new ShipmentRecord(new Date(), PostalUtils.Status.NAO_ENCONTRADO));
     }
 
-    mPostalItemRecord.saveTo(dh);
+    mShipment.saveTo(dh);
 
-    Intent intent = new Intent(this, RecordActivity.class);
-    intent.putExtra("postalItem", mPostalItemRecord.getSafePostalItem());
+    Intent intent = new Intent(this, RecordActivity.class).putExtra("shipment", mShipment);
     intent.putExtra("isNew", true);
     startActivity(intent);
     finish();
   }
 
-  private void cancelPostalItemRecordFetch() {
-    if (mFetchPostalItemRecordTask != null && mFetchPostalItemRecordTask.getStatus() == AsyncTask.Status.RUNNING) {
-      mFetchPostalItemRecordTask.cancel(true);
+  private void cancelShipmentFetch() {
+    if (mFetchShipmentTask != null && mFetchShipmentTask.getStatus() == AsyncTask.Status.RUNNING) {
+      mFetchShipmentTask.cancel(true);
     }
 
     if (dh.inTransaction()) {
@@ -550,7 +547,7 @@ public class AddActivity extends AppCompatActivity {
     return preferenceKey != -1 && !mPrefs.getBoolean(getString(preferenceKey), false);
   }
 
-  private class FetchPostalItemRecordTask extends AsyncTask<Object, Void, PostalItemRecord> {
+  private class FetchShipmentTask extends AsyncTask<Object, Void, Shipment> {
     private String error;
 
     @Override
@@ -560,17 +557,17 @@ public class AddActivity extends AppCompatActivity {
     }
 
     @Override
-    protected PostalItemRecord doInBackground(Object... params) {
-      PostalItemRecord pir = (PostalItemRecord) params[0];
+    protected Shipment doInBackground(Object... params) {
+      Shipment shipment = (Shipment) params[0];
 
       try {
-        pir.fetch(AddActivity.this);
+        shipment.fetchRecords(AddActivity.this);
 
-        if (pir.isEmpty()) {
+        if (shipment.isEmpty()) {
           error = getString(R.string.title_alert_not_found);
 
         } else {
-          String status = pir.getLastPostalRecord().getStatus();
+          String status = shipment.getLastRecord().getStatus();
 
           if (status.equals(PostalUtils.Status.ENTREGA_EFETUADA)) {
             error = getString(R.string.title_alert_delivered_item);
@@ -584,11 +581,11 @@ public class AddActivity extends AppCompatActivity {
         error = e.getMessage();
       }
 
-      return pir;
+      return shipment;
     }
 
     @Override
-    protected void onPostExecute(PostalItemRecord pir) {
+    protected void onPostExecute(Shipment shipment) {
       if (error != null) {
         int id =
           error.equals(PostalUtils.Error.NET_ERROR) ? NET_ERROR :
@@ -606,20 +603,20 @@ public class AddActivity extends AppCompatActivity {
             showConfirmationView(id);
 
           } else {
-            addPostalItemRecord();
+            addShipment();
           }
         }
 
       } else {
-        addPostalItemRecord();
+        addShipment();
       }
 
-      mFetchPostalItemRecordTask = null;
+      mFetchShipmentTask = null;
     }
 
     @Override
-    protected void onCancelled(PostalItemRecord pir) {
-      mFetchPostalItemRecordTask = null;
+    protected void onCancelled(Shipment shipment) {
+      mFetchShipmentTask = null;
     }
   }
 }

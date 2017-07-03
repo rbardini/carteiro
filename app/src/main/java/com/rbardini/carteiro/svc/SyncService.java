@@ -24,9 +24,8 @@ import android.util.Log;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalItemRecord;
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.ui.MainActivity;
 import com.rbardini.carteiro.ui.RecordActivity;
 import com.rbardini.carteiro.util.MobileTracker;
@@ -134,27 +133,27 @@ public class SyncService extends IntentService {
         nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
       }
 
-      List<List<PostalRecord>> prLists = MobileTracker.track(cods, this);
+      List<Shipment> shipments = MobileTracker.track(cods, this);
 
-      for (List<PostalRecord> prList : prLists) {
-        if (prList.isEmpty()) continue;
+      for (Shipment newShipment : shipments) {
+        if (newShipment.isEmpty()) continue;
 
-        int newListSize = prList.size();
-        PostalRecord newLastRecord = prList.get(newListSize - 1);
+        String cod = newShipment.getNumber();
 
-        String cod = newLastRecord.getCod();
+        int newListSize = newShipment.size();
+        ShipmentRecord newLastRecord = newShipment.getLastRecord();
 
-        PostalItemRecord pir = new PostalItemRecord(cod).loadFrom(dh);
-        PostalRecord oldLastRecord = pir.getLastPostalRecord();
-        int oldListSize = pir.size();
+        Shipment oldShipment = dh.getShipment(cod);
+        int oldListSize = oldShipment.size();
+        ShipmentRecord oldLastRecord = oldShipment.getLastRecord();
 
         boolean hasRecord = newListSize > 0;
         boolean itemUpdated = hasRecord && !oldLastRecord.equals(newLastRecord);
         boolean listSizeChanged = hasRecord && newListSize != oldListSize;
 
         if (itemUpdated || listSizeChanged) {
-          pir.setPostalRecords(prList);
-          updatePostalItem(pir);
+          oldShipment.replaceRecords(newShipment.getRecords());
+          updateShipment(oldShipment);
 
           if (itemUpdated) {
             updatedCods.add(cod);
@@ -200,14 +199,14 @@ public class SyncService extends IntentService {
     return isConnected && (isManualSync || isWifi || !syncWifiOnly);
   }
 
-  private void updatePostalItem(PostalItemRecord pir) {
-    String cod = pir.getCod();
+  private void updateShipment(Shipment shipment) {
+    String cod = shipment.getNumber();
 
     dh.beginTransaction();
 
     dh.deletePostalRecords(cod);
-    dh.insertPostalRecords(pir.getPostalRecords());
-    dh.setPostalItemUnread(cod, 1);
+    dh.insertPostalRecords(shipment);
+    dh.unreadPostalItem(cod);
 
     dh.setTransactionSuccessful();
     dh.endTransaction();
@@ -244,41 +243,43 @@ public class SyncService extends IntentService {
 
   private void showNotification(int flags) {
     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-    HashSet<PostalItem> postalItems = new HashSet<>();
+    HashSet<Shipment> shipments = new HashSet<>();
     String ticker, title, desc;
     long date;
     Intent intent;
 
     for (String cod : updatedCods) {
-      PostalItem pi = dh.getPostalItem(cod);
-      if (notifiable(pi, flags)) {
-        postalItems.add(pi);
+      Shipment shipment = dh.getShallowShipment(cod);
+      if (notifiable(shipment, flags)) {
+        shipments.add(shipment);
       }
     }
 
-    int count = postalItems.size();
+    int count = shipments.size();
     if (count == 0) { return; }
     if (count == 1) {
-      PostalItem pi = (PostalItem) postalItems.toArray()[0];
-      ticker = String.format(getString(R.string.notf_tckr_single_obj), pi.getSafeDesc(), pi.getStatus().toLowerCase(Locale.getDefault()));
-      title = pi.getSafeDesc();
-      desc = pi.getStatus();
-      date = pi.getDate().getTime();
-      intent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi);
+      Shipment shipment = (Shipment) shipments.toArray()[0];
+      ShipmentRecord lastRecord = shipment.getLastRecord();
+
+      ticker = String.format(getString(R.string.notf_tckr_single_obj), shipment.getDescription(), lastRecord.getStatus().toLowerCase(Locale.getDefault()));
+      title = shipment.getDescription();
+      desc = lastRecord.getStatus();
+      date = lastRecord.getDate().getTime();
+      intent = new Intent(this, RecordActivity.class).putExtra("postalItem", shipment);
 
       NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle(notificationBuilder);
 
-      Intent locateIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("locate");
-      Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", pi).setAction("share");
+      Intent locateIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", shipment).setAction("locate");
+      Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", shipment).setAction("share");
 
       notificationBuilder
-        .setColor(ContextCompat.getColor(this, UIUtils.getPostalStatusColor(pi.getStatus())))
-        .setSubText(pi.getLoc())
+        .setColor(ContextCompat.getColor(this, UIUtils.getPostalStatusColor(lastRecord.getStatus())))
+        .setSubText(lastRecord.getLocal())
         .addAction(R.drawable.ic_place_white_24dp, getString(R.string.opt_view_place), PendingIntent.getActivity(this, 0, locateIntent, PendingIntent.FLAG_CANCEL_CURRENT))
         .addAction(R.drawable.ic_share_white_24dp, getString(R.string.opt_share), PendingIntent.getActivity(this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT));
-      notificationStyle.bigText(pi.getFullInfo());
+      notificationStyle.bigText(lastRecord.getDescription());
     } else {
-      Iterator<PostalItem> iterator = postalItems.iterator();
+      Iterator<Shipment> iterator = shipments.iterator();
       ticker = title = String.format(getString(R.string.notf_tckr_multi_obj), count);
       desc = "";
       date = System.currentTimeMillis();
@@ -288,10 +289,12 @@ public class SyncService extends IntentService {
       notificationBuilder.setNumber(count);
       int deliveredCount = 0;
       while (iterator.hasNext()) {
-        PostalItem pi = iterator.next();
-        notificationStyle.addLine(Html.fromHtml(String.format(getString(R.string.notf_line_multi_obj), pi.getSafeDesc(), pi.getStatus())));
-        desc += pi.getSafeDesc() + (iterator.hasNext() ? ", " : "");
-        if (PostalUtils.Status.getCategory(pi.getStatus()) == PostalUtils.Category.DELIVERED) deliveredCount++;
+        Shipment shipment = iterator.next();
+        ShipmentRecord lastRecord = shipment.getLastRecord();
+
+        notificationStyle.addLine(Html.fromHtml(String.format(getString(R.string.notf_line_multi_obj), shipment.getDescription(), lastRecord.getStatus())));
+        desc += shipment.getDescription() + (iterator.hasNext() ? ", " : "");
+        if (PostalUtils.Status.getCategory(lastRecord.getStatus()) == PostalUtils.Category.DELIVERED) deliveredCount++;
       }
       notificationStyle.setSummaryText(getResources().getQuantityString(R.plurals.notf_summ_multi_obj, deliveredCount, deliveredCount));
     }
@@ -316,10 +319,10 @@ public class SyncService extends IntentService {
     nm.notify(NOTIFICATION_NEW_UPDATE, notificationBuilder.build());
   }
 
-  private boolean notifiable(PostalItem pi, int flags) {
+  private boolean notifiable(Shipment shipment, int flags) {
     return ((Category.ALL & flags) != 0)
-      || (((Category.FAVORITES & flags) != 0) && pi.isFav())
-      || ((Status.getCategory(pi.getStatus()) & flags) != 0);
+      || (((Category.FAVORITES & flags) != 0) && shipment.isFavorite())
+      || ((Status.getCategory(shipment.getLastRecord().getStatus()) & flags) != 0);
   }
 
   private static PendingIntent getSender(Context context) {

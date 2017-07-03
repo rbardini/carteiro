@@ -9,11 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.Shipment;
 
-public class SearchActivity extends PostalActivity {
+public class SearchActivity extends ShipmentActivity {
   private ActionBar mActionBar;
-  private PostalListFragment mCurrentFragment;
+  private ShipmentListFragment mCurrentFragment;
   private String mQuery;
 
   @Override
@@ -62,7 +62,7 @@ public class SearchActivity extends PostalActivity {
   }
 
   @Override
-  public PostalFragment getPostalFragment() {
+  public ShipmentFragment getPostalFragment() {
     return mCurrentFragment;
   }
 
@@ -73,7 +73,7 @@ public class SearchActivity extends PostalActivity {
       mActionBar.setSubtitle(mQuery);
 
       if (mCurrentFragment == null) {
-        mCurrentFragment = PostalListFragment.newInstance(mQuery);
+        mCurrentFragment = ShipmentListFragment.newInstance(mQuery);
         getFragmentManager().beginTransaction().replace(R.id.content, mCurrentFragment).commit();
 
       } else {
@@ -82,10 +82,9 @@ public class SearchActivity extends PostalActivity {
       }
 
     } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-      PostalItem pi = app.getDatabaseHelper().getPostalItem(intent.getDataString());
-      Intent record = new Intent(this, RecordActivity.class);
-      record.putExtra("postalItem", pi);
-      startActivity(record);
+      Shipment shipment = app.getDatabaseHelper().getShallowShipment(intent.getDataString());
+      Intent recordIntent = new Intent(this, RecordActivity.class).putExtra("shipment", shipment);
+      startActivity(recordIntent);
       finish();
     }
   }

@@ -10,7 +10,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,10 +40,10 @@ public final class MobileTracker extends Tracker {
   private static final String REQ_TOKEN = "QTXFMvu_Z-6XYezP3VbDsKBgSeljSqIysM9x";
   private static final int REQ_TIMEOUT = 30000;
 
-  public static List<List<PostalRecord>> track(final String[] cods, Context context) throws IOException {
-    List<List<PostalRecord>> prLists = new ArrayList<>();
+  public static List<Shipment> track(final String[] cods, Context context) throws IOException {
+    List<Shipment> shipments = new ArrayList<>();
 
-    if (cods.length == 0) return prLists;
+    if (cods.length == 0) return shipments;
 
     RequestQueue queue = Volley.newRequestQueue(context);
     RequestFuture<JSONObject> future = RequestFuture.newFuture();
@@ -75,16 +75,16 @@ public final class MobileTracker extends Tracker {
       JSONObject response = future.get(REQ_TIMEOUT, TimeUnit.MILLISECONDS);
       JSONArray objetos = response.getJSONArray("objeto");
 
-      for (int i = 0; i < objetos.length(); i++) {
+      for (int i = objetos.length() - 1; i >= 0; i--) {
         JSONObject objeto = objetos.getJSONObject(i);
 
         String cod = objeto.getString("numero");
-        List<PostalRecord> prList = new ArrayList<>();
+        List<ShipmentRecord> records = new ArrayList<>();
 
         if (!objeto.getString("categoria").startsWith("ERRO")) {
           JSONArray eventos = objeto.getJSONArray("evento");
 
-          for (int j = 0; j < eventos.length(); j++) {
+          for (int j = eventos.length() - 1; j >= 0; j--) {
             JSONObject evento = eventos.getJSONObject(j);
 
             String data = normalizeString(evento.optString("data", null));
@@ -101,35 +101,34 @@ public final class MobileTracker extends Tracker {
               continue;
             }
 
-            PostalRecord pr = new PostalRecord(cod, date, formatStatus(descricao), local, formatInfo(detalhe));
-
             if (detalhe == null) {
               JSONArray destino = evento.optJSONArray("destino");
 
               if (destino != null) {
                 local = buildLocation(destino.getJSONObject(0));
-                if (local != null) pr.setInfo("Em trânsito para " + local);
+                if (local != null) detalhe = "Em trânsito para " + local;
               }
             }
 
-            prList.add(pr);
+            records.add(new ShipmentRecord(date, formatStatus(descricao), local, formatInfo(detalhe)));
           }
         }
 
-        Collections.reverse(prList);
-        prLists.add(prList);
+        Shipment shipment = new Shipment(cod);
+        shipment.addRecords(records);
+        shipments.add(shipment);
       }
 
     } catch (InterruptedException | ExecutionException | TimeoutException | JSONException e) {
       throw new IOException(PostalUtils.Error.NET_ERROR);
     }
 
-    return prLists;
+    return shipments;
   }
 
-  public static List<PostalRecord> track(String cod, Context context) throws IOException {
-    List<List<PostalRecord>> prLists = track(new String[] {cod}, context);
-    return prLists.get(0);
+  public static Shipment track(String cod, Context context) throws IOException {
+    List<Shipment> shipments = track(new String[] {cod}, context);
+    return shipments.get(0);
   }
 
   private static String buildRequestBody(String[] cods) {

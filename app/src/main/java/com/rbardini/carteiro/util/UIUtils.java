@@ -7,7 +7,8 @@ import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.ui.MainActivity;
 
 import java.util.Date;
@@ -49,15 +50,16 @@ public final class UIUtils {
     return context.getString(R.string.date_relative_over_year);
   }
 
-  public static void shareItem(Context context, PostalItem pi) {
-    Intent shareIntent = PostalUtils.getShareIntent(context, pi);
+  public static void shareItem(Context context, Shipment shipment) {
+    Intent shareIntent = PostalUtils.getShareIntent(context, shipment);
     context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share_title)));
   }
 
-  public static void locateItem(Context context, PostalItem pi) throws Exception {
-    if (pi.getLoc() == null) throw new Exception(context.getString(R.string.text_unknown_location));
+  public static void locateItem(Context context, Shipment shipment) throws Exception {
+    ShipmentRecord record = shipment.getLastRecord();
+    if (record.getLocal() == null) throw new Exception(context.getString(R.string.text_unknown_location));
 
-    Intent locateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PostalUtils.getLocation(pi, true)));
+    Intent locateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PostalUtils.getLocation(record, true)));
     context.startActivity(locateIntent);
   }
 

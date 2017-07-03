@@ -12,20 +12,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 import com.rbardini.carteiro.util.UIUtils;
 
-import java.util.List;
-
-public class PostalRecordListAdapter extends BaseAdapter {
+public class ShipmentAdapter extends BaseAdapter {
   private final Context mContext;
-  private final List<PostalRecord> mList;
+  private final Shipment mShipment;
   private final LayoutInflater mInflater;
 
-  PostalRecordListAdapter(Context context, List<PostalRecord> list) {
+  ShipmentAdapter(Context context, Shipment shipment) {
     mContext = context;
-    mList = list;
+    mShipment = shipment;
 
     // Cache the LayoutInflate to avoid asking for a new one each time
     mInflater = LayoutInflater.from(context);
@@ -33,12 +32,12 @@ public class PostalRecordListAdapter extends BaseAdapter {
 
   @Override
   public int getCount() {
-    return mList.size();
+    return mShipment.size();
   }
 
   @Override
-  public PostalRecord getItem(int position) {
-    return mList.get(position);
+  public ShipmentRecord getItem(int position) {
+    return mShipment.getRecord(mShipment.size() - position - 1);
   }
 
   @Override
@@ -59,12 +58,12 @@ public class PostalRecordListAdapter extends BaseAdapter {
       // Creates a ViewHolder and store references to the two children views we want to bind data to
       holder = new ViewHolder();
       holder.timeline = convertView.findViewById(R.id.timeline);
-      holder.date = (TextView) convertView.findViewById(R.id.text_postal_status_date);
-      holder.time = (TextView) convertView.findViewById(R.id.text_postal_status_time);
-      holder.status = (TextView) convertView.findViewById(R.id.text_postal_status_title);
-      holder.loc = (TextView) convertView.findViewById(R.id.text_postal_status_loc);
-      holder.info = (TextView) convertView.findViewById(R.id.text_postal_status_info);
-      holder.icon = (ImageView) convertView.findViewById(R.id.img_postal_status);
+      holder.date = convertView.findViewById(R.id.text_postal_status_date);
+      holder.time = convertView.findViewById(R.id.text_postal_status_time);
+      holder.status = convertView.findViewById(R.id.text_postal_status_title);
+      holder.loc = convertView.findViewById(R.id.text_postal_status_loc);
+      holder.info = convertView.findViewById(R.id.text_postal_status_info);
+      holder.icon = convertView.findViewById(R.id.img_postal_status);
 
       convertView.setTag(holder);
     } else {
@@ -72,30 +71,30 @@ public class PostalRecordListAdapter extends BaseAdapter {
       holder = (ViewHolder) convertView.getTag();
     }
 
-    PostalRecord pr = mList.get(position);
+    ShipmentRecord record = getItem(position);
 
     // Bind the data efficiently with the holder
-    holder.date.setText(DateUtils.formatDateTime(mContext, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL));
-    holder.time.setText(DateUtils.formatDateTime(mContext, pr.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_ALL));
-    holder.status.setText(pr.getStatus());
-    holder.loc.setText(pr.getLoc());
-    String info = pr.getInfo();
+    holder.date.setText(DateUtils.formatDateTime(mContext, record.getDate().getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL));
+    holder.time.setText(DateUtils.formatDateTime(mContext, record.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_ALL));
+    holder.status.setText(record.getStatus());
+    holder.loc.setText(record.getLocal());
+    String info = record.getInfo();
     holder.info.setText(info);
     holder.info.setVisibility(info != null ? View.VISIBLE : View.GONE);
-    holder.icon.setImageResource(Status.getIcon(pr.getStatus()));
+    holder.icon.setImageResource(Status.getIcon(record.getStatus()));
 
     // Set postal status icon background color
-    ((GradientDrawable) holder.icon.getBackground()).setColor(ContextCompat.getColor(mContext, UIUtils.getPostalStatusColor(pr.getStatus())));
+    ((GradientDrawable) holder.icon.getBackground()).setColor(ContextCompat.getColor(mContext, UIUtils.getPostalStatusColor(record.getStatus())));
 
     // Clip timeline ends
-    if (mList.size() <= 1) {
+    if (mShipment.size() <= 1) {
       holder.timeline.setBackgroundResource(0);
 
     } else {
       if (position == 0) {
         holder.timeline.setBackgroundResource(R.drawable.timeline_top);
 
-      } else if (position == mList.size() - 1) {
+      } else if (position == mShipment.size() - 1) {
         holder.timeline.setBackgroundResource(R.drawable.timeline_bottom);
 
       } else {

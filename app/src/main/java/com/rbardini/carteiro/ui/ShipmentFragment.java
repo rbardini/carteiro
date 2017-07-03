@@ -9,7 +9,7 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 
-public abstract class PostalFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class ShipmentFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
   protected Activity mActivity;
   protected CarteiroApplication app;
   protected DatabaseHelper dh;
@@ -28,7 +28,7 @@ public abstract class PostalFragment extends ListFragment implements SwipeRefres
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
+    mSwipeRefreshLayout = getView().findViewById(R.id.swipe_layout);
     mSwipeRefreshLayout.setOnRefreshListener(this);
     mSwipeRefreshLayout.setColorSchemeResources(R.color.theme_accent, R.color.theme_primary_light, R.color.theme_accent, R.color.theme_primary_dark);
 

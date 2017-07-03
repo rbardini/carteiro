@@ -15,18 +15,19 @@ import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.List;
 
-public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
+public class ShipmentListAdapter extends ArrayAdapter<Shipment> {
   private final Context mContext;
   private final ListView mListView;
   private final LayoutInflater mInflater;
 
-  PostalItemListAdapter(Context context, List<PostalItem> list, ListView listView) {
+  ShipmentListAdapter(Context context, List<Shipment> list, ListView listView) {
     super(list);
 
     mContext = context;
@@ -44,16 +45,16 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
     // When convertView is not null, we can reuse it directly, there is no need to re-inflate it
     // We only inflate a new View when the convertView supplied by ListView is null
     if (convertView == null) {
-      convertView = mInflater.inflate(R.layout.list_postal_item, null);
+      convertView = mInflater.inflate(R.layout.list_shipment_item, null);
 
       // Creates a ViewHolder and store references to the two children views we want to bind data to
       holder = new ViewHolder();
-      holder.desc = (TextView) convertView.findViewById(R.id.text_postal_status_title);
-      holder.date = (TextView) convertView.findViewById(R.id.text_postal_status_date);
-      holder.loc = (TextView) convertView.findViewById(R.id.text_postal_status_loc);
-      holder.info = (TextView) convertView.findViewById(R.id.text_postal_status_info);
-      holder.icon = (ImageView) convertView.findViewById(R.id.img_postal_status);
-      holder.fav = (CheckBox) convertView.findViewById(R.id.star_chkbox);
+      holder.desc = convertView.findViewById(R.id.text_postal_status_title);
+      holder.date = convertView.findViewById(R.id.text_postal_status_date);
+      holder.loc = convertView.findViewById(R.id.text_postal_status_loc);
+      holder.info = convertView.findViewById(R.id.text_postal_status_info);
+      holder.icon = convertView.findViewById(R.id.img_postal_status);
+      holder.fav = convertView.findViewById(R.id.star_chkbox);
 
       convertView.setTag(holder);
     } else {
@@ -61,28 +62,30 @@ public class PostalItemListAdapter extends ArrayAdapter<PostalItem> {
       holder = (ViewHolder) convertView.getTag();
     }
 
-    PostalItem pi = getItem(position);
+    Shipment shipment = getItem(position);
+    ShipmentRecord lastRecord = shipment.getLastRecord();
 
     // Bind the data efficiently with the holder
-    holder.desc.setText(pi.getSafeDesc());
-    holder.date.setText(DateUtils.getRelativeTimeSpanString(pi.getDate().getTime(), System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
-    holder.loc.setText(pi.getLoc());
-    holder.info.setText(pi.getFullInfo());
-    holder.fav.setChecked(pi.isFav());
-    holder.fav.setTag(pi.getCod());
+    holder.desc.setText(shipment.getDescription());
+    holder.date.setText(DateUtils.getRelativeTimeSpanString(lastRecord.getDate().getTime(), System.currentTimeMillis(),
+        DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
+    holder.loc.setText(lastRecord.getLocal());
+    holder.info.setText(lastRecord.getDescription());
+    holder.fav.setChecked(shipment.isFavorite());
+    holder.fav.setTag(shipment.getNumber());
 
     final boolean isChecked = mListView.isItemChecked(position);
-    final boolean isUnread = pi.isUnread();
+    final boolean isUnread = shipment.isUnread();
 
     // Define postal status icon and background color depending on checked state
-    final int iconId = isChecked ? R.drawable.ic_done_white_24dp : Status.getIcon(pi.getStatus());
-    final int colorId = isChecked ? R.color.theme_accent_dark : UIUtils.getPostalStatusColor(pi.getStatus());
+    final int iconId = isChecked ? R.drawable.ic_done_white_24dp : Status.getIcon(lastRecord.getStatus());
+    final int colorId = isChecked ? R.color.theme_accent_dark : UIUtils.getPostalStatusColor(lastRecord.getStatus());
 
-    holder.icon.setTag(R.id.postal_item_icon, iconId);
+    holder.icon.setTag(R.id.shipment_icon, iconId);
     holder.icon.setImageResource(iconId);
 
     final int color = ContextCompat.getColor(mContext, colorId);
-    holder.icon.setTag(R.id.postal_item_color, color);
+    holder.icon.setTag(R.id.shipment_color, color);
     ((GradientDrawable) holder.icon.getBackground()).setColor(color);
 
     // Add icon click listener to change item checked state

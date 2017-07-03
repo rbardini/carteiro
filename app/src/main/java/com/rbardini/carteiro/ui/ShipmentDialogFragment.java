@@ -15,25 +15,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.Shipment;
 
 import java.util.ArrayList;
 
-public class PostalItemDialogFragment extends DialogFragment {
-  public static final String TAG = "PostalItemDialogFragment";
+public class ShipmentDialogFragment extends DialogFragment {
+  public static final String TAG = "ShipmentDialogFragment";
 
-  interface OnPostalItemChangeListener {
-    void onRenamePostalItem(String desc, PostalItem pi);
-    void onDeletePostalItems(ArrayList<PostalItem> piList);
+  interface OnShipmentChangeListener {
+    void onRenameShipment(String desc, Shipment shipment);
+    void onDeleteShipments(ArrayList<Shipment> shipments);
   }
 
-  private OnPostalItemChangeListener listener;
+  private OnShipmentChangeListener listener;
 
-  public static PostalItemDialogFragment newInstance(int id, ArrayList<PostalItem> piList) {
-    PostalItemDialogFragment f = new PostalItemDialogFragment();
+  public static ShipmentDialogFragment newInstance(int id, ArrayList<Shipment> shipments) {
+    ShipmentDialogFragment f = new ShipmentDialogFragment();
     Bundle args = new Bundle();
     args.putInt("id", id);
-    args.putSerializable("postalList", piList);
+    args.putSerializable("shipments", shipments);
     f.setArguments(args);
     return f;
   }
@@ -45,18 +45,18 @@ public class PostalItemDialogFragment extends DialogFragment {
     Activity activity = getActivity();
 
     try {
-      listener = (OnPostalItemChangeListener) activity;
+      listener = (OnShipmentChangeListener) activity;
 
     } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString() + " must implement OnPostalItemChangeListener");
+      throw new ClassCastException(activity.toString() + " must implement OnShipmentChangeListener");
     }
   }
 
   @Override @SuppressWarnings("unchecked")
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final int id = getArguments().getInt("id");
-    final ArrayList<PostalItem> piList  = (ArrayList<PostalItem>) getArguments().getSerializable("postalList");
-    final PostalItem pi = piList.get(0);
+    final ArrayList<Shipment> shipments = (ArrayList<Shipment>) getArguments().getSerializable("shipments");
+    final Shipment shipment = shipments.get(0);
     final Activity activity = getActivity();
     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -65,12 +65,12 @@ public class PostalItemDialogFragment extends DialogFragment {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.dialog_rename, (ViewGroup) activity.findViewById(R.id.layout_root));
 
-        final EditText itemDesc = (EditText) layout.findViewById(R.id.item_desc_fld);
-        itemDesc.setText(pi.getDesc());
+        final EditText itemDesc = layout.findViewById(R.id.item_desc_fld);
+        itemDesc.setText(shipment.getName());
         itemDesc.setOnEditorActionListener(new TextView.OnEditorActionListener() {
           @Override
           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            onRenamePostalItem(itemDesc, pi);
+            onRenameShipment(itemDesc, shipment);
             dismiss();
             return true;
           }
@@ -78,26 +78,26 @@ public class PostalItemDialogFragment extends DialogFragment {
 
         builder
           .setView(layout)
-          .setTitle(getString(R.string.title_alert_rename, pi.getCod()))
+          .setTitle(getString(R.string.title_alert_rename, shipment.getNumber()))
           .setPositiveButton(R.string.rename_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-              onRenamePostalItem(itemDesc, pi);
+              onRenameShipment(itemDesc, shipment);
             }
           })
           .setNegativeButton(R.string.negative_btn, null);
         break;
 
       case R.id.delete_opt:
-        int listSize = piList.size();
+        int listSize = shipment.size();
 
         builder
-          .setTitle(getResources().getQuantityString(R.plurals.title_alert_delete, listSize, pi.getSafeDesc()))
+          .setTitle(getResources().getQuantityString(R.plurals.title_alert_delete, listSize, shipment.getDescription()))
           .setMessage(getResources().getQuantityString(R.plurals.msg_alert_delete, listSize))
           .setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-              listener.onDeletePostalItems(piList);
+              listener.onDeleteShipments(shipments);
             }
           })
           .setNegativeButton(R.string.negative_btn, null);
@@ -107,9 +107,9 @@ public class PostalItemDialogFragment extends DialogFragment {
     return builder.create();
   }
 
-  private void onRenamePostalItem(EditText itemDesc, PostalItem pi) {
+  private void onRenameShipment(EditText itemDesc, Shipment shipment) {
     String desc = itemDesc.getText().toString().trim();
     if (desc.equals("")) desc = null;
-    listener.onRenamePostalItem(desc, pi);
+    listener.onRenameShipment(desc, shipment);
   }
 }

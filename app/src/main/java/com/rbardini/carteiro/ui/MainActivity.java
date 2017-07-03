@@ -27,7 +27,7 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
-public class MainActivity extends PostalActivity {
+public class MainActivity extends ShipmentActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
   private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
@@ -37,7 +37,7 @@ public class MainActivity extends PostalActivity {
   private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
   private FragmentManager mFragmentManager;
-  private PostalListFragment mCurrentFragment;
+  private ShipmentListFragment mCurrentFragment;
   private NotificationManager mNotificationManager;
   private Handler mHandler;
   private View mMainContainer;
@@ -149,7 +149,7 @@ public class MainActivity extends PostalActivity {
   }
 
   @Override
-  public void onPostalListAttached(PostalListFragment f) {
+  public void onPostalListAttached(ShipmentListFragment f) {
     int category = f.getCategory();
 
     setTitle(Category.getTitle(category));
@@ -157,7 +157,7 @@ public class MainActivity extends PostalActivity {
   }
 
   @Override
-  public PostalFragment getPostalFragment() {
+  public ShipmentFragment getPostalFragment() {
     return mCurrentFragment;
   }
 
@@ -227,7 +227,7 @@ public class MainActivity extends PostalActivity {
   private void showCategory(int category) {
     // Only replace fragment if it is a different category
     if (mCurrentFragment == null || mCurrentFragment.getCategory() != category) {
-      PostalListFragment newFragment = PostalListFragment.newInstance(category);
+      ShipmentListFragment newFragment = ShipmentListFragment.newInstance(category);
       String name = getString(Category.getTitle(category));
 
       FragmentTransaction ft = mFragmentManager
@@ -240,7 +240,7 @@ public class MainActivity extends PostalActivity {
     }
   }
 
-  private PostalListFragment getCurrentFragment() {
-    return (PostalListFragment) mFragmentManager.findFragmentById(R.id.main_content);
+  private ShipmentListFragment getCurrentFragment() {
+    return (ShipmentListFragment) mFragmentManager.findFragmentById(R.id.main_content);
   }
 }

@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 
 import java.util.List;
 import java.util.Locale;
@@ -793,15 +794,18 @@ public final class PostalUtils {
     public static final String NET_ERROR = "Could not complete the request to Correios server";
   }
 
-  public static String getLocation(PostalItem pi, boolean uri) {
-    String info = pi.getInfo(), loc = pi.getLoc();
+  public static String getLocation(ShipmentRecord record, boolean uri) {
+    String info = record.getInfo();
+    String loc = record.getLocal();
 
     if (info != null && info.startsWith("Endereço")) {
       loc = info.substring(10)+loc.substring(loc.lastIndexOf(" - "));
     }
+
     if (loc.charAt(loc.length()-3) == '/') {
       loc += " BRASIL";
     }
+
     if (uri) {
       loc = "geo:0,0?q="+loc;
     }
@@ -809,25 +813,33 @@ public final class PostalUtils {
     return loc;
   }
 
-  public static Intent getShareIntent(Context context, PostalItem pi) {
+  public static Intent getShareIntent(Context context, Shipment shipment) {
+    String number = shipment.getNumber();
+    String name = shipment.getName();
+    ShipmentRecord record = shipment.getLastRecord();
+
     return new Intent(Intent.ACTION_SEND)
         .setType("text/plain")
         .putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.share_status_subject))
         .putExtra(Intent.EXTRA_TEXT, String.format(context.getString(R.string.share_status_text),
-            pi.getFullDesc(), pi.getStatus().toLowerCase(Locale.getDefault()), UIUtils.getRelativeTime(pi.getDate())));
+            name == null ? number : name + " (" + number + ")",
+            record.getStatus().toLowerCase(Locale.getDefault()),
+            UIUtils.getRelativeTime(record.getDate()))
+        );
   }
 
-  public static Intent getShareIntent(Context context, List<PostalItem> list) {
+  public static Intent getShareIntent(Context context, List<Shipment> shipments) {
     Intent shareIntent = null;
 
-    if (list.size() > 0) {
+    if (shipments.size() > 0) {
       String text = "";
-      for (PostalItem pi : list) {
-        text += context.getString(pi.isFav() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, pi.getCod());
-        if (pi.getDesc() != null) {
-          text += context.getString(R.string.text_send_list_line_2, pi.getDesc());
+      for (Shipment shipment : shipments) {
+        text += context.getString(shipment.isFavorite() ? R.string.text_send_list_line_1_fav : R.string.text_send_list_line_1, shipment.getNumber());
+        if (shipment.getName() != null) {
+          text += context.getString(R.string.text_send_list_line_2, shipment.getName());
         }
-        text += context.getString(R.string.text_send_list_line_3, pi.getStatus(), UIUtils.getRelativeTime(pi.getDate()));
+        ShipmentRecord lastRecord = shipment.getLastRecord();
+        text += context.getString(R.string.text_send_list_line_3, lastRecord.getStatus(), UIUtils.getRelativeTime(lastRecord.getDate()));
       }
 
       shareIntent = new Intent(Intent.ACTION_SEND);

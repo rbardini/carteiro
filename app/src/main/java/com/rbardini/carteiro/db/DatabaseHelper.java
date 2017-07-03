@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
@@ -117,11 +117,21 @@ public class DatabaseHelper {
     return database;
   }
 
-  public boolean insertPostalItem(PostalItem pi) {
+  private void notifyDatabaseChanged() {
+    if (backupAvailable) bm.dataChanged();
+  }
+
+  /** Insert **/
+
+  public boolean insertShipment(Shipment shipment) {
+    return insertPostalItem(shipment) && insertPostalRecords(shipment);
+  }
+
+  public boolean insertPostalItem(Shipment shipment) {
     ContentValues cv = new ContentValues();
-    cv.put("cod", pi.getCod().toUpperCase(Locale.getDefault()));
-    cv.put("desc", pi.getDesc());
-    cv.put("fav", pi.isFav() ? 1 : 0);
+    cv.put("cod", shipment.getNumber().toUpperCase(Locale.getDefault()));
+    cv.put("desc", shipment.getName());
+    cv.put("fav", shipment.isFavorite() ? 1 : 0);
 
     try {
       db.insertOrThrow(POSTAL_ITEM_TABLE, null, cv);
@@ -132,14 +142,14 @@ public class DatabaseHelper {
     }
   }
 
-  public boolean insertPostalRecord(PostalRecord pr, int pos) {
+  public boolean insertPostalRecord(ShipmentRecord record, String cod, int pos) {
     ContentValues cv = new ContentValues();
-    cv.put("cod", pr.getCod().toUpperCase(Locale.getDefault()));
+    cv.put("cod", cod.toUpperCase(Locale.getDefault()));
     cv.put("pos", pos);
-    if (pr.getDate() != null) { cv.put("date", iso8601.format(pr.getDate())); }
-    cv.put("status", pr.getStatus());
-    cv.put("loc", pr.getLoc());
-    cv.put("info", pr.getInfo());
+    if (record.getDate() != null) { cv.put("date", iso8601.format(record.getDate())); }
+    cv.put("status", record.getStatus());
+    cv.put("loc", record.getLocal());
+    cv.put("info", record.getInfo());
 
     try {
       db.insertOrThrow(POSTAL_RECORD_TABLE, null, cv);
@@ -151,15 +161,19 @@ public class DatabaseHelper {
     }
   }
 
-  public boolean insertPostalRecords(List<PostalRecord> prList) {
-    for (int i = 0, length = prList.size(); i < length; i++) {
-      if (!insertPostalRecord(prList.get(i), i)) {
+  public boolean insertPostalRecords(Shipment shipment) {
+    String cod = shipment.getNumber();
+
+    for (int i = 0; i < shipment.size(); i++) {
+      if (!insertPostalRecord(shipment.getRecord(i), cod, i)) {
         return false;
       }
     }
 
     return true;
   }
+
+  /** Update **/
 
   public int renamePostalItem(String cod, String desc) {
     ContentValues cv = new ContentValues();
@@ -200,11 +214,6 @@ public class DatabaseHelper {
     notifyDatabaseChanged();
   }
 
-  public void setPostalItemUnread(String cod, int unread) {
-    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET unread = ? WHERE cod = ?", new Object[] {unread, cod});
-    notifyDatabaseChanged();
-  }
-
   public void archivePostalItem(String cod) {
     setPostalItemArchived(cod, 1);
   }
@@ -212,6 +221,26 @@ public class DatabaseHelper {
   public void unarchivePostalItem(String cod) {
     setPostalItemArchived(cod, 0);
   }
+
+  public void setPostalItemUnread(String cod, int unread) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET unread = ? WHERE cod = ?", new Object[] {unread, cod});
+    notifyDatabaseChanged();
+  }
+
+  public void togglePostalItemUnread(String cod) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET unread = NOT unread WHERE cod = ?", new Object[] {cod});
+    notifyDatabaseChanged();
+  }
+
+  public void readPostalItem(String cod) {
+    setPostalItemUnread(cod, 0);
+  }
+
+  public void unreadPostalItem(String cod) {
+    setPostalItemUnread(cod, 1);
+  }
+
+  /** Delete **/
 
   public int deletePostalItem(String cod) {
     int rows = db.delete(POSTAL_ITEM_TABLE, "cod = ?", new String[] {cod});
@@ -227,30 +256,10 @@ public class DatabaseHelper {
     return rows;
   }
 
-  public int deleteAll(String table) {
-    int rows = db.delete(table, null, null);
-    if (rows != 0) notifyDatabaseChanged();
-
-    return rows;
-  }
+  /** Read **/
 
   public boolean isPostalItem(String cod) {
     return db.query(POSTAL_ITEM_TABLE, new String[] {"cod"}, "cod = ?", new String[] {cod}, null, null, null).moveToFirst();
-  }
-
-  public PostalItem getPostalItem(String cod) {
-    PostalItem pi = null;
-    Cursor c = db.query(POSTAL_LIST_VIEW, null, "cod = ?", new String[] {cod}, null, null, null);
-    if (c.moveToFirst()) {
-      try {
-        pi = new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)), c.getString(3),
-            c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0, c.getInt(8)>0);
-      } catch (ParseException e) {}
-    }
-    if (!c.isClosed()) {
-      c.close();
-    }
-    return pi;
   }
 
   public String[] getPostalItemCodes(int flags) {
@@ -284,27 +293,144 @@ public class DatabaseHelper {
     return cods.toArray(new String[cods.size()]);
   }
 
-  public int getPostalItems(List<PostalItem> list, String selection, String[] selectionArgs) {
-    list.clear();
-    Cursor c = db.query(POSTAL_LIST_VIEW, null, selection, selectionArgs, null, null, null);
+  /**
+   * @deprecated Use {@link #getSearchResults(String query)} instead.
+   */
+  @Deprecated
+  public int getSearchResults(List<Shipment> list, String query) {
+    return getShallowShipments(list, "cod LIKE ? OR desc LIKE ?", new String[] {"%" + query + "%", "%" + query + "%"});
+  }
+
+  public List<Shipment> getSearchResults(String query) {
+    return getShallowShipments("cod LIKE ? OR desc LIKE ?", new String[] {"%" + query + "%", "%" + query + "%"});
+  }
+
+  public Cursor getSearchSuggestions(String query) {
+    SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+    builder.setTables(POSTAL_LIST_VIEW);
+    builder.setProjectionMap(SuggestMap);
+
+    String[] columns = {SUGGEST_ID, SUGGEST_TITLE, SUGGEST_DESC, SUGGEST_DATA};
+
+    return builder.query(db, columns, SUGGEST_TITLE+" LIKE ? OR "+SUGGEST_DESC+" LIKE ?",
+        new String[] {"%"+query+"%", "%"+query+"%"}, null, null, null);
+  }
+
+  @Deprecated
+  public ShipmentRecord getFirstShipmentRecord(String cod) throws ParseException {
+    ShipmentRecord record = null;
+    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC", "1");
     if (c.moveToFirst()) {
-      do {
-        try {
-          list.add(new PostalItem(c.getString(0), c.getString(1), iso8601.parse(c.getString(2)), c.getString(3),
-              c.getString(4), c.getString(5), c.getInt(6)>0, c.getInt(7)>0, c.getInt(8)>0));
-        } catch (ParseException e) {
-          Log.e(TAG, e.getMessage());
-        }
-      } while (c.moveToNext());
+      record = new ShipmentRecord(iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
     }
     if (!c.isClosed()) {
       c.close();
     }
 
+    return record;
+  }
+
+  /**
+   * @deprecated Use {@link #getPostalRecords(String cod)} instead.
+   */
+  @Deprecated
+  public int getPostalRecords(List<ShipmentRecord> list, String cod) {
+    list.clear();
+    list.addAll(getPostalRecords(cod));
+
     return list.size();
   }
 
-  public int getPostalList(List<PostalItem> list, int category) {
+  public List<ShipmentRecord> getPostalRecords(String cod) {
+    List<ShipmentRecord> records = new ArrayList<>();
+
+    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC");
+    if (c.moveToFirst()) {
+      do {
+        try {
+          records.add(new ShipmentRecord(iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5)));
+        } catch (ParseException e) {
+          Log.e(TAG, e.getMessage());
+        }
+      } while (c.moveToNext());
+    }
+
+    if (!c.isClosed()) {
+      c.close();
+    }
+
+    return records;
+  }
+
+  public Shipment getShallowShipment(String cod) {
+    List<Shipment> shipments = new ArrayList<>();
+    getShallowShipments(shipments, "cod = ?", new String[] {cod});
+
+    return shipments.size() > 0 ? shipments.get(0) : null;
+  }
+
+  public Shipment getShipment(String cod) {
+    Shipment shipment = getShallowShipment(cod);
+
+    if (shipment != null) {
+      getPostalRecords(shipment.getRecords(), cod);
+    }
+
+    return shipment;
+  }
+
+  /**
+   * @deprecated Use {@link #getShallowShipments(String selection, String[] selectionArgs)} instead.
+   */
+  @Deprecated
+  public int getShallowShipments(List<Shipment> list, String selection, String[] selectionArgs) {
+    list.clear();
+    list.addAll(getShallowShipments(selection, selectionArgs));
+
+    return list.size();
+  }
+
+  public List<Shipment> getShallowShipments(String selection, String[] selectionArgs) {
+    List<Shipment> shipments = new ArrayList<>();
+
+    Cursor c = db.query(POSTAL_LIST_VIEW, null, selection, selectionArgs, null, null, null);
+    if (c.moveToFirst()) {
+      do {
+        try {
+          Shipment shipment = new Shipment(c.getString(0));
+          shipment.setName(c.getString(1));
+          shipment.setFavorite(c.getInt(6) > 0);
+          shipment.setArchived(c.getInt(7) > 0);
+          shipment.setUnread(c.getInt(8) > 0);
+
+          shipment.addRecord(new ShipmentRecord(iso8601.parse(c.getString(2)), c.getString(5), c.getString(3), c.getString(4)));
+          shipments.add(shipment);
+
+        } catch (ParseException e) {
+          Log.e(TAG, e.getMessage());
+        }
+      } while (c.moveToNext());
+    }
+
+    if (!c.isClosed()) {
+      c.close();
+    }
+
+    return shipments;
+  }
+
+  /**
+   * @deprecated Use {@link #getShallowShipments(int category)} instead.
+   */
+  @Deprecated
+  public int getShallowShipments(List<Shipment> list, int category) {
+    list.clear();
+    list.addAll(getShallowShipments(category));
+
+    return list.size();
+  }
+
+  public List<Shipment> getShallowShipments(int category) {
     String selection;
     String[] selectionArgs;
 
@@ -335,71 +461,7 @@ public class DatabaseHelper {
         break;
     }
 
-    return getPostalItems(list, selection, selectionArgs);
-  }
-
-  public int getSearchResults(List<PostalItem> list, String query) {
-    return getPostalItems(list, "cod LIKE ? OR desc LIKE ?", new String[] {"%"+query+"%", "%"+query+"%"});
-  }
-
-  public Cursor getSearchSuggestions(String query) {
-    SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-    builder.setTables(POSTAL_LIST_VIEW);
-    builder.setProjectionMap(SuggestMap);
-
-    String[] columns = {SUGGEST_ID, SUGGEST_TITLE, SUGGEST_DESC, SUGGEST_DATA};
-
-    return builder.query(db, columns, SUGGEST_TITLE+" LIKE ? OR "+SUGGEST_DESC+" LIKE ?",
-        new String[] {"%"+query+"%", "%"+query+"%"}, null, null, null);
-  }
-
-  public PostalRecord getLastPostalRecord(String cod) throws ParseException {
-    PostalRecord pr = null;
-    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos DESC", "1");
-    if (c.moveToFirst()) {
-      pr = new PostalRecord(cod, iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
-    }
-    if (!c.isClosed()) {
-      c.close();
-    }
-
-    return pr;
-  }
-
-  public PostalRecord getFirstPostalRecord(String cod) throws ParseException {
-    PostalRecord pr = null;
-    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC", "1");
-    if (c.moveToFirst()) {
-      pr = new PostalRecord(cod, iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5));
-    }
-    if (!c.isClosed()) {
-      c.close();
-    }
-
-    return pr;
-  }
-
-  public int getPostalRecords(List<PostalRecord> list, String cod) {
-    list.clear();
-    Cursor c = db.query(POSTAL_RECORD_TABLE, null, "cod = ?", new String[] {cod}, null, null, "pos ASC");
-    if (c.moveToFirst()) {
-      do {
-        try {
-          list.add(new PostalRecord(c.getString(0), iso8601.parse(c.getString(2)), c.getString(3), c.getString(4), c.getString(5)));
-        } catch (ParseException e) {
-          Log.e(TAG, e.getMessage());
-        }
-      } while (c.moveToNext());
-    }
-    if (!c.isClosed()) {
-      c.close();
-    }
-
-    return list.size();
-  }
-
-  private void notifyDatabaseChanged() {
-    if (backupAvailable) bm.dataChanged();
+    return getShallowShipments(selection, selectionArgs);
   }
 
   private static HashMap<String, String> buildColumnMap() {

@@ -18,9 +18,8 @@ import android.widget.TextView;
 
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalItemRecord;
-import com.rbardini.carteiro.model.PostalRecord;
+import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
@@ -28,17 +27,16 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class RecordActivity extends PostalActivity implements SROFragment.OnStateChangeListener {
+public class RecordActivity extends ShipmentActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
 
   private DatabaseHelper dh;
   private FragmentManager mFragManager;
 
-  private PostalItem mPostalItem;
+  private Shipment mShipment;
   private boolean mOnlySRO;
-  private PostalRecordFragment mRecordFragment;
+  private RecordFragment mRecordFragment;
   private SROFragment mSROFragment;
 
   private TextView mSubtitle;
@@ -62,12 +60,12 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       }
     });
 
-    mSubtitle = (TextView) findViewById(R.id.subtitle);
-    mLegend = (TextView) findViewById(R.id.legend);
-    mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+    mSubtitle = findViewById(R.id.subtitle);
+    mLegend = findViewById(R.id.legend);
+    mProgressBar = findViewById(R.id.progress_bar);
 
     if (savedInstanceState != null) {
-      mPostalItem = (PostalItem) savedInstanceState.getSerializable("postalItem");
+      mShipment = (Shipment) savedInstanceState.getSerializable("shipment");
       mOnlySRO = savedInstanceState.getBoolean("onlySRO");
     } else {
       handleNewIntent();
@@ -80,7 +78,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    savedInstanceState.putSerializable("postalItem", mPostalItem);
+    savedInstanceState.putSerializable("shipment", mShipment);
     savedInstanceState.putSerializable("onlySRO", mOnlySRO);
 
     super.onSaveInstanceState(savedInstanceState);
@@ -110,16 +108,16 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    if (getCurrentFragment() instanceof PostalRecordFragment) {
+    if (getCurrentFragment() instanceof RecordFragment) {
       getMenuInflater().inflate(R.menu.record_actions, menu);
 
       menu.findItem(R.id.fav_opt)
-        .setIcon(mPostalItem.isFav() ? R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp)
-        .setTitle(mPostalItem.isFav() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
+        .setIcon(mShipment.isFavorite() ? R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp)
+        .setTitle(mShipment.isFavorite() ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
 
       menu.findItem(R.id.archive_opt)
-        .setIcon(mPostalItem.isArchived() ? R.drawable.ic_unarchive_white_24dp : R.drawable.ic_archive_white_24dp)
-        .setTitle(getString(mPostalItem.isArchived() ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
+        .setIcon(mShipment.isArchived() ? R.drawable.ic_unarchive_white_24dp : R.drawable.ic_archive_white_24dp)
+        .setTitle(getString(mShipment.isArchived() ? R.string.opt_unarchive_item : R.string.opt_archive_item, getString(R.string.category_all)));
     }
 
     return super.onCreateOptionsMenu(menu);
@@ -127,8 +125,8 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    final ArrayList<PostalItem> piList = new ArrayList<>();
-    piList.add(mPostalItem);
+    final ArrayList<Shipment> shipments = new ArrayList<>();
+    shipments.add(mShipment);
 
     switch (item.getItemId()) {
       case android.R.id.home:
@@ -136,44 +134,43 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
         return true;
 
       case R.id.fav_opt:
-        mPostalItem.toggleFav();
-        dh.togglePostalItemFav(mPostalItem.getCod());
+        mShipment.toggleFavorite();
+        dh.togglePostalItemFav(mShipment.getNumber());
 
         invalidateOptionsMenu();
         return true;
 
       case R.id.share_opt:
-        UIUtils.shareItem(this, mPostalItem);
+        UIUtils.shareItem(this, mShipment);
         return true;
 
       case R.id.place_opt:
         try {
-          UIUtils.locateItem(this, mPostalItem);
+          UIUtils.locateItem(this, mShipment);
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
         return true;
 
       case R.id.rename_opt:
-        PostalItemDialogFragment.newInstance(R.id.rename_opt,
-            new ArrayList<>(Collections.singletonList(mPostalItem))).show(getFragmentManager(), PostalItemDialogFragment.TAG);
+        ShipmentDialogFragment.newInstance(R.id.rename_opt, shipments).show(getFragmentManager(), ShipmentDialogFragment.TAG);
         return true;
 
       case R.id.archive_opt:
-        mPostalItem.toggleArchived();
-        dh.togglePostalItemArchived(mPostalItem.getCod());
+        mShipment.toggleArchived();
+        dh.togglePostalItemArchived(mShipment.getNumber());
 
-        UIUtils.showToast(this, mPostalItem.isArchived() ? getString(R.string.toast_item_archived, mPostalItem.getSafeDesc())
-            : getString(R.string.toast_item_unarchived, mPostalItem.getSafeDesc(), getString(R.string.category_all)));
+        UIUtils.showToast(this, mShipment.isArchived() ? getString(R.string.toast_item_archived, mShipment.getDescription())
+            : getString(R.string.toast_item_unarchived, mShipment.getDescription(), getString(R.string.category_all)));
         invalidateOptionsMenu();
         return true;
 
       case R.id.delete_opt:
-        PostalItemDialogFragment.newInstance(R.id.delete_opt, piList).show(mFragManager, PostalItemDialogFragment.TAG);
+        ShipmentDialogFragment.newInstance(R.id.delete_opt, shipments).show(mFragManager, ShipmentDialogFragment.TAG);
         return true;
 
       case R.id.sro_opt:
-        if (mSROFragment == null) mSROFragment = SROFragment.newInstance(mPostalItem.getCod());
+        if (mSROFragment == null) mSROFragment = SROFragment.newInstance(mShipment.getNumber());
         mFragManager.beginTransaction().replace(R.id.content, mSROFragment, SROFragment.TAG).addToBackStack(null).commit();
         return true;
 
@@ -198,19 +195,19 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   }
 
   @Override
-  public void onRenamePostalItem(String desc, PostalItem pi) {
-    super.onRenamePostalItem(desc, pi);
+  public void onRenameShipment(String desc, Shipment shipment) {
+    super.onRenameShipment(desc, shipment);
 
-    mPostalItem.setDesc(desc);
-    setActionBarTitle(mPostalItem.getSafeDesc());
+    mShipment.setName(desc);
+    setActionBarTitle(mShipment.getDescription());
   }
 
   @Override
-  public void onDeletePostalItems(ArrayList<PostalItem> piList) {
-    final PostalItemRecord pir = new PostalItemRecord(piList.get(0));
-    pir.deleteFrom(dh);
+  public void onDeleteShipments(ArrayList<Shipment> shipments) {
+    final Shipment shipment = shipments.get(0);
+    dh.deletePostalItem(shipment.getNumber());
 
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), pir.getSafeDesc()));
+    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), shipment.getDescription()));
     UIUtils.goHome(this);
   }
 
@@ -225,7 +222,7 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   }
 
   @Override
-  public PostalFragment getPostalFragment() {
+  public ShipmentFragment getPostalFragment() {
     return mRecordFragment;
   }
 
@@ -241,25 +238,25 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
   }
 
   private void setTitleBar() {
-    mLegend.setText(mPostalItem.getCod());
-    setActionBarTitle(mPostalItem.getSafeDesc());
+    mLegend.setText(mShipment.getNumber());
+    setActionBarTitle(mShipment.getDescription());
 
     CharSequence relativeDays = "";
     try {
-      PostalRecord pr = dh.getFirstPostalRecord(mPostalItem.getCod());
-      if (!pr.getStatus().equals(PostalUtils.Status.NAO_ENCONTRADO)) {
-        relativeDays = UIUtils.getRelativeDaysString(this, pr.getDate());
+      ShipmentRecord record = dh.getFirstShipmentRecord(mShipment.getNumber());
+      if (!record.getStatus().equals(PostalUtils.Status.NAO_ENCONTRADO)) {
+        relativeDays = UIUtils.getRelativeDaysString(this, record.getDate());
       }
 
     } catch (Exception e) {
-      Log.w(TAG, "Could not get first postal activity_record for postal item " + mPostalItem.getCod(), e);
+      Log.w(TAG, "Could not get first postal activity_record for postal item " + mShipment.getNumber(), e);
 
     } finally {
-      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mPostalItem.getService()));
+      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mShipment.getService()));
       // TODO Set title bar again when postal records updated
     }
 
-    mLegend.setCompoundDrawablesWithIntrinsicBounds(0, 0, mPostalItem.getFlag(this), 0);
+    mLegend.setCompoundDrawablesWithIntrinsicBounds(0, 0, mShipment.getFlag(this), 0);
   }
 
   private void setActionBarTitle(CharSequence title) {
@@ -280,16 +277,16 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
       return;
     }
 
-    mPostalItem = (PostalItem) extras.getSerializable("postalItem");
-    intent.removeExtra("postalItem");
+    mShipment = (Shipment) extras.getSerializable("shipment");
+    intent.removeExtra("shipment");
 
-    if (mPostalItem.isUnread()) {
-      dh.setPostalItemUnread(mPostalItem.getCod(), 0);
-      mPostalItem.toggleUnread();
+    if (mShipment.isUnread()) {
+      dh.togglePostalItemUnread(mShipment.getNumber());
+      mShipment.setUnread(false);
     }
 
     if (extras.getBoolean("isNew")) {
-      String message = String.format(getString(R.string.toast_item_added), mPostalItem.getSafeDesc());
+      String message = String.format(getString(R.string.toast_item_added), mShipment.getDescription());
       Snackbar
         .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
         .setAction(R.string.add_another_btn, new View.OnClickListener() {
@@ -314,14 +311,14 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
     switch (action) {
       case "locate":
         try {
-          UIUtils.locateItem(this, mPostalItem);
+          UIUtils.locateItem(this, mShipment);
         } catch (Exception e) {
           UIUtils.showToast(this, e.getMessage());
         }
         break;
 
       case "share":
-        UIUtils.shareItem(this, mPostalItem);
+        UIUtils.shareItem(this, mShipment);
         break;
 
       case "sro":
@@ -332,19 +329,19 @@ public class RecordActivity extends PostalActivity implements SROFragment.OnStat
 
   private void setFragment(boolean isNewInstance) {
     if (mOnlySRO) {
-      mSROFragment = SROFragment.newInstance(mPostalItem.getCod());
+      mSROFragment = SROFragment.newInstance(mShipment.getNumber());
       mFragManager.beginTransaction().replace(R.id.content, mSROFragment, SROFragment.TAG).commit();
       return;
     }
 
     if (isNewInstance) {
-      mRecordFragment = PostalRecordFragment.newInstance(mPostalItem);
-      mFragManager.beginTransaction().replace(R.id.content, mRecordFragment, PostalRecordFragment.TAG).commit();
+      mRecordFragment = RecordFragment.newInstance(mShipment);
+      mFragManager.beginTransaction().replace(R.id.content, mRecordFragment, RecordFragment.TAG).commit();
       return;
     }
 
-    mRecordFragment = (PostalRecordFragment) mFragManager.findFragmentByTag(PostalRecordFragment.TAG);
-    mRecordFragment.setPostalItem(mPostalItem);
+    mRecordFragment = (RecordFragment) mFragManager.findFragmentByTag(RecordFragment.TAG);
+    mRecordFragment.setShipment(mShipment);
     mRecordFragment.refreshList();
   }
 }

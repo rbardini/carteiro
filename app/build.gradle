@@ -1,15 +1,20 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
 
 android {
   compileSdkVersion 26
-  buildToolsVersion '26.0.0'
+  buildToolsVersion "26.0.0"
 
   defaultConfig {
-    applicationId 'com.rbardini.carteiro'
+    applicationId "com.rbardini.carteiro"
     minSdkVersion 21
     targetSdkVersion 26
     versionCode 25
-    versionName '3.1.1'
+    versionName "3.1.1"
+  }
+
+  sourceSets {
+    main.java.srcDirs += "src/main/kotlin"
   }
 
   lintOptions {
@@ -20,17 +25,22 @@ android {
     release {
       minifyEnabled true
       shrinkResources true
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     }
   }
 }
 
 dependencies {
-  compile 'com.android.support:design:26.0.0-beta2'
-  compile 'com.android.volley:volley:1.0.0'
-  compile 'com.google.android.gms:play-services-analytics:11.0.0'
-  compile 'com.google.code.ksoap2-android:ksoap2-android:3.6.1'
-  compile 'com.google.zxing:android-integration:3.2.0'
-  compile 'com.jakewharton:process-phoenix:1.0.2'
-  compile 'com.nhaarman.listviewanimations:library:2.6.0'
+  compile "com.android.support:design:26.0.0-beta2"
+  compile "com.android.volley:volley:1.0.0"
+  compile "com.google.android.gms:play-services-analytics:11.0.0"
+  compile "com.google.code.ksoap2-android:ksoap2-android:3.6.1"
+  compile "com.google.zxing:android-integration:3.2.0"
+  compile "com.jakewharton:process-phoenix:1.0.2"
+  compile "com.nhaarman.listviewanimations:library:2.6.0"
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+
+repositories {
+  mavenCentral()
 }

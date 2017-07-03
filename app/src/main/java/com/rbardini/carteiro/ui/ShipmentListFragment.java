@@ -19,8 +19,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.model.PostalItem;
-import com.rbardini.carteiro.model.PostalItemRecord;
+import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
@@ -30,9 +29,9 @@ import com.rbardini.carteiro.util.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostalListFragment extends PostalFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
+public class ShipmentListFragment extends ShipmentFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
   interface OnPostalListActionListener {
-    void onPostalListAttached(PostalListFragment f);
+    void onPostalListAttached(ShipmentListFragment f);
   }
 
   private OnPostalListActionListener mListener;
@@ -41,14 +40,14 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
   private String query;
 
   private MultiChoiceModeListener mMultiChoiceModeListener;
-  private ArrayList<PostalItem> mList;
-  private ArrayList<PostalItem> mSelectedList;
-  private PostalItemListAdapter mListAdapter;
+  private ArrayList<Shipment> mList;
+  private ArrayList<Shipment> mSelectedList;
+  private ShipmentListAdapter mListAdapter;
   private AnimateDismissAdapter mDismissAdapter;
   private ContextualSwipeUndoAdapter mUndoAdapter;
 
-  public static PostalListFragment newInstance(int category) {
-    PostalListFragment f = new PostalListFragment();
+  public static ShipmentListFragment newInstance(int category) {
+    ShipmentListFragment f = new ShipmentListFragment();
     Bundle args = new Bundle();
     args.putInt("category", category);
     f.setArguments(args);
@@ -56,8 +55,8 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     return f;
   }
 
-  public static PostalListFragment newInstance(String query) {
-    PostalListFragment f = new PostalListFragment();
+  public static ShipmentListFragment newInstance(String query) {
+    ShipmentListFragment f = new ShipmentListFragment();
     Bundle args = new Bundle();
     args.putString("query", query);
     f.setArguments(args);
@@ -82,8 +81,8 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
     // Restore postal and selected lists
     if (savedInstanceState != null) {
-      mList = (ArrayList<PostalItem>) savedInstanceState.getSerializable("postalList");
-      mSelectedList = (ArrayList<PostalItem>) savedInstanceState.getSerializable("selectedList");
+      mList = (ArrayList<Shipment>) savedInstanceState.getSerializable("shipment");
+      mSelectedList = (ArrayList<Shipment>) savedInstanceState.getSerializable("selectedShipments");
 
     } else {
       mList = new ArrayList<>();
@@ -95,7 +94,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.list_postal, container, false);
+    return inflater.inflate(R.layout.list_shipment, container, false);
   }
 
   @Override
@@ -104,8 +103,8 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
     ListView listView = getListView();
 
-    mListAdapter = new PostalItemListAdapter(mActivity, mList, listView);
-    mMultiChoiceModeListener = new PostalListFragment.MultiChoiceModeListener();
+    mListAdapter = new ShipmentListAdapter(mActivity, mList, listView);
+    mMultiChoiceModeListener = new ShipmentListFragment.MultiChoiceModeListener();
     listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     listView.setMultiChoiceModeListener(mMultiChoiceModeListener);
 
@@ -142,33 +141,33 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable("postalList", mList);
-    outState.putSerializable("selectedList", mSelectedList);
+    outState.putSerializable("shipment", mList);
+    outState.putSerializable("selectedShipments", mSelectedList);
   }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
 
-    PostalItem pi = mList.get(position);
+    Shipment shipment = mList.get(position);
     View icon = v.findViewById(R.id.img_postal_status);
 
-    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", pi);
-    RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.postal_item_color), (int) icon.getTag(R.id.postal_item_icon), 2);
-    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_postal_record));
+    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", shipment);
+    RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.shipment_color), (int) icon.getTag(R.id.shipment_icon), 2);
+    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_record));
 
     startActivity(intent, options.toBundle());
   }
 
   @Override
   public void deleteItem(int position) {
-    PostalItemRecord pir = new PostalItemRecord(mList.get(position));
+    String cod = mList.get(position).getNumber();
 
     if (shouldDeleteItems()) {
-      pir.deleteFrom(dh);
+      dh.deletePostalItem(cod);
 
     } else {
-      pir.archiveTo(dh);
+      dh.archivePostalItem(cod);
     }
 
     mListAdapter.remove(position);
@@ -189,8 +188,8 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     if (!CarteiroApplication.syncing) {
       Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
       List<String> cods = new ArrayList<>();
-      for (PostalItem pi : mList) {
-        cods.add(pi.getCod());
+      for (Shipment shipment : mList) {
+        cods.add(shipment.getNumber());
       }
       intent.putExtra("cods", cods.toArray(new String[cods.size()]));
       mActivity.startService(intent);
@@ -223,7 +222,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
     return category;
   }
 
-  public List<PostalItem> getList() {
+  public List<Shipment> getList() {
     return mList;
   }
 
@@ -241,7 +240,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
   public void updateList() {
     if (query != null) dh.getSearchResults(mList, query);
-    else dh.getPostalList(mList, category);
+    else dh.getShallowShipments(mList, category);
   }
 
 
@@ -251,11 +250,11 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-      PostalItem pi = mListAdapter.getItem(position);
+      Shipment shipment = mListAdapter.getItem(position);
 
       // Add or remove item from selected list
-      if (checked) mSelectedList.add(pi);
-      else mSelectedList.remove(pi);
+      if (checked) mSelectedList.add(shipment);
+      else mSelectedList.remove(shipment);
 
       // Invalidate CAB to refresh available actions
       mActionMode.invalidate();
@@ -291,9 +290,9 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
       // Determine if all selected items are favorites and archived
       boolean areAllFavorites = true, areAllArchived = true;
-      for (PostalItem pi : mSelectedList) {
-        if (!pi.isFav()) areAllFavorites = false;
-        if (!pi.isArchived()) areAllArchived = false;
+      for (Shipment shipment : mSelectedList) {
+        if (!shipment.isFavorite()) areAllFavorites = false;
+        if (!shipment.isArchived()) areAllArchived = false;
         if (!areAllFavorites && !areAllArchived) break;
       }
 
@@ -315,7 +314,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-      final PostalItem firstItem = mSelectedList.get(0);
+      final Shipment firstItem = mSelectedList.get(0);
       final int selectionSize = mSelectedList.size();
       final boolean isSingleSelection = selectionSize == 1;
       final int actionId = item.getItemId();
@@ -325,7 +324,7 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
         case R.id.refresh_opt:
           if (!CarteiroApplication.syncing) {
             String[] cods = new String[selectionSize];
-            for (int i = 0; i < selectionSize; i++) cods[i] = mSelectedList.get(i).getCod();
+            for (int i = 0; i < selectionSize; i++) cods[i] = mSelectedList.get(i).getNumber();
             Intent refresh = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("cods", cods);
             mActivity.startService(refresh);
           }
@@ -334,8 +333,8 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
         case R.id.archive_opt:
           // Archive selected items or move to all depending on their collective archived state
           boolean areAllArchived = mCollectiveActionMap.get(actionId);
-          for (PostalItem pi : mSelectedList) {
-            String cod = pi.getCod();
+          for (Shipment shipment : mSelectedList) {
+            String cod = shipment.getNumber();
             if (areAllArchived) dh.unarchivePostalItem(cod);
             else dh.archivePostalItem(cod);
           }
@@ -353,23 +352,23 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
           int messageRes = isSingleSelection
             ? (areAllArchived ? R.string.toast_item_unarchived : R.string.toast_item_archived)
             : (areAllArchived ? R.string.toast_items_unarchived : R.string.toast_items_archived);
-          UIUtils.showToast(mActivity, getString(messageRes, isSingleSelection ? firstItem.getSafeDesc() : selectionSize, getString(R.string.category_all)));
+          UIUtils.showToast(mActivity, getString(messageRes, isSingleSelection ? firstItem.getDescription() : selectionSize, getString(R.string.category_all)));
 
           clearSelection();
           return true;
 
         case R.id.delete_opt:
-          PostalItemDialogFragment.newInstance(R.id.delete_opt, mSelectedList).show(getFragmentManager(), PostalItemDialogFragment.TAG);
+          ShipmentDialogFragment.newInstance(R.id.delete_opt, mSelectedList).show(getFragmentManager(), ShipmentDialogFragment.TAG);
           return true;
 
         case R.id.fav_opt:
           // Mark or unmark selected items as favorites depending on their collective favorite state
           boolean areAllFavorites = mCollectiveActionMap.get(actionId);
-          for (PostalItem pi : mSelectedList) {
-            String cod = pi.getCod();
+          for (Shipment shipment : mSelectedList) {
+            String cod = shipment.getNumber();
             if (areAllFavorites) dh.unfavPostalItem(cod);
             else dh.favPostalItem(cod);
-            pi.setFav(!areAllFavorites);
+            shipment.setFavorite(!areAllFavorites);
           }
 
           // Update item list and available actions
@@ -395,11 +394,11 @@ public class PostalListFragment extends PostalFragment implements ContextualSwip
           return true;
 
         case R.id.rename_opt:
-          PostalItemDialogFragment.newInstance(R.id.rename_opt, mSelectedList).show(getFragmentManager(), PostalItemDialogFragment.TAG);
+          ShipmentDialogFragment.newInstance(R.id.rename_opt, mSelectedList).show(getFragmentManager(), ShipmentDialogFragment.TAG);
           return true;
 
         case R.id.sro_opt:
-          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("postalItem", firstItem).setAction("sro");
+          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", firstItem).setAction("sro");
           startActivity(intent);
           return true;
       }
