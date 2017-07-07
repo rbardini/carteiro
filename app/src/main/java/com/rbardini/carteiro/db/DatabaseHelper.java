@@ -15,7 +15,6 @@ import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
-import com.rbardini.carteiro.util.PostalUtils.Status;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -262,37 +262,6 @@ public class DatabaseHelper {
     return db.query(POSTAL_ITEM_TABLE, new String[] {"cod"}, "cod = ?", new String[] {cod}, null, null, null).moveToFirst();
   }
 
-  public String[] getPostalItemCodes(int flags) {
-    List<String> cods = new ArrayList<>();
-    String selection = "archived = ?";
-    String[] selectionArgs = new String[] {"0"};
-
-    if (((flags & Category.FAVORITES) != 0) && (flags & Category.UNDELIVERED) != 0) {
-      selection += " AND fav = ? AND status NOT IN (?, ?)";
-      selectionArgs = new String[] {"0", "1", Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
-    } else {
-      if ((flags & Category.FAVORITES) != 0) {
-        selection += " AND fav = ?";
-        selectionArgs = new String[] {"0", "1"};
-      } else if ((flags & Category.UNDELIVERED) != 0) {
-        selection += " AND status NOT IN (?, ?)";
-        selectionArgs = new String[] {"0", Status.ENTREGA_EFETUADA, Status.DEVOLVIDO_AO_REMETENTE};
-      }
-    }
-
-    Cursor c = db.query(POSTAL_LIST_VIEW, new String[] {"cod"}, selection, selectionArgs, null, null, null);
-    if (c.moveToFirst()) {
-      do {
-        cods.add(c.getString(0));
-      } while (c.moveToNext());
-    }
-    if (!c.isClosed()) {
-      c.close();
-    }
-
-    return cods.toArray(new String[cods.size()]);
-  }
-
   /**
    * @deprecated Use {@link #getSearchResults(String query)} instead.
    */
@@ -417,6 +386,32 @@ public class DatabaseHelper {
     }
 
     return shipments;
+  }
+
+  public List<Shipment> getShallowShipmentsForSync(int flags) {
+    StringBuilder selection = new StringBuilder("archived = ?");
+    List<String> selectionArgs = new ArrayList<>();
+    selectionArgs.add("0");
+
+    if ((flags & Category.FAVORITES) != 0) {
+      selection.append(" AND fav = ?");
+      selectionArgs.add("1");
+    }
+
+    if ((flags & Category.UNDELIVERED) != 0) {
+      String[] deliveredStatuses = Category.getStatuses(Category.DELIVERED);
+      String[] returnedStatuses = Category.getStatuses(Category.RETURNED);
+      int statusCount = deliveredStatuses.length + returnedStatuses.length;
+
+      selection.append(" AND status NOT IN (?");
+      for (int i = 1; i < statusCount; i++) selection.append(", ?");
+      selection.append(")");
+
+      Collections.addAll(selectionArgs, deliveredStatuses);
+      Collections.addAll(selectionArgs, returnedStatuses);
+    }
+
+    return getShallowShipments(selection.toString(), selectionArgs.toArray(new String[0]));
   }
 
   /**

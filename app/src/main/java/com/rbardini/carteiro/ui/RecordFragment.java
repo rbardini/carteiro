@@ -11,6 +11,8 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncService;
 
+import java.util.ArrayList;
+
 public class RecordFragment extends ShipmentFragment {
   public static final String TAG = "RecordFragment";
 
@@ -46,8 +48,10 @@ public class RecordFragment extends ShipmentFragment {
   @Override
   public void onRefresh() {
     if (!CarteiroApplication.syncing) {
-      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
-      intent.putExtra("cods", new String[] {mShipment.getNumber()});
+      ArrayList<Shipment> shipments = new ArrayList<>();
+      shipments.add(mShipment);
+
+      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("shipments", shipments);
       mActivity.startService(intent);
     }
   }

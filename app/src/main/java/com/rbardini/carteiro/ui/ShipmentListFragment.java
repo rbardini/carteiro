@@ -186,12 +186,7 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
   @Override
   public void onRefresh() {
     if (!CarteiroApplication.syncing) {
-      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class);
-      List<String> cods = new ArrayList<>();
-      for (Shipment shipment : mList) {
-        cods.add(shipment.getNumber());
-      }
-      intent.putExtra("cods", cods.toArray(new String[cods.size()]));
+      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("shipments", mList);
       mActivity.startService(intent);
     }
   }
@@ -323,10 +318,8 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
       switch (actionId) {
         case R.id.refresh_opt:
           if (!CarteiroApplication.syncing) {
-            String[] cods = new String[selectionSize];
-            for (int i = 0; i < selectionSize; i++) cods[i] = mSelectedList.get(i).getNumber();
-            Intent refresh = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("cods", cods);
-            mActivity.startService(refresh);
+            Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("shipments", mSelectedList);
+            mActivity.startService(intent);
           }
           return true;
 

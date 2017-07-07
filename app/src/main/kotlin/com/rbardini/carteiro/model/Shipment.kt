@@ -30,7 +30,7 @@ data class Shipment(val number: String) : Serializable {
     dh.endTransaction()
   }
 
-  fun fetchRecords(context: Context) = replaceRecords(MobileTracker.track(number, context).records)
+  fun fetchRecords(context: Context) = MobileTracker.deepTrack(this, context)
 
   fun loadRecords(dh: DatabaseHelper) = replaceRecords(dh.getPostalRecords(number))
 

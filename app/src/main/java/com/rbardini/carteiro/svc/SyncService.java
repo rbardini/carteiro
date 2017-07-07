@@ -34,11 +34,14 @@ import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 import com.rbardini.carteiro.util.UIUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class SyncService extends IntentService {
   private static final String TAG = "SyncService";
@@ -55,13 +58,10 @@ public class SyncService extends IntentService {
   public static final int NOTIFICATION_ONGOING_SYNC = 1;
   public static final int NOTIFICATION_NEW_UPDATE = 2;
 
-  private CarteiroApplication app;
   private DatabaseHelper dh;
   private NotificationManager nm;
   private SharedPreferences prefs;
   private LocalBroadcastManager broadcaster;
-
-  private Set<String> updatedCods;
 
   public SyncService() {
     super(TAG);
@@ -72,13 +72,10 @@ public class SyncService extends IntentService {
   public void onCreate() {
     super.onCreate();
 
-    app = (CarteiroApplication) getApplication();
-    dh = app.getDatabaseHelper();
+    dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
     nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     prefs = PreferenceManager.getDefaultSharedPreferences(this);
     broadcaster = LocalBroadcastManager.getInstance(this);
-
-    updatedCods = new HashSet<>();
   }
 
   @Override
@@ -94,6 +91,7 @@ public class SyncService extends IntentService {
       return;
     }
 
+    long startTime = System.nanoTime();
     Log.i(TAG, "Sync started");
 
     broadcaster.sendBroadcast(new Intent(ACTION_SYNC)
@@ -111,20 +109,25 @@ public class SyncService extends IntentService {
     }
 
     boolean hasError = false;
-    boolean hasUpdate = false;
+    List<Shipment> updatedShipments = new ArrayList<>();
 
-    String[] cods;
+    List<Shipment> shipments;
     Bundle extras = intent.getExtras();
 
-    if (extras != null && extras.containsKey("cods")) {
-      cods = extras.getStringArray("cods");
+    if (extras != null && extras.containsKey("shipments")) {
+      shipments = (List<Shipment>) extras.getSerializable("shipments");
 
     } else {
-      cods = dh.getPostalItemCodes(getSyncFlags());
+      shipments = dh.getShallowShipmentsForSync(getSyncFlags());
+    }
+
+    Map<String, ShipmentRecord> lastRecordMap = new HashMap<>();
+    for (Shipment shipment : shipments) {
+      lastRecordMap.put(shipment.getNumber(), shipment.getLastRecord());
     }
 
     try {
-      Log.i(TAG, "Syncing " + cods.length + " items...");
+      Log.i(TAG, "Shallow syncing " + shipments.size() + " items...");
 
       if (shouldNotifySync) {
         notificationBuilder
@@ -133,34 +136,26 @@ public class SyncService extends IntentService {
         nm.notify(NOTIFICATION_ONGOING_SYNC, notificationBuilder.build());
       }
 
-      List<Shipment> shipments = MobileTracker.track(cods, this);
+      MobileTracker.shallowTrack(shipments, this);
 
-      for (Shipment newShipment : shipments) {
-        if (newShipment.isEmpty()) continue;
+      for (Shipment shipment : shipments) {
+        if (shipment.isEmpty()) continue;
 
-        String cod = newShipment.getNumber();
+        ShipmentRecord newLastRecord = shipment.getLastRecord();
+        ShipmentRecord lastRecord = lastRecordMap.get(shipment.getNumber());
 
-        int newListSize = newShipment.size();
-        ShipmentRecord newLastRecord = newShipment.getLastRecord();
-
-        Shipment oldShipment = dh.getShipment(cod);
-        int oldListSize = oldShipment.size();
-        ShipmentRecord oldLastRecord = oldShipment.getLastRecord();
-
-        boolean hasRecord = newListSize > 0;
-        boolean itemUpdated = hasRecord && !oldLastRecord.equals(newLastRecord);
-        boolean listSizeChanged = hasRecord && newListSize != oldListSize;
-
-        if (itemUpdated || listSizeChanged) {
-          oldShipment.replaceRecords(newShipment.getRecords());
-          updateShipment(oldShipment);
-
-          if (itemUpdated) {
-            updatedCods.add(cod);
-            hasUpdate = true;
-          }
+        if (newLastRecord != null && !newLastRecord.equals(lastRecord)) {
+          updatedShipments.add(shipment);
         }
       }
+
+      if (!updatedShipments.isEmpty()) {
+        Log.i(TAG, updatedShipments.size() + " updates found, deep syncing items...");
+
+        MobileTracker.deepTrack(updatedShipments, this);
+        updateShipments(updatedShipments);
+      }
+
     } catch (Exception e) {
       Log.e(TAG, e.getMessage());
       hasError = true;
@@ -169,20 +164,21 @@ public class SyncService extends IntentService {
     nm.cancel(NOTIFICATION_ONGOING_SYNC);
 
     int notificationFlags = getNotificationFlags();
-    if (hasUpdate && notificationFlags != 0) {
-      showNotification(notificationFlags);
+    if (!updatedShipments.isEmpty() && notificationFlags != 0) {
+      showNotification(updatedShipments, notificationFlags);
     }
 
     if (hasError) {
       broadcaster.sendBroadcast(new Intent(ACTION_SYNC)
         .putExtra(EXTRA_STATUS, STATUS_ERROR)
-        .putExtra(EXTRA_ERROR, "Request for " + cods.length + " items has failed"));
+        .putExtra(EXTRA_ERROR, "Request for " + shipments.size() + " items has failed"));
 
     } else {
       broadcaster.sendBroadcast(new Intent(ACTION_SYNC).putExtra(EXTRA_STATUS, STATUS_FINISHED));
     }
 
-    Log.i(TAG, "Sync finished");
+    long elapsedTime = System.nanoTime() - startTime;
+    Log.i(TAG, "Sync finished in " + TimeUnit.NANOSECONDS.toMillis(elapsedTime) + " ms");
   }
 
   private boolean shouldSync(Intent intent) {
@@ -192,24 +188,26 @@ public class SyncService extends IntentService {
     boolean syncWifiOnly = prefs.getBoolean(getString(R.string.pref_key_sync_wifi_only), false);
     boolean hasActiveNetwork = activeNetwork != null;
 
-    boolean isManualSync = extras != null && extras.containsKey("cods");
+    boolean isManualSync = extras != null && extras.containsKey("shipments");
     boolean isConnected = hasActiveNetwork && activeNetwork.isConnected();
     boolean isWifi = hasActiveNetwork && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
 
     return isConnected && (isManualSync || isWifi || !syncWifiOnly);
   }
 
-  private void updateShipment(Shipment shipment) {
-    String cod = shipment.getNumber();
+  private void updateShipments(List<Shipment> shipments) {
+    for (Shipment shipment : shipments) {
+      String cod = shipment.getNumber();
 
-    dh.beginTransaction();
+      dh.beginTransaction();
 
-    dh.deletePostalRecords(cod);
-    dh.insertPostalRecords(shipment);
-    dh.unreadPostalItem(cod);
+      dh.deletePostalRecords(cod);
+      dh.insertPostalRecords(shipment);
+      dh.unreadPostalItem(cod);
 
-    dh.setTransactionSuccessful();
-    dh.endTransaction();
+      dh.setTransactionSuccessful();
+      dh.endTransaction();
+    }
   }
 
   private int getSyncFlags() {
@@ -241,15 +239,14 @@ public class SyncService extends IntentService {
     return flags;
   }
 
-  private void showNotification(int flags) {
+  private void showNotification(List<Shipment> updatedShipments, int flags) {
     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
     HashSet<Shipment> shipments = new HashSet<>();
     String ticker, title, desc;
     long date;
     Intent intent;
 
-    for (String cod : updatedCods) {
-      Shipment shipment = dh.getShallowShipment(cod);
+    for (Shipment shipment : updatedShipments) {
       if (notifiable(shipment, flags)) {
         shipments.add(shipment);
       }

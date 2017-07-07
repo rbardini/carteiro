@@ -35,15 +35,16 @@ public final class MobileTracker extends Tracker {
   private static final String REQ_USERNAME = "MobileXect";
   private static final String REQ_PASSWORD = "DRW0#9F$@0";
   private static final String REQ_TYPE = "L";
-  private static final String REQ_RESULT = "T";
+  private static final String REQ_RESULT_ALL = "T";
+  private static final String REQ_RESULT_LAST = "U";
   private static final String REQ_LANGUAGE = "101";
   private static final String REQ_TOKEN = "QTXFMvu_Z-6XYezP3VbDsKBgSeljSqIysM9x";
   private static final int REQ_TIMEOUT = 60000;
 
-  public static List<Shipment> track(final String[] cods, Context context) throws IOException {
-    List<Shipment> shipments = new ArrayList<>();
+  private static List<Shipment> track(final List<Shipment> shipments, Context context, final boolean shallow) throws IOException {
+    if (shipments.size() == 0) return shipments;
 
-    if (cods.length == 0) return shipments;
+    final Map<String, Shipment> shipmentMap = buildShipmentMap(shipments);
 
     RequestQueue queue = Volley.newRequestQueue(context);
     RequestFuture<JSONObject> future = RequestFuture.newFuture();
@@ -62,7 +63,7 @@ public final class MobileTracker extends Tracker {
 
       @Override
       public byte[] getBody() {
-        return buildRequestBody(cods).getBytes();
+        return buildRequestBody(shipmentMap, shallow).getBytes();
       }
     };
 
@@ -114,9 +115,8 @@ public final class MobileTracker extends Tracker {
           }
         }
 
-        Shipment shipment = new Shipment(cod);
-        shipment.addRecords(records);
-        shipments.add(shipment);
+        Shipment shipment = shipmentMap.get(cod);
+        shipment.replaceRecords(records);
       }
 
     } catch (InterruptedException | ExecutionException | TimeoutException | JSONException e) {
@@ -126,18 +126,60 @@ public final class MobileTracker extends Tracker {
     return shipments;
   }
 
-  public static Shipment track(String cod, Context context) throws IOException {
-    List<Shipment> shipments = track(new String[] {cod}, context);
-    return shipments.get(0);
+  public static List<Shipment> shallowTrack(final List<Shipment> shipments, Context context) throws IOException {
+    return track(shipments, context, true);
   }
 
-  private static String buildRequestBody(String[] cods) {
+  public static List<Shipment> deepTrack(final List<Shipment> shipments, Context context) throws IOException {
+    return track(shipments, context, false);
+  }
+
+  private static Shipment track(Shipment shipment, Context context, boolean shallow) throws IOException {
+    List<Shipment> shipments = new ArrayList<>();
+    shipments.add(shipment);
+
+    return track(shipments, context, shallow).get(0);
+  }
+
+  public static Shipment shallowTrack(Shipment shipment, Context context) throws IOException {
+    return track(shipment, context, true);
+  }
+
+  public static Shipment deepTrack(Shipment shipment, Context context) throws IOException {
+    return track(shipment, context, false);
+  }
+
+  private static Shipment track(String cod, Context context, boolean shallow) throws IOException {
+    return track(new Shipment(cod), context, shallow);
+  }
+
+  public static Shipment shallowTrack(String cod, Context context) throws IOException {
+    return track(cod, context, true);
+  }
+
+  public static Shipment deepTrack(String cod, Context context) throws IOException {
+    return track(cod, context, false);
+  }
+
+  private static Map<String, Shipment> buildShipmentMap(List<Shipment> shipments) {
+    Map<String, Shipment> shipmentMap = new HashMap<>();
+
+    for (Shipment shipment : shipments) {
+      shipmentMap.put(shipment.getNumber(), shipment);
+    }
+
+    return shipmentMap;
+  }
+
+  private static String buildRequestBody(Map<String, Shipment> shipmentMap, boolean shallow) {
+    String[] cods = shipmentMap.keySet().toArray(new String[0]);
+
     return (
       "<rastroObjeto>" +
         "<usuario>" + REQ_USERNAME + "</usuario>" +
         "<senha>" + REQ_PASSWORD + "</senha>" +
         "<tipo>" + REQ_TYPE + "</tipo>" +
-        "<resultado>" + REQ_RESULT + "</resultado>" +
+        "<resultado>" + (shallow ? REQ_RESULT_LAST : REQ_RESULT_ALL) + "</resultado>" +
         "<objetos>" + TextUtils.join("", cods) + "</objetos>" +
         "<lingua>" + REQ_LANGUAGE + "</lingua>" +
         "<token>" + REQ_TOKEN + "</token>" +
