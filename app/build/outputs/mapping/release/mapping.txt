@@ -30229,9 +30229,11 @@ com.rbardini.carteiro.db.DatabaseHelper -> com.rbardini.carteiro.a.a:
     void setTransactionSuccessful() -> d
     java.io.File exportDatabase(android.content.Context,java.io.File) -> a
     java.io.File importDatabase(android.content.Context,java.io.File) -> b
-    boolean insertPostalItem(com.rbardini.carteiro.model.PostalItem) -> a
-    boolean insertPostalRecord(com.rbardini.carteiro.model.PostalRecord,int) -> a
-    boolean insertPostalRecords(java.util.List) -> a
+    void notifyDatabaseChanged() -> e
+    boolean insertShipment(com.rbardini.carteiro.model.Shipment) -> a
+    boolean insertPostalItem(com.rbardini.carteiro.model.Shipment) -> b
+    boolean insertPostalRecord(com.rbardini.carteiro.model.ShipmentRecord,java.lang.String,int) -> a
+    boolean insertPostalRecords(com.rbardini.carteiro.model.Shipment) -> c
     int renamePostalItem(java.lang.String,java.lang.String) -> a
     void setPostalItemFav(java.lang.String,int) -> a
     void togglePostalItemFav(java.lang.String) -> a
@@ -30239,21 +30241,24 @@ com.rbardini.carteiro.db.DatabaseHelper -> com.rbardini.carteiro.a.a:
     void unfavPostalItem(java.lang.String) -> c
     void setPostalItemArchived(java.lang.String,int) -> b
     void togglePostalItemArchived(java.lang.String) -> d
-    void setPostalItemUnread(java.lang.String,int) -> c
     void archivePostalItem(java.lang.String) -> e
     void unarchivePostalItem(java.lang.String) -> f
-    int deletePostalItem(java.lang.String) -> g
-    int deletePostalRecords(java.lang.String) -> h
-    boolean isPostalItem(java.lang.String) -> i
-    com.rbardini.carteiro.model.PostalItem getPostalItem(java.lang.String) -> j
-    java.lang.String[] getPostalItemCodes(int) -> a
-    int getPostalItems(java.util.List,java.lang.String,java.lang.String[]) -> a
-    int getPostalList(java.util.List,int) -> a
+    void setPostalItemUnread(java.lang.String,int) -> c
+    void togglePostalItemUnread(java.lang.String) -> g
+    void unreadPostalItem(java.lang.String) -> h
+    int deletePostalItem(java.lang.String) -> i
+    int deletePostalRecords(java.lang.String) -> j
+    boolean isPostalItem(java.lang.String) -> k
     int getSearchResults(java.util.List,java.lang.String) -> a
-    android.database.Cursor getSearchSuggestions(java.lang.String) -> k
-    com.rbardini.carteiro.model.PostalRecord getFirstPostalRecord(java.lang.String) -> l
-    int getPostalRecords(java.util.List,java.lang.String) -> b
-    void notifyDatabaseChanged() -> e
+    android.database.Cursor getSearchSuggestions(java.lang.String) -> l
+    com.rbardini.carteiro.model.ShipmentRecord getFirstShipmentRecord(java.lang.String) -> m
+    java.util.List getPostalRecords(java.lang.String) -> n
+    com.rbardini.carteiro.model.Shipment getShallowShipment(java.lang.String) -> o
+    int getShallowShipments(java.util.List,java.lang.String,java.lang.String[]) -> a
+    java.util.List getShallowShipments(java.lang.String,java.lang.String[]) -> a
+    java.util.List getShallowShipmentsForSync(int) -> a
+    int getShallowShipments(java.util.List,int) -> a
+    java.util.List getShallowShipments(int) -> b
     java.util.HashMap buildColumnMap() -> f
     void <clinit>() -> <clinit>
 com.rbardini.carteiro.db.DatabaseHelper$Query -> com.rbardini.carteiro.a.a$a:
@@ -30269,80 +30274,65 @@ com.rbardini.carteiro.db.DatabaseHelper$SQLiteOpenHelper -> com.rbardini.carteir
     void <init>(com.rbardini.carteiro.db.DatabaseHelper,android.content.Context) -> <init>
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-com.rbardini.carteiro.model.PostalItem -> com.rbardini.carteiro.b.a:
-    java.lang.String cod -> a
-    java.lang.String desc -> b
-    java.util.Date date -> c
-    java.lang.String loc -> d
-    java.lang.String info -> e
-    java.lang.String status -> f
-    boolean fav -> g
-    boolean archived -> h
-    boolean unread -> i
+com.rbardini.carteiro.model.Shipment -> com.rbardini.carteiro.b.a:
+    java.lang.String name -> b
+    boolean isFavorite -> c
+    boolean isArchived -> d
+    boolean isUnread -> e
+    java.util.List records -> f
+    java.lang.String number -> g
+    com.rbardini.carteiro.model.Shipment$Companion Companion -> a
+    java.lang.String getName() -> a
+    void setName(java.lang.String) -> a
+    boolean isFavorite() -> b
+    void setFavorite(boolean) -> a
+    boolean isArchived() -> c
+    void setArchived(boolean) -> b
+    boolean isUnread() -> d
+    void setUnread(boolean) -> c
+    void toggleFavorite() -> e
+    void toggleArchived() -> f
+    java.lang.String getDescription() -> g
+    void saveTo(com.rbardini.carteiro.db.DatabaseHelper) -> a
+    com.rbardini.carteiro.model.Shipment fetchRecords(android.content.Context) -> a
+    void loadRecords(com.rbardini.carteiro.db.DatabaseHelper) -> b
+    boolean addRecord(com.rbardini.carteiro.model.ShipmentRecord) -> a
+    void replaceRecords(java.util.List) -> a
+    com.rbardini.carteiro.model.ShipmentRecord getRecord(int) -> a
+    com.rbardini.carteiro.model.ShipmentRecord getLastRecord() -> h
+    int size() -> i
+    boolean isEmpty() -> j
+    java.lang.String getService() -> k
+    int getFlag(android.content.Context) -> b
+    java.lang.String getNumber() -> l
+    void <init>(java.lang.String) -> <init>
+    void <clinit>() -> <clinit>
+    java.lang.String toString() -> toString
+    int hashCode() -> hashCode
+    boolean equals(java.lang.Object) -> equals
+com.rbardini.carteiro.model.Shipment$Companion -> com.rbardini.carteiro.b.a$a:
     void <init>() -> <init>
-    void <init>(java.lang.String,java.lang.String,boolean,boolean,boolean) -> <init>
-    void <init>(java.lang.String,java.lang.String) -> <init>
-    void <init>(java.lang.String) -> <init>
-    void <init>(java.lang.String,java.lang.String,java.util.Date,java.lang.String,java.lang.String,java.lang.String,boolean,boolean,boolean) -> <init>
-    void <init>(com.rbardini.carteiro.model.PostalItem,com.rbardini.carteiro.model.PostalRecord) -> <init>
-    java.lang.String getCod() -> a
-    java.lang.String getDesc() -> b
-    java.lang.String getSafeDesc() -> c
-    java.lang.String getFullDesc() -> d
-    void setDesc(java.lang.String) -> a
-    java.util.Date getDate() -> e
-    java.lang.String getLoc() -> f
-    java.lang.String getInfo() -> g
-    java.lang.String getFullInfo() -> h
-    java.lang.String getStatus() -> i
-    boolean isFav() -> j
-    void setFav(boolean) -> a
-    boolean toggleFav() -> k
-    boolean isArchived() -> l
-    boolean toggleArchived() -> m
-    boolean isUnread() -> n
-    boolean toggleUnread() -> o
-    java.lang.String getService() -> p
-    int getFlag(android.content.Context) -> a
-    boolean equals(java.lang.Object) -> equals
-com.rbardini.carteiro.model.PostalItemRecord -> com.rbardini.carteiro.b.b:
-    com.rbardini.carteiro.model.PostalItem pi -> a
-    java.util.List prList -> b
-    void <init>(java.lang.String) -> <init>
-    void <init>(com.rbardini.carteiro.model.PostalItem) -> <init>
-    com.rbardini.carteiro.model.PostalItem getPostalItem() -> a
-    com.rbardini.carteiro.model.PostalItem getSafePostalItem() -> b
-    java.util.List getPostalRecords() -> c
-    void setPostalRecords(java.util.List) -> a
-    com.rbardini.carteiro.model.PostalRecord getPostalRecord(int) -> a
-    void setPostalRecord(com.rbardini.carteiro.model.PostalRecord) -> a
-    com.rbardini.carteiro.model.PostalRecord getLastPostalRecord() -> d
-    java.lang.String getCod() -> e
-    java.lang.String getSafeDesc() -> f
-    com.rbardini.carteiro.model.PostalItemRecord fetch(android.content.Context) -> a
-    com.rbardini.carteiro.model.PostalItemRecord loadFrom(com.rbardini.carteiro.db.DatabaseHelper) -> a
-    com.rbardini.carteiro.model.PostalItemRecord saveTo(com.rbardini.carteiro.db.DatabaseHelper) -> b
-    com.rbardini.carteiro.model.PostalItemRecord archiveTo(com.rbardini.carteiro.db.DatabaseHelper) -> c
-    com.rbardini.carteiro.model.PostalItemRecord deleteFrom(com.rbardini.carteiro.db.DatabaseHelper) -> d
-    int size() -> g
-    boolean isEmpty() -> h
-    boolean equals(java.lang.Object) -> equals
-com.rbardini.carteiro.model.PostalRecord -> com.rbardini.carteiro.b.c:
-    java.lang.String cod -> a
+    void <init>(kotlin.jvm.internal.DefaultConstructorMarker) -> <init>
+com.rbardini.carteiro.model.ShipmentRecord -> com.rbardini.carteiro.b.b:
     java.util.Date date -> b
-    java.lang.String loc -> c
-    java.lang.String info -> d
-    java.lang.String status -> e
-    void <init>() -> <init>
-    void <init>(java.lang.String,java.util.Date,java.lang.String) -> <init>
-    void <init>(java.lang.String,java.util.Date,java.lang.String,java.lang.String,java.lang.String) -> <init>
-    java.lang.String getCod() -> a
+    java.lang.String status -> c
+    java.lang.String local -> d
+    java.lang.String info -> e
+    com.rbardini.carteiro.model.ShipmentRecord$Companion Companion -> a
+    java.lang.String getDescription() -> a
     java.util.Date getDate() -> b
-    java.lang.String getLoc() -> c
-    java.lang.String getInfo() -> d
-    void setInfo(java.lang.String) -> a
-    java.lang.String getStatus() -> e
+    java.lang.String getStatus() -> c
+    java.lang.String getLocal() -> d
+    java.lang.String getInfo() -> e
+    void <init>(java.util.Date,java.lang.String,java.lang.String,java.lang.String) -> <init>
+    void <init>(java.util.Date,java.lang.String) -> <init>
+    void <clinit>() -> <clinit>
+    java.lang.String toString() -> toString
+    int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
+com.rbardini.carteiro.model.ShipmentRecord$Companion -> com.rbardini.carteiro.b.b$a:
+    void <init>() -> <init>
+    void <init>(kotlin.jvm.internal.DefaultConstructorMarker) -> <init>
 com.rbardini.carteiro.svc.AlarmReceiver -> com.rbardini.carteiro.svc.AlarmReceiver:
     void <init>() -> <init>
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
@@ -30370,44 +30360,41 @@ com.rbardini.carteiro.svc.SearchProvider -> com.rbardini.carteiro.svc.SearchProv
     java.lang.String getType(android.net.Uri) -> getType
     void <clinit>() -> <clinit>
 com.rbardini.carteiro.svc.SyncService -> com.rbardini.carteiro.svc.SyncService:
-    com.rbardini.carteiro.CarteiroApplication app -> a
-    com.rbardini.carteiro.db.DatabaseHelper dh -> b
-    android.app.NotificationManager nm -> c
-    android.content.SharedPreferences prefs -> d
-    android.support.v4.content.LocalBroadcastManager broadcaster -> e
-    java.util.Set updatedCods -> f
+    com.rbardini.carteiro.db.DatabaseHelper dh -> a
+    android.app.NotificationManager nm -> b
+    android.content.SharedPreferences prefs -> c
+    android.support.v4.content.LocalBroadcastManager broadcaster -> d
     void <init>() -> <init>
     void onCreate() -> onCreate
     void onHandleIntent(android.content.Intent) -> onHandleIntent
     boolean shouldSync(android.content.Intent) -> a
-    void updatePostalItem(com.rbardini.carteiro.model.PostalItemRecord) -> a
+    void updateShipments(java.util.List) -> a
     int getSyncFlags() -> a
     int getNotificationFlags() -> b
-    void showNotification(int) -> a
-    boolean notifiable(com.rbardini.carteiro.model.PostalItem,int) -> a
+    void showNotification(java.util.List,int) -> a
+    boolean notifiable(com.rbardini.carteiro.model.Shipment,int) -> a
     android.app.PendingIntent getSender(android.content.Context) -> c
     void scheduleSync(android.content.Context) -> a
     void unscheduleSync(android.content.Context) -> b
 com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     boolean mIsFormView -> m
-    com.rbardini.carteiro.CarteiroApplication app -> n
-    android.content.SharedPreferences mPrefs -> o
-    android.support.v7.app.ActionBar mActionBar -> p
-    android.view.View mFormView -> q
-    android.view.View mConfirmationView -> r
-    android.view.View mLoadingView -> s
-    android.widget.TextView mContentText -> t
-    android.support.design.widget.TextInputLayout mTrackingNumberInput -> u
-    android.support.design.widget.TextInputEditText mTrackingNumberField -> v
-    android.support.design.widget.TextInputEditText mItemNameField -> w
-    android.widget.Button mCancelButton -> x
-    android.widget.Button mAddButton -> y
-    android.widget.Button mSkipButton -> z
-    android.widget.Button mJustOnceButton -> A
-    android.widget.Button mAlwaysButton -> B
-    com.rbardini.carteiro.model.PostalItemRecord mPostalItemRecord -> C
-    android.os.AsyncTask mFetchPostalItemRecordTask -> D
-    com.rbardini.carteiro.db.DatabaseHelper dh -> E
+    android.content.SharedPreferences mPrefs -> n
+    android.support.v7.app.ActionBar mActionBar -> o
+    android.view.View mFormView -> p
+    android.view.View mConfirmationView -> q
+    android.view.View mLoadingView -> r
+    android.widget.TextView mContentText -> s
+    android.support.design.widget.TextInputLayout mTrackingNumberInput -> t
+    android.support.design.widget.TextInputEditText mTrackingNumberField -> u
+    android.support.design.widget.TextInputEditText mItemNameField -> v
+    android.widget.Button mCancelButton -> w
+    android.widget.Button mAddButton -> x
+    android.widget.Button mSkipButton -> y
+    android.widget.Button mJustOnceButton -> z
+    android.widget.Button mAlwaysButton -> A
+    com.rbardini.carteiro.model.Shipment mShipment -> B
+    android.os.AsyncTask mFetchShipmentTask -> C
+    com.rbardini.carteiro.db.DatabaseHelper dh -> D
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
@@ -30442,8 +30429,8 @@ com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     void handleIntent() -> t
     void fillFromClipboard() -> u
     java.lang.String validateCod(java.lang.String) -> a
-    void addPostalItemRecord() -> v
-    void cancelPostalItemRecordFetch() -> w
+    void addShipment() -> v
+    void cancelShipmentFetch() -> w
     int getConfirmationPreferenceKeyById(int) -> e
     boolean shouldAskForConfirmation(int) -> f
     android.support.design.widget.TextInputEditText access$100(com.rbardini.carteiro.ui.AddActivity) -> a
@@ -30474,14 +30461,14 @@ com.rbardini.carteiro.ui.AddActivity$3 -> com.rbardini.carteiro.ui.AddActivity$3
 com.rbardini.carteiro.ui.AddActivity$4 -> com.rbardini.carteiro.ui.AddActivity$4:
     int[] $SwitchMap$com$rbardini$carteiro$util$validator$TrackingCodeValidation$Result -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.ui.AddActivity$FetchPostalItemRecordTask -> com.rbardini.carteiro.ui.AddActivity$a:
+com.rbardini.carteiro.ui.AddActivity$FetchShipmentTask -> com.rbardini.carteiro.ui.AddActivity$a:
     java.lang.String error -> b
     com.rbardini.carteiro.ui.AddActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
     void onPreExecute() -> onPreExecute
-    com.rbardini.carteiro.model.PostalItemRecord doInBackground(java.lang.Object[]) -> a
-    void onPostExecute(com.rbardini.carteiro.model.PostalItemRecord) -> a
-    void onCancelled(com.rbardini.carteiro.model.PostalItemRecord) -> b
+    com.rbardini.carteiro.model.Shipment doInBackground(java.lang.Object[]) -> a
+    void onPostExecute(com.rbardini.carteiro.model.Shipment) -> a
+    void onCancelled(com.rbardini.carteiro.model.Shipment) -> b
     void onCancelled(java.lang.Object) -> onCancelled
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
@@ -30513,7 +30500,7 @@ com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter$OnSwipeCallback -> com.rbard
     void onSwipe(int) -> b
 com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     android.app.FragmentManager mFragmentManager -> n
-    com.rbardini.carteiro.ui.PostalListFragment mCurrentFragment -> o
+    com.rbardini.carteiro.ui.ShipmentListFragment mCurrentFragment -> o
     android.app.NotificationManager mNotificationManager -> p
     android.os.Handler mHandler -> q
     android.view.View mMainContainer -> r
@@ -30530,14 +30517,14 @@ com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void setTitle(java.lang.CharSequence) -> setTitle
     void onBackPressed() -> onBackPressed
-    void onPostalListAttached(com.rbardini.carteiro.ui.PostalListFragment) -> a
-    com.rbardini.carteiro.ui.PostalFragment getPostalFragment() -> j
+    void onPostalListAttached(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
+    com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
     void setDrawerCategoryChecked(int) -> c
-    void setupAddButton() -> n
+    void setupAddButton() -> k
     void setupNavigationDrawer() -> o
     void showCategory(int) -> d
-    com.rbardini.carteiro.ui.PostalListFragment getCurrentFragment() -> p
-    com.rbardini.carteiro.ui.PostalListFragment access$000(com.rbardini.carteiro.ui.MainActivity) -> a
+    com.rbardini.carteiro.ui.ShipmentListFragment getCurrentFragment() -> p
+    com.rbardini.carteiro.ui.ShipmentListFragment access$000(com.rbardini.carteiro.ui.MainActivity) -> a
     android.view.View access$100(com.rbardini.carteiro.ui.MainActivity) -> b
     void access$200(com.rbardini.carteiro.ui.MainActivity,int) -> a
     android.os.Handler access$300(com.rbardini.carteiro.ui.MainActivity) -> c
@@ -30556,206 +30543,6 @@ com.rbardini.carteiro.ui.MainActivity$2$1 -> com.rbardini.carteiro.ui.MainActivi
     com.rbardini.carteiro.ui.MainActivity$2 this$1 -> b
     void <init>(com.rbardini.carteiro.ui.MainActivity$2,int) -> <init>
     void run() -> run
-com.rbardini.carteiro.ui.PostalActivity -> com.rbardini.carteiro.ui.c:
-    com.rbardini.carteiro.CarteiroApplication app -> m
-    android.content.BroadcastReceiver mReceiver -> n
-    void <init>() -> <init>
-    void onCreate(android.os.Bundle) -> onCreate
-    void onResume() -> onResume
-    void onPause() -> onPause
-    boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    void onSyncStatusChange(android.content.Intent) -> c
-    void onPostalListAttached(com.rbardini.carteiro.ui.PostalListFragment) -> a
-    void onRenamePostalItem(java.lang.String,com.rbardini.carteiro.model.PostalItem) -> a
-    void onDeletePostalItems(java.util.ArrayList) -> a
-    void onFavClick(android.view.View) -> onFavClick
-    void updateRefreshStatus() -> k
-    void refreshList() -> l
-    void clearSelection() -> m
-    com.rbardini.carteiro.ui.PostalFragment getPostalFragment() -> j
-com.rbardini.carteiro.ui.PostalActivity$1 -> com.rbardini.carteiro.ui.c$1:
-    com.rbardini.carteiro.ui.PostalActivity this$0 -> a
-    void <init>(com.rbardini.carteiro.ui.PostalActivity) -> <init>
-    void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.rbardini.carteiro.ui.PostalActivity$2 -> com.rbardini.carteiro.ui.c$2:
-    com.rbardini.carteiro.ui.PostalActivity this$0 -> a
-    void <init>(com.rbardini.carteiro.ui.PostalActivity) -> <init>
-    void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.PostalFragment -> com.rbardini.carteiro.ui.d:
-    android.app.Activity mActivity -> a
-    com.rbardini.carteiro.CarteiroApplication app -> b
-    com.rbardini.carteiro.db.DatabaseHelper dh -> c
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> d
-    void <init>() -> <init>
-    void onCreate(android.os.Bundle) -> onCreate
-    void onActivityCreated(android.os.Bundle) -> onActivityCreated
-    void refreshList() -> b
-    void updateRefreshStatus() -> c
-    void clearSelection() -> d
-com.rbardini.carteiro.ui.PostalItemDialogFragment -> com.rbardini.carteiro.ui.e:
-    com.rbardini.carteiro.ui.PostalItemDialogFragment$OnPostalItemChangeListener listener -> a
-    void <init>() -> <init>
-    com.rbardini.carteiro.ui.PostalItemDialogFragment newInstance(int,java.util.ArrayList) -> a
-    void onCreate(android.os.Bundle) -> onCreate
-    android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-    void onRenamePostalItem(android.widget.EditText,com.rbardini.carteiro.model.PostalItem) -> a
-    void access$000(com.rbardini.carteiro.ui.PostalItemDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.PostalItem) -> a
-    com.rbardini.carteiro.ui.PostalItemDialogFragment$OnPostalItemChangeListener access$100(com.rbardini.carteiro.ui.PostalItemDialogFragment) -> a
-com.rbardini.carteiro.ui.PostalItemDialogFragment$1 -> com.rbardini.carteiro.ui.e$1:
-    android.widget.EditText val$itemDesc -> a
-    com.rbardini.carteiro.model.PostalItem val$pi -> b
-    com.rbardini.carteiro.ui.PostalItemDialogFragment this$0 -> c
-    void <init>(com.rbardini.carteiro.ui.PostalItemDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.PostalItem) -> <init>
-    boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
-com.rbardini.carteiro.ui.PostalItemDialogFragment$2 -> com.rbardini.carteiro.ui.e$2:
-    android.widget.EditText val$itemDesc -> a
-    com.rbardini.carteiro.model.PostalItem val$pi -> b
-    com.rbardini.carteiro.ui.PostalItemDialogFragment this$0 -> c
-    void <init>(com.rbardini.carteiro.ui.PostalItemDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.PostalItem) -> <init>
-    void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.PostalItemDialogFragment$3 -> com.rbardini.carteiro.ui.e$3:
-    java.util.ArrayList val$piList -> a
-    com.rbardini.carteiro.ui.PostalItemDialogFragment this$0 -> b
-    void <init>(com.rbardini.carteiro.ui.PostalItemDialogFragment,java.util.ArrayList) -> <init>
-    void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.PostalItemDialogFragment$OnPostalItemChangeListener -> com.rbardini.carteiro.ui.e$a:
-    void onRenamePostalItem(java.lang.String,com.rbardini.carteiro.model.PostalItem) -> a
-    void onDeletePostalItems(java.util.ArrayList) -> a
-com.rbardini.carteiro.ui.PostalItemListAdapter -> com.rbardini.carteiro.ui.f:
-    android.content.Context mContext -> b
-    android.widget.ListView mListView -> c
-    android.view.LayoutInflater mInflater -> d
-    void <init>(android.content.Context,java.util.List,android.widget.ListView) -> <init>
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    long getItemId(int) -> getItemId
-    android.widget.ListView access$700(com.rbardini.carteiro.ui.PostalItemListAdapter) -> a
-com.rbardini.carteiro.ui.PostalItemListAdapter$1 -> com.rbardini.carteiro.ui.f$1:
-    int val$position -> a
-    boolean val$isChecked -> b
-    com.rbardini.carteiro.ui.PostalItemListAdapter this$0 -> c
-    void <init>(com.rbardini.carteiro.ui.PostalItemListAdapter,int,boolean) -> <init>
-    void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder -> com.rbardini.carteiro.ui.f$a:
-    android.widget.TextView desc -> a
-    android.widget.TextView date -> b
-    android.widget.TextView loc -> c
-    android.widget.TextView info -> d
-    android.widget.ImageView icon -> e
-    android.widget.CheckBox fav -> f
-    void <init>() -> <init>
-    void <init>(com.rbardini.carteiro.ui.PostalItemListAdapter$1) -> <init>
-    android.widget.TextView access$102(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder,android.widget.TextView) -> a
-    android.widget.TextView access$202(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder,android.widget.TextView) -> b
-    android.widget.TextView access$302(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder,android.widget.TextView) -> c
-    android.widget.TextView access$402(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder,android.widget.TextView) -> d
-    android.widget.ImageView access$502(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder,android.widget.ImageView) -> a
-    android.widget.CheckBox access$602(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder,android.widget.CheckBox) -> a
-    android.widget.TextView access$100(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder) -> a
-    android.widget.TextView access$200(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder) -> b
-    android.widget.TextView access$300(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder) -> c
-    android.widget.TextView access$400(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder) -> d
-    android.widget.CheckBox access$600(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder) -> e
-    android.widget.ImageView access$500(com.rbardini.carteiro.ui.PostalItemListAdapter$ViewHolder) -> f
-com.rbardini.carteiro.ui.PostalListFragment -> com.rbardini.carteiro.ui.g:
-    com.rbardini.carteiro.ui.PostalListFragment$OnPostalListActionListener mListener -> e
-    int category -> f
-    java.lang.String query -> g
-    com.rbardini.carteiro.ui.PostalListFragment$MultiChoiceModeListener mMultiChoiceModeListener -> h
-    java.util.ArrayList mList -> i
-    java.util.ArrayList mSelectedList -> j
-    com.rbardini.carteiro.ui.PostalItemListAdapter mListAdapter -> k
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter mDismissAdapter -> l
-    com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter mUndoAdapter -> m
-    void <init>() -> <init>
-    com.rbardini.carteiro.ui.PostalListFragment newInstance(int) -> c
-    com.rbardini.carteiro.ui.PostalListFragment newInstance(java.lang.String) -> a
-    void onCreate(android.os.Bundle) -> onCreate
-    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    void onActivityCreated(android.os.Bundle) -> onActivityCreated
-    void onResume() -> onResume
-    void onPause() -> onPause
-    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
-    void deleteItem(int) -> a
-    void onSwipe(int) -> b
-    void onDismiss(android.widget.AbsListView,int[]) -> a
-    void onRefresh() -> a
-    void refreshList() -> b
-    void clearSelection() -> d
-    void setQuery(java.lang.String) -> b
-    void setCategory(int) -> d
-    int getCategory() -> e
-    java.util.List getList() -> f
-    int getListSize() -> g
-    boolean hasSelection() -> h
-    boolean shouldDeleteItems() -> i
-    void updateList() -> j
-    com.rbardini.carteiro.ui.PostalItemListAdapter access$100(com.rbardini.carteiro.ui.PostalListFragment) -> a
-    java.util.ArrayList access$200(com.rbardini.carteiro.ui.PostalListFragment) -> b
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter access$300(com.rbardini.carteiro.ui.PostalListFragment) -> c
-com.rbardini.carteiro.ui.PostalListFragment$1 -> com.rbardini.carteiro.ui.g$1:
-com.rbardini.carteiro.ui.PostalListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.g$a:
-    android.view.ActionMode mActionMode -> b
-    android.util.SparseBooleanArray mCollectiveActionMap -> c
-    com.rbardini.carteiro.ui.PostalListFragment this$0 -> a
-    void <init>(com.rbardini.carteiro.ui.PostalListFragment) -> <init>
-    void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-    boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
-    boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
-    boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
-    void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
-    boolean hasActionMode() -> a
-    void finishActionMode() -> b
-    void <init>(com.rbardini.carteiro.ui.PostalListFragment,com.rbardini.carteiro.ui.PostalListFragment$1) -> <init>
-com.rbardini.carteiro.ui.PostalListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.g$b:
-    void onPostalListAttached(com.rbardini.carteiro.ui.PostalListFragment) -> a
-com.rbardini.carteiro.ui.PostalRecordFragment -> com.rbardini.carteiro.ui.h:
-    com.rbardini.carteiro.model.PostalItem pi -> e
-    java.util.List mList -> f
-    com.rbardini.carteiro.ui.PostalRecordListAdapter mListAdapter -> g
-    void <init>() -> <init>
-    com.rbardini.carteiro.ui.PostalRecordFragment newInstance(com.rbardini.carteiro.model.PostalItem) -> a
-    void onCreate(android.os.Bundle) -> onCreate
-    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    void onRefresh() -> a
-    void refreshList() -> b
-    void setPostalItem(com.rbardini.carteiro.model.PostalItem) -> b
-    void updateList() -> e
-com.rbardini.carteiro.ui.PostalRecordListAdapter -> com.rbardini.carteiro.ui.i:
-    android.content.Context mContext -> a
-    java.util.List mList -> b
-    android.view.LayoutInflater mInflater -> c
-    void <init>(android.content.Context,java.util.List) -> <init>
-    int getCount() -> getCount
-    com.rbardini.carteiro.model.PostalRecord getItem(int) -> a
-    long getItemId(int) -> getItemId
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    java.lang.Object getItem(int) -> getItem
-com.rbardini.carteiro.ui.PostalRecordListAdapter$1 -> com.rbardini.carteiro.ui.i$1:
-com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder -> com.rbardini.carteiro.ui.i$a:
-    android.view.View timeline -> a
-    android.widget.TextView date -> b
-    android.widget.TextView time -> c
-    android.widget.TextView status -> d
-    android.widget.TextView loc -> e
-    android.widget.TextView info -> f
-    android.widget.ImageView icon -> g
-    void <init>() -> <init>
-    void <init>(com.rbardini.carteiro.ui.PostalRecordListAdapter$1) -> <init>
-    android.view.View access$102(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.view.View) -> a
-    android.widget.TextView access$202(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.widget.TextView) -> a
-    android.widget.TextView access$302(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.widget.TextView) -> b
-    android.widget.TextView access$402(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.widget.TextView) -> c
-    android.widget.TextView access$502(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.widget.TextView) -> d
-    android.widget.TextView access$602(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.widget.TextView) -> e
-    android.widget.ImageView access$702(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder,android.widget.ImageView) -> a
-    android.widget.TextView access$200(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> a
-    android.widget.TextView access$300(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> b
-    android.widget.TextView access$400(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> c
-    android.widget.TextView access$500(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> d
-    android.widget.TextView access$600(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> e
-    android.widget.ImageView access$700(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> f
-    android.view.View access$100(com.rbardini.carteiro.ui.PostalRecordListAdapter$ViewHolder) -> g
 com.rbardini.carteiro.ui.PreferencesActivity -> com.rbardini.carteiro.ui.PreferencesActivity:
     com.rbardini.carteiro.CarteiroApplication app -> a
     com.rbardini.carteiro.db.DatabaseHelper dh -> b
@@ -30837,7 +30624,7 @@ com.rbardini.carteiro.ui.PreferencesActivity$SyncingPreferences -> com.rbardini.
     void onCreate(android.os.Bundle) -> onCreate
     void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
     void setRefreshIntervalPreference() -> a
-com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.j:
+com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.c:
     boolean mIsBackupManagerAvailable -> a
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
@@ -30847,9 +30634,9 @@ com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.j:
 com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivity:
     com.rbardini.carteiro.db.DatabaseHelper dh -> n
     android.app.FragmentManager mFragManager -> o
-    com.rbardini.carteiro.model.PostalItem mPostalItem -> p
+    com.rbardini.carteiro.model.Shipment mShipment -> p
     boolean mOnlySRO -> q
-    com.rbardini.carteiro.ui.PostalRecordFragment mRecordFragment -> r
+    com.rbardini.carteiro.ui.RecordFragment mRecordFragment -> r
     com.rbardini.carteiro.ui.SROFragment mSROFragment -> s
     android.widget.TextView mSubtitle -> t
     android.widget.TextView mLegend -> u
@@ -30862,11 +30649,11 @@ com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivi
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void onBackPressed() -> onBackPressed
-    void onRenamePostalItem(java.lang.String,com.rbardini.carteiro.model.PostalItem) -> a
-    void onDeletePostalItems(java.util.ArrayList) -> a
+    void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
+    void onDeleteShipments(java.util.ArrayList) -> a
     void onProgress(int) -> c
-    void onLeave() -> n
-    com.rbardini.carteiro.ui.PostalFragment getPostalFragment() -> j
+    void onLeave() -> k
+    com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
     void setupTransition() -> o
     void setTitleBar() -> p
     void setActionBarTitle(java.lang.CharSequence) -> a
@@ -30882,7 +30669,18 @@ com.rbardini.carteiro.ui.RecordActivity$2 -> com.rbardini.carteiro.ui.RecordActi
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.k:
+com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.d:
+    com.rbardini.carteiro.model.Shipment mShipment -> e
+    com.rbardini.carteiro.ui.ShipmentAdapter mListAdapter -> f
+    void <init>() -> <init>
+    com.rbardini.carteiro.ui.RecordFragment newInstance(com.rbardini.carteiro.model.Shipment) -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    void onRefresh() -> a
+    void refreshList() -> b
+    void setShipment(com.rbardini.carteiro.model.Shipment) -> b
+    void updateList() -> c
+com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.e:
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener listener -> a
     android.webkit.WebView mWebView -> b
     void <init>() -> <init>
@@ -30893,16 +30691,16 @@ com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.k:
     boolean canGoBack() -> a
     void goBack() -> b
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener access$000(com.rbardini.carteiro.ui.SROFragment) -> a
-com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.k$1:
+com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.e$1:
     com.rbardini.carteiro.ui.SROFragment this$0 -> a
     void <init>(com.rbardini.carteiro.ui.SROFragment) -> <init>
     void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.k$a:
+com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.e$a:
     void onProgress(int) -> c
-    void onLeave() -> n
+    void onLeave() -> k
 com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivity:
     android.support.v7.app.ActionBar mActionBar -> n
-    com.rbardini.carteiro.ui.PostalListFragment mCurrentFragment -> o
+    com.rbardini.carteiro.ui.ShipmentListFragment mCurrentFragment -> o
     java.lang.String mQuery -> p
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
@@ -30910,8 +30708,196 @@ com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivi
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void finish() -> finish
-    com.rbardini.carteiro.ui.PostalFragment getPostalFragment() -> j
-    void handleIntent() -> n
+    com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
+    void handleIntent() -> k
+com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.f:
+    com.rbardini.carteiro.CarteiroApplication app -> m
+    android.content.BroadcastReceiver mReceiver -> n
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void onResume() -> onResume
+    void onPause() -> onPause
+    boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    void onSyncStatusChange(android.content.Intent) -> c
+    void onPostalListAttached(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
+    void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
+    void onDeleteShipments(java.util.ArrayList) -> a
+    void onFavClick(android.view.View) -> onFavClick
+    void updateRefreshStatus() -> l
+    void refreshList() -> m
+    void clearSelection() -> n
+    com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
+com.rbardini.carteiro.ui.ShipmentActivity$1 -> com.rbardini.carteiro.ui.f$1:
+    com.rbardini.carteiro.ui.ShipmentActivity this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.ShipmentActivity) -> <init>
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.rbardini.carteiro.ui.ShipmentActivity$2 -> com.rbardini.carteiro.ui.f$2:
+    com.rbardini.carteiro.ui.ShipmentActivity this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.ShipmentActivity) -> <init>
+    void onClick(android.view.View) -> onClick
+com.rbardini.carteiro.ui.ShipmentAdapter -> com.rbardini.carteiro.ui.g:
+    android.content.Context mContext -> a
+    com.rbardini.carteiro.model.Shipment mShipment -> b
+    android.view.LayoutInflater mInflater -> c
+    void <init>(android.content.Context,com.rbardini.carteiro.model.Shipment) -> <init>
+    int getCount() -> getCount
+    com.rbardini.carteiro.model.ShipmentRecord getItem(int) -> a
+    long getItemId(int) -> getItemId
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    java.lang.Object getItem(int) -> getItem
+com.rbardini.carteiro.ui.ShipmentAdapter$1 -> com.rbardini.carteiro.ui.g$1:
+com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder -> com.rbardini.carteiro.ui.g$a:
+    android.view.View timeline -> a
+    android.widget.TextView date -> b
+    android.widget.TextView time -> c
+    android.widget.TextView status -> d
+    android.widget.TextView loc -> e
+    android.widget.TextView info -> f
+    android.widget.ImageView icon -> g
+    void <init>() -> <init>
+    void <init>(com.rbardini.carteiro.ui.ShipmentAdapter$1) -> <init>
+    android.view.View access$102(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.view.View) -> a
+    android.widget.TextView access$202(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> a
+    android.widget.TextView access$302(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> b
+    android.widget.TextView access$402(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> c
+    android.widget.TextView access$502(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> d
+    android.widget.TextView access$602(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> e
+    android.widget.ImageView access$702(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.ImageView) -> a
+    android.widget.TextView access$200(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> a
+    android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> b
+    android.widget.TextView access$400(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> c
+    android.widget.TextView access$500(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> d
+    android.widget.TextView access$600(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> e
+    android.widget.ImageView access$700(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> f
+    android.view.View access$100(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> g
+com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.h:
+    com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener listener -> a
+    void <init>() -> <init>
+    com.rbardini.carteiro.ui.ShipmentDialogFragment newInstance(int,java.util.ArrayList) -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
+    void onRenameShipment(android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> a
+    void access$000(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> a
+    com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener access$100(com.rbardini.carteiro.ui.ShipmentDialogFragment) -> a
+com.rbardini.carteiro.ui.ShipmentDialogFragment$1 -> com.rbardini.carteiro.ui.h$1:
+    android.widget.EditText val$itemDesc -> a
+    com.rbardini.carteiro.model.Shipment val$shipment -> b
+    com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> c
+    void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> <init>
+    boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
+com.rbardini.carteiro.ui.ShipmentDialogFragment$2 -> com.rbardini.carteiro.ui.h$2:
+    android.widget.EditText val$itemDesc -> a
+    com.rbardini.carteiro.model.Shipment val$shipment -> b
+    com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> c
+    void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.rbardini.carteiro.ui.ShipmentDialogFragment$3 -> com.rbardini.carteiro.ui.h$3:
+    java.util.ArrayList val$shipments -> a
+    com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> b
+    void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,java.util.ArrayList) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener -> com.rbardini.carteiro.ui.h$a:
+    void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
+    void onDeleteShipments(java.util.ArrayList) -> a
+com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.i:
+    android.app.Activity mActivity -> a
+    com.rbardini.carteiro.CarteiroApplication app -> b
+    com.rbardini.carteiro.db.DatabaseHelper dh -> c
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> d
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void onActivityCreated(android.os.Bundle) -> onActivityCreated
+    void refreshList() -> b
+    void updateRefreshStatus() -> d
+    void clearSelection() -> e
+com.rbardini.carteiro.ui.ShipmentListAdapter -> com.rbardini.carteiro.ui.j:
+    android.content.Context mContext -> b
+    android.widget.ListView mListView -> c
+    android.view.LayoutInflater mInflater -> d
+    void <init>(android.content.Context,java.util.List,android.widget.ListView) -> <init>
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    long getItemId(int) -> getItemId
+    android.widget.ListView access$700(com.rbardini.carteiro.ui.ShipmentListAdapter) -> a
+com.rbardini.carteiro.ui.ShipmentListAdapter$1 -> com.rbardini.carteiro.ui.j$1:
+    int val$position -> a
+    boolean val$isChecked -> b
+    com.rbardini.carteiro.ui.ShipmentListAdapter this$0 -> c
+    void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter,int,boolean) -> <init>
+    void onClick(android.view.View) -> onClick
+com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder -> com.rbardini.carteiro.ui.j$a:
+    android.widget.TextView desc -> a
+    android.widget.TextView date -> b
+    android.widget.TextView loc -> c
+    android.widget.TextView info -> d
+    android.widget.ImageView icon -> e
+    android.widget.CheckBox fav -> f
+    void <init>() -> <init>
+    void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter$1) -> <init>
+    android.widget.TextView access$102(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> a
+    android.widget.TextView access$202(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> b
+    android.widget.TextView access$302(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> c
+    android.widget.TextView access$402(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> d
+    android.widget.ImageView access$502(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.ImageView) -> a
+    android.widget.CheckBox access$602(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.CheckBox) -> a
+    android.widget.TextView access$100(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> a
+    android.widget.TextView access$200(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> b
+    android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> c
+    android.widget.TextView access$400(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> d
+    android.widget.CheckBox access$600(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> e
+    android.widget.ImageView access$500(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> f
+com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.k:
+    com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener mListener -> e
+    int category -> f
+    java.lang.String query -> g
+    com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener mMultiChoiceModeListener -> h
+    java.util.ArrayList mList -> i
+    java.util.ArrayList mSelectedList -> j
+    com.rbardini.carteiro.ui.ShipmentListAdapter mListAdapter -> k
+    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter mDismissAdapter -> l
+    com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter mUndoAdapter -> m
+    void <init>() -> <init>
+    com.rbardini.carteiro.ui.ShipmentListFragment newInstance(int) -> c
+    com.rbardini.carteiro.ui.ShipmentListFragment newInstance(java.lang.String) -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    void onActivityCreated(android.os.Bundle) -> onActivityCreated
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
+    void deleteItem(int) -> a
+    void onSwipe(int) -> b
+    void onDismiss(android.widget.AbsListView,int[]) -> a
+    void onRefresh() -> a
+    void refreshList() -> b
+    void clearSelection() -> e
+    void setQuery(java.lang.String) -> b
+    void setCategory(int) -> d
+    int getCategory() -> c
+    java.util.List getList() -> f
+    int getListSize() -> g
+    boolean hasSelection() -> h
+    boolean shouldDeleteItems() -> i
+    void updateList() -> j
+    com.rbardini.carteiro.ui.ShipmentListAdapter access$100(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
+    java.util.ArrayList access$200(com.rbardini.carteiro.ui.ShipmentListFragment) -> b
+    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter access$300(com.rbardini.carteiro.ui.ShipmentListFragment) -> c
+com.rbardini.carteiro.ui.ShipmentListFragment$1 -> com.rbardini.carteiro.ui.k$1:
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.k$a:
+    android.view.ActionMode mActionMode -> b
+    android.util.SparseBooleanArray mCollectiveActionMap -> c
+    com.rbardini.carteiro.ui.ShipmentListFragment this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.ShipmentListFragment) -> <init>
+    void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
+    boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
+    boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
+    boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
+    void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    boolean hasActionMode() -> a
+    void finishActionMode() -> b
+    void <init>(com.rbardini.carteiro.ui.ShipmentListFragment,com.rbardini.carteiro.ui.ShipmentListFragment$1) -> <init>
+com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.k$b:
+    void onPostalListAttached(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
 com.rbardini.carteiro.ui.ThemePreference -> com.rbardini.carteiro.ui.ThemePreference:
     java.lang.String mChosenTheme -> a
     void <init>(android.content.Context,android.util.AttributeSet) -> <init>
@@ -31077,20 +31063,25 @@ com.rbardini.carteiro.util.IOUtils -> com.rbardini.carteiro.c.b:
     void copyFile(java.io.FileInputStream,java.io.FileOutputStream) -> a
     void <clinit>() -> <clinit>
 com.rbardini.carteiro.util.MobileTracker -> com.rbardini.carteiro.c.c:
-    java.util.List track(java.lang.String[],android.content.Context) -> a
-    java.util.List track(java.lang.String,android.content.Context) -> a
-    java.lang.String buildRequestBody(java.lang.String[]) -> b
+    java.util.List track(java.util.List,android.content.Context,boolean) -> a
+    java.util.List shallowTrack(java.util.List,android.content.Context) -> a
+    java.util.List deepTrack(java.util.List,android.content.Context) -> b
+    com.rbardini.carteiro.model.Shipment track(com.rbardini.carteiro.model.Shipment,android.content.Context,boolean) -> a
+    com.rbardini.carteiro.model.Shipment deepTrack(com.rbardini.carteiro.model.Shipment,android.content.Context) -> a
+    java.util.Map buildShipmentMap(java.util.List) -> a
+    java.lang.String buildRequestBody(java.util.Map,boolean) -> b
     java.lang.String buildLocation(org.json.JSONObject) -> a
-    java.lang.String access$000(java.lang.String[]) -> a
+    java.lang.String access$000(java.util.Map,boolean) -> a
 com.rbardini.carteiro.util.MobileTracker$1 -> com.rbardini.carteiro.c.c$1:
-    java.lang.String[] val$cods -> a
-    void <init>(int,java.lang.String,org.json.JSONObject,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener,java.lang.String[]) -> <init>
+    java.util.Map val$shipmentMap -> a
+    boolean val$shallow -> b
+    void <init>(int,java.lang.String,org.json.JSONObject,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener,java.util.Map,boolean) -> <init>
     java.util.Map getHeaders() -> h
     java.lang.String getBodyContentType() -> o
     byte[] getBody() -> p
 com.rbardini.carteiro.util.PostalUtils -> com.rbardini.carteiro.c.d:
-    java.lang.String getLocation(com.rbardini.carteiro.model.PostalItem,boolean) -> a
-    android.content.Intent getShareIntent(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> a
+    java.lang.String getLocation(com.rbardini.carteiro.model.ShipmentRecord,boolean) -> a
+    android.content.Intent getShareIntent(android.content.Context,com.rbardini.carteiro.model.Shipment) -> a
     android.content.Intent getShareIntent(android.content.Context,java.util.List) -> a
 com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.d$a:
     java.util.Map StatusesMap -> a
@@ -31144,8 +31135,8 @@ com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.f:
     void showToast(android.content.Context,int) -> a
     java.lang.CharSequence getRelativeTime(java.util.Date) -> a
     java.lang.CharSequence getRelativeDaysString(android.content.Context,java.util.Date) -> a
-    void shareItem(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> a
-    void locateItem(android.content.Context,com.rbardini.carteiro.model.PostalItem) -> b
+    void shareItem(android.content.Context,com.rbardini.carteiro.model.Shipment) -> a
+    void locateItem(android.content.Context,com.rbardini.carteiro.model.Shipment) -> b
     int getPostalStatusColor(java.lang.String) -> a
 com.rbardini.carteiro.util.validator.TrackingCodeValidation -> com.rbardini.carteiro.c.a.a:
     java.lang.String cod -> a
@@ -31169,7 +31160,27 @@ com.rbardini.carteiro.util.validator.TrackingCodeValidator -> com.rbardini.carte
     int[] NUMERIC_WEIGHTS -> a
     com.rbardini.carteiro.util.validator.TrackingCodeValidation validate(java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.Address -> a.a:
+kotlin.TypeCastException -> a.a:
+    void <init>() -> <init>
+    void <init>(java.lang.String) -> <init>
+kotlin.collections.CollectionsKt -> a.a.a:
+kotlin.collections.CollectionsKt__CollectionsKt -> a.a.b:
+kotlin.collections.CollectionsKt__IterablesKt -> a.a.c:
+kotlin.collections.CollectionsKt__IteratorsKt -> a.a.d:
+kotlin.collections.CollectionsKt__MutableCollectionsKt -> a.a.e:
+kotlin.collections.CollectionsKt__ReversedViewsKt -> a.a.f:
+kotlin.collections.CollectionsKt___CollectionsKt -> a.a.g:
+    java.lang.Object lastOrNull(java.util.List) -> a
+kotlin.jvm.internal.DefaultConstructorMarker -> a.b.a.a:
+kotlin.jvm.internal.Intrinsics -> a.b.a.b:
+    void <init>() -> <init>
+    void checkExpressionValueIsNotNull(java.lang.Object,java.lang.String) -> a
+    void checkParameterIsNotNull(java.lang.Object,java.lang.String) -> b
+    void throwParameterIsNullException(java.lang.String) -> a
+    boolean areEqual(java.lang.Object,java.lang.Object) -> a
+    java.lang.Throwable sanitizeStackTrace(java.lang.Throwable) -> a
+    java.lang.Throwable sanitizeStackTrace(java.lang.Throwable,java.lang.String) -> a
+okhttp3.Address -> b.a:
     okhttp3.HttpUrl url -> a
     okhttp3.Dns dns -> b
     javax.net.SocketFactory socketFactory -> c
@@ -31195,19 +31206,19 @@ okhttp3.Address -> a.a:
     okhttp3.CertificatePinner certificatePinner() -> k
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
-okhttp3.Authenticator -> a.b:
+okhttp3.Authenticator -> b.b:
     okhttp3.Authenticator NONE -> a
     okhttp3.Request authenticate(okhttp3.Route,okhttp3.Response) -> a
     void <clinit>() -> <clinit>
-okhttp3.Authenticator$1 -> a.b$1:
+okhttp3.Authenticator$1 -> b.b$1:
     void <init>() -> <init>
     okhttp3.Request authenticate(okhttp3.Route,okhttp3.Response) -> a
-okhttp3.Cache -> a.c:
+okhttp3.Cache -> b.c:
     okhttp3.internal.InternalCache internalCache -> a
     okhttp3.internal.DiskLruCache cache -> b
     void flush() -> flush
     void close() -> close
-okhttp3.CacheControl -> a.d:
+okhttp3.CacheControl -> b.d:
     okhttp3.CacheControl FORCE_NETWORK -> a
     okhttp3.CacheControl FORCE_CACHE -> b
     boolean noCache -> d
@@ -31238,8 +31249,8 @@ okhttp3.CacheControl -> a.d:
     java.lang.String headerValue() -> j
     void <init>(okhttp3.CacheControl$Builder,okhttp3.CacheControl$1) -> <init>
     void <clinit>() -> <clinit>
-okhttp3.CacheControl$1 -> a.d$1:
-okhttp3.CacheControl$Builder -> a.d$a:
+okhttp3.CacheControl$1 -> b.d$1:
+okhttp3.CacheControl$Builder -> b.d$a:
     boolean noCache -> a
     boolean noStore -> b
     int maxAgeSeconds -> c
@@ -31252,7 +31263,7 @@ okhttp3.CacheControl$Builder -> a.d$a:
     okhttp3.CacheControl$Builder maxStale(int,java.util.concurrent.TimeUnit) -> a
     okhttp3.CacheControl$Builder onlyIfCached() -> b
     okhttp3.CacheControl build() -> c
-okhttp3.CertificatePinner -> a.e:
+okhttp3.CertificatePinner -> b.e:
     okhttp3.CertificatePinner DEFAULT -> a
     java.util.List pins -> b
     okhttp3.internal.tls.TrustRootIndex trustRootIndex -> c
@@ -31267,8 +31278,8 @@ okhttp3.CertificatePinner -> a.e:
     okhttp3.internal.tls.TrustRootIndex access$300(okhttp3.CertificatePinner) -> b
     void <init>(okhttp3.CertificatePinner$Builder,okhttp3.CertificatePinner$1) -> <init>
     void <clinit>() -> <clinit>
-okhttp3.CertificatePinner$1 -> a.e$1:
-okhttp3.CertificatePinner$Builder -> a.e$a:
+okhttp3.CertificatePinner$1 -> b.e$1:
+okhttp3.CertificatePinner$Builder -> b.e$a:
     java.util.List pins -> a
     okhttp3.internal.tls.TrustRootIndex trustRootIndex -> b
     void <init>() -> <init>
@@ -31277,7 +31288,7 @@ okhttp3.CertificatePinner$Builder -> a.e$a:
     okhttp3.CertificatePinner build() -> a
     java.util.List access$000(okhttp3.CertificatePinner$Builder) -> a
     okhttp3.internal.tls.TrustRootIndex access$100(okhttp3.CertificatePinner$Builder) -> b
-okhttp3.CertificatePinner$Pin -> a.e$b:
+okhttp3.CertificatePinner$Pin -> b.e$b:
     java.lang.String pattern -> a
     java.lang.String hashAlgorithm -> b
     okio.ByteString hash -> c
@@ -31285,7 +31296,7 @@ okhttp3.CertificatePinner$Pin -> a.e$b:
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     java.lang.String toString() -> toString
-okhttp3.CipherSuite -> a.f:
+okhttp3.CipherSuite -> b.f:
     okhttp3.CipherSuite TLS_RSA_WITH_NULL_MD5 -> a
     okhttp3.CipherSuite TLS_RSA_WITH_NULL_SHA -> b
     okhttp3.CipherSuite TLS_RSA_EXPORT_WITH_RC4_40_MD5 -> c
@@ -31389,10 +31400,10 @@ okhttp3.CipherSuite -> a.f:
     void <init>(java.lang.String,int,java.lang.String,int,int,int,int) -> <init>
     okhttp3.CipherSuite forJavaName(java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.Connection -> a.g:
+okhttp3.Connection -> b.g:
     okhttp3.Route route() -> a
     okhttp3.Handshake handshake() -> b
-okhttp3.ConnectionPool -> a.h:
+okhttp3.ConnectionPool -> b.h:
     java.util.concurrent.Executor executor -> d
     int maxIdleConnections -> e
     long keepAliveDurationNs -> f
@@ -31409,11 +31420,11 @@ okhttp3.ConnectionPool -> a.h:
     long cleanup(long) -> a
     int pruneAndGetAllocationCount(okhttp3.internal.io.RealConnection,long) -> a
     void <clinit>() -> <clinit>
-okhttp3.ConnectionPool$1 -> a.h$1:
+okhttp3.ConnectionPool$1 -> b.h$1:
     okhttp3.ConnectionPool this$0 -> a
     void <init>(okhttp3.ConnectionPool) -> <init>
     void run() -> run
-okhttp3.ConnectionSpec -> a.i:
+okhttp3.ConnectionSpec -> b.i:
     okhttp3.CipherSuite[] APPROVED_CIPHER_SUITES -> d
     okhttp3.ConnectionSpec MODERN_TLS -> a
     okhttp3.ConnectionSpec COMPATIBLE_TLS -> b
@@ -31440,8 +31451,8 @@ okhttp3.ConnectionSpec -> a.i:
     boolean access$700(okhttp3.ConnectionSpec) -> d
     void <init>(okhttp3.ConnectionSpec$Builder,okhttp3.ConnectionSpec$1) -> <init>
     void <clinit>() -> <clinit>
-okhttp3.ConnectionSpec$1 -> a.i$1:
-okhttp3.ConnectionSpec$Builder -> a.i$a:
+okhttp3.ConnectionSpec$1 -> b.i$1:
+okhttp3.ConnectionSpec$Builder -> b.i$a:
     boolean tls -> a
     java.lang.String[] cipherSuites -> b
     java.lang.String[] tlsVersions -> c
@@ -31458,7 +31469,7 @@ okhttp3.ConnectionSpec$Builder -> a.i$a:
     java.lang.String[] access$100(okhttp3.ConnectionSpec$Builder) -> b
     java.lang.String[] access$200(okhttp3.ConnectionSpec$Builder) -> c
     boolean access$300(okhttp3.ConnectionSpec$Builder) -> d
-okhttp3.Cookie -> a.j:
+okhttp3.Cookie -> b.j:
     java.util.regex.Pattern YEAR_PATTERN -> a
     java.util.regex.Pattern MONTH_PATTERN -> b
     java.util.regex.Pattern DAY_OF_MONTH_PATTERN -> c
@@ -31487,30 +31498,30 @@ okhttp3.Cookie -> a.j:
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void <clinit>() -> <clinit>
-okhttp3.CookieJar -> a.k:
+okhttp3.CookieJar -> b.k:
     okhttp3.CookieJar NO_COOKIES -> a
     void saveFromResponse(okhttp3.HttpUrl,java.util.List) -> a
     java.util.List loadForRequest(okhttp3.HttpUrl) -> a
     void <clinit>() -> <clinit>
-okhttp3.CookieJar$1 -> a.k$1:
+okhttp3.CookieJar$1 -> b.k$1:
     void <init>() -> <init>
     void saveFromResponse(okhttp3.HttpUrl,java.util.List) -> a
     java.util.List loadForRequest(okhttp3.HttpUrl) -> a
-okhttp3.Dispatcher -> a.l:
+okhttp3.Dispatcher -> b.l:
     int maxRequests -> a
     int maxRequestsPerHost -> b
     java.util.Deque readyAsyncCalls -> c
     java.util.Deque runningAsyncCalls -> d
     java.util.Deque runningSyncCalls -> e
     void <init>() -> <init>
-okhttp3.Dns -> a.m:
+okhttp3.Dns -> b.m:
     okhttp3.Dns SYSTEM -> a
     java.util.List lookup(java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.Dns$1 -> a.m$1:
+okhttp3.Dns$1 -> b.m$1:
     void <init>() -> <init>
     java.util.List lookup(java.lang.String) -> a
-okhttp3.Handshake -> a.n:
+okhttp3.Handshake -> b.n:
     okhttp3.TlsVersion tlsVersion -> a
     okhttp3.CipherSuite cipherSuite -> b
     java.util.List peerCertificates -> c
@@ -31521,7 +31532,7 @@ okhttp3.Handshake -> a.n:
     java.util.List peerCertificates() -> b
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
-okhttp3.Headers -> a.o:
+okhttp3.Headers -> b.o:
     java.lang.String[] namesAndValues -> a
     void <init>(okhttp3.Headers$Builder) -> <init>
     java.lang.String get(java.lang.String) -> a
@@ -31534,8 +31545,8 @@ okhttp3.Headers -> a.o:
     java.lang.String toString() -> toString
     java.lang.String get(java.lang.String[],java.lang.String) -> a
     void <init>(okhttp3.Headers$Builder,okhttp3.Headers$1) -> <init>
-okhttp3.Headers$1 -> a.o$1:
-okhttp3.Headers$Builder -> a.o$a:
+okhttp3.Headers$1 -> b.o$1:
+okhttp3.Headers$Builder -> b.o$a:
     java.util.List namesAndValues -> a
     void <init>() -> <init>
     okhttp3.Headers$Builder addLenient(java.lang.String) -> a
@@ -31547,7 +31558,7 @@ okhttp3.Headers$Builder -> a.o$a:
     java.lang.String get(java.lang.String) -> c
     okhttp3.Headers build() -> a
     java.util.List access$000(okhttp3.Headers$Builder) -> a
-okhttp3.HttpUrl -> a.p:
+okhttp3.HttpUrl -> b.p:
     char[] HEX_DIGITS -> a
     java.lang.String scheme -> b
     java.lang.String username -> c
@@ -31597,10 +31608,10 @@ okhttp3.HttpUrl -> a.p:
     java.lang.String access$200(okhttp3.HttpUrl) -> b
     int access$300(okhttp3.HttpUrl) -> c
     void <clinit>() -> <clinit>
-okhttp3.HttpUrl$1 -> a.p$1:
+okhttp3.HttpUrl$1 -> b.p$1:
     int[] $SwitchMap$okhttp3$HttpUrl$Builder$ParseResult -> a
     void <clinit>() -> <clinit>
-okhttp3.HttpUrl$Builder -> a.p$a:
+okhttp3.HttpUrl$Builder -> b.p$a:
     java.lang.String scheme -> a
     java.lang.String encodedUsername -> b
     java.lang.String encodedPassword -> c
@@ -31632,7 +31643,7 @@ okhttp3.HttpUrl$Builder -> a.p$a:
     boolean decodeIpv4Suffix(java.lang.String,int,int,byte[],int) -> a
     java.lang.String inet6AddressToAscii(byte[]) -> a
     int parsePort(java.lang.String,int,int) -> g
-okhttp3.HttpUrl$Builder$ParseResult -> a.p$a$a:
+okhttp3.HttpUrl$Builder$ParseResult -> b.p$a$a:
     okhttp3.HttpUrl$Builder$ParseResult SUCCESS -> a
     okhttp3.HttpUrl$Builder$ParseResult MISSING_SCHEME -> b
     okhttp3.HttpUrl$Builder$ParseResult UNSUPPORTED_SCHEME -> c
@@ -31643,10 +31654,10 @@ okhttp3.HttpUrl$Builder$ParseResult -> a.p$a$a:
     okhttp3.HttpUrl$Builder$ParseResult valueOf(java.lang.String) -> valueOf
     void <init>(java.lang.String,int) -> <init>
     void <clinit>() -> <clinit>
-okhttp3.Interceptor -> a.q:
+okhttp3.Interceptor -> b.q:
     okhttp3.Response intercept(okhttp3.Interceptor$Chain) -> a
-okhttp3.Interceptor$Chain -> a.q$a:
-okhttp3.MediaType -> a.r:
+okhttp3.Interceptor$Chain -> b.q$a:
+okhttp3.MediaType -> b.r:
     java.util.regex.Pattern TYPE_SUBTYPE -> a
     java.util.regex.Pattern PARAMETER -> b
     java.lang.String mediaType -> c
@@ -31654,7 +31665,7 @@ okhttp3.MediaType -> a.r:
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void <clinit>() -> <clinit>
-okhttp3.OkHttpClient -> a.s:
+okhttp3.OkHttpClient -> b.s:
     java.util.List DEFAULT_PROTOCOLS -> z
     java.util.List DEFAULT_CONNECTION_SPECS -> A
     okhttp3.Dispatcher dispatcher -> a
@@ -31710,7 +31721,7 @@ okhttp3.OkHttpClient -> a.s:
     java.util.List access$100() -> x
     void <init>(okhttp3.OkHttpClient$Builder,okhttp3.OkHttpClient$1) -> <init>
     void <clinit>() -> <clinit>
-okhttp3.OkHttpClient$1 -> a.s$1:
+okhttp3.OkHttpClient$1 -> b.s$1:
     void <init>() -> <init>
     void addLenient(okhttp3.Headers$Builder,java.lang.String) -> a
     okhttp3.internal.InternalCache internalCache(okhttp3.OkHttpClient) -> a
@@ -31720,7 +31731,7 @@ okhttp3.OkHttpClient$1 -> a.s$1:
     okhttp3.internal.RouteDatabase routeDatabase(okhttp3.ConnectionPool) -> a
     void apply(okhttp3.ConnectionSpec,javax.net.ssl.SSLSocket,boolean) -> a
     okhttp3.HttpUrl getHttpUrlChecked(java.lang.String) -> a
-okhttp3.OkHttpClient$Builder -> a.s$a:
+okhttp3.OkHttpClient$Builder -> b.s$a:
     okhttp3.Dispatcher dispatcher -> a
     java.net.Proxy proxy -> b
     java.util.List protocols -> c
@@ -31754,7 +31765,7 @@ okhttp3.OkHttpClient$Builder -> a.s$a:
     okhttp3.OkHttpClient$Builder followRedirects(boolean) -> a
     okhttp3.OkHttpClient$Builder protocols(java.util.List) -> a
     okhttp3.OkHttpClient build() -> a
-okhttp3.Protocol -> a.t:
+okhttp3.Protocol -> b.t:
     okhttp3.Protocol HTTP_1_0 -> a
     okhttp3.Protocol HTTP_1_1 -> b
     okhttp3.Protocol SPDY_3 -> c
@@ -31767,7 +31778,7 @@ okhttp3.Protocol -> a.t:
     okhttp3.Protocol get(java.lang.String) -> a
     java.lang.String toString() -> toString
     void <clinit>() -> <clinit>
-okhttp3.Request -> a.u:
+okhttp3.Request -> b.u:
     okhttp3.HttpUrl url -> a
     java.lang.String method -> b
     okhttp3.Headers headers -> c
@@ -31790,8 +31801,8 @@ okhttp3.Request -> a.u:
     java.lang.Object access$900(okhttp3.Request) -> d
     okhttp3.Headers access$1000(okhttp3.Request) -> e
     void <init>(okhttp3.Request$Builder,okhttp3.Request$1) -> <init>
-okhttp3.Request$1 -> a.u$1:
-okhttp3.Request$Builder -> a.u$a:
+okhttp3.Request$1 -> b.u$1:
+okhttp3.Request$Builder -> b.u$a:
     okhttp3.HttpUrl url -> a
     java.lang.String method -> b
     okhttp3.Headers$Builder headers -> c
@@ -31811,13 +31822,13 @@ okhttp3.Request$Builder -> a.u$a:
     okhttp3.RequestBody access$300(okhttp3.Request$Builder) -> d
     java.lang.Object access$400(okhttp3.Request$Builder) -> e
     void <init>(okhttp3.Request,okhttp3.Request$1) -> <init>
-okhttp3.RequestBody -> a.v:
+okhttp3.RequestBody -> b.v:
     void <init>() -> <init>
     long contentLength() -> a
     void writeTo(okio.BufferedSink) -> a
     okhttp3.RequestBody create(okhttp3.MediaType,byte[]) -> a
     okhttp3.RequestBody create(okhttp3.MediaType,byte[],int,int) -> a
-okhttp3.RequestBody$2 -> a.v$1:
+okhttp3.RequestBody$2 -> b.v$1:
     okhttp3.MediaType val$contentType -> a
     int val$byteCount -> b
     byte[] val$content -> c
@@ -31825,7 +31836,7 @@ okhttp3.RequestBody$2 -> a.v$1:
     void <init>(okhttp3.MediaType,int,byte[],int) -> <init>
     long contentLength() -> a
     void writeTo(okio.BufferedSink) -> a
-okhttp3.Response -> a.w:
+okhttp3.Response -> b.w:
     okhttp3.Request request -> a
     okhttp3.Protocol protocol -> b
     int code -> c
@@ -31863,8 +31874,8 @@ okhttp3.Response -> a.w:
     okhttp3.Response access$1900(okhttp3.Response) -> i
     okhttp3.Response access$2000(okhttp3.Response) -> j
     void <init>(okhttp3.Response$Builder,okhttp3.Response$1) -> <init>
-okhttp3.Response$1 -> a.w$1:
-okhttp3.Response$Builder -> a.w$a:
+okhttp3.Response$1 -> b.w$1:
+okhttp3.Response$Builder -> b.w$a:
     okhttp3.Request request -> a
     okhttp3.Protocol protocol -> b
     int code -> c
@@ -31903,13 +31914,13 @@ okhttp3.Response$Builder -> a.w$a:
     okhttp3.Response access$800(okhttp3.Response$Builder) -> i
     okhttp3.Response access$900(okhttp3.Response$Builder) -> j
     void <init>(okhttp3.Response,okhttp3.Response$1) -> <init>
-okhttp3.ResponseBody -> a.x:
+okhttp3.ResponseBody -> b.x:
     void <init>() -> <init>
     long contentLength() -> a
     java.io.InputStream byteStream() -> b
     okio.BufferedSource source() -> c
     void close() -> close
-okhttp3.Route -> a.y:
+okhttp3.Route -> b.y:
     okhttp3.Address address -> a
     java.net.Proxy proxy -> b
     java.net.InetSocketAddress inetSocketAddress -> c
@@ -31920,7 +31931,7 @@ okhttp3.Route -> a.y:
     boolean requiresTunnel() -> d
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
-okhttp3.TlsVersion -> a.z:
+okhttp3.TlsVersion -> b.z:
     okhttp3.TlsVersion TLS_1_2 -> a
     okhttp3.TlsVersion TLS_1_1 -> b
     okhttp3.TlsVersion TLS_1_0 -> c
@@ -31932,7 +31943,7 @@ okhttp3.TlsVersion -> a.z:
     void <init>(java.lang.String,int,java.lang.String) -> <init>
     okhttp3.TlsVersion forJavaName(java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.ConnectionSpecSelector -> a.a.a:
+okhttp3.internal.ConnectionSpecSelector -> b.a.a:
     java.util.List connectionSpecs -> a
     int nextModeIndex -> b
     boolean isFallbackPossible -> c
@@ -31941,7 +31952,7 @@ okhttp3.internal.ConnectionSpecSelector -> a.a.a:
     okhttp3.ConnectionSpec configureSecureSocket(javax.net.ssl.SSLSocket) -> a
     boolean connectionFailed(java.io.IOException) -> a
     boolean isFallbackPossible(javax.net.ssl.SSLSocket) -> b
-okhttp3.internal.DiskLruCache -> a.a.b:
+okhttp3.internal.DiskLruCache -> b.a.b:
     java.util.regex.Pattern LEGAL_KEY_PATTERN -> a
     okhttp3.internal.io.FileSystem fileSystem -> c
     long maxSize -> d
@@ -31968,13 +31979,13 @@ okhttp3.internal.DiskLruCache -> a.a.b:
     void trimToSize() -> d
     void access$2700(okhttp3.internal.DiskLruCache,okhttp3.internal.DiskLruCache$Editor,boolean) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.DiskLruCache$4 -> a.a.b$1:
+okhttp3.internal.DiskLruCache$4 -> b.a.b$1:
     void <init>() -> <init>
     void write(okio.Buffer,long) -> a_
     void flush() -> flush
     okio.Timeout timeout() -> a
     void close() -> close
-okhttp3.internal.DiskLruCache$Editor -> a.a.b$a:
+okhttp3.internal.DiskLruCache$Editor -> b.a.b$a:
     okhttp3.internal.DiskLruCache$Entry entry -> b
     boolean[] written -> c
     boolean hasErrors -> d
@@ -31983,7 +31994,7 @@ okhttp3.internal.DiskLruCache$Editor -> a.a.b$a:
     okhttp3.internal.DiskLruCache$Entry access$1800(okhttp3.internal.DiskLruCache$Editor) -> a
     boolean[] access$1900(okhttp3.internal.DiskLruCache$Editor) -> b
     boolean access$2002(okhttp3.internal.DiskLruCache$Editor,boolean) -> a
-okhttp3.internal.DiskLruCache$Entry -> a.a.b$b:
+okhttp3.internal.DiskLruCache$Entry -> b.a.b$b:
     java.lang.String key -> a
     long[] lengths -> b
     java.io.File[] cleanFiles -> c
@@ -32001,7 +32012,7 @@ okhttp3.internal.DiskLruCache$Entry -> a.a.b$b:
     java.lang.String access$1600(okhttp3.internal.DiskLruCache$Entry) -> e
     boolean access$900(okhttp3.internal.DiskLruCache$Entry) -> f
     long access$1702(okhttp3.internal.DiskLruCache$Entry,long) -> a
-okhttp3.internal.Internal -> a.a.c:
+okhttp3.internal.Internal -> b.a.c:
     java.util.logging.Logger logger -> a
     okhttp3.internal.Internal instance -> b
     void <init>() -> <init>
@@ -32014,27 +32025,27 @@ okhttp3.internal.Internal -> a.a.c:
     void apply(okhttp3.ConnectionSpec,javax.net.ssl.SSLSocket,boolean) -> a
     okhttp3.HttpUrl getHttpUrlChecked(java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.InternalCache -> a.a.d:
+okhttp3.internal.InternalCache -> b.a.d:
     okhttp3.Response get(okhttp3.Request) -> a
     okhttp3.internal.http.CacheRequest put(okhttp3.Response) -> a
     void remove(okhttp3.Request) -> b
     void update(okhttp3.Response,okhttp3.Response) -> a
     void trackConditionalCacheHit() -> a
     void trackResponse(okhttp3.internal.http.CacheStrategy) -> a
-okhttp3.internal.JavaNetHeaders -> a.a.e:
+okhttp3.internal.JavaNetHeaders -> b.a.e:
     java.util.Comparator FIELD_NAME_COMPARATOR -> a
     java.util.Map toMultimap(okhttp3.Headers,java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.JavaNetHeaders$1 -> a.a.e$1:
+okhttp3.internal.JavaNetHeaders$1 -> b.a.e$1:
     void <init>() -> <init>
     int compare(java.lang.String,java.lang.String) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
-okhttp3.internal.NamedRunnable -> a.a.f:
+okhttp3.internal.NamedRunnable -> b.a.f:
     java.lang.String name -> a
     void <init>(java.lang.String,java.lang.Object[]) -> <init>
     void run() -> run
     void execute() -> a
-okhttp3.internal.OptionalMethod -> a.a.g:
+okhttp3.internal.OptionalMethod -> b.a.g:
     java.lang.Class returnType -> a
     java.lang.String methodName -> b
     java.lang.Class[] methodParams -> c
@@ -32046,7 +32057,7 @@ okhttp3.internal.OptionalMethod -> a.a.g:
     java.lang.Object invokeWithoutCheckedException(java.lang.Object,java.lang.Object[]) -> d
     java.lang.reflect.Method getMethod(java.lang.Class) -> a
     java.lang.reflect.Method getPublicMethod(java.lang.Class,java.lang.String,java.lang.Class[]) -> a
-okhttp3.internal.Platform -> a.a.h:
+okhttp3.internal.Platform -> b.a.h:
     okhttp3.internal.Platform PLATFORM -> a
     void <init>() -> <init>
     okhttp3.internal.Platform get() -> a
@@ -32062,7 +32073,7 @@ okhttp3.internal.Platform -> a.a.h:
     byte[] concatLengthPrefixed(java.util.List) -> a
     java.lang.Object readFieldOrNull(java.lang.Object,java.lang.Class,java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.Platform$Android -> a.a.h$a:
+okhttp3.internal.Platform$Android -> b.a.h$a:
     java.lang.Class sslParametersClass -> a
     okhttp3.internal.OptionalMethod setUseSessionTickets -> b
     okhttp3.internal.OptionalMethod setHostname -> c
@@ -32074,7 +32085,7 @@ okhttp3.internal.Platform$Android -> a.a.h$a:
     okhttp3.internal.tls.TrustRootIndex trustRootIndex(javax.net.ssl.X509TrustManager) -> a
     void configureTlsExtensions(javax.net.ssl.SSLSocket,java.lang.String,java.util.List) -> a
     java.lang.String getSelectedProtocol(javax.net.ssl.SSLSocket) -> b
-okhttp3.internal.Platform$JdkWithJettyBootPlatform -> a.a.h$b:
+okhttp3.internal.Platform$JdkWithJettyBootPlatform -> b.a.h$b:
     java.lang.reflect.Method putMethod -> a
     java.lang.reflect.Method getMethod -> b
     java.lang.reflect.Method removeMethod -> c
@@ -32084,7 +32095,7 @@ okhttp3.internal.Platform$JdkWithJettyBootPlatform -> a.a.h$b:
     void configureTlsExtensions(javax.net.ssl.SSLSocket,java.lang.String,java.util.List) -> a
     void afterHandshake(javax.net.ssl.SSLSocket) -> a
     java.lang.String getSelectedProtocol(javax.net.ssl.SSLSocket) -> b
-okhttp3.internal.Platform$JettyNegoProvider -> a.a.h$c:
+okhttp3.internal.Platform$JettyNegoProvider -> b.a.h$c:
     java.util.List protocols -> a
     boolean unsupported -> b
     java.lang.String selected -> c
@@ -32092,15 +32103,15 @@ okhttp3.internal.Platform$JettyNegoProvider -> a.a.h$c:
     java.lang.Object invoke(java.lang.Object,java.lang.reflect.Method,java.lang.Object[]) -> invoke
     boolean access$000(okhttp3.internal.Platform$JettyNegoProvider) -> a
     java.lang.String access$100(okhttp3.internal.Platform$JettyNegoProvider) -> b
-okhttp3.internal.RouteDatabase -> a.a.i:
+okhttp3.internal.RouteDatabase -> b.a.i:
     java.util.Set failedRoutes -> a
     void <init>() -> <init>
     void failed(okhttp3.Route) -> a
     void connected(okhttp3.Route) -> b
     boolean shouldPostpone(okhttp3.Route) -> c
-okhttp3.internal.URLFilter -> a.a.j:
+okhttp3.internal.URLFilter -> b.a.j:
     void checkURLPermitted(java.net.URL) -> a
-okhttp3.internal.Util -> a.a.k:
+okhttp3.internal.Util -> b.a.k:
     byte[] EMPTY_BYTE_ARRAY -> a
     java.lang.String[] EMPTY_STRING_ARRAY -> b
     java.nio.charset.Charset UTF_8 -> c
@@ -32134,14 +32145,14 @@ okhttp3.internal.Util -> a.a.k:
     boolean containsInvalidHostnameAsciiCodes(java.lang.String) -> d
     boolean verifyAsIpAddress(java.lang.String) -> c
     void <clinit>() -> <clinit>
-okhttp3.internal.Util$1 -> a.a.k$1:
+okhttp3.internal.Util$1 -> b.a.k$1:
     java.lang.String val$name -> a
     boolean val$daemon -> b
     void <init>(java.lang.String,boolean) -> <init>
     java.lang.Thread newThread(java.lang.Runnable) -> newThread
-okhttp3.internal.Version -> a.a.l:
+okhttp3.internal.Version -> b.a.l:
     java.lang.String userAgent() -> a
-okhttp3.internal.framed.ErrorCode -> a.a.a.a:
+okhttp3.internal.framed.ErrorCode -> b.a.a.a:
     okhttp3.internal.framed.ErrorCode NO_ERROR -> a
     okhttp3.internal.framed.ErrorCode PROTOCOL_ERROR -> b
     okhttp3.internal.framed.ErrorCode INVALID_STREAM -> c
@@ -32171,10 +32182,10 @@ okhttp3.internal.framed.ErrorCode -> a.a.a.a:
     okhttp3.internal.framed.ErrorCode fromHttp2(int) -> b
     okhttp3.internal.framed.ErrorCode fromSpdyGoAway(int) -> c
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.FrameReader -> a.a.a.b:
+okhttp3.internal.framed.FrameReader -> b.a.a.b:
     void readConnectionPreface() -> a
     boolean nextFrame(okhttp3.internal.framed.FrameReader$Handler) -> a
-okhttp3.internal.framed.FrameReader$Handler -> a.a.a.b$a:
+okhttp3.internal.framed.FrameReader$Handler -> b.a.a.b$a:
     void data(boolean,int,okio.BufferedSource,int) -> a
     void headers(boolean,boolean,int,int,java.util.List,okhttp3.internal.framed.HeadersMode) -> a
     void rstStream(int,okhttp3.internal.framed.ErrorCode) -> a
@@ -32185,7 +32196,7 @@ okhttp3.internal.framed.FrameReader$Handler -> a.a.a.b$a:
     void windowUpdate(int,long) -> a
     void priority(int,int,int,boolean) -> a
     void pushPromise(int,int,java.util.List) -> a
-okhttp3.internal.framed.FrameWriter -> a.a.a.c:
+okhttp3.internal.framed.FrameWriter -> b.a.a.c:
     void connectionPreface() -> a
     void ackSettings(okhttp3.internal.framed.Settings) -> a
     void pushPromise(int,int,java.util.List) -> a
@@ -32198,7 +32209,7 @@ okhttp3.internal.framed.FrameWriter -> a.a.a.c:
     void ping(boolean,int,int) -> a
     void goAway(int,okhttp3.internal.framed.ErrorCode,byte[]) -> a
     void windowUpdate(int,long) -> a
-okhttp3.internal.framed.FramedConnection -> a.a.a.d:
+okhttp3.internal.framed.FramedConnection -> b.a.a.d:
     java.util.concurrent.ExecutorService executor -> l
     okhttp3.Protocol protocol -> a
     boolean client -> b
@@ -32274,19 +32285,19 @@ okhttp3.internal.framed.FramedConnection -> a.a.a.d:
     okhttp3.internal.framed.PushObserver access$2700(okhttp3.internal.framed.FramedConnection) -> h
     java.util.Set access$2800(okhttp3.internal.framed.FramedConnection) -> i
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.FramedConnection$1 -> a.a.a.d$1:
+okhttp3.internal.framed.FramedConnection$1 -> b.a.a.d$1:
     int val$streamId -> b
     okhttp3.internal.framed.ErrorCode val$errorCode -> c
     okhttp3.internal.framed.FramedConnection this$0 -> d
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],int,okhttp3.internal.framed.ErrorCode) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$2 -> a.a.a.d$2:
+okhttp3.internal.framed.FramedConnection$2 -> b.a.a.d$2:
     int val$streamId -> b
     long val$unacknowledgedBytesRead -> c
     okhttp3.internal.framed.FramedConnection this$0 -> d
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],int,long) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$3 -> a.a.a.d$3:
+okhttp3.internal.framed.FramedConnection$3 -> b.a.a.d$3:
     boolean val$reply -> b
     int val$payload1 -> c
     int val$payload2 -> d
@@ -32294,20 +32305,20 @@ okhttp3.internal.framed.FramedConnection$3 -> a.a.a.d$3:
     okhttp3.internal.framed.FramedConnection this$0 -> f
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],boolean,int,int,okhttp3.internal.framed.Ping) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$4 -> a.a.a.d$4:
+okhttp3.internal.framed.FramedConnection$4 -> b.a.a.d$4:
     int val$streamId -> b
     java.util.List val$requestHeaders -> c
     okhttp3.internal.framed.FramedConnection this$0 -> d
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],int,java.util.List) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$5 -> a.a.a.d$5:
+okhttp3.internal.framed.FramedConnection$5 -> b.a.a.d$5:
     int val$streamId -> b
     java.util.List val$requestHeaders -> c
     boolean val$inFinished -> d
     okhttp3.internal.framed.FramedConnection this$0 -> e
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],int,java.util.List,boolean) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$6 -> a.a.a.d$6:
+okhttp3.internal.framed.FramedConnection$6 -> b.a.a.d$6:
     int val$streamId -> b
     okio.Buffer val$buffer -> c
     int val$byteCount -> d
@@ -32315,13 +32326,13 @@ okhttp3.internal.framed.FramedConnection$6 -> a.a.a.d$6:
     okhttp3.internal.framed.FramedConnection this$0 -> f
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],int,okio.Buffer,int,boolean) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$7 -> a.a.a.d$7:
+okhttp3.internal.framed.FramedConnection$7 -> b.a.a.d$7:
     int val$streamId -> b
     okhttp3.internal.framed.ErrorCode val$errorCode -> c
     okhttp3.internal.framed.FramedConnection this$0 -> d
     void <init>(okhttp3.internal.framed.FramedConnection,java.lang.String,java.lang.Object[],int,okhttp3.internal.framed.ErrorCode) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$Builder -> a.a.a.d$a:
+okhttp3.internal.framed.FramedConnection$Builder -> b.a.a.d$a:
     java.net.Socket socket -> a
     java.lang.String hostname -> b
     okio.BufferedSource source -> c
@@ -32343,16 +32354,16 @@ okhttp3.internal.framed.FramedConnection$Builder -> a.a.a.d$a:
     java.net.Socket access$500(okhttp3.internal.framed.FramedConnection$Builder) -> f
     okio.BufferedSink access$600(okhttp3.internal.framed.FramedConnection$Builder) -> g
     okio.BufferedSource access$700(okhttp3.internal.framed.FramedConnection$Builder) -> h
-okhttp3.internal.framed.FramedConnection$Listener -> a.a.a.d$b:
+okhttp3.internal.framed.FramedConnection$Listener -> b.a.a.d$b:
     okhttp3.internal.framed.FramedConnection$Listener REFUSE_INCOMING_STREAMS -> a
     void <init>() -> <init>
     void onStream(okhttp3.internal.framed.FramedStream) -> a
     void onSettings(okhttp3.internal.framed.FramedConnection) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.FramedConnection$Listener$1 -> a.a.a.d$b$1:
+okhttp3.internal.framed.FramedConnection$Listener$1 -> b.a.a.d$b$1:
     void <init>() -> <init>
     void onStream(okhttp3.internal.framed.FramedStream) -> a
-okhttp3.internal.framed.FramedConnection$Reader -> a.a.a.d$c:
+okhttp3.internal.framed.FramedConnection$Reader -> b.a.a.d$c:
     okhttp3.internal.framed.FrameReader frameReader -> b
     okhttp3.internal.framed.FramedConnection this$0 -> c
     void <init>(okhttp3.internal.framed.FramedConnection,okhttp3.internal.framed.FrameReader) -> <init>
@@ -32369,21 +32380,21 @@ okhttp3.internal.framed.FramedConnection$Reader -> a.a.a.d$c:
     void priority(int,int,int,boolean) -> a
     void pushPromise(int,int,java.util.List) -> a
     void <init>(okhttp3.internal.framed.FramedConnection,okhttp3.internal.framed.FrameReader,okhttp3.internal.framed.FramedConnection$1) -> <init>
-okhttp3.internal.framed.FramedConnection$Reader$1 -> a.a.a.d$c$1:
+okhttp3.internal.framed.FramedConnection$Reader$1 -> b.a.a.d$c$1:
     okhttp3.internal.framed.FramedStream val$newStream -> b
     okhttp3.internal.framed.FramedConnection$Reader this$1 -> c
     void <init>(okhttp3.internal.framed.FramedConnection$Reader,java.lang.String,java.lang.Object[],okhttp3.internal.framed.FramedStream) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$Reader$2 -> a.a.a.d$c$2:
+okhttp3.internal.framed.FramedConnection$Reader$2 -> b.a.a.d$c$2:
     okhttp3.internal.framed.FramedConnection$Reader this$1 -> b
     void <init>(okhttp3.internal.framed.FramedConnection$Reader,java.lang.String,java.lang.Object[]) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedConnection$Reader$3 -> a.a.a.d$c$3:
+okhttp3.internal.framed.FramedConnection$Reader$3 -> b.a.a.d$c$3:
     okhttp3.internal.framed.Settings val$peerSettings -> b
     okhttp3.internal.framed.FramedConnection$Reader this$1 -> c
     void <init>(okhttp3.internal.framed.FramedConnection$Reader,java.lang.String,java.lang.Object[],okhttp3.internal.framed.Settings) -> <init>
     void execute() -> a
-okhttp3.internal.framed.FramedStream -> a.a.a.e:
+okhttp3.internal.framed.FramedStream -> b.a.a.e:
     long unacknowledgedBytesRead -> a
     long bytesLeftInWriteWindow -> b
     int id -> e
@@ -32425,8 +32436,8 @@ okhttp3.internal.framed.FramedStream -> a.a.a.e:
     okhttp3.internal.framed.FramedStream$StreamTimeout access$1100(okhttp3.internal.framed.FramedStream) -> g
     void access$1200(okhttp3.internal.framed.FramedStream) -> h
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.FramedStream$1 -> a.a.a.e$1:
-okhttp3.internal.framed.FramedStream$FramedDataSink -> a.a.a.e$a:
+okhttp3.internal.framed.FramedStream$1 -> b.a.a.e$1:
+okhttp3.internal.framed.FramedStream$FramedDataSink -> b.a.a.e$a:
     okio.Buffer sendBuffer -> c
     boolean closed -> d
     boolean finished -> e
@@ -32442,7 +32453,7 @@ okhttp3.internal.framed.FramedStream$FramedDataSink -> a.a.a.e$a:
     boolean access$200(okhttp3.internal.framed.FramedStream$FramedDataSink) -> a
     boolean access$400(okhttp3.internal.framed.FramedStream$FramedDataSink) -> b
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.FramedStream$FramedDataSource -> a.a.a.e$b:
+okhttp3.internal.framed.FramedStream$FramedDataSource -> b.a.a.e$b:
     okio.Buffer receiveBuffer -> c
     okio.Buffer readBuffer -> d
     long maxByteCount -> e
@@ -32462,13 +32473,13 @@ okhttp3.internal.framed.FramedStream$FramedDataSource -> a.a.a.e$b:
     boolean access$100(okhttp3.internal.framed.FramedStream$FramedDataSource) -> a
     boolean access$300(okhttp3.internal.framed.FramedStream$FramedDataSource) -> b
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.FramedStream$StreamTimeout -> a.a.a.e$c:
+okhttp3.internal.framed.FramedStream$StreamTimeout -> b.a.a.e$c:
     okhttp3.internal.framed.FramedStream this$0 -> a
     void <init>(okhttp3.internal.framed.FramedStream) -> <init>
     void timedOut() -> a
     java.io.IOException newTimeoutException(java.io.IOException) -> a
     void exitAndThrowIfTimedOut() -> b
-okhttp3.internal.framed.Header -> a.a.a.f:
+okhttp3.internal.framed.Header -> b.a.a.f:
     okio.ByteString RESPONSE_STATUS -> a
     okio.ByteString TARGET_METHOD -> b
     okio.ByteString TARGET_PATH -> c
@@ -32486,7 +32497,7 @@ okhttp3.internal.framed.Header -> a.a.a.f:
     int hashCode() -> hashCode
     java.lang.String toString() -> toString
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.HeadersMode -> a.a.a.g:
+okhttp3.internal.framed.HeadersMode -> b.a.a.g:
     okhttp3.internal.framed.HeadersMode SPDY_SYN_STREAM -> a
     okhttp3.internal.framed.HeadersMode SPDY_REPLY -> b
     okhttp3.internal.framed.HeadersMode SPDY_HEADERS -> c
@@ -32500,7 +32511,7 @@ okhttp3.internal.framed.HeadersMode -> a.a.a.g:
     boolean failIfHeadersAbsent() -> c
     boolean failIfHeadersPresent() -> d
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.Hpack -> a.a.a.h:
+okhttp3.internal.framed.Hpack -> b.a.a.h:
     okhttp3.internal.framed.Header[] STATIC_HEADER_TABLE -> a
     java.util.Map NAME_TO_FIRST_INDEX -> b
     java.util.Map nameToFirstIndex() -> c
@@ -32509,7 +32520,7 @@ okhttp3.internal.framed.Hpack -> a.a.a.h:
     okio.ByteString access$100(okio.ByteString) -> a
     java.util.Map access$200() -> b
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.Hpack$Reader -> a.a.a.h$a:
+okhttp3.internal.framed.Hpack$Reader -> b.a.a.h$a:
     java.util.List headerList -> e
     okio.BufferedSource source -> f
     int headerTableSizeSetting -> g
@@ -32537,13 +32548,13 @@ okhttp3.internal.framed.Hpack$Reader -> a.a.a.h$a:
     int readByte() -> h
     int readInt(int,int) -> a
     okio.ByteString readByteString() -> c
-okhttp3.internal.framed.Hpack$Writer -> a.a.a.h$b:
+okhttp3.internal.framed.Hpack$Writer -> b.a.a.h$b:
     okio.Buffer out -> a
     void <init>(okio.Buffer) -> <init>
     void writeHeaders(java.util.List) -> a
     void writeInt(int,int,int) -> a
     void writeByteString(okio.ByteString) -> a
-okhttp3.internal.framed.Http2 -> a.a.a.i:
+okhttp3.internal.framed.Http2 -> b.a.a.i:
     java.util.logging.Logger logger -> a
     okio.ByteString CONNECTION_PREFACE -> b
     void <init>() -> <init>
@@ -32562,7 +32573,7 @@ okhttp3.internal.framed.Http2 -> a.a.a.i:
     java.lang.IllegalArgumentException access$500(java.lang.String,java.lang.Object[]) -> b
     void access$600(okio.BufferedSink,int) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.Http2$ContinuationSource -> a.a.a.i$a:
+okhttp3.internal.framed.Http2$ContinuationSource -> b.a.a.i$a:
     okio.BufferedSource source -> f
     int length -> a
     byte flags -> b
@@ -32574,7 +32585,7 @@ okhttp3.internal.framed.Http2$ContinuationSource -> a.a.a.i$a:
     okio.Timeout timeout() -> a
     void close() -> close
     void readContinuationHeader() -> b
-okhttp3.internal.framed.Http2$FrameLogger -> a.a.a.i$b:
+okhttp3.internal.framed.Http2$FrameLogger -> b.a.a.i$b:
     java.lang.String[] TYPES -> a
     java.lang.String[] FLAGS -> b
     java.lang.String[] BINARY -> c
@@ -32582,7 +32593,7 @@ okhttp3.internal.framed.Http2$FrameLogger -> a.a.a.i$b:
     java.lang.String formatHeader(boolean,int,int,byte,byte) -> a
     java.lang.String formatFlags(byte,byte) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.Http2$Reader -> a.a.a.i$c:
+okhttp3.internal.framed.Http2$Reader -> b.a.a.i$c:
     okio.BufferedSource source -> b
     okhttp3.internal.framed.Http2$ContinuationSource continuation -> c
     boolean client -> d
@@ -32602,7 +32613,7 @@ okhttp3.internal.framed.Http2$Reader -> a.a.a.i$c:
     void readGoAway(okhttp3.internal.framed.FrameReader$Handler,int,byte,int) -> h
     void readWindowUpdate(okhttp3.internal.framed.FrameReader$Handler,int,byte,int) -> i
     void close() -> close
-okhttp3.internal.framed.Http2$Writer -> a.a.a.i$d:
+okhttp3.internal.framed.Http2$Writer -> b.a.a.i$d:
     okio.BufferedSink sink -> a
     boolean client -> b
     okio.Buffer hpackBuffer -> c
@@ -32627,7 +32638,7 @@ okhttp3.internal.framed.Http2$Writer -> a.a.a.i$d:
     void windowUpdate(int,long) -> a
     void close() -> close
     void frameHeader(int,int,byte,byte) -> a
-okhttp3.internal.framed.Huffman -> a.a.a.j:
+okhttp3.internal.framed.Huffman -> b.a.a.j:
     int[] CODES -> a
     byte[] CODE_LENGTHS -> b
     okhttp3.internal.framed.Huffman INSTANCE -> c
@@ -32638,7 +32649,7 @@ okhttp3.internal.framed.Huffman -> a.a.a.j:
     void buildTree() -> b
     void addCode(int,int,byte) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.Huffman$Node -> a.a.a.j$a:
+okhttp3.internal.framed.Huffman$Node -> b.a.a.j$a:
     okhttp3.internal.framed.Huffman$Node[] children -> a
     int symbol -> b
     int terminalBits -> c
@@ -32647,7 +32658,7 @@ okhttp3.internal.framed.Huffman$Node -> a.a.a.j$a:
     okhttp3.internal.framed.Huffman$Node[] access$000(okhttp3.internal.framed.Huffman$Node) -> a
     int access$100(okhttp3.internal.framed.Huffman$Node) -> b
     int access$200(okhttp3.internal.framed.Huffman$Node) -> c
-okhttp3.internal.framed.NameValueBlockReader -> a.a.a.k:
+okhttp3.internal.framed.NameValueBlockReader -> b.a.a.k:
     okio.InflaterSource inflaterSource -> a
     int compressedLimit -> b
     okio.BufferedSource source -> c
@@ -32658,15 +32669,15 @@ okhttp3.internal.framed.NameValueBlockReader -> a.a.a.k:
     void close() -> a
     int access$000(okhttp3.internal.framed.NameValueBlockReader) -> a
     int access$002(okhttp3.internal.framed.NameValueBlockReader,int) -> a
-okhttp3.internal.framed.NameValueBlockReader$1 -> a.a.a.k$1:
+okhttp3.internal.framed.NameValueBlockReader$1 -> b.a.a.k$1:
     okhttp3.internal.framed.NameValueBlockReader this$0 -> a
     void <init>(okhttp3.internal.framed.NameValueBlockReader,okio.Source) -> <init>
     long read(okio.Buffer,long) -> a
-okhttp3.internal.framed.NameValueBlockReader$2 -> a.a.a.k$2:
+okhttp3.internal.framed.NameValueBlockReader$2 -> b.a.a.k$2:
     okhttp3.internal.framed.NameValueBlockReader this$0 -> a
     void <init>(okhttp3.internal.framed.NameValueBlockReader) -> <init>
     int inflate(byte[],int,int) -> inflate
-okhttp3.internal.framed.Ping -> a.a.a.l:
+okhttp3.internal.framed.Ping -> b.a.a.l:
     java.util.concurrent.CountDownLatch latch -> a
     long sent -> b
     long received -> c
@@ -32674,20 +32685,20 @@ okhttp3.internal.framed.Ping -> a.a.a.l:
     void send() -> a
     void receive() -> b
     void cancel() -> c
-okhttp3.internal.framed.PushObserver -> a.a.a.m:
+okhttp3.internal.framed.PushObserver -> b.a.a.m:
     okhttp3.internal.framed.PushObserver CANCEL -> a
     boolean onRequest(int,java.util.List) -> a
     boolean onHeaders(int,java.util.List,boolean) -> a
     boolean onData(int,okio.BufferedSource,int,boolean) -> a
     void onReset(int,okhttp3.internal.framed.ErrorCode) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.PushObserver$1 -> a.a.a.m$1:
+okhttp3.internal.framed.PushObserver$1 -> b.a.a.m$1:
     void <init>() -> <init>
     boolean onRequest(int,java.util.List) -> a
     boolean onHeaders(int,java.util.List,boolean) -> a
     boolean onData(int,okio.BufferedSource,int,boolean) -> a
     void onReset(int,okhttp3.internal.framed.ErrorCode) -> a
-okhttp3.internal.framed.Settings -> a.a.a.n:
+okhttp3.internal.framed.Settings -> b.a.a.n:
     int set -> a
     int persistValue -> b
     int persisted -> c
@@ -32706,13 +32717,13 @@ okhttp3.internal.framed.Settings -> a.a.a.n:
     boolean persistValue(int) -> g
     boolean isPersisted(int) -> h
     void merge(okhttp3.internal.framed.Settings) -> a
-okhttp3.internal.framed.Spdy3 -> a.a.a.o:
+okhttp3.internal.framed.Spdy3 -> b.a.a.o:
     byte[] DICTIONARY -> a
     void <init>() -> <init>
     okhttp3.internal.framed.FrameReader newReader(okio.BufferedSource,boolean) -> a
     okhttp3.internal.framed.FrameWriter newWriter(okio.BufferedSink,boolean) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.framed.Spdy3$Reader -> a.a.a.o$a:
+okhttp3.internal.framed.Spdy3$Reader -> b.a.a.o$a:
     okio.BufferedSource source -> a
     boolean client -> b
     okhttp3.internal.framed.NameValueBlockReader headerBlockReader -> c
@@ -32729,7 +32740,7 @@ okhttp3.internal.framed.Spdy3$Reader -> a.a.a.o$a:
     void readSettings(okhttp3.internal.framed.FrameReader$Handler,int,int) -> h
     java.io.IOException ioException(java.lang.String,java.lang.Object[]) -> a
     void close() -> close
-okhttp3.internal.framed.Spdy3$Writer -> a.a.a.o$b:
+okhttp3.internal.framed.Spdy3$Writer -> b.a.a.o$b:
     okio.BufferedSink sink -> a
     okio.Buffer headerBlockBuffer -> b
     okio.BufferedSink headerBlockOut -> c
@@ -32751,20 +32762,20 @@ okhttp3.internal.framed.Spdy3$Writer -> a.a.a.o$b:
     void goAway(int,okhttp3.internal.framed.ErrorCode,byte[]) -> a
     void windowUpdate(int,long) -> a
     void close() -> close
-okhttp3.internal.framed.Variant -> a.a.a.p:
+okhttp3.internal.framed.Variant -> b.a.a.p:
     okhttp3.internal.framed.FrameReader newReader(okio.BufferedSource,boolean) -> a
     okhttp3.internal.framed.FrameWriter newWriter(okio.BufferedSink,boolean) -> a
-okhttp3.internal.http.CacheRequest -> a.a.b.a:
+okhttp3.internal.http.CacheRequest -> b.a.b.a:
     okio.Sink body() -> a
     void abort() -> b
-okhttp3.internal.http.CacheStrategy -> a.a.b.b:
+okhttp3.internal.http.CacheStrategy -> b.a.b.b:
     okhttp3.Request networkRequest -> a
     okhttp3.Response cacheResponse -> b
     void <init>(okhttp3.Request,okhttp3.Response) -> <init>
     boolean isCacheable(okhttp3.Response,okhttp3.Request) -> a
     void <init>(okhttp3.Request,okhttp3.Response,okhttp3.internal.http.CacheStrategy$1) -> <init>
-okhttp3.internal.http.CacheStrategy$1 -> a.a.b.b$1:
-okhttp3.internal.http.CacheStrategy$Factory -> a.a.b.b$a:
+okhttp3.internal.http.CacheStrategy$1 -> b.a.b.b$1:
+okhttp3.internal.http.CacheStrategy$Factory -> b.a.b.b$a:
     long nowMillis -> a
     okhttp3.Request request -> b
     okhttp3.Response cacheResponse -> c
@@ -32784,11 +32795,11 @@ okhttp3.internal.http.CacheStrategy$Factory -> a.a.b.b$a:
     long cacheResponseAge() -> d
     boolean isFreshnessLifetimeHeuristic() -> e
     boolean hasConditions(okhttp3.Request) -> a
-okhttp3.internal.http.HeaderParser -> a.a.b.c:
+okhttp3.internal.http.HeaderParser -> b.a.b.c:
     int skipUntil(java.lang.String,int,java.lang.String) -> a
     int skipWhitespace(java.lang.String,int) -> a
     int parseSeconds(java.lang.String,int) -> b
-okhttp3.internal.http.Http1xStream -> a.a.b.d:
+okhttp3.internal.http.Http1xStream -> b.a.b.d:
     okhttp3.internal.http.StreamAllocation streamAllocation -> a
     okio.BufferedSource source -> b
     okio.BufferedSink sink -> c
@@ -32819,8 +32830,8 @@ okhttp3.internal.http.Http1xStream -> a.a.b.d:
     okio.BufferedSource access$600(okhttp3.internal.http.Http1xStream) -> b
     int access$500(okhttp3.internal.http.Http1xStream) -> c
     okhttp3.internal.http.StreamAllocation access$700(okhttp3.internal.http.Http1xStream) -> d
-okhttp3.internal.http.Http1xStream$1 -> a.a.b.d$1:
-okhttp3.internal.http.Http1xStream$AbstractSource -> a.a.b.d$a:
+okhttp3.internal.http.Http1xStream$1 -> b.a.b.d$1:
+okhttp3.internal.http.Http1xStream$AbstractSource -> b.a.b.d$a:
     okio.ForwardingTimeout timeout -> a
     boolean closed -> b
     okhttp3.internal.http.Http1xStream this$0 -> c
@@ -32828,7 +32839,7 @@ okhttp3.internal.http.Http1xStream$AbstractSource -> a.a.b.d$a:
     okio.Timeout timeout() -> a
     void endOfInput(boolean) -> a
     void <init>(okhttp3.internal.http.Http1xStream,okhttp3.internal.http.Http1xStream$1) -> <init>
-okhttp3.internal.http.Http1xStream$ChunkedSink -> a.a.b.d$b:
+okhttp3.internal.http.Http1xStream$ChunkedSink -> b.a.b.d$b:
     okio.ForwardingTimeout timeout -> b
     boolean closed -> c
     okhttp3.internal.http.Http1xStream this$0 -> a
@@ -32838,7 +32849,7 @@ okhttp3.internal.http.Http1xStream$ChunkedSink -> a.a.b.d$b:
     void flush() -> flush
     void close() -> close
     void <init>(okhttp3.internal.http.Http1xStream,okhttp3.internal.http.Http1xStream$1) -> <init>
-okhttp3.internal.http.Http1xStream$ChunkedSource -> a.a.b.d$c:
+okhttp3.internal.http.Http1xStream$ChunkedSource -> b.a.b.d$c:
     long bytesRemainingInChunk -> e
     boolean hasMoreChunks -> f
     okhttp3.internal.http.HttpEngine httpEngine -> g
@@ -32847,7 +32858,7 @@ okhttp3.internal.http.Http1xStream$ChunkedSource -> a.a.b.d$c:
     long read(okio.Buffer,long) -> a
     void readChunkSize() -> b
     void close() -> close
-okhttp3.internal.http.Http1xStream$FixedLengthSink -> a.a.b.d$d:
+okhttp3.internal.http.Http1xStream$FixedLengthSink -> b.a.b.d$d:
     okio.ForwardingTimeout timeout -> b
     boolean closed -> c
     long bytesRemaining -> d
@@ -32858,20 +32869,20 @@ okhttp3.internal.http.Http1xStream$FixedLengthSink -> a.a.b.d$d:
     void flush() -> flush
     void close() -> close
     void <init>(okhttp3.internal.http.Http1xStream,long,okhttp3.internal.http.Http1xStream$1) -> <init>
-okhttp3.internal.http.Http1xStream$FixedLengthSource -> a.a.b.d$e:
+okhttp3.internal.http.Http1xStream$FixedLengthSource -> b.a.b.d$e:
     long bytesRemaining -> e
     okhttp3.internal.http.Http1xStream this$0 -> d
     void <init>(okhttp3.internal.http.Http1xStream,long) -> <init>
     long read(okio.Buffer,long) -> a
     void close() -> close
-okhttp3.internal.http.Http1xStream$UnknownLengthSource -> a.a.b.d$f:
+okhttp3.internal.http.Http1xStream$UnknownLengthSource -> b.a.b.d$f:
     boolean inputExhausted -> e
     okhttp3.internal.http.Http1xStream this$0 -> d
     void <init>(okhttp3.internal.http.Http1xStream) -> <init>
     long read(okio.Buffer,long) -> a
     void close() -> close
     void <init>(okhttp3.internal.http.Http1xStream,okhttp3.internal.http.Http1xStream$1) -> <init>
-okhttp3.internal.http.Http2xStream -> a.a.b.e:
+okhttp3.internal.http.Http2xStream -> b.a.b.e:
     okio.ByteString CONNECTION -> a
     okio.ByteString HOST -> b
     okio.ByteString KEEP_ALIVE -> c
@@ -32904,22 +32915,22 @@ okhttp3.internal.http.Http2xStream -> a.a.b.e:
     void cancel() -> a
     okhttp3.internal.http.StreamAllocation access$000(okhttp3.internal.http.Http2xStream) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.http.Http2xStream$StreamFinishingSource -> a.a.b.e$a:
+okhttp3.internal.http.Http2xStream$StreamFinishingSource -> b.a.b.e$a:
     okhttp3.internal.http.Http2xStream this$0 -> a
     void <init>(okhttp3.internal.http.Http2xStream,okio.Source) -> <init>
     void close() -> close
-okhttp3.internal.http.HttpDate -> a.a.b.f:
+okhttp3.internal.http.HttpDate -> b.a.b.f:
     java.lang.ThreadLocal STANDARD_DATE_FORMAT -> a
     java.lang.String[] BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS -> b
     java.text.DateFormat[] BROWSER_COMPATIBLE_DATE_FORMATS -> c
     java.util.Date parse(java.lang.String) -> a
     java.lang.String format(java.util.Date) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.http.HttpDate$1 -> a.a.b.f$1:
+okhttp3.internal.http.HttpDate$1 -> b.a.b.f$1:
     void <init>() -> <init>
     java.text.DateFormat initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-okhttp3.internal.http.HttpEngine -> a.a.b.g:
+okhttp3.internal.http.HttpEngine -> b.a.b.g:
     okhttp3.ResponseBody EMPTY_BODY -> e
     okhttp3.OkHttpClient client -> a
     okhttp3.internal.http.StreamAllocation streamAllocation -> b
@@ -32974,11 +32985,11 @@ okhttp3.internal.http.HttpEngine -> a.a.b.g:
     okhttp3.Request access$102(okhttp3.internal.http.HttpEngine,okhttp3.Request) -> a
     okhttp3.Response access$200(okhttp3.internal.http.HttpEngine) -> b
     void <clinit>() -> <clinit>
-okhttp3.internal.http.HttpEngine$1 -> a.a.b.g$1:
+okhttp3.internal.http.HttpEngine$1 -> b.a.b.g$1:
     void <init>() -> <init>
     long contentLength() -> a
     okio.BufferedSource source() -> c
-okhttp3.internal.http.HttpEngine$2 -> a.a.b.g$2:
+okhttp3.internal.http.HttpEngine$2 -> b.a.b.g$2:
     boolean cacheRequestClosed -> a
     okio.BufferedSource val$source -> b
     okhttp3.internal.http.CacheRequest val$cacheRequest -> c
@@ -32988,7 +32999,7 @@ okhttp3.internal.http.HttpEngine$2 -> a.a.b.g$2:
     long read(okio.Buffer,long) -> a
     okio.Timeout timeout() -> a
     void close() -> close
-okhttp3.internal.http.HttpEngine$NetworkInterceptorChain -> a.a.b.g$a:
+okhttp3.internal.http.HttpEngine$NetworkInterceptorChain -> b.a.b.g$a:
     int index -> b
     okhttp3.Request request -> c
     int calls -> d
@@ -32996,12 +33007,12 @@ okhttp3.internal.http.HttpEngine$NetworkInterceptorChain -> a.a.b.g$a:
     void <init>(okhttp3.internal.http.HttpEngine,int,okhttp3.Request) -> <init>
     okhttp3.Connection connection() -> a
     okhttp3.Response proceed(okhttp3.Request) -> a
-okhttp3.internal.http.HttpMethod -> a.a.b.h:
+okhttp3.internal.http.HttpMethod -> b.a.b.h:
     boolean invalidatesCache(java.lang.String) -> a
     boolean requiresRequestBody(java.lang.String) -> b
     boolean permitsRequestBody(java.lang.String) -> c
     boolean redirectsToGet(java.lang.String) -> d
-okhttp3.internal.http.HttpStream -> a.a.b.i:
+okhttp3.internal.http.HttpStream -> b.a.b.i:
     okio.Sink createRequestBody(okhttp3.Request,long) -> a
     void writeRequestHeaders(okhttp3.Request) -> a
     void writeRequestBody(okhttp3.internal.http.RetryableSink) -> a
@@ -33010,7 +33021,7 @@ okhttp3.internal.http.HttpStream -> a.a.b.i:
     okhttp3.ResponseBody openResponseBody(okhttp3.Response) -> a
     void setHttpEngine(okhttp3.internal.http.HttpEngine) -> a
     void cancel() -> a
-okhttp3.internal.http.OkHeaders -> a.a.b.j:
+okhttp3.internal.http.OkHeaders -> b.a.b.j:
     java.lang.String PREFIX -> a
     java.lang.String SENT_MILLIS -> b
     java.lang.String RECEIVED_MILLIS -> c
@@ -33022,20 +33033,20 @@ okhttp3.internal.http.OkHeaders -> a.a.b.j:
     long stringToLong(java.lang.String) -> b
     boolean isEndToEnd(java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.http.RealResponseBody -> a.a.b.k:
+okhttp3.internal.http.RealResponseBody -> b.a.b.k:
     okhttp3.Headers headers -> a
     okio.BufferedSource source -> b
     void <init>(okhttp3.Headers,okio.BufferedSource) -> <init>
     long contentLength() -> a
     okio.BufferedSource source() -> c
-okhttp3.internal.http.RequestException -> a.a.b.l:
+okhttp3.internal.http.RequestException -> b.a.b.l:
     java.io.IOException getCause() -> a
     java.lang.Throwable getCause() -> getCause
-okhttp3.internal.http.RequestLine -> a.a.b.m:
+okhttp3.internal.http.RequestLine -> b.a.b.m:
     java.lang.String get(okhttp3.Request,java.net.Proxy$Type) -> a
     boolean includeAuthorityInRequestLine(okhttp3.Request,java.net.Proxy$Type) -> b
     java.lang.String requestPath(okhttp3.HttpUrl) -> a
-okhttp3.internal.http.RetryableSink -> a.a.b.n:
+okhttp3.internal.http.RetryableSink -> b.a.b.n:
     boolean closed -> a
     int limit -> b
     okio.Buffer content -> c
@@ -33047,7 +33058,7 @@ okhttp3.internal.http.RetryableSink -> a.a.b.n:
     okio.Timeout timeout() -> a
     long contentLength() -> b
     void writeToSocket(okio.Sink) -> a
-okhttp3.internal.http.RouteException -> a.a.b.o:
+okhttp3.internal.http.RouteException -> b.a.b.o:
     java.lang.reflect.Method addSuppressedExceptionMethod -> a
     java.io.IOException lastException -> b
     void <init>(java.io.IOException) -> <init>
@@ -33055,7 +33066,7 @@ okhttp3.internal.http.RouteException -> a.a.b.o:
     void addConnectException(java.io.IOException) -> a
     void addSuppressedIfPossible(java.io.IOException,java.io.IOException) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.http.RouteSelector -> a.a.b.p:
+okhttp3.internal.http.RouteSelector -> b.a.b.p:
     okhttp3.Address address -> a
     okhttp3.internal.RouteDatabase routeDatabase -> b
     java.net.Proxy lastProxy -> c
@@ -33078,7 +33089,7 @@ okhttp3.internal.http.RouteSelector -> a.a.b.p:
     java.net.InetSocketAddress nextInetSocketAddress() -> f
     boolean hasNextPostponed() -> g
     okhttp3.Route nextPostponed() -> h
-okhttp3.internal.http.StatusLine -> a.a.b.q:
+okhttp3.internal.http.StatusLine -> b.a.b.q:
     okhttp3.Protocol protocol -> a
     int code -> b
     java.lang.String message -> c
@@ -33086,7 +33097,7 @@ okhttp3.internal.http.StatusLine -> a.a.b.q:
     okhttp3.internal.http.StatusLine get(okhttp3.Response) -> a
     okhttp3.internal.http.StatusLine parse(java.lang.String) -> a
     java.lang.String toString() -> toString
-okhttp3.internal.http.StreamAllocation -> a.a.b.r:
+okhttp3.internal.http.StreamAllocation -> b.a.b.r:
     okhttp3.Address address -> a
     okhttp3.Route route -> b
     okhttp3.ConnectionPool connectionPool -> c
@@ -33112,7 +33123,7 @@ okhttp3.internal.http.StreamAllocation -> a.a.b.r:
     boolean recover(java.io.IOException,okio.Sink) -> a
     boolean isRecoverable(java.io.IOException) -> b
     java.lang.String toString() -> toString
-okhttp3.internal.huc.HttpURLConnectionImpl -> a.a.c.a:
+okhttp3.internal.huc.HttpURLConnectionImpl -> b.a.c.a:
     java.util.Set METHODS -> e
     okhttp3.RequestBody EMPTY_REQUEST_BODY -> f
     okhttp3.OkHttpClient client -> a
@@ -33162,20 +33173,20 @@ okhttp3.internal.huc.HttpURLConnectionImpl -> a.a.c.a:
     void setFixedLengthStreamingMode(int) -> setFixedLengthStreamingMode
     void setFixedLengthStreamingMode(long) -> setFixedLengthStreamingMode
     void <clinit>() -> <clinit>
-okhttp3.internal.io.FileSystem -> a.a.d.a:
+okhttp3.internal.io.FileSystem -> b.a.d.a:
     okhttp3.internal.io.FileSystem SYSTEM -> a
     void delete(java.io.File) -> a
     boolean exists(java.io.File) -> b
     long size(java.io.File) -> c
     void rename(java.io.File,java.io.File) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.io.FileSystem$1 -> a.a.d.a$1:
+okhttp3.internal.io.FileSystem$1 -> b.a.d.a$1:
     void <init>() -> <init>
     void delete(java.io.File) -> a
     boolean exists(java.io.File) -> b
     long size(java.io.File) -> c
     void rename(java.io.File,java.io.File) -> a
-okhttp3.internal.io.RealConnection -> a.a.d.b:
+okhttp3.internal.io.RealConnection -> b.a.d.b:
     okhttp3.Route route -> k
     java.net.Socket rawSocket -> l
     java.net.Socket socket -> b
@@ -33203,18 +33214,18 @@ okhttp3.internal.io.RealConnection -> a.a.d.b:
     void onSettings(okhttp3.internal.framed.FramedConnection) -> a
     okhttp3.Handshake handshake() -> b
     java.lang.String toString() -> toString
-okhttp3.internal.tls.AndroidTrustRootIndex -> a.a.e.a:
+okhttp3.internal.tls.AndroidTrustRootIndex -> b.a.e.a:
     javax.net.ssl.X509TrustManager trustManager -> a
     java.lang.reflect.Method findByIssuerAndSignatureMethod -> b
     void <init>(javax.net.ssl.X509TrustManager,java.lang.reflect.Method) -> <init>
     java.security.cert.X509Certificate findByIssuerAndSignature(java.security.cert.X509Certificate) -> a
     okhttp3.internal.tls.TrustRootIndex get(javax.net.ssl.X509TrustManager) -> a
-okhttp3.internal.tls.CertificateChainCleaner -> a.a.e.b:
+okhttp3.internal.tls.CertificateChainCleaner -> b.a.e.b:
     okhttp3.internal.tls.TrustRootIndex trustRootIndex -> a
     void <init>(okhttp3.internal.tls.TrustRootIndex) -> <init>
     java.util.List clean(java.util.List) -> a
     boolean verifySignature(java.security.cert.X509Certificate,java.security.cert.X509Certificate) -> a
-okhttp3.internal.tls.DistinguishedNameParser -> a.a.e.c:
+okhttp3.internal.tls.DistinguishedNameParser -> b.a.e.c:
     java.lang.String dn -> a
     int length -> b
     int pos -> c
@@ -33231,7 +33242,7 @@ okhttp3.internal.tls.DistinguishedNameParser -> a.a.e.c:
     char getUTF8() -> f
     int getByte(int) -> a
     java.lang.String findMostSpecific(java.lang.String) -> a
-okhttp3.internal.tls.OkHostnameVerifier -> a.a.e.d:
+okhttp3.internal.tls.OkHostnameVerifier -> b.a.e.d:
     okhttp3.internal.tls.OkHostnameVerifier INSTANCE -> a
     void <init>() -> <init>
     boolean verify(java.lang.String,javax.net.ssl.SSLSession) -> verify
@@ -33242,13 +33253,13 @@ okhttp3.internal.tls.OkHostnameVerifier -> a.a.e.d:
     java.util.List getSubjectAltNames(java.security.cert.X509Certificate,int) -> a
     boolean verifyHostname(java.lang.String,java.lang.String) -> a
     void <clinit>() -> <clinit>
-okhttp3.internal.tls.RealTrustRootIndex -> a.a.e.e:
+okhttp3.internal.tls.RealTrustRootIndex -> b.a.e.e:
     java.util.Map subjectToCaCerts -> a
     void <init>(java.security.cert.X509Certificate[]) -> <init>
     java.security.cert.X509Certificate findByIssuerAndSignature(java.security.cert.X509Certificate) -> a
-okhttp3.internal.tls.TrustRootIndex -> a.a.e.f:
+okhttp3.internal.tls.TrustRootIndex -> b.a.e.f:
     java.security.cert.X509Certificate findByIssuerAndSignature(java.security.cert.X509Certificate) -> a
-okio.AsyncTimeout -> b.a:
+okio.AsyncTimeout -> c.a:
     okio.AsyncTimeout head -> a
     boolean inQueue -> c
     okio.AsyncTimeout next -> d
@@ -33267,7 +33278,7 @@ okio.AsyncTimeout -> b.a:
     java.io.IOException newTimeoutException(java.io.IOException) -> a
     okio.AsyncTimeout awaitTimeout() -> h
     okio.AsyncTimeout access$000() -> e
-okio.AsyncTimeout$1 -> b.a$1:
+okio.AsyncTimeout$1 -> c.a$1:
     okio.Sink val$sink -> a
     okio.AsyncTimeout this$0 -> b
     void <init>(okio.AsyncTimeout,okio.Sink) -> <init>
@@ -33276,7 +33287,7 @@ okio.AsyncTimeout$1 -> b.a$1:
     void close() -> close
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
-okio.AsyncTimeout$2 -> b.a$2:
+okio.AsyncTimeout$2 -> c.a$2:
     okio.Source val$source -> a
     okio.AsyncTimeout this$0 -> b
     void <init>(okio.AsyncTimeout,okio.Source) -> <init>
@@ -33284,16 +33295,16 @@ okio.AsyncTimeout$2 -> b.a$2:
     void close() -> close
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
-okio.AsyncTimeout$Watchdog -> b.a$a:
+okio.AsyncTimeout$Watchdog -> c.a$a:
     void <init>() -> <init>
     void run() -> run
-okio.Base64 -> b.b:
+okio.Base64 -> c.b:
     byte[] MAP -> a
     byte[] URL_MAP -> b
     java.lang.String encode(byte[]) -> a
     java.lang.String encode(byte[],byte[]) -> a
     void <clinit>() -> <clinit>
-okio.Buffer -> b.c:
+okio.Buffer -> c.c:
     byte[] DIGITS -> c
     okio.Segment head -> a
     long size -> b
@@ -33364,7 +33375,7 @@ okio.Buffer -> b.c:
     okio.BufferedSink write(byte[]) -> c
     okio.BufferedSink write(okio.ByteString) -> b
     void <clinit>() -> <clinit>
-okio.Buffer$1 -> b.c$1:
+okio.Buffer$1 -> c.c$1:
     okio.Buffer this$0 -> a
     void <init>(okio.Buffer) -> <init>
     void write(int) -> write
@@ -33372,7 +33383,7 @@ okio.Buffer$1 -> b.c$1:
     void flush() -> flush
     void close() -> close
     java.lang.String toString() -> toString
-okio.Buffer$2 -> b.c$2:
+okio.Buffer$2 -> c.c$2:
     okio.Buffer this$0 -> a
     void <init>(okio.Buffer) -> <init>
     int read() -> read
@@ -33380,7 +33391,7 @@ okio.Buffer$2 -> b.c$2:
     int available() -> available
     void close() -> close
     java.lang.String toString() -> toString
-okio.BufferedSink -> b.d:
+okio.BufferedSink -> c.d:
     okio.Buffer buffer() -> c
     okio.BufferedSink write(okio.ByteString) -> b
     okio.BufferedSink write(byte[]) -> c
@@ -33395,7 +33406,7 @@ okio.BufferedSink -> b.d:
     okio.BufferedSink emitCompleteSegments() -> v
     okio.BufferedSink emit() -> f
     java.io.OutputStream outputStream() -> d
-okio.BufferedSource -> b.e:
+okio.BufferedSource -> c.e:
     okio.Buffer buffer() -> c
     boolean exhausted() -> g
     void require(long) -> a
@@ -33411,7 +33422,7 @@ okio.BufferedSource -> b.e:
     java.lang.String readUtf8LineStrict() -> r
     long indexOf(byte) -> a
     java.io.InputStream inputStream() -> h
-okio.ByteString -> b.f:
+okio.ByteString -> c.f:
     char[] HEX_DIGITS -> a
     okio.ByteString EMPTY -> b
     byte[] data -> c
@@ -33437,7 +33448,7 @@ okio.ByteString -> b.f:
     java.lang.String toString() -> toString
     int compareTo(java.lang.Object) -> compareTo
     void <clinit>() -> <clinit>
-okio.DeflaterSink -> b.g:
+okio.DeflaterSink -> c.g:
     okio.BufferedSink sink -> a
     java.util.zip.Deflater deflater -> b
     boolean closed -> c
@@ -33450,14 +33461,14 @@ okio.DeflaterSink -> b.g:
     void close() -> close
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
-okio.ForwardingSource -> b.h:
+okio.ForwardingSource -> c.h:
     okio.Source delegate -> a
     void <init>(okio.Source) -> <init>
     long read(okio.Buffer,long) -> a
     okio.Timeout timeout() -> a
     void close() -> close
     java.lang.String toString() -> toString
-okio.ForwardingTimeout -> b.i:
+okio.ForwardingTimeout -> c.i:
     okio.Timeout delegate -> a
     void <init>(okio.Timeout) -> <init>
     okio.Timeout delegate() -> a
@@ -33470,7 +33481,7 @@ okio.ForwardingTimeout -> b.i:
     okio.Timeout clearTimeout() -> f_
     okio.Timeout clearDeadline() -> f
     void throwIfReached() -> g
-okio.GzipSource -> b.j:
+okio.GzipSource -> c.j:
     int section -> a
     okio.BufferedSource source -> b
     java.util.zip.Inflater inflater -> c
@@ -33484,7 +33495,7 @@ okio.GzipSource -> b.j:
     void close() -> close
     void updateCrc(okio.Buffer,long,long) -> a
     void checkEqual(java.lang.String,int,int) -> a
-okio.InflaterSource -> b.k:
+okio.InflaterSource -> c.k:
     okio.BufferedSource source -> a
     java.util.zip.Inflater inflater -> b
     int bufferBytesHeldByInflater -> c
@@ -33496,7 +33507,7 @@ okio.InflaterSource -> b.k:
     void releaseInflatedBytes() -> c
     okio.Timeout timeout() -> a
     void close() -> close
-okio.Okio -> b.l:
+okio.Okio -> c.l:
     java.util.logging.Logger logger -> a
     void <init>() -> <init>
     okio.BufferedSource buffer(okio.Source) -> a
@@ -33508,7 +33519,7 @@ okio.Okio -> b.l:
     okio.AsyncTimeout timeout(java.net.Socket) -> c
     java.util.logging.Logger access$000() -> a
     void <clinit>() -> <clinit>
-okio.Okio$1 -> b.l$1:
+okio.Okio$1 -> c.l$1:
     okio.Timeout val$timeout -> a
     java.io.OutputStream val$out -> b
     void <init>(okio.Timeout,java.io.OutputStream) -> <init>
@@ -33517,7 +33528,7 @@ okio.Okio$1 -> b.l$1:
     void close() -> close
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
-okio.Okio$2 -> b.l$2:
+okio.Okio$2 -> c.l$2:
     okio.Timeout val$timeout -> a
     java.io.InputStream val$in -> b
     void <init>(okio.Timeout,java.io.InputStream) -> <init>
@@ -33525,12 +33536,12 @@ okio.Okio$2 -> b.l$2:
     void close() -> close
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
-okio.Okio$3 -> b.l$3:
+okio.Okio$3 -> c.l$3:
     java.net.Socket val$socket -> a
     void <init>(java.net.Socket) -> <init>
     java.io.IOException newTimeoutException(java.io.IOException) -> a
     void timedOut() -> a
-okio.RealBufferedSink -> b.m:
+okio.RealBufferedSink -> c.m:
     okio.Buffer buffer -> a
     okio.Sink sink -> b
     boolean closed -> c
@@ -33556,7 +33567,7 @@ okio.RealBufferedSink -> b.m:
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
     boolean access$000(okio.RealBufferedSink) -> a
-okio.RealBufferedSink$1 -> b.m$1:
+okio.RealBufferedSink$1 -> c.m$1:
     okio.RealBufferedSink this$0 -> a
     void <init>(okio.RealBufferedSink) -> <init>
     void write(int) -> write
@@ -33564,7 +33575,7 @@ okio.RealBufferedSink$1 -> b.m$1:
     void flush() -> flush
     void close() -> close
     java.lang.String toString() -> toString
-okio.RealBufferedSource -> b.n:
+okio.RealBufferedSource -> c.n:
     okio.Buffer buffer -> a
     okio.Source source -> b
     boolean closed -> c
@@ -33592,7 +33603,7 @@ okio.RealBufferedSource -> b.n:
     okio.Timeout timeout() -> a
     java.lang.String toString() -> toString
     boolean access$000(okio.RealBufferedSource) -> a
-okio.RealBufferedSource$1 -> b.n$1:
+okio.RealBufferedSource$1 -> c.n$1:
     okio.RealBufferedSource this$0 -> a
     void <init>(okio.RealBufferedSource) -> <init>
     int read() -> read
@@ -33600,7 +33611,7 @@ okio.RealBufferedSource$1 -> b.n$1:
     int available() -> available
     void close() -> close
     java.lang.String toString() -> toString
-okio.Segment -> b.o:
+okio.Segment -> c.o:
     byte[] data -> a
     int pos -> b
     int limit -> c
@@ -33616,22 +33627,22 @@ okio.Segment -> b.o:
     okio.Segment split(int) -> a
     void compact() -> b
     void writeTo(okio.Segment,int) -> a
-okio.SegmentPool -> b.p:
+okio.SegmentPool -> c.p:
     okio.Segment next -> a
     long byteCount -> b
     void <init>() -> <init>
     okio.Segment take() -> a
     void recycle(okio.Segment) -> a
-okio.Sink -> b.q:
+okio.Sink -> c.q:
     void write(okio.Buffer,long) -> a_
     void flush() -> flush
     okio.Timeout timeout() -> a
     void close() -> close
-okio.Source -> b.r:
+okio.Source -> c.r:
     long read(okio.Buffer,long) -> a
     okio.Timeout timeout() -> a
     void close() -> close
-okio.Timeout -> b.s:
+okio.Timeout -> c.s:
     okio.Timeout NONE -> b
     boolean hasDeadline -> a
     long deadlineNanoTime -> c
@@ -33646,12 +33657,12 @@ okio.Timeout -> b.s:
     okio.Timeout clearDeadline() -> f
     void throwIfReached() -> g
     void <clinit>() -> <clinit>
-okio.Timeout$1 -> b.s$1:
+okio.Timeout$1 -> c.s$1:
     void <init>() -> <init>
     okio.Timeout timeout(long,java.util.concurrent.TimeUnit) -> a
     okio.Timeout deadlineNanoTime(long) -> a
     void throwIfReached() -> g
-okio.Util -> b.t:
+okio.Util -> c.t:
     java.nio.charset.Charset UTF_8 -> a
     void checkOffsetAndCount(long,long,long) -> a
     short reverseBytesShort(short) -> a
