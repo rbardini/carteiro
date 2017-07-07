@@ -38,7 +38,7 @@ public final class MobileTracker extends Tracker {
   private static final String REQ_RESULT = "T";
   private static final String REQ_LANGUAGE = "101";
   private static final String REQ_TOKEN = "QTXFMvu_Z-6XYezP3VbDsKBgSeljSqIysM9x";
-  private static final int REQ_TIMEOUT = 30000;
+  private static final int REQ_TIMEOUT = 60000;
 
   public static List<Shipment> track(final String[] cods, Context context) throws IOException {
     List<Shipment> shipments = new ArrayList<>();
