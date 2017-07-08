@@ -271,12 +271,12 @@ public class SyncService extends IntentService {
       title = shipment.getDescription();
       desc = lastRecord.getStatus();
       date = lastRecord.getDate().getTime();
-      intent = new Intent(this, RecordActivity.class).putExtra("postalItem", shipment);
+      intent = new Intent(this, RecordActivity.class).putExtra("shipment", shipment);
 
       NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle(notificationBuilder);
 
-      Intent locateIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", shipment).setAction("locate");
-      Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("postalItem", shipment).setAction("share");
+      Intent locateIntent = new Intent(this, RecordActivity.class).putExtra("shipment", shipment).setAction("locate");
+      Intent shareIntent = new Intent(this, RecordActivity.class).putExtra("shipment", shipment).setAction("share");
 
       notificationBuilder
         .setColor(ContextCompat.getColor(this, UIUtils.getPostalStatusColor(lastRecord.getStatus())))
