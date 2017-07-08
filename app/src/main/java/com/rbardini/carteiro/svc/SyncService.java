@@ -127,7 +127,7 @@ public class SyncService extends IntentService {
     }
 
     try {
-      Log.i(TAG, "Shallow syncing " + shipments.size() + " items...");
+      Log.i(TAG, "Shallow-syncing " + shipments.size() + " item(s)...");
 
       if (shouldNotifySync) {
         notificationBuilder
@@ -150,9 +150,18 @@ public class SyncService extends IntentService {
       }
 
       if (!updatedShipments.isEmpty()) {
-        Log.i(TAG, updatedShipments.size() + " updates found, deep syncing items...");
-
+        Log.i(TAG, updatedShipments.size() + " update(s) found, deep-syncing item(s)...");
         MobileTracker.deepTrack(updatedShipments, this);
+
+        Iterator<Shipment> it = updatedShipments.iterator();
+        while (it.hasNext()) {
+          Shipment updatedShipment = it.next();
+          if (updatedShipment.isEmpty()) {
+            it.remove();
+            Log.w(TAG, "Dropped empty deep-synced item " + updatedShipment.getNumber());
+          }
+        }
+
         updateShipments(updatedShipments);
       }
 
