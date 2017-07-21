@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.content.Context;
+import android.os.Handler;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,6 +10,8 @@ import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.rbardini.carteiro.R;
 
 public class ThemePreference extends DialogPreference implements View.OnClickListener {
+  private static final int THEME_CHANGE_DELAY = 250;
+
   private String mChosenTheme;
 
   public ThemePreference(Context context, AttributeSet attrs) {
@@ -30,7 +33,13 @@ public class ThemePreference extends DialogPreference implements View.OnClickLis
   protected void onDialogClosed(boolean positiveResult) {
     if (mChosenTheme != null && !mChosenTheme.equals(getValue())) {
       persistString(mChosenTheme);
-      ProcessPhoenix.triggerRebirth(getContext());
+
+      new Handler().postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          ProcessPhoenix.triggerRebirth(getContext());
+        }
+      }, THEME_CHANGE_DELAY);
     }
 
     super.onDialogClosed(positiveResult);
