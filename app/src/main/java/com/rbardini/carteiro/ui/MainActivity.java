@@ -31,11 +31,6 @@ public class MainActivity extends ShipmentActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
   private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
-  // Fade in and fade out durations for the activity_main content when switching between
-  // different fragments through the navigation drawer
-  private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
-  private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
-
   private FragmentManager mFragmentManager;
   private ShipmentListFragment mCurrentFragment;
   private NotificationManager mNotificationManager;
@@ -167,7 +162,7 @@ public class MainActivity extends ShipmentActivity {
   }
 
   private void setupAddButton() {
-    final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    final FloatingActionButton fab = findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -182,21 +177,15 @@ public class MainActivity extends ShipmentActivity {
   }
 
   private void setupNavigationDrawer() {
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawerLayout = findViewById(R.id.drawer_layout);
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
     mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-    mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+    mNavigationView = findViewById(R.id.navigation_view);
     mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         final int id = menuItem.getItemId();
-        final boolean isCategory = id != R.id.action_preferences && id != R.id.action_feedback;
-
-        // Fade out main container if a new category fragment will be shown
-        if (isCategory && Category.getCategoryById(id) != mCurrentFragment.getCategory()) {
-          mMainContainer.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
-        }
 
         // Launch item after a short delay, to allow navigation drawer close animation to play
         mHandler.postDelayed(new Runnable() {
@@ -232,11 +221,11 @@ public class MainActivity extends ShipmentActivity {
 
       FragmentTransaction ft = mFragmentManager
         .beginTransaction()
+        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         .replace(R.id.main_content, newFragment, name);
       ft.commit();
 
       mCurrentFragment = newFragment;
-      mMainContainer.animate().alpha(1).setDuration(MAIN_CONTENT_FADEIN_DURATION);
     }
   }
 

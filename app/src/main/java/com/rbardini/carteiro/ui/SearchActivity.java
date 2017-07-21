@@ -19,7 +19,7 @@ public class SearchActivity extends ShipmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     setContentView(R.layout.activity_search);
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -58,7 +58,7 @@ public class SearchActivity extends ShipmentActivity {
   @Override
   public void finish() {
     super.finish();
-    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   @Override
