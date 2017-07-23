@@ -30499,10 +30499,9 @@ com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     void showCategory(int) -> d
     com.rbardini.carteiro.ui.ShipmentListFragment getCurrentFragment() -> p
     com.rbardini.carteiro.ui.ShipmentListFragment access$000(com.rbardini.carteiro.ui.MainActivity) -> a
-    android.view.View access$100(com.rbardini.carteiro.ui.MainActivity) -> b
-    void access$200(com.rbardini.carteiro.ui.MainActivity,int) -> a
-    android.os.Handler access$300(com.rbardini.carteiro.ui.MainActivity) -> c
-    android.support.v4.widget.DrawerLayout access$400(com.rbardini.carteiro.ui.MainActivity) -> d
+    void access$100(com.rbardini.carteiro.ui.MainActivity,int) -> a
+    android.os.Handler access$200(com.rbardini.carteiro.ui.MainActivity) -> b
+    android.support.v4.widget.DrawerLayout access$300(com.rbardini.carteiro.ui.MainActivity) -> c
 com.rbardini.carteiro.ui.MainActivity$1 -> com.rbardini.carteiro.ui.MainActivity$1:
     android.support.design.widget.FloatingActionButton val$fab -> a
     com.rbardini.carteiro.ui.MainActivity this$0 -> b
@@ -30879,6 +30878,10 @@ com.rbardini.carteiro.ui.ThemePreference -> com.rbardini.carteiro.ui.ThemePrefer
     void onDialogClosed(boolean) -> onDialogClosed
     void onClick(android.view.View) -> onClick
     java.lang.String getValue() -> a
+com.rbardini.carteiro.ui.ThemePreference$1 -> com.rbardini.carteiro.ui.ThemePreference$1:
+    com.rbardini.carteiro.ui.ThemePreference this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.ThemePreference) -> <init>
+    void run() -> run
 com.rbardini.carteiro.ui.drawable.MorphDrawable -> com.rbardini.carteiro.ui.a.a:
     android.util.Property CORNER_RADIUS -> a
     android.util.Property COLOR -> b
