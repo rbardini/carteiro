@@ -106,8 +106,8 @@ public final class MobileTracker extends Tracker {
               JSONArray destino = evento.optJSONArray("destino");
 
               if (destino != null) {
-                local = buildLocation(destino.getJSONObject(0));
-                if (local != null) detalhe = "Em trânsito para " + local;
+                String localDestino = buildLocation(destino.getJSONObject(0));
+                if (localDestino != null) detalhe = "Em trânsito para " + localDestino;
               }
             }
 
