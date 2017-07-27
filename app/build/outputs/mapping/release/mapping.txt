@@ -29128,1052 +29128,6 @@ com.jakewharton.processphoenix.ProcessPhoenix -> com.jakewharton.processphoenix.
     void triggerRebirth(android.content.Context,android.content.Intent) -> a
     android.content.Intent getRestartIntent(android.content.Context) -> b
     void onCreate(android.os.Bundle) -> onCreate
-com.nhaarman.listviewanimations.ArrayAdapter -> com.b.a.a:
-    java.util.List mItems -> a
-    android.widget.BaseAdapter mDataSetChangedSlavedAdapter -> b
-    void <init>() -> <init>
-    void <init>(java.util.List) -> <init>
-    void <init>(java.util.List,boolean) -> <init>
-    int getCount() -> getCount
-    java.lang.Object getItem(int) -> getItem
-    long getItemId(int) -> getItemId
-    boolean add(java.lang.Object) -> add
-    void add(int,java.lang.Object) -> add
-    boolean addAll(java.util.Collection) -> addAll
-    boolean addAll(int,java.util.Collection) -> addAll
-    void clear() -> clear
-    boolean contains(java.lang.Object) -> contains
-    boolean containsAll(java.util.Collection) -> containsAll
-    java.lang.Object get(int) -> get
-    java.lang.Object set(int,java.lang.Object) -> set
-    int size() -> size
-    java.util.List subList(int,int) -> subList
-    java.lang.Object[] toArray() -> toArray
-    java.lang.Object[] toArray(java.lang.Object[]) -> toArray
-    boolean remove(java.lang.Object) -> remove
-    java.lang.Object remove(int) -> remove
-    boolean removeAll(java.util.Collection) -> removeAll
-    boolean retainAll(java.util.Collection) -> retainAll
-    int indexOf(java.lang.Object) -> indexOf
-    java.util.Iterator iterator() -> iterator
-    int lastIndexOf(java.lang.Object) -> lastIndexOf
-    java.util.ListIterator listIterator() -> listIterator
-    java.util.ListIterator listIterator(int) -> listIterator
-    void swapItems(int,int) -> a
-    void notifyDataSetChanged() -> notifyDataSetChanged
-com.nhaarman.listviewanimations.BaseAdapterDecorator -> com.b.a.b:
-    android.widget.BaseAdapter mDecoratedBaseAdapter -> a
-    android.widget.AbsListView mListView -> b
-    boolean mIsParentHorizontalScrollContainer -> c
-    int mResIdTouchChild -> d
-    void <init>(android.widget.BaseAdapter) -> <init>
-    void setAbsListView(android.widget.AbsListView) -> a
-    android.widget.AbsListView getAbsListView() -> a
-    int getCount() -> getCount
-    java.lang.Object getItem(int) -> getItem
-    long getItemId(int) -> getItemId
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    boolean areAllItemsEnabled() -> areAllItemsEnabled
-    android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
-    int getItemViewType(int) -> getItemViewType
-    int getViewTypeCount() -> getViewTypeCount
-    boolean hasStableIds() -> hasStableIds
-    boolean isEmpty() -> isEmpty
-    boolean isEnabled(int) -> isEnabled
-    void notifyDataSetChanged() -> notifyDataSetChanged
-    void notifyDataSetInvalidated() -> notifyDataSetInvalidated
-    void registerDataSetObserver(android.database.DataSetObserver) -> registerDataSetObserver
-    void unregisterDataSetObserver(android.database.DataSetObserver) -> unregisterDataSetObserver
-    int getPositionForSection(int) -> getPositionForSection
-    int getSectionForPosition(int) -> getSectionForPosition
-    java.lang.Object[] getSections() -> getSections
-    void swapItems(int,int) -> a
-    boolean isParentHorizontalScrollContainer() -> b
-    int getTouchChild() -> c
-com.nhaarman.listviewanimations.ListViewSetter -> com.b.a.c:
-    void setAbsListView(android.widget.AbsListView) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter -> com.b.a.a.a:
-    com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback mCallback -> b
-    void <init>(android.widget.BaseAdapter,com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback) -> <init>
-    void animateDismiss(java.util.Collection) -> a
-    void invokeCallback(java.util.Collection) -> b
-    java.util.List getVisibleViewsForPositions(java.util.Collection) -> c
-    com.nineoldandroids.animation.Animator createAnimatorForView(android.view.View) -> a
-    void access$000(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,java.util.Collection) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$1 -> com.b.a.a.a$1:
-    java.util.List val$positionsCopy -> a
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter this$0 -> b
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,java.util.List) -> <init>
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$2 -> com.b.a.a.a$2:
-    android.view.ViewGroup$LayoutParams val$lp -> a
-    android.view.View val$view -> b
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter this$0 -> c
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,android.view.ViewGroup$LayoutParams,android.view.View) -> <init>
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter$3 -> com.b.a.a.a$3:
-    android.view.ViewGroup$LayoutParams val$lp -> a
-    android.view.View val$view -> b
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter this$0 -> c
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter,android.view.ViewGroup$LayoutParams,android.view.View) -> <init>
-    void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback -> com.b.a.a.b:
-    void onDismiss(android.widget.AbsListView,int[]) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager -> com.b.a.a.a.a:
-    boolean isDismissable(long,int) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeOnTouchListener -> com.b.a.a.a.b:
-    boolean isSwiping() -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter -> com.b.a.a.a.a.a:
-    int mUndoLayoutId -> b
-    int mUndoActionId -> c
-    int mCountDownTextViewResId -> d
-    int mAutoDeleteDelayMillis -> e
-    long mDismissStartMillis -> f
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mCurrentRemovedView -> g
-    long mCurrentRemovedId -> h
-    android.os.Handler mHandler -> i
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownRunnable mCountDownRunnable -> j
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback mDeleteItemCallback -> k
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownFormatter mCountDownFormatter -> l
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener mContextualUndoListViewTouchListener -> m
-    void <init>(android.widget.BaseAdapter,int,int,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback) -> <init>
-    void <init>(android.widget.BaseAdapter,int,int,int,int,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownFormatter) -> <init>
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    void setAbsListView(android.widget.AbsListView) -> a
-    void onViewSwiped(long,int) -> a
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView getContextualUndoView(long) -> a
-    void startAutoDeleteTimer() -> g
-    void restoreViewPosition(android.view.View) -> a
-    void removePreviousContextualUndoIfPresent() -> h
-    void setCurrentRemovedView(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> a
-    void clearCurrentRemovedView() -> i
-    void onListScrolled() -> d
-    void performRemovalIfNecessary() -> j
-    void deleteItemGivenId(long) -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView getCurrentRemovedView(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView,long) -> a
-    void removePendingItem() -> e
-    void animateRemovePendingItem() -> f
-    int access$200(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> a
-    long access$300(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownFormatter access$400(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> c
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$500(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> d
-    void access$600(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> e
-    android.os.Handler access$700(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> f
-    void access$800(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,long) -> a
-    void access$900(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,android.view.View) -> a
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback access$1000(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> g
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$1100(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView,long) -> a
-    void access$1400(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> h
-    long access$1500(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> i
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$502(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1 -> com.b.a.a.a.a.a$1:
-    android.view.View val$view -> a
-    int val$dismissPosition -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> c
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownFormatter -> com.b.a.a.a.a.a$a:
-    java.lang.String getCountDownString(long) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$CountDownRunnable -> com.b.a.a.a.a.a$b:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> <init>
-    void run() -> run
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1) -> <init>
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback -> com.b.a.a.a.a.a$c:
-    void deleteItem(int) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$HierarchyChangeListener -> com.b.a.a.a.a.a$d:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter) -> <init>
-    void onChildViewAdded(android.view.View,android.view.View) -> onChildViewAdded
-    void onChildViewRemoved(android.view.View,android.view.View) -> onChildViewRemoved
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$1) -> <init>
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter -> com.b.a.a.a.a.a$e:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mDismissView -> b
-    long mDismissViewId -> c
-    int mOriginalHeight -> d
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView,long) -> <init>
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void restoreViewDimension(android.view.View) -> a
-    void deleteCurrentItem(android.view.View) -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView getViewBeingAnimated() -> a
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$1200(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter) -> a
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView access$1300(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter) -> b
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorUpdateListener -> com.b.a.a.a.a.a$f:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter mParentAdapter -> a
-    android.view.ViewGroup$LayoutParams mLayoutParams -> c
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> b
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$RemoveViewAnimatorListenerAdapter) -> <init>
-    void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$UndoListener -> com.b.a.a.a.a.a$g:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mContextualUndoView -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter this$0 -> a
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> <init>
-    void onClick(android.view.View) -> onClick
-    void moveViewOffScreen() -> a
-    void animateViewComingBack() -> b
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$ViewHolder -> com.b.a.a.a.a.a$h:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView mContextualUndoView -> a
-    long mItemId -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$ViewHolder getViewHolder(android.view.View) -> a
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView) -> <init>
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener -> com.b.a.a.a.a.b:
-    int mSlop -> a
-    int mMinFlingVelocity -> b
-    int mMaxFlingVelocity -> c
-    long mAnimationTime -> d
-    android.widget.AbsListView mListView -> e
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback mCallback -> f
-    int mViewWidth -> g
-    float mDownX -> h
-    float mDownY -> i
-    boolean mSwiping -> j
-    android.view.VelocityTracker mVelocityTracker -> k
-    int mDownPosition -> l
-    android.view.View mDownView -> m
-    boolean mPaused -> n
-    boolean mDisallowSwipe -> o
-    boolean mIsParentHorizontalScrollContainer -> p
-    int mResIdOfTouchChild -> q
-    boolean mTouchChildTouched -> r
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager mDismissableManager -> s
-    void <init>(android.widget.AbsListView,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback) -> <init>
-    void setEnabled(boolean) -> a
-    android.widget.AbsListView$OnScrollListener makeScrollListener() -> b
-    boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-    boolean handleDownEvent(android.view.View,android.view.MotionEvent) -> a
-    boolean handleMoveEvent(android.view.View,android.view.MotionEvent) -> b
-    boolean handleUpCancelEvent(android.view.View,android.view.MotionEvent) -> c
-    boolean isSwiping() -> a
-    android.graphics.Rect getChildViewRect(android.view.View,android.view.View) -> a
-    void setIsParentHorizontalScrollContainer(boolean) -> b
-    void setTouchChild(int) -> a
-    boolean access$000(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener) -> a
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback access$100(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener) -> b
-    boolean access$202(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener,boolean) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$1 -> com.b.a.a.a.a.b$1:
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener this$0 -> a
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener) -> <init>
-    void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
-    void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$2 -> com.b.a.a.a.a.b$2:
-    long val$itemId -> a
-    int val$downPosition -> b
-    com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener this$0 -> c
-    void <init>(com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener,long,int) -> <init>
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoListViewTouchListener$Callback -> com.b.a.a.a.a.b$a:
-    void onViewSwiped(long,int) -> a
-    void onListScrolled() -> d
-com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoView -> com.b.a.a.a.a.c:
-    android.view.View mUndoView -> a
-    android.view.View mContentView -> b
-    android.widget.TextView mCountDownTV -> c
-    long mItemId -> d
-    void <init>(android.content.Context,int,int) -> <init>
-    void initUndo(int,int) -> a
-    void updateCountDownTimer(java.lang.String) -> a
-    void updateContentView(android.view.View) -> a
-    android.view.View getContentView() -> getContentView
-    void setItemId(long) -> setItemId
-    long getItemId() -> getItemId
-    boolean isContentDisplayed() -> a
-    void displayUndo() -> b
-    void displayContentView() -> c
-com.nhaarman.listviewanimations.util.AdapterViewUtil -> com.b.a.b.a:
-    int getPositionForView(android.widget.AdapterView,android.view.View) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView -> com.b.a.c.a:
-    int mOriginalTranscriptMode -> a
-    int mLastEventY -> b
-    int mLastEventX -> c
-    int mDownY -> d
-    int mDownX -> e
-    int mTotalOffset -> f
-    boolean mCellIsMobile -> g
-    boolean mIsMobileScrolling -> h
-    int mSmoothScrollAmountAtEdge -> i
-    long mAboveItemId -> j
-    long mMobileItemId -> k
-    long mBelowItemId -> l
-    android.graphics.drawable.Drawable mHoverCell -> m
-    android.graphics.Rect mHoverCellCurrentBounds -> n
-    android.graphics.Rect mHoverCellOriginalBounds -> o
-    int mActivePointerId -> p
-    boolean mIsWaitingForScrollFinish -> q
-    int mScrollState -> r
-    android.view.View$OnTouchListener mOnTouchListener -> s
-    boolean mIsParentHorizontalScrollContainer -> t
-    int mResIdOfDynamicTouchChild -> u
-    boolean mDynamicTouchChildTouched -> v
-    int mSlop -> w
-    boolean mSkipCallingOnTouchListener -> x
-    com.nhaarman.listviewanimations.widget.DynamicListView$OnHoverCellListener mOnHoverCellListener -> y
-    com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener mOnItemMovedListener -> z
-    int mLastMovedToIndex -> A
-    com.nineoldandroids.animation.TypeEvaluator sBoundEvaluator -> B
-    void setAdapter(android.widget.BaseAdapter) -> setAdapter
-    void setAdapter(android.widget.ListAdapter) -> setAdapter
-    void makeCellMobile() -> a
-    android.graphics.drawable.BitmapDrawable getAndAddHoverView(android.view.View) -> a
-    android.graphics.Bitmap getBitmapFromView(android.view.View) -> b
-    void updateNeighborViewsForId(long) -> a
-    android.view.View getViewForId(long) -> b
-    int getPositionForId(long) -> c
-    void dispatchDraw(android.graphics.Canvas) -> dispatchDraw
-    void setOnTouchListener(android.view.View$OnTouchListener) -> setOnTouchListener
-    void setOnHoverCellListener(com.nhaarman.listviewanimations.widget.DynamicListView$OnHoverCellListener) -> setOnHoverCellListener
-    android.graphics.Rect getChildViewRect(android.view.View,android.view.View) -> a
-    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    void handleCellSwitch() -> b
-    void swapElements(int,int) -> a
-    void touchEventsEnded() -> c
-    void touchEventsCancelled() -> d
-    void handleMobileCellScroll() -> e
-    boolean handleMobileCellScroll(android.graphics.Rect) -> a
-    void setIsParentHorizontalScrollContainer(boolean) -> setIsParentHorizontalScrollContainer
-    void setDynamicTouchChild(int) -> setDynamicTouchChild
-    void setOnItemMovedListener(com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener) -> setOnItemMovedListener
-    void setAdapter(android.widget.Adapter) -> setAdapter
-    android.view.View access$300(com.nhaarman.listviewanimations.widget.DynamicListView,long) -> a
-    int access$412(com.nhaarman.listviewanimations.widget.DynamicListView,int) -> a
-    long access$502(com.nhaarman.listviewanimations.widget.DynamicListView,long) -> b
-    long access$602(com.nhaarman.listviewanimations.widget.DynamicListView,long) -> c
-    long access$702(com.nhaarman.listviewanimations.widget.DynamicListView,long) -> d
-    android.graphics.drawable.Drawable access$802(com.nhaarman.listviewanimations.widget.DynamicListView,android.graphics.drawable.Drawable) -> a
-    com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener access$900(com.nhaarman.listviewanimations.widget.DynamicListView) -> a
-    int access$1000(com.nhaarman.listviewanimations.widget.DynamicListView) -> b
-    void <clinit>() -> <clinit>
-com.nhaarman.listviewanimations.widget.DynamicListView$2 -> com.b.a.c.a$1:
-    android.view.ViewTreeObserver val$observer -> a
-    long val$switchItemId -> b
-    int val$deltaY -> c
-    int val$switchViewStartTop -> d
-    com.nhaarman.listviewanimations.widget.DynamicListView this$0 -> e
-    void <init>(com.nhaarman.listviewanimations.widget.DynamicListView,android.view.ViewTreeObserver,long,int,int) -> <init>
-    boolean onPreDraw() -> onPreDraw
-com.nhaarman.listviewanimations.widget.DynamicListView$3 -> com.b.a.c.a$2:
-    com.nhaarman.listviewanimations.widget.DynamicListView this$0 -> a
-    void <init>(com.nhaarman.listviewanimations.widget.DynamicListView) -> <init>
-    void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$4 -> com.b.a.c.a$3:
-    android.view.View val$mobileView -> a
-    com.nhaarman.listviewanimations.widget.DynamicListView this$0 -> b
-    void <init>(com.nhaarman.listviewanimations.widget.DynamicListView,android.view.View) -> <init>
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$5 -> com.b.a.c.a$4:
-    void <init>() -> <init>
-    android.graphics.Rect evaluate(float,android.graphics.Rect,android.graphics.Rect) -> a
-    int interpolate(int,int,float) -> a
-    java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$OnHoverCellListener -> com.b.a.c.a$a:
-    android.graphics.drawable.Drawable onHoverCellCreated(android.graphics.drawable.Drawable) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$OnItemMovedListener -> com.b.a.c.a$b:
-    void onItemMoved(int) -> a
-com.nhaarman.listviewanimations.widget.DynamicListView$Swappable -> com.b.a.c.a$c:
-    void swapItems(int,int) -> a
-com.nineoldandroids.animation.Animator -> com.c.a.a:
-    java.util.ArrayList mListeners -> a
-    void <init>() -> <init>
-    void start() -> a
-    void cancel() -> b
-    boolean isRunning() -> c
-    boolean isStarted() -> d
-    void addListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    void removeListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> b
-    java.util.ArrayList getListeners() -> e
-    com.nineoldandroids.animation.Animator clone() -> f
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Animator$AnimatorListener -> com.c.a.a$a:
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-com.nineoldandroids.animation.AnimatorListenerAdapter -> com.c.a.b:
-    void <init>() -> <init>
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.nineoldandroids.animation.AnimatorSet -> com.c.a.c:
-    java.util.ArrayList mPlayingSet -> c
-    java.util.HashMap mNodeMap -> d
-    java.util.ArrayList mNodes -> e
-    java.util.ArrayList mSortedNodes -> f
-    boolean mNeedsSort -> g
-    com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener mSetListener -> h
-    boolean mTerminated -> b
-    boolean mStarted -> i
-    long mStartDelay -> j
-    com.nineoldandroids.animation.ValueAnimator mDelayAnim -> k
-    long mDuration -> l
-    void <init>() -> <init>
-    void playTogether(com.nineoldandroids.animation.Animator[]) -> a
-    com.nineoldandroids.animation.AnimatorSet$Builder play(com.nineoldandroids.animation.Animator) -> a
-    void cancel() -> b
-    boolean isRunning() -> c
-    boolean isStarted() -> d
-    void start() -> a
-    com.nineoldandroids.animation.AnimatorSet clone() -> g
-    void sortNodes() -> h
-    com.nineoldandroids.animation.Animator clone() -> f
-    java.lang.Object clone() -> clone
-    java.util.ArrayList access$000(com.nineoldandroids.animation.AnimatorSet) -> a
-    java.util.HashMap access$100(com.nineoldandroids.animation.AnimatorSet) -> b
-    java.util.ArrayList access$200(com.nineoldandroids.animation.AnimatorSet) -> c
-    boolean access$302(com.nineoldandroids.animation.AnimatorSet,boolean) -> a
-    java.util.ArrayList access$400(com.nineoldandroids.animation.AnimatorSet) -> d
-com.nineoldandroids.animation.AnimatorSet$1 -> com.c.a.c$1:
-    boolean canceled -> a
-    java.util.ArrayList val$nodesToStart -> b
-    com.nineoldandroids.animation.AnimatorSet this$0 -> c
-    void <init>(com.nineoldandroids.animation.AnimatorSet,java.util.ArrayList) -> <init>
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener -> com.c.a.c$a:
-    com.nineoldandroids.animation.AnimatorSet mAnimatorSet -> b
-    com.nineoldandroids.animation.AnimatorSet this$0 -> a
-    void <init>(com.nineoldandroids.animation.AnimatorSet,com.nineoldandroids.animation.AnimatorSet) -> <init>
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.nineoldandroids.animation.AnimatorSet$Builder -> com.c.a.c$b:
-    com.nineoldandroids.animation.AnimatorSet$Node mCurrentNode -> b
-    com.nineoldandroids.animation.AnimatorSet this$0 -> a
-    void <init>(com.nineoldandroids.animation.AnimatorSet,com.nineoldandroids.animation.Animator) -> <init>
-    com.nineoldandroids.animation.AnimatorSet$Builder with(com.nineoldandroids.animation.Animator) -> a
-com.nineoldandroids.animation.AnimatorSet$Dependency -> com.c.a.c$c:
-    com.nineoldandroids.animation.AnimatorSet$Node node -> a
-    int rule -> b
-    void <init>(com.nineoldandroids.animation.AnimatorSet$Node,int) -> <init>
-com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.c.a.c$d:
-    com.nineoldandroids.animation.AnimatorSet mAnimatorSet -> a
-    com.nineoldandroids.animation.AnimatorSet$Node mNode -> b
-    int mRule -> c
-    void <init>(com.nineoldandroids.animation.AnimatorSet,com.nineoldandroids.animation.AnimatorSet$Node,int) -> <init>
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-    void startIfReady(com.nineoldandroids.animation.Animator) -> e
-com.nineoldandroids.animation.AnimatorSet$Node -> com.c.a.c$e:
-    com.nineoldandroids.animation.Animator animation -> a
-    java.util.ArrayList dependencies -> b
-    java.util.ArrayList tmpDependencies -> c
-    java.util.ArrayList nodeDependencies -> d
-    java.util.ArrayList nodeDependents -> e
-    boolean done -> f
-    void <init>(com.nineoldandroids.animation.Animator) -> <init>
-    void addDependency(com.nineoldandroids.animation.AnimatorSet$Dependency) -> a
-    com.nineoldandroids.animation.AnimatorSet$Node clone() -> a
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.FloatEvaluator -> com.c.a.d:
-    void <init>() -> <init>
-    java.lang.Float evaluate(float,java.lang.Number,java.lang.Number) -> a
-    java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.FloatKeyframeSet -> com.c.a.e:
-    float firstValue -> g
-    float lastValue -> h
-    float deltaValue -> i
-    boolean firstTime -> j
-    void <init>(com.nineoldandroids.animation.Keyframe$FloatKeyframe[]) -> <init>
-    java.lang.Object getValue(float) -> a
-    com.nineoldandroids.animation.FloatKeyframeSet clone() -> a
-    float getFloatValue(float) -> b
-    com.nineoldandroids.animation.KeyframeSet clone() -> b
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.IntEvaluator -> com.c.a.f:
-    void <init>() -> <init>
-    java.lang.Integer evaluate(float,java.lang.Integer,java.lang.Integer) -> a
-    java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.IntKeyframeSet -> com.c.a.g:
-    int firstValue -> g
-    int lastValue -> h
-    int deltaValue -> i
-    boolean firstTime -> j
-    void <init>(com.nineoldandroids.animation.Keyframe$IntKeyframe[]) -> <init>
-    java.lang.Object getValue(float) -> a
-    com.nineoldandroids.animation.IntKeyframeSet clone() -> a
-    int getIntValue(float) -> b
-    com.nineoldandroids.animation.KeyframeSet clone() -> b
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe -> com.c.a.h:
-    float mFraction -> a
-    java.lang.Class mValueType -> b
-    android.view.animation.Interpolator mInterpolator -> d
-    boolean mHasValue -> c
-    void <init>() -> <init>
-    com.nineoldandroids.animation.Keyframe ofInt(float,int) -> a
-    com.nineoldandroids.animation.Keyframe ofInt(float) -> a
-    com.nineoldandroids.animation.Keyframe ofFloat(float,float) -> a
-    com.nineoldandroids.animation.Keyframe ofFloat(float) -> b
-    com.nineoldandroids.animation.Keyframe ofObject(float,java.lang.Object) -> a
-    com.nineoldandroids.animation.Keyframe ofObject(float) -> c
-    boolean hasValue() -> a
-    java.lang.Object getValue() -> b
-    void setValue(java.lang.Object) -> a
-    float getFraction() -> c
-    android.view.animation.Interpolator getInterpolator() -> d
-    void setInterpolator(android.view.animation.Interpolator) -> a
-    com.nineoldandroids.animation.Keyframe clone() -> e
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.c.a.h$a:
-    float mValue -> d
-    void <init>(float,float) -> <init>
-    void <init>(float) -> <init>
-    float getFloatValue() -> f
-    java.lang.Object getValue() -> b
-    void setValue(java.lang.Object) -> a
-    com.nineoldandroids.animation.Keyframe$FloatKeyframe clone() -> g
-    com.nineoldandroids.animation.Keyframe clone() -> e
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$IntKeyframe -> com.c.a.h$b:
-    int mValue -> d
-    void <init>(float,int) -> <init>
-    void <init>(float) -> <init>
-    int getIntValue() -> f
-    java.lang.Object getValue() -> b
-    void setValue(java.lang.Object) -> a
-    com.nineoldandroids.animation.Keyframe$IntKeyframe clone() -> g
-    com.nineoldandroids.animation.Keyframe clone() -> e
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$ObjectKeyframe -> com.c.a.h$c:
-    java.lang.Object mValue -> d
-    void <init>(float,java.lang.Object) -> <init>
-    java.lang.Object getValue() -> b
-    void setValue(java.lang.Object) -> a
-    com.nineoldandroids.animation.Keyframe$ObjectKeyframe clone() -> f
-    com.nineoldandroids.animation.Keyframe clone() -> e
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.KeyframeSet -> com.c.a.i:
-    int mNumKeyframes -> a
-    com.nineoldandroids.animation.Keyframe mFirstKeyframe -> b
-    com.nineoldandroids.animation.Keyframe mLastKeyframe -> c
-    android.view.animation.Interpolator mInterpolator -> d
-    java.util.ArrayList mKeyframes -> e
-    com.nineoldandroids.animation.TypeEvaluator mEvaluator -> f
-    void <init>(com.nineoldandroids.animation.Keyframe[]) -> <init>
-    com.nineoldandroids.animation.KeyframeSet ofInt(int[]) -> a
-    com.nineoldandroids.animation.KeyframeSet ofFloat(float[]) -> a
-    com.nineoldandroids.animation.KeyframeSet ofObject(java.lang.Object[]) -> a
-    void setEvaluator(com.nineoldandroids.animation.TypeEvaluator) -> a
-    com.nineoldandroids.animation.KeyframeSet clone() -> b
-    java.lang.Object getValue(float) -> a
-    java.lang.String toString() -> toString
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.ObjectAnimator -> com.c.a.j:
-    java.util.Map PROXY_PROPERTIES -> h
-    java.lang.Object mTarget -> i
-    java.lang.String mPropertyName -> j
-    com.nineoldandroids.util.Property mProperty -> k
-    void setPropertyName(java.lang.String) -> a
-    void setProperty(com.nineoldandroids.util.Property) -> a
-    void <init>() -> <init>
-    void <init>(java.lang.Object,java.lang.String) -> <init>
-    com.nineoldandroids.animation.ObjectAnimator ofFloat(java.lang.Object,java.lang.String,float[]) -> a
-    com.nineoldandroids.animation.ObjectAnimator ofObject(java.lang.Object,java.lang.String,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[]) -> a
-    void setIntValues(int[]) -> a
-    void setFloatValues(float[]) -> a
-    void setObjectValues(java.lang.Object[]) -> a
-    void start() -> a
-    void initAnimation() -> g
-    com.nineoldandroids.animation.ObjectAnimator setDuration(long) -> a
-    void animateValue(float) -> a
-    com.nineoldandroids.animation.ObjectAnimator clone() -> h
-    java.lang.String toString() -> toString
-    com.nineoldandroids.animation.ValueAnimator clone() -> i
-    com.nineoldandroids.animation.ValueAnimator setDuration(long) -> b
-    com.nineoldandroids.animation.Animator clone() -> f
-    java.lang.Object clone() -> clone
-    void <clinit>() -> <clinit>
-com.nineoldandroids.animation.PreHoneycombCompat -> com.c.a.k:
-    com.nineoldandroids.util.Property ALPHA -> a
-    com.nineoldandroids.util.Property PIVOT_X -> b
-    com.nineoldandroids.util.Property PIVOT_Y -> c
-    com.nineoldandroids.util.Property TRANSLATION_X -> d
-    com.nineoldandroids.util.Property TRANSLATION_Y -> e
-    com.nineoldandroids.util.Property ROTATION -> f
-    com.nineoldandroids.util.Property ROTATION_X -> g
-    com.nineoldandroids.util.Property ROTATION_Y -> h
-    com.nineoldandroids.util.Property SCALE_X -> i
-    com.nineoldandroids.util.Property SCALE_Y -> j
-    com.nineoldandroids.util.Property SCROLL_X -> k
-    com.nineoldandroids.util.Property SCROLL_Y -> l
-    com.nineoldandroids.util.Property X -> m
-    com.nineoldandroids.util.Property Y -> n
-    void <clinit>() -> <clinit>
-com.nineoldandroids.animation.PreHoneycombCompat$1 -> com.c.a.k$1:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$10 -> com.c.a.k$2:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$11 -> com.c.a.k$3:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,int) -> a
-    java.lang.Integer get(android.view.View) -> a
-    void setValue(java.lang.Object,int) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$12 -> com.c.a.k$4:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,int) -> a
-    java.lang.Integer get(android.view.View) -> a
-    void setValue(java.lang.Object,int) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$13 -> com.c.a.k$5:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$14 -> com.c.a.k$6:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$2 -> com.c.a.k$7:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$3 -> com.c.a.k$8:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$4 -> com.c.a.k$9:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$5 -> com.c.a.k$10:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$6 -> com.c.a.k$11:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$7 -> com.c.a.k$12:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$8 -> com.c.a.k$13:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$9 -> com.c.a.k$14:
-    void <init>(java.lang.String) -> <init>
-    void setValue(android.view.View,float) -> a
-    java.lang.Float get(android.view.View) -> a
-    void setValue(java.lang.Object,float) -> a
-    java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PropertyValuesHolder -> com.c.a.l:
-    java.lang.String mPropertyName -> a
-    com.nineoldandroids.util.Property mProperty -> b
-    java.lang.reflect.Method mSetter -> c
-    java.lang.reflect.Method mGetter -> h
-    java.lang.Class mValueType -> d
-    com.nineoldandroids.animation.KeyframeSet mKeyframeSet -> e
-    com.nineoldandroids.animation.TypeEvaluator sIntEvaluator -> i
-    com.nineoldandroids.animation.TypeEvaluator sFloatEvaluator -> j
-    java.lang.Class[] FLOAT_VARIANTS -> k
-    java.lang.Class[] INTEGER_VARIANTS -> l
-    java.lang.Class[] DOUBLE_VARIANTS -> m
-    java.util.HashMap sSetterPropertyMap -> n
-    java.util.HashMap sGetterPropertyMap -> o
-    java.util.concurrent.locks.ReentrantReadWriteLock mPropertyMapLock -> f
-    java.lang.Object[] mTmpValueArray -> g
-    com.nineoldandroids.animation.TypeEvaluator mEvaluator -> p
-    java.lang.Object mAnimatedValue -> q
-    void <init>(java.lang.String) -> <init>
-    void <init>(com.nineoldandroids.util.Property) -> <init>
-    com.nineoldandroids.animation.PropertyValuesHolder ofInt(java.lang.String,int[]) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder ofInt(com.nineoldandroids.util.Property,int[]) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder ofFloat(java.lang.String,float[]) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder ofFloat(com.nineoldandroids.util.Property,float[]) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder ofObject(java.lang.String,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[]) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder ofObject(com.nineoldandroids.util.Property,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[]) -> a
-    void setIntValues(int[]) -> a
-    void setFloatValues(float[]) -> a
-    void setObjectValues(java.lang.Object[]) -> a
-    java.lang.reflect.Method getPropertyFunction(java.lang.Class,java.lang.String,java.lang.Class) -> a
-    java.lang.reflect.Method setupSetterOrGetter(java.lang.Class,java.util.HashMap,java.lang.String,java.lang.Class) -> a
-    void setupSetter(java.lang.Class) -> a
-    void setupGetter(java.lang.Class) -> b
-    void setupSetterAndGetter(java.lang.Object) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder clone() -> a
-    void setAnimatedValue(java.lang.Object) -> b
-    void init() -> b
-    void setEvaluator(com.nineoldandroids.animation.TypeEvaluator) -> a
-    void calculateValue(float) -> a
-    void setPropertyName(java.lang.String) -> a
-    void setProperty(com.nineoldandroids.util.Property) -> a
-    java.lang.String getPropertyName() -> c
-    java.lang.Object getAnimatedValue() -> d
-    java.lang.String toString() -> toString
-    java.lang.String getMethodName(java.lang.String,java.lang.String) -> a
-    java.lang.Object clone() -> clone
-    void <init>(java.lang.String,com.nineoldandroids.animation.PropertyValuesHolder$1) -> <init>
-    void <init>(com.nineoldandroids.util.Property,com.nineoldandroids.animation.PropertyValuesHolder$1) -> <init>
-    void <clinit>() -> <clinit>
-com.nineoldandroids.animation.PropertyValuesHolder$1 -> com.c.a.l$1:
-com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> com.c.a.l$a:
-    com.nineoldandroids.util.FloatProperty mFloatProperty -> j
-    com.nineoldandroids.animation.FloatKeyframeSet mFloatKeyframeSet -> h
-    float mFloatAnimatedValue -> i
-    void <init>(java.lang.String,float[]) -> <init>
-    void <init>(com.nineoldandroids.util.Property,float[]) -> <init>
-    void setFloatValues(float[]) -> a
-    void calculateValue(float) -> a
-    java.lang.Object getAnimatedValue() -> d
-    com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder clone() -> e
-    void setAnimatedValue(java.lang.Object) -> b
-    void setupSetter(java.lang.Class) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder clone() -> a
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.PropertyValuesHolder$IntPropertyValuesHolder -> com.c.a.l$b:
-    com.nineoldandroids.util.IntProperty mIntProperty -> j
-    com.nineoldandroids.animation.IntKeyframeSet mIntKeyframeSet -> h
-    int mIntAnimatedValue -> i
-    void <init>(java.lang.String,int[]) -> <init>
-    void <init>(com.nineoldandroids.util.Property,int[]) -> <init>
-    void setIntValues(int[]) -> a
-    void calculateValue(float) -> a
-    java.lang.Object getAnimatedValue() -> d
-    com.nineoldandroids.animation.PropertyValuesHolder$IntPropertyValuesHolder clone() -> e
-    void setAnimatedValue(java.lang.Object) -> b
-    void setupSetter(java.lang.Class) -> a
-    com.nineoldandroids.animation.PropertyValuesHolder clone() -> a
-    java.lang.Object clone() -> clone
-com.nineoldandroids.animation.TypeEvaluator -> com.c.a.m:
-    java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.ValueAnimator -> com.c.a.n:
-    long mStartTime -> b
-    long mSeekTime -> c
-    java.lang.ThreadLocal sAnimationHandler -> h
-    java.lang.ThreadLocal sAnimations -> i
-    java.lang.ThreadLocal sPendingAnimations -> j
-    java.lang.ThreadLocal sDelayedAnims -> k
-    java.lang.ThreadLocal sEndingAnims -> l
-    java.lang.ThreadLocal sReadyAnims -> m
-    android.view.animation.Interpolator sDefaultInterpolator -> n
-    com.nineoldandroids.animation.TypeEvaluator sIntEvaluator -> o
-    com.nineoldandroids.animation.TypeEvaluator sFloatEvaluator -> p
-    boolean mPlayingBackwards -> q
-    int mCurrentIteration -> r
-    float mCurrentFraction -> s
-    boolean mStartedDelay -> t
-    long mDelayStartTime -> u
-    int mPlayingState -> d
-    boolean mRunning -> v
-    boolean mStarted -> w
-    boolean mInitialized -> e
-    long mDuration -> x
-    long mStartDelay -> y
-    long sFrameDelay -> z
-    int mRepeatCount -> A
-    int mRepeatMode -> B
-    android.view.animation.Interpolator mInterpolator -> C
-    java.util.ArrayList mUpdateListeners -> D
-    com.nineoldandroids.animation.PropertyValuesHolder[] mValues -> f
-    java.util.HashMap mValuesMap -> g
-    void <init>() -> <init>
-    com.nineoldandroids.animation.ValueAnimator ofInt(int[]) -> b
-    com.nineoldandroids.animation.ValueAnimator ofFloat(float[]) -> b
-    void setIntValues(int[]) -> a
-    void setFloatValues(float[]) -> a
-    void setObjectValues(java.lang.Object[]) -> a
-    void setValues(com.nineoldandroids.animation.PropertyValuesHolder[]) -> a
-    void initAnimation() -> g
-    com.nineoldandroids.animation.ValueAnimator setDuration(long) -> b
-    void setCurrentPlayTime(long) -> c
-    long getCurrentPlayTime() -> j
-    void setStartDelay(long) -> d
-    java.lang.Object getAnimatedValue() -> k
-    void addUpdateListener(com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener) -> a
-    void setInterpolator(android.view.animation.Interpolator) -> a
-    void setEvaluator(com.nineoldandroids.animation.TypeEvaluator) -> a
-    void start(boolean) -> a
-    void start() -> a
-    void cancel() -> b
-    boolean isRunning() -> c
-    boolean isStarted() -> d
-    void endAnimation() -> h
-    void startAnimation() -> s
-    boolean delayedAnimationFrame(long) -> a
-    boolean animationFrame(long) -> e
-    float getAnimatedFraction() -> l
-    void animateValue(float) -> a
-    com.nineoldandroids.animation.ValueAnimator clone() -> i
-    java.lang.String toString() -> toString
-    com.nineoldandroids.animation.Animator clone() -> f
-    java.lang.Object clone() -> clone
-    java.lang.ThreadLocal access$000() -> m
-    java.lang.ThreadLocal access$100() -> n
-    java.lang.ThreadLocal access$200() -> o
-    long access$300(com.nineoldandroids.animation.ValueAnimator) -> a
-    void access$400(com.nineoldandroids.animation.ValueAnimator) -> b
-    java.lang.ThreadLocal access$500() -> p
-    java.lang.ThreadLocal access$600() -> q
-    boolean access$700(com.nineoldandroids.animation.ValueAnimator,long) -> a
-    boolean access$802(com.nineoldandroids.animation.ValueAnimator,boolean) -> a
-    void access$900(com.nineoldandroids.animation.ValueAnimator) -> c
-    long access$1000() -> r
-    void <clinit>() -> <clinit>
-com.nineoldandroids.animation.ValueAnimator$1 -> com.c.a.n$1:
-    void <init>() -> <init>
-    java.util.ArrayList initialValue() -> a
-    java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$2 -> com.c.a.n$2:
-    void <init>() -> <init>
-    java.util.ArrayList initialValue() -> a
-    java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$3 -> com.c.a.n$3:
-    void <init>() -> <init>
-    java.util.ArrayList initialValue() -> a
-    java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$4 -> com.c.a.n$4:
-    void <init>() -> <init>
-    java.util.ArrayList initialValue() -> a
-    java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$5 -> com.c.a.n$5:
-    void <init>() -> <init>
-    java.util.ArrayList initialValue() -> a
-    java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$AnimationHandler -> com.c.a.n$a:
-    void <init>() -> <init>
-    void handleMessage(android.os.Message) -> handleMessage
-    void <init>(com.nineoldandroids.animation.ValueAnimator$1) -> <init>
-com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener -> com.c.a.n$b:
-    void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nineoldandroids.util.FloatProperty -> com.c.b.a:
-    void <init>(java.lang.String) -> <init>
-    void setValue(java.lang.Object,float) -> a
-    void set(java.lang.Object,java.lang.Float) -> a
-    void set(java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.util.IntProperty -> com.c.b.b:
-    void <init>(java.lang.String) -> <init>
-    void setValue(java.lang.Object,int) -> a
-    void set(java.lang.Object,java.lang.Integer) -> a
-    void set(java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.util.Property -> com.c.b.c:
-    java.lang.String mName -> a
-    java.lang.Class mType -> b
-    void <init>(java.lang.Class,java.lang.String) -> <init>
-    void set(java.lang.Object,java.lang.Object) -> a
-    java.lang.Object get(java.lang.Object) -> a
-    java.lang.String getName() -> a
-com.nineoldandroids.view.ViewHelper -> com.c.c.a:
-    void setAlpha(android.view.View,float) -> a
-    void setTranslationX(android.view.View,float) -> b
-    void setTranslationY(android.view.View,float) -> c
-com.nineoldandroids.view.ViewHelper$Honeycomb -> com.c.c.a$a:
-    void setAlpha(android.view.View,float) -> a
-    void setTranslationX(android.view.View,float) -> b
-    void setTranslationY(android.view.View,float) -> c
-com.nineoldandroids.view.ViewPropertyAnimator -> com.c.c.b:
-    java.util.WeakHashMap ANIMATORS -> a
-    void <init>() -> <init>
-    com.nineoldandroids.view.ViewPropertyAnimator animate(android.view.View) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator setListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator translationX(float) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator alpha(float) -> b
-    void <clinit>() -> <clinit>
-com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.c.c.c:
-    java.lang.ref.WeakReference mView -> b
-    long mDuration -> c
-    boolean mDurationSet -> d
-    long mStartDelay -> e
-    boolean mStartDelaySet -> f
-    android.view.animation.Interpolator mInterpolator -> g
-    boolean mInterpolatorSet -> h
-    com.nineoldandroids.animation.Animator$AnimatorListener mListener -> i
-    com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener mAnimatorEventListener -> j
-    java.util.ArrayList mPendingAnimations -> a
-    java.lang.Runnable mAnimationStarter -> k
-    java.util.HashMap mAnimatorMap -> l
-    void <init>(android.view.View) -> <init>
-    com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator setListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator translationX(float) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator alpha(float) -> b
-    void startAnimation() -> a
-    void animateProperty(int,float) -> a
-    void animatePropertyBy(int,float,float) -> a
-    void setValue(int,float) -> b
-    float getValue(int) -> a
-    void access$100(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> a
-    com.nineoldandroids.animation.Animator$AnimatorListener access$200(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> b
-    java.util.HashMap access$300(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> c
-    com.nineoldandroids.animation.Animator$AnimatorListener access$202(com.nineoldandroids.view.ViewPropertyAnimatorHC,com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    java.lang.ref.WeakReference access$400(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> d
-    void access$500(com.nineoldandroids.view.ViewPropertyAnimatorHC,int,float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorHC$1 -> com.c.c.c$1:
-    com.nineoldandroids.view.ViewPropertyAnimatorHC this$0 -> a
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> <init>
-    void run() -> run
-com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener -> com.c.c.c$a:
-    com.nineoldandroids.view.ViewPropertyAnimatorHC this$0 -> a
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> <init>
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorHC,com.nineoldandroids.view.ViewPropertyAnimatorHC$1) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorHC$NameValuesHolder -> com.c.c.c$b:
-    int mNameConstant -> a
-    float mFromValue -> b
-    float mDeltaValue -> c
-    void <init>(int,float,float) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorHC$PropertyBundle -> com.c.c.c$c:
-    int mPropertyMask -> a
-    java.util.ArrayList mNameValuesHolder -> b
-    void <init>(int,java.util.ArrayList) -> <init>
-    boolean cancel(int) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorICS -> com.c.c.d:
-    java.lang.ref.WeakReference mNative -> a
-    void <init>(android.view.View) -> <init>
-    com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator setListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator translationX(float) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator alpha(float) -> b
-com.nineoldandroids.view.ViewPropertyAnimatorICS$1 -> com.c.c.d$1:
-    com.nineoldandroids.animation.Animator$AnimatorListener val$listener -> a
-    com.nineoldandroids.view.ViewPropertyAnimatorICS this$0 -> b
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorICS,com.nineoldandroids.animation.Animator$AnimatorListener) -> <init>
-    void onAnimationStart(android.animation.Animator) -> onAnimationStart
-    void onAnimationRepeat(android.animation.Animator) -> onAnimationRepeat
-    void onAnimationEnd(android.animation.Animator) -> onAnimationEnd
-    void onAnimationCancel(android.animation.Animator) -> onAnimationCancel
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.c.c.e:
-    com.nineoldandroids.view.animation.AnimatorProxy mProxy -> b
-    java.lang.ref.WeakReference mView -> c
-    long mDuration -> d
-    boolean mDurationSet -> e
-    long mStartDelay -> f
-    boolean mStartDelaySet -> g
-    android.view.animation.Interpolator mInterpolator -> h
-    boolean mInterpolatorSet -> i
-    com.nineoldandroids.animation.Animator$AnimatorListener mListener -> j
-    com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener mAnimatorEventListener -> k
-    java.util.ArrayList mPendingAnimations -> a
-    java.lang.Runnable mAnimationStarter -> l
-    java.util.HashMap mAnimatorMap -> m
-    void <init>(android.view.View) -> <init>
-    com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator setListener(com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator translationX(float) -> a
-    com.nineoldandroids.view.ViewPropertyAnimator alpha(float) -> b
-    void startAnimation() -> a
-    void animateProperty(int,float) -> a
-    void animatePropertyBy(int,float,float) -> a
-    void setValue(int,float) -> b
-    float getValue(int) -> a
-    void access$100(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> a
-    com.nineoldandroids.animation.Animator$AnimatorListener access$200(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> b
-    java.util.HashMap access$300(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> c
-    com.nineoldandroids.animation.Animator$AnimatorListener access$202(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,com.nineoldandroids.animation.Animator$AnimatorListener) -> a
-    java.lang.ref.WeakReference access$400(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> d
-    void access$500(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,int,float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1 -> com.c.c.e$1:
-    com.nineoldandroids.view.ViewPropertyAnimatorPreHC this$0 -> a
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> <init>
-    void run() -> run
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener -> com.c.c.e$a:
-    com.nineoldandroids.view.ViewPropertyAnimatorPreHC this$0 -> a
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> <init>
-    void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-    void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
-    void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-    void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-    void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-    void <init>(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$NameValuesHolder -> com.c.c.e$b:
-    int mNameConstant -> a
-    float mFromValue -> b
-    float mDeltaValue -> c
-    void <init>(int,float,float) -> <init>
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$PropertyBundle -> com.c.c.e$c:
-    int mPropertyMask -> a
-    java.util.ArrayList mNameValuesHolder -> b
-    void <init>(int,java.util.ArrayList) -> <init>
-    boolean cancel(int) -> a
-com.nineoldandroids.view.animation.AnimatorProxy -> com.c.c.a.a:
-    boolean NEEDS_PROXY -> a
-    java.util.WeakHashMap PROXIES -> b
-    java.lang.ref.WeakReference mView -> c
-    android.graphics.Camera mCamera -> d
-    boolean mHasPivot -> e
-    float mAlpha -> f
-    float mPivotX -> g
-    float mPivotY -> h
-    float mRotationX -> i
-    float mRotationY -> j
-    float mRotationZ -> k
-    float mScaleX -> l
-    float mScaleY -> m
-    float mTranslationX -> n
-    float mTranslationY -> o
-    android.graphics.RectF mBefore -> p
-    android.graphics.RectF mAfter -> q
-    android.graphics.Matrix mTempMatrix -> r
-    com.nineoldandroids.view.animation.AnimatorProxy wrap(android.view.View) -> a
-    void <init>(android.view.View) -> <init>
-    float getAlpha() -> a
-    void setAlpha(float) -> a
-    float getPivotX() -> b
-    void setPivotX(float) -> b
-    float getPivotY() -> c
-    void setPivotY(float) -> c
-    float getRotation() -> d
-    void setRotation(float) -> d
-    float getRotationX() -> e
-    void setRotationX(float) -> e
-    float getRotationY() -> f
-    void setRotationY(float) -> f
-    float getScaleX() -> g
-    void setScaleX(float) -> g
-    float getScaleY() -> h
-    void setScaleY(float) -> h
-    int getScrollX() -> i
-    void setScrollX(int) -> a
-    int getScrollY() -> j
-    void setScrollY(int) -> b
-    float getTranslationX() -> k
-    void setTranslationX(float) -> i
-    float getTranslationY() -> l
-    void setTranslationY(float) -> j
-    float getX() -> m
-    void setX(float) -> k
-    float getY() -> n
-    void setY(float) -> l
-    void prepareForUpdate() -> o
-    void invalidateAfterUpdate() -> p
-    void computeRect(android.graphics.RectF,android.view.View) -> a
-    void transformMatrix(android.graphics.Matrix,android.view.View) -> a
-    void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
-    void <clinit>() -> <clinit>
 com.rbardini.carteiro.CarteiroApplication -> com.rbardini.carteiro.CarteiroApplication:
     boolean syncing -> a
     com.google.android.gms.analytics.Tracker tracker -> b
@@ -30213,25 +29167,27 @@ com.rbardini.carteiro.db.DatabaseHelper -> com.rbardini.carteiro.a.a:
     void togglePostalItemFav(java.lang.String) -> a
     void favPostalItem(java.lang.String) -> b
     void unfavPostalItem(java.lang.String) -> c
-    void setPostalItemArchived(java.lang.String,int) -> b
-    void togglePostalItemArchived(java.lang.String) -> d
-    void archivePostalItem(java.lang.String) -> e
-    void unarchivePostalItem(java.lang.String) -> f
-    void setPostalItemUnread(java.lang.String,int) -> c
-    void togglePostalItemUnread(java.lang.String) -> g
-    void unreadPostalItem(java.lang.String) -> h
-    int deletePostalItem(java.lang.String) -> i
-    int deletePostalRecords(java.lang.String) -> j
-    boolean isPostalItem(java.lang.String) -> k
+    void toggleShipmentArchived(com.rbardini.carteiro.model.Shipment) -> d
+    int setShipmentsArchived(java.util.List,int) -> a
+    int archiveShipments(java.util.List) -> a
+    int unarchiveShipments(java.util.List) -> b
+    void setPostalItemUnread(java.lang.String,int) -> b
+    void readPostalItem(java.lang.String) -> d
+    void unreadPostalItem(java.lang.String) -> e
+    int deletePostalItems(java.lang.String[]) -> a
+    int deletePostalItem(java.lang.String) -> f
+    int deleteShipments(java.util.List) -> c
+    int deletePostalRecords(java.lang.String) -> g
+    boolean isPostalItem(java.lang.String) -> h
     int getSearchResults(java.util.List,java.lang.String) -> a
-    android.database.Cursor getSearchSuggestions(java.lang.String) -> l
-    com.rbardini.carteiro.model.ShipmentRecord getFirstShipmentRecord(java.lang.String) -> m
-    java.util.List getPostalRecords(java.lang.String) -> n
-    com.rbardini.carteiro.model.Shipment getShallowShipment(java.lang.String) -> o
+    android.database.Cursor getSearchSuggestions(java.lang.String) -> i
+    com.rbardini.carteiro.model.ShipmentRecord getFirstShipmentRecord(java.lang.String) -> j
+    java.util.List getPostalRecords(java.lang.String) -> k
+    com.rbardini.carteiro.model.Shipment getShallowShipment(java.lang.String) -> l
     int getShallowShipments(java.util.List,java.lang.String,java.lang.String[]) -> a
     java.util.List getShallowShipments(java.lang.String,java.lang.String[]) -> a
     java.util.List getShallowShipmentsForSync(int) -> a
-    int getShallowShipments(java.util.List,int) -> a
+    int getShallowShipments(java.util.List,int) -> b
     java.util.List getShallowShipments(int) -> b
     java.util.HashMap buildColumnMap() -> f
     void <clinit>() -> <clinit>
@@ -30466,12 +29422,6 @@ com.rbardini.carteiro.ui.AppCompatPreferenceActivity -> com.rbardini.carteiro.ui
     void onDestroy() -> onDestroy
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     android.support.v7.app.AppCompatDelegate getDelegate() -> b
-com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter -> com.rbardini.carteiro.ui.b:
-    com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter$OnSwipeCallback mOnSwipeCallback -> b
-    void <init>(android.widget.BaseAdapter,int,int,com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter$DeleteItemCallback,com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter$OnSwipeCallback) -> <init>
-    void onViewSwiped(long,int) -> a
-com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter$OnSwipeCallback -> com.rbardini.carteiro.ui.b$a:
-    void onSwipe(int) -> b
 com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     android.app.FragmentManager mFragmentManager -> n
     com.rbardini.carteiro.ui.ShipmentListFragment mCurrentFragment -> o
@@ -30597,7 +29547,7 @@ com.rbardini.carteiro.ui.PreferencesActivity$SyncingPreferences -> com.rbardini.
     void onCreate(android.os.Bundle) -> onCreate
     void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
     void setRefreshIntervalPreference() -> a
-com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.c:
+com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.b:
     boolean mIsBackupManagerAvailable -> a
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
@@ -30642,9 +29592,10 @@ com.rbardini.carteiro.ui.RecordActivity$2 -> com.rbardini.carteiro.ui.RecordActi
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.d:
+com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.c:
     com.rbardini.carteiro.model.Shipment mShipment -> e
     com.rbardini.carteiro.ui.ShipmentAdapter mListAdapter -> f
+    android.support.v7.widget.RecyclerView mRecyclerView -> g
     void <init>() -> <init>
     com.rbardini.carteiro.ui.RecordFragment newInstance(com.rbardini.carteiro.model.Shipment) -> a
     void onCreate(android.os.Bundle) -> onCreate
@@ -30653,7 +29604,7 @@ com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.d:
     void refreshList() -> b
     void setShipment(com.rbardini.carteiro.model.Shipment) -> b
     void updateList() -> c
-com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.e:
+com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.d:
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener listener -> a
     android.webkit.WebView mWebView -> b
     void <init>() -> <init>
@@ -30664,11 +29615,11 @@ com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.e:
     boolean canGoBack() -> a
     void goBack() -> b
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener access$000(com.rbardini.carteiro.ui.SROFragment) -> a
-com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.e$1:
+com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.d$1:
     com.rbardini.carteiro.ui.SROFragment this$0 -> a
     void <init>(com.rbardini.carteiro.ui.SROFragment) -> <init>
     void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.e$a:
+com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.d$a:
     void onProgress(int) -> c
     void onLeave() -> k
 com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivity:
@@ -30683,7 +29634,7 @@ com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivi
     void finish() -> finish
     com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
     void handleIntent() -> k
-com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.f:
+com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.e:
     com.rbardini.carteiro.CarteiroApplication app -> m
     android.content.BroadcastReceiver mReceiver -> n
     void <init>() -> <init>
@@ -30700,50 +29651,43 @@ com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.f:
     void refreshList() -> m
     void clearSelection() -> n
     com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
-com.rbardini.carteiro.ui.ShipmentActivity$1 -> com.rbardini.carteiro.ui.f$1:
+com.rbardini.carteiro.ui.ShipmentActivity$1 -> com.rbardini.carteiro.ui.e$1:
     com.rbardini.carteiro.ui.ShipmentActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.ShipmentActivity) -> <init>
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.rbardini.carteiro.ui.ShipmentActivity$2 -> com.rbardini.carteiro.ui.f$2:
+com.rbardini.carteiro.ui.ShipmentActivity$2 -> com.rbardini.carteiro.ui.e$2:
     com.rbardini.carteiro.ui.ShipmentActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.ShipmentActivity) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.ShipmentAdapter -> com.rbardini.carteiro.ui.g:
+com.rbardini.carteiro.ui.ShipmentAdapter -> com.rbardini.carteiro.ui.f:
     android.content.Context mContext -> a
     com.rbardini.carteiro.model.Shipment mShipment -> b
     android.view.LayoutInflater mInflater -> c
     void <init>(android.content.Context,com.rbardini.carteiro.model.Shipment) -> <init>
-    int getCount() -> getCount
+    com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder onCreateViewHolder(android.view.ViewGroup,int) -> a
+    void onBindViewHolder(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,int) -> a
+    int getItemCount() -> getItemCount
     com.rbardini.carteiro.model.ShipmentRecord getItem(int) -> a
-    long getItemId(int) -> getItemId
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    java.lang.Object getItem(int) -> getItem
-com.rbardini.carteiro.ui.ShipmentAdapter$1 -> com.rbardini.carteiro.ui.g$1:
-com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder -> com.rbardini.carteiro.ui.g$a:
-    android.view.View timeline -> a
-    android.widget.TextView date -> b
-    android.widget.TextView time -> c
-    android.widget.TextView status -> d
-    android.widget.TextView loc -> e
-    android.widget.TextView info -> f
-    android.widget.ImageView icon -> g
-    void <init>() -> <init>
-    void <init>(com.rbardini.carteiro.ui.ShipmentAdapter$1) -> <init>
-    android.view.View access$102(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.view.View) -> a
-    android.widget.TextView access$202(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> a
-    android.widget.TextView access$302(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> b
-    android.widget.TextView access$402(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> c
-    android.widget.TextView access$502(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> d
-    android.widget.TextView access$602(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.TextView) -> e
-    android.widget.ImageView access$702(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder,android.widget.ImageView) -> a
-    android.widget.TextView access$200(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> a
-    android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> b
-    android.widget.TextView access$400(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> c
-    android.widget.TextView access$500(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> d
-    android.widget.TextView access$600(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> e
-    android.widget.ImageView access$700(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> f
-    android.view.View access$100(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> g
-com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.h:
+    void onBindViewHolder(android.support.v7.widget.RecyclerView$ViewHolder,int) -> onBindViewHolder
+    android.support.v7.widget.RecyclerView$ViewHolder onCreateViewHolder(android.view.ViewGroup,int) -> onCreateViewHolder
+com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder -> com.rbardini.carteiro.ui.f$a:
+    android.view.View timeline -> b
+    android.widget.TextView date -> c
+    android.widget.TextView time -> d
+    android.widget.TextView status -> e
+    android.widget.TextView loc -> f
+    android.widget.TextView info -> g
+    android.widget.ImageView icon -> h
+    com.rbardini.carteiro.ui.ShipmentAdapter this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.ShipmentAdapter,android.view.View) -> <init>
+    android.widget.TextView access$000(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> a
+    android.widget.TextView access$100(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> b
+    android.widget.TextView access$200(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> c
+    android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> d
+    android.widget.TextView access$400(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> e
+    android.widget.ImageView access$500(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> f
+    android.view.View access$600(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> g
+com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.g:
     com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener listener -> a
     void <init>() -> <init>
     com.rbardini.carteiro.ui.ShipmentDialogFragment newInstance(int,java.util.ArrayList) -> a
@@ -30752,27 +29696,27 @@ com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.h:
     void onRenameShipment(android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> a
     void access$000(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> a
     com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener access$100(com.rbardini.carteiro.ui.ShipmentDialogFragment) -> a
-com.rbardini.carteiro.ui.ShipmentDialogFragment$1 -> com.rbardini.carteiro.ui.h$1:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$1 -> com.rbardini.carteiro.ui.g$1:
     android.widget.EditText val$itemDesc -> a
     com.rbardini.carteiro.model.Shipment val$shipment -> b
     com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> c
     void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> <init>
     boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
-com.rbardini.carteiro.ui.ShipmentDialogFragment$2 -> com.rbardini.carteiro.ui.h$2:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$2 -> com.rbardini.carteiro.ui.g$2:
     android.widget.EditText val$itemDesc -> a
     com.rbardini.carteiro.model.Shipment val$shipment -> b
     com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> c
     void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.ShipmentDialogFragment$3 -> com.rbardini.carteiro.ui.h$3:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$3 -> com.rbardini.carteiro.ui.g$3:
     java.util.ArrayList val$shipments -> a
     com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> b
     void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,java.util.ArrayList) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener -> com.rbardini.carteiro.ui.h$a:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener -> com.rbardini.carteiro.ui.g$a:
     void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
     void onDeleteShipments(java.util.ArrayList) -> a
-com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.i:
+com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.h:
     android.app.Activity mActivity -> a
     com.rbardini.carteiro.CarteiroApplication app -> b
     com.rbardini.carteiro.db.DatabaseHelper dh -> c
@@ -30783,42 +29727,48 @@ com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.i:
     void refreshList() -> b
     void updateRefreshStatus() -> d
     void clearSelection() -> e
-com.rbardini.carteiro.ui.ShipmentListAdapter -> com.rbardini.carteiro.ui.j:
-    android.content.Context mContext -> b
-    android.widget.ListView mListView -> c
-    android.view.LayoutInflater mInflater -> d
-    void <init>(android.content.Context,java.util.List,android.widget.ListView) -> <init>
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    long getItemId(int) -> getItemId
-    android.widget.ListView access$700(com.rbardini.carteiro.ui.ShipmentListAdapter) -> a
-com.rbardini.carteiro.ui.ShipmentListAdapter$1 -> com.rbardini.carteiro.ui.j$1:
-    int val$position -> a
-    boolean val$isChecked -> b
-    com.rbardini.carteiro.ui.ShipmentListAdapter this$0 -> c
-    void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter,int,boolean) -> <init>
+com.rbardini.carteiro.ui.ShipmentListAdapter -> com.rbardini.carteiro.ui.i:
+    android.content.Context mContext -> a
+    java.util.List mShipments -> b
+    java.util.List mSelectedShipments -> c
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener mListener -> d
+    android.view.LayoutInflater mInflater -> e
+    void <init>(android.content.Context,java.util.List,java.util.List,com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener) -> <init>
+    com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder onCreateViewHolder(android.view.ViewGroup,int) -> a
+    void onBindViewHolder(android.support.v7.widget.RecyclerView$ViewHolder,int) -> onBindViewHolder
+    int getItemCount() -> getItemCount
+    boolean addItem(int,java.lang.Object) -> a
+    void removeItem(java.lang.Object) -> a
+    com.rbardini.carteiro.model.Shipment getItem(int) -> a
+    java.util.List getItems() -> a
+    int getItemPosition(java.lang.Object) -> b
+    int[] getItemPositions(java.util.List) -> a
+    java.lang.Object getItem(int) -> b
+    android.support.v7.widget.RecyclerView$ViewHolder onCreateViewHolder(android.view.ViewGroup,int) -> onCreateViewHolder
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener access$600(com.rbardini.carteiro.ui.ShipmentListAdapter) -> a
+com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder -> com.rbardini.carteiro.ui.i$a:
+    android.widget.TextView desc -> b
+    android.widget.TextView date -> c
+    android.widget.TextView loc -> d
+    android.widget.TextView info -> e
+    android.widget.ImageView icon -> f
+    android.widget.CheckBox fav -> g
+    com.rbardini.carteiro.ui.ShipmentListAdapter this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter,android.view.View) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder -> com.rbardini.carteiro.ui.j$a:
-    android.widget.TextView desc -> a
-    android.widget.TextView date -> b
-    android.widget.TextView loc -> c
-    android.widget.TextView info -> d
-    android.widget.ImageView icon -> e
-    android.widget.CheckBox fav -> f
-    void <init>() -> <init>
-    void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter$1) -> <init>
-    android.widget.TextView access$102(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> a
-    android.widget.TextView access$202(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> b
-    android.widget.TextView access$302(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> c
-    android.widget.TextView access$402(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.TextView) -> d
-    android.widget.ImageView access$502(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.ImageView) -> a
-    android.widget.CheckBox access$602(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,android.widget.CheckBox) -> a
-    android.widget.TextView access$100(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> a
-    android.widget.TextView access$200(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> b
-    android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> c
-    android.widget.TextView access$400(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> d
-    android.widget.CheckBox access$600(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> e
+    boolean onLongClick(android.view.View) -> onLongClick
+    android.widget.TextView access$000(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> a
+    android.widget.TextView access$100(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> b
+    android.widget.TextView access$200(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> c
+    android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> d
+    android.widget.CheckBox access$400(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> e
     android.widget.ImageView access$500(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> f
-com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.k:
+com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder$1 -> com.rbardini.carteiro.ui.i$a$1:
+    com.rbardini.carteiro.ui.ShipmentListAdapter val$this$0 -> a
+    com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder this$1 -> b
+    void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,com.rbardini.carteiro.ui.ShipmentListAdapter) -> <init>
+    void onClick(android.view.View) -> onClick
+com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.j:
     com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener mListener -> e
     int category -> f
     java.lang.String query -> g
@@ -30826,37 +29776,36 @@ com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.k:
     java.util.ArrayList mList -> i
     java.util.ArrayList mSelectedList -> j
     com.rbardini.carteiro.ui.ShipmentListAdapter mListAdapter -> k
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter mDismissAdapter -> l
-    com.rbardini.carteiro.ui.ContextualSwipeUndoAdapter mUndoAdapter -> m
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler mSwipeDismissHandler -> l
     void <init>() -> <init>
-    com.rbardini.carteiro.ui.ShipmentListFragment newInstance(int) -> c
+    com.rbardini.carteiro.ui.ShipmentListFragment newInstance(int) -> a
     com.rbardini.carteiro.ui.ShipmentListFragment newInstance(java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void onResume() -> onResume
     void onPause() -> onPause
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
-    void deleteItem(int) -> a
-    void onSwipe(int) -> b
-    void onDismiss(android.widget.AbsListView,int[]) -> a
     void onRefresh() -> a
     void refreshList() -> b
     void clearSelection() -> e
+    void onItemClicked(java.lang.Object) -> a
+    void onItemSelected(java.lang.Object) -> b
+    void onItemsDismissed(java.util.Map) -> a
     void setQuery(java.lang.String) -> b
-    void setCategory(int) -> d
+    void setCategory(int) -> b
     int getCategory() -> c
     java.util.List getList() -> f
     int getListSize() -> g
     boolean hasSelection() -> h
     boolean shouldDeleteItems() -> i
     void updateList() -> j
-    com.rbardini.carteiro.ui.ShipmentListAdapter access$100(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
+    java.util.List buildShipmentListFromMap(java.util.Map) -> b
+    java.util.ArrayList access$100(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
     java.util.ArrayList access$200(com.rbardini.carteiro.ui.ShipmentListFragment) -> b
-    com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter access$300(com.rbardini.carteiro.ui.ShipmentListFragment) -> c
-com.rbardini.carteiro.ui.ShipmentListFragment$1 -> com.rbardini.carteiro.ui.k$1:
-com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.k$a:
+    com.rbardini.carteiro.ui.ShipmentListAdapter access$300(com.rbardini.carteiro.ui.ShipmentListFragment) -> c
+    java.util.List access$400(com.rbardini.carteiro.ui.ShipmentListFragment,java.util.Map) -> a
+com.rbardini.carteiro.ui.ShipmentListFragment$1 -> com.rbardini.carteiro.ui.j$1:
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.j$a:
     android.view.ActionMode mActionMode -> b
     android.util.SparseBooleanArray mCollectiveActionMap -> c
     com.rbardini.carteiro.ui.ShipmentListFragment this$0 -> a
@@ -30866,10 +29815,25 @@ com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rba
     boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
     boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
     void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    void setItemCheckedState(com.rbardini.carteiro.model.Shipment,boolean) -> a
+    void toggleItemCheckedState(com.rbardini.carteiro.model.Shipment) -> a
     boolean hasActionMode() -> a
     void finishActionMode() -> b
     void <init>(com.rbardini.carteiro.ui.ShipmentListFragment,com.rbardini.carteiro.ui.ShipmentListFragment$1) -> <init>
-com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.k$b:
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$1 -> com.rbardini.carteiro.ui.j$a$1:
+    boolean val$areAllArchived -> a
+    com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener this$1 -> b
+    void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener,boolean) -> <init>
+    void onItemClicked(java.lang.Object) -> a
+    void onItemSelected(java.lang.Object) -> b
+    void onItemsDismissed(java.util.Map) -> a
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$2 -> com.rbardini.carteiro.ui.j$a$2:
+    com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener this$1 -> a
+    void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener) -> <init>
+    void onItemClicked(java.lang.Object) -> a
+    void onItemSelected(java.lang.Object) -> b
+    void onItemsDismissed(java.util.Map) -> a
+com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.j$b:
     void onPostalListAttached(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
 com.rbardini.carteiro.ui.ThemePreference -> com.rbardini.carteiro.ui.ThemePreference:
     java.lang.String mChosenTheme -> a
@@ -30910,6 +29874,100 @@ com.rbardini.carteiro.ui.drawable.MorphDrawable$2 -> com.rbardini.carteiro.ui.a.
     int get(com.rbardini.carteiro.ui.drawable.MorphDrawable) -> a
     int get(java.lang.Object) -> a
     void set(java.lang.Object,int) -> a
+com.rbardini.carteiro.ui.swipedismiss.SwipeDismissAdapter -> com.rbardini.carteiro.ui.swipedismiss.a:
+    void <init>() -> <init>
+    boolean addItem(int,java.lang.Object) -> a
+    void removeItem(java.lang.Object) -> a
+    java.lang.Object getItem(int) -> b
+    java.util.List getItems() -> a
+com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler -> com.rbardini.carteiro.ui.swipedismiss.b:
+    android.support.design.widget.Snackbar mSnackbar -> a
+    android.view.View mRootView -> b
+    android.os.Handler mUiHandler -> c
+    int mSingleTextResId -> d
+    int mMultipleTextResId -> e
+    int mActionTextResId -> f
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissAdapter mAdapter -> g
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener mListener -> h
+    java.util.concurrent.ConcurrentSkipListMap mDismissQueue -> i
+    java.util.concurrent.ConcurrentSkipListMap mRestoreQueue -> j
+    java.lang.Runnable mHandlerCallback -> k
+    void <init>(android.view.View,android.os.Handler,int,int,int,com.rbardini.carteiro.ui.swipedismiss.SwipeDismissAdapter,com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener) -> <init>
+    void onSwipe(int) -> a
+    void dismiss(int) -> dismiss
+    void dismiss(int[]) -> dismiss
+    void finish() -> a
+    void setUpDismissQueue() -> b
+    void setUpRestoreQueue(java.util.List) -> a
+    java.lang.Object addToDismissQueue(int) -> b
+    void notifyUser(android.view.View) -> a
+    int getInitialListPosition(java.lang.Object) -> a
+    java.util.concurrent.ConcurrentSkipListMap access$000(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> a
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener access$100(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> b
+    void access$200(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> c
+    android.support.design.widget.Snackbar access$300(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> d
+    android.support.design.widget.Snackbar access$302(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler,android.support.design.widget.Snackbar) -> a
+    java.lang.Runnable access$400(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> e
+    android.os.Handler access$500(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> f
+    int access$600(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler,java.lang.Object) -> a
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissAdapter access$700(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> g
+com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler$1 -> com.rbardini.carteiro.ui.swipedismiss.b$1:
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> <init>
+    void run() -> run
+com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler$2 -> com.rbardini.carteiro.ui.swipedismiss.b$2:
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> <init>
+    void onClick(android.view.View) -> onClick
+com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener -> com.rbardini.carteiro.ui.swipedismiss.c:
+    void onItemClicked(java.lang.Object) -> a
+    void onItemSelected(java.lang.Object) -> b
+    void onItemsDismissed(java.util.Map) -> a
+com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView -> com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView:
+    android.support.v7.widget.RecyclerView$AdapterDataObserver observer -> a
+    int mSwipeDirs -> b
+    android.graphics.drawable.Drawable mLeaveBehindBackground -> c
+    int mLeaveBehindPadding -> d
+    android.graphics.Bitmap mLeaveBehindIcon -> e
+    android.view.View mEmptyView -> f
+    void <init>(android.content.Context) -> <init>
+    void <init>(android.content.Context,android.util.AttributeSet) -> <init>
+    void <init>(android.content.Context,android.util.AttributeSet,int) -> <init>
+    void setAdapter(android.support.v7.widget.RecyclerView$Adapter) -> setAdapter
+    void setSwipeDirs(int) -> setSwipeDirs
+    void setLeaveBehindColor(int) -> setLeaveBehindColor
+    void setLeaveBehindPadding(int) -> setLeaveBehindPadding
+    void setLeaveBehindIcon(int) -> setLeaveBehindIcon
+    void setEmptyView(android.view.View) -> setEmptyView
+    void checkIfEmpty() -> a
+    void setSwipeListener(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$RecyclerViewSwipeListener) -> setSwipeListener
+    void setUpItemTouchHelper(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$RecyclerViewSwipeListener) -> setUpItemTouchHelper
+    void setUpItemDecoration() -> b
+    void access$000(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView) -> a
+    android.graphics.drawable.Drawable access$100(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView) -> b
+    android.graphics.Bitmap access$200(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView) -> c
+    int access$300(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView) -> d
+com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$1 -> com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$1:
+    com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView) -> <init>
+    void onChanged() -> onChanged
+    void onItemRangeInserted(int,int) -> onItemRangeInserted
+    void onItemRangeRemoved(int,int) -> onItemRangeRemoved
+com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$2 -> com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$2:
+    android.graphics.Paint paint -> c
+    com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$RecyclerViewSwipeListener val$listener -> a
+    com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView this$0 -> b
+    void <init>(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView,int,int,com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$RecyclerViewSwipeListener) -> <init>
+    boolean onMove(android.support.v7.widget.RecyclerView,android.support.v7.widget.RecyclerView$ViewHolder,android.support.v7.widget.RecyclerView$ViewHolder) -> onMove
+    void onSwiped(android.support.v7.widget.RecyclerView$ViewHolder,int) -> onSwiped
+    void onChildDraw(android.graphics.Canvas,android.support.v7.widget.RecyclerView,android.support.v7.widget.RecyclerView$ViewHolder,float,float,int,boolean) -> onChildDraw
+com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$3 -> com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$3:
+    com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView) -> <init>
+    void onDraw(android.graphics.Canvas,android.support.v7.widget.RecyclerView,android.support.v7.widget.RecyclerView$State) -> onDraw
+com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$RecyclerViewSwipeListener -> com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$a:
+    void onSwipe(int) -> a
+com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$SwipeableViewHolder -> com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView$b:
 com.rbardini.carteiro.ui.transition.GravityArcMotion -> com.rbardini.carteiro.ui.b.a:
     float DEFAULT_MAX_TANGENT -> a
     float mMinimumHorizontalTangent -> b
@@ -31112,6 +30170,7 @@ com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.f:
     void showToast(android.content.Context,int) -> a
     java.lang.CharSequence getRelativeTime(java.util.Date) -> a
     java.lang.CharSequence getRelativeDaysString(android.content.Context,java.util.Date) -> a
+    android.graphics.Bitmap getBitmapFromDrawable(android.content.Context,int) -> b
     void shareItem(android.content.Context,com.rbardini.carteiro.model.Shipment) -> a
     void locateItem(android.content.Context,com.rbardini.carteiro.model.Shipment) -> b
     int getPostalStatusColor(java.lang.String) -> a
