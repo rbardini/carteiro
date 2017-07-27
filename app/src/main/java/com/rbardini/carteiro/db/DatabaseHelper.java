@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.rbardini.carteiro.model.Shipment;
@@ -204,31 +205,39 @@ public class DatabaseHelper {
     setPostalItemFav(cod, 0);
   }
 
-  public void setPostalItemArchived(String cod, int archived) {
-    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = ? WHERE cod = ?", new Object[] {archived, cod});
+  public void toggleShipmentArchived(Shipment shipment) {
+    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = NOT archived WHERE cod = ?", new Object[] {shipment.getNumber()});
     notifyDatabaseChanged();
   }
 
-  public void togglePostalItemArchived(String cod) {
-    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET archived = NOT archived WHERE cod = ?", new Object[] {cod});
-    notifyDatabaseChanged();
+  public int setShipmentsArchived(List<Shipment> shipments, int archived) {
+    String[] cods = new String[shipments.size()];
+
+    for (int i = 0; i < shipments.size(); i++) {
+      cods[i] = shipments.get(i).getNumber();
+    }
+
+    ContentValues cv = new ContentValues();
+    cv.put("archived", archived);
+
+    String placeholders = TextUtils.join(", ", Collections.nCopies(cods.length, "?"));
+    int rows = db.update(POSTAL_ITEM_TABLE, cv, "cod IN (" + placeholders + ")", cods);
+
+    if (rows != 0) notifyDatabaseChanged();
+
+    return rows;
   }
 
-  public void archivePostalItem(String cod) {
-    setPostalItemArchived(cod, 1);
+  public int archiveShipments(List<Shipment> shipments) {
+    return setShipmentsArchived(shipments, 1);
   }
 
-  public void unarchivePostalItem(String cod) {
-    setPostalItemArchived(cod, 0);
+  public int unarchiveShipments(List<Shipment> shipments) {
+    return setShipmentsArchived(shipments, 0);
   }
 
   public void setPostalItemUnread(String cod, int unread) {
     db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET unread = ? WHERE cod = ?", new Object[] {unread, cod});
-    notifyDatabaseChanged();
-  }
-
-  public void togglePostalItemUnread(String cod) {
-    db.execSQL("UPDATE "+POSTAL_ITEM_TABLE+" SET unread = NOT unread WHERE cod = ?", new Object[] {cod});
     notifyDatabaseChanged();
   }
 
@@ -242,11 +251,26 @@ public class DatabaseHelper {
 
   /** Delete **/
 
-  public int deletePostalItem(String cod) {
-    int rows = db.delete(POSTAL_ITEM_TABLE, "cod = ?", new String[] {cod});
-    if (rows != 0) notifyDatabaseChanged();
+  public int deletePostalItems(String[] cods) {
+    String placeholders = TextUtils.join(", ", Collections.nCopies(cods.length, "?"));
+    int rows = db.delete(POSTAL_ITEM_TABLE, "cod IN (" + placeholders + ")", cods);
 
+    if (rows != 0) notifyDatabaseChanged();
     return rows;
+  }
+
+  public int deletePostalItem(String cod) {
+    return deletePostalItems(new String[] {cod});
+  }
+
+  public int deleteShipments(List<Shipment> shipments) {
+    String[] cods = new String[shipments.size()];
+
+    for (int i = 0; i < shipments.size(); i++) {
+      cods[i] = shipments.get(i).getNumber();
+    }
+
+    return deletePostalItems(cods);
   }
 
   public int deletePostalRecords(String cod) {

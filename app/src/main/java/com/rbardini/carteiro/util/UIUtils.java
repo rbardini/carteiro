@@ -2,7 +2,14 @@ package com.rbardini.carteiro.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.widget.Toast;
 
@@ -48,6 +55,25 @@ public final class UIUtils {
     if (days == 1) return context.getString(R.string.date_yesterday);
     if (days < 365) return context.getString(R.string.date_relative_days_ago, days);
     return context.getString(R.string.date_relative_over_year);
+  }
+
+  public static Bitmap getBitmapFromDrawable(Context context, @DrawableRes int drawableId) {
+    Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+
+    if (drawable instanceof BitmapDrawable) {
+      return ((BitmapDrawable) drawable).getBitmap();
+
+    } else if (drawable instanceof VectorDrawable) {
+      Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+      Canvas canvas = new Canvas(bitmap);
+      drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+      drawable.draw(canvas);
+
+      return bitmap;
+
+    } else {
+      throw new IllegalArgumentException("Unsupported drawable type");
+    }
   }
 
   public static void shareItem(Context context, Shipment shipment) {

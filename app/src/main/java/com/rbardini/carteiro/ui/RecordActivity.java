@@ -158,7 +158,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
       case R.id.archive_opt:
         mShipment.toggleArchived();
-        dh.togglePostalItemArchived(mShipment.getNumber());
+        dh.toggleShipmentArchived(mShipment);
 
         UIUtils.showToast(this, mShipment.isArchived() ? getString(R.string.toast_item_archived, mShipment.getDescription())
             : getString(R.string.toast_item_unarchived, mShipment.getDescription(), getString(R.string.category_all)));
@@ -281,7 +281,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
     intent.removeExtra("shipment");
 
     if (mShipment.isUnread()) {
-      dh.togglePostalItemUnread(mShipment.getNumber());
+      dh.readPostalItem(mShipment.getNumber());
       mShipment.setUnread(false);
     }
 

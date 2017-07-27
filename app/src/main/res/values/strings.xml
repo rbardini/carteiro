@@ -88,11 +88,15 @@
   <string name="toast_item_renamed">%1$s renamed to %2$s.</string>
   <string name="toast_item_renamed_empty">Name removed from %s.</string>
   <string name="toast_item_archived">%s archived.</string>
-  <string name="toast_items_archived">%d items archived.</string>
+  <string name="toast_archived_count_single">Archived</string>
+  <string name="toast_archived_count_multiple">Archived (%d)</string>
+  <string name="toast_unarchived_count_single">Moved to All</string>
+  <string name="toast_unarchived_count_multiple">Moved to All (%d)</string>
   <string name="toast_item_unarchived">%1$s moved to %2$s.</string>
-  <string name="toast_items_unarchived">%1$d items moved to %2$s.</string>
   <string name="toast_item_deleted">%s deleted.</string>
   <string name="toast_items_deleted">%d items deleted.</string>
+  <string name="toast_deleted_count_single">Deleted</string>
+  <string name="toast_deleted_count_multiple">Deleted (%d)</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
   <string name="toast_net_error">Oops! The Correios service is offline, or the connection failed :(</string>
   <string name="toast_unexpected_error">Oops! Something wrong happened :( Please try again later.</string>
@@ -103,10 +107,6 @@
   <string name="toast_backup_not_found">No backups found.</string>
   <string name="toast_external_storage_write_error">External storage unmounted or without write access.</string>
   <string name="toast_external_storage_read_error">External storage unmounted or without read access.</string>
-
-  <!-- Labels -->
-  <string name="label_item_archived">Archived</string>
-  <string name="label_item_deleted">Deleted</string>
 
   <!-- Context Menu -->
   <string name="opt_search">Search</string>

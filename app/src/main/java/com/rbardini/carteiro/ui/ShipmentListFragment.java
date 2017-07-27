@@ -3,6 +3,12 @@ package com.rbardini.carteiro.ui;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -12,15 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.nhaarman.listviewanimations.itemmanipulation.AnimateDismissAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler;
+import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener;
+import com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
@@ -28,8 +34,9 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class ShipmentListFragment extends ShipmentFragment implements ContextualSwipeUndoAdapter.DeleteItemCallback, ContextualSwipeUndoAdapter.OnSwipeCallback, OnDismissCallback {
+public class ShipmentListFragment extends ShipmentFragment implements SwipeDismissListener {
   interface OnPostalListActionListener {
     void onPostalListAttached(ShipmentListFragment f);
   }
@@ -43,8 +50,7 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
   private ArrayList<Shipment> mList;
   private ArrayList<Shipment> mSelectedList;
   private ShipmentListAdapter mListAdapter;
-  private AnimateDismissAdapter mDismissAdapter;
-  private ContextualSwipeUndoAdapter mUndoAdapter;
+  private SwipeDismissHandler mSwipeDismissHandler;
 
   public static ShipmentListFragment newInstance(int category) {
     ShipmentListFragment f = new ShipmentListFragment();
@@ -70,7 +76,6 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
     try {
       mListener = (OnPostalListActionListener) mActivity;
-
     } catch (ClassCastException e) {
       throw new ClassCastException(mActivity.toString() + " must implement OnPostalListActionListener");
     }
@@ -94,28 +99,12 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.list_shipment, container, false);
-  }
+    View view = inflater.inflate(R.layout.list_shipment, container, false);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+    boolean shouldDeleteItems = shouldDeleteItems();
 
-  @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-
-    ListView listView = getListView();
-
-    mListAdapter = new ShipmentListAdapter(mActivity, mList, listView);
-    mMultiChoiceModeListener = new ShipmentListFragment.MultiChoiceModeListener();
-    listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-    listView.setMultiChoiceModeListener(mMultiChoiceModeListener);
-
-    mDismissAdapter = new AnimateDismissAdapter(mListAdapter, this);
-    mDismissAdapter.setAbsListView(listView);
-
-    mUndoAdapter = new ContextualSwipeUndoAdapter(mListAdapter, shouldDeleteItems() ? R.layout.undo_delete_row : R.layout.undo_archive_row, R.id.undo_button, this, this);
-    mUndoAdapter.setAbsListView(listView);
-    listView.setAdapter(mUndoAdapter);
-
-    TextView emptyText = (TextView) listView.getEmptyView().findViewById(R.id.empty_text);
+    View emptyView = view.findViewById(android.R.id.empty);
+    TextView emptyText = emptyView.findViewById(R.id.empty_text);
     if (query == null) {
       String title = getString(Category.getTitle(category));
       emptyText.setText(Html.fromHtml(getString(R.string.text_empty_list_name, title)));
@@ -123,7 +112,28 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
       emptyText.setText(R.string.text_empty_list_found);
     }
 
+    mListAdapter = new ShipmentListAdapter(mActivity, mList, mSelectedList, this);
+    mSwipeDismissHandler = new SwipeDismissHandler(view, new Handler(),
+        shouldDeleteItems ? R.string.toast_deleted_count_single : R.string.toast_archived_count_single,
+        shouldDeleteItems ? R.string.toast_deleted_count_multiple : R.string.toast_archived_count_multiple,
+        R.string.undo_btn, mListAdapter, this);
+    mMultiChoiceModeListener = new ShipmentListFragment.MultiChoiceModeListener();
+
+    if (!mSelectedList.isEmpty()) mActivity.startActionMode(mMultiChoiceModeListener);
+
+    SwipeableRecyclerView recyclerView = view.findViewById(android.R.id.list);
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setAdapter(mListAdapter);
+    recyclerView.setSwipeListener(mSwipeDismissHandler);
+    recyclerView.setEmptyView(emptyView);
+    recyclerView.setLeaveBehindColor(ContextCompat.getColor(mActivity, shouldDeleteItems ? R.color.error_background : R.color.success_background));
+    recyclerView.setLeaveBehindPadding(getResources().getDimensionPixelSize(R.dimen.icon));
+    recyclerView.setLeaveBehindIcon(shouldDeleteItems ? R.drawable.ic_delete_white_24dp : R.drawable.ic_archive_white_24dp);
+    recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation()));
+
     mListener.onPostalListAttached(this);
+
+    return view;
   }
 
   @Override
@@ -134,8 +144,8 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
   @Override
   public void onPause() {
+    mSwipeDismissHandler.finish();
     super.onPause();
-    mUndoAdapter.animateRemovePendingItem();
   }
 
   @Override
@@ -143,44 +153,6 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
     super.onSaveInstanceState(outState);
     outState.putSerializable("shipment", mList);
     outState.putSerializable("selectedShipments", mSelectedList);
-  }
-
-  @Override
-  public void onListItemClick(ListView l, View v, int position, long id) {
-    super.onListItemClick(l, v, position, id);
-
-    Shipment shipment = mList.get(position);
-    View icon = v.findViewById(R.id.img_postal_status);
-
-    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", shipment);
-    RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.shipment_color), (int) icon.getTag(R.id.shipment_icon), 2);
-    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_record));
-
-    startActivity(intent, options.toBundle());
-  }
-
-  @Override
-  public void deleteItem(int position) {
-    String cod = mList.get(position).getNumber();
-
-    if (shouldDeleteItems()) {
-      dh.deletePostalItem(cod);
-
-    } else {
-      dh.archivePostalItem(cod);
-    }
-
-    mListAdapter.remove(position);
-  }
-
-  @Override
-  public void onSwipe(int position) {
-    clearSelection();
-  }
-
-  @Override
-  public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
-    for (int position : reverseSortedPositions) mListAdapter.remove(position);
   }
 
   @Override
@@ -193,7 +165,7 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
   @Override
   public void refreshList() {
-    mUndoAdapter.removePendingItem();
+    // TODO commit removals if any
     updateList();
     mListAdapter.notifyDataSetChanged();
 
@@ -203,6 +175,53 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
   @Override
   public void clearSelection() {
     mMultiChoiceModeListener.finishActionMode();
+  }
+
+  @Override
+  public void onItemClicked(@NonNull Object item) {
+    RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) item;
+    Shipment shipment = mListAdapter.getItem(viewHolder.getAdapterPosition());
+
+    if (mMultiChoiceModeListener.hasActionMode()) {
+      onItemSelected(item);
+      return;
+    }
+
+    View icon = viewHolder.itemView.findViewById(R.id.img_postal_status);
+    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", shipment);
+
+    RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.shipment_color), (int) icon.getTag(R.id.shipment_icon), 2);
+    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_record));
+
+    startActivity(intent, options.toBundle());
+  }
+
+  @Override
+  public void onItemSelected(@NonNull Object item) {
+    RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) item;
+    Shipment shipment = mListAdapter.getItem(viewHolder.getAdapterPosition());
+
+    if (!mMultiChoiceModeListener.hasActionMode()) {
+      mActivity.startActionMode(mMultiChoiceModeListener);
+    }
+
+    mMultiChoiceModeListener.toggleItemCheckedState(shipment);
+  }
+
+  @Override
+  public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
+    List<Shipment> shipments = new ArrayList<>();
+
+    for (Map.Entry<Integer, Object> entry : items.entrySet()) {
+      shipments.add((Shipment) entry.getValue());
+    }
+
+    if (shouldDeleteItems()) {
+      dh.deleteShipments(shipments);
+
+    } else {
+      dh.archiveShipments(shipments);
+    }
   }
 
   public void setQuery(String query) {
@@ -238,6 +257,15 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
     else dh.getShallowShipments(mList, category);
   }
 
+  private List<Shipment> buildShipmentListFromMap(Map<Integer, Object> items) {
+    List<Shipment> shipments = new ArrayList<>();
+
+    for (Map.Entry<Integer, Object> entry : items.entrySet()) {
+      shipments.add((Shipment) entry.getValue());
+    }
+
+    return shipments;
+  }
 
   private final class MultiChoiceModeListener implements AbsListView.MultiChoiceModeListener {
     private ActionMode mActionMode;
@@ -245,17 +273,8 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-      Shipment shipment = mListAdapter.getItem(position);
-
-      // Add or remove item from selected list
-      if (checked) mSelectedList.add(shipment);
-      else mSelectedList.remove(shipment);
-
-      // Invalidate CAB to refresh available actions
-      mActionMode.invalidate();
-
-      // Force list view refresh to update checked state
-      mListAdapter.notifyDataSetChanged();
+      Shipment shipment = mList.get(position);
+      setItemCheckedState(shipment, checked);
     }
 
     @Override
@@ -309,9 +328,6 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-      final Shipment firstItem = mSelectedList.get(0);
-      final int selectionSize = mSelectedList.size();
-      final boolean isSingleSelection = selectionSize == 1;
       final int actionId = item.getItemId();
 
       /* Multiple items actions */
@@ -325,38 +341,52 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
         case R.id.archive_opt:
           // Archive selected items or move to all depending on their collective archived state
-          boolean areAllArchived = mCollectiveActionMap.get(actionId);
-          for (Shipment shipment : mSelectedList) {
-            String cod = shipment.getNumber();
-            if (areAllArchived) dh.unarchivePostalItem(cod);
-            else dh.archivePostalItem(cod);
-          }
+          final boolean areAllArchived = mCollectiveActionMap.get(actionId);
 
-          // Get the selected item positions and animate out of view
-          SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
-          List<Integer> positionsToDismiss = new ArrayList<>();
-          try {
-            for (int i=0, length=getListView().getCount(); i<length; i++) {
-              if (checkedItemPositions.get(i)) positionsToDismiss.add(i);
+          new SwipeDismissHandler(getView(), new Handler(),
+              areAllArchived ? R.string.toast_unarchived_count_single : R.string.toast_archived_count_single,
+              areAllArchived ? R.string.toast_unarchived_count_multiple : R.string.toast_archived_count_multiple,
+              R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
+            @Override
+            public void onItemClicked(@NonNull Object item) {}
+
+            @Override
+            public void onItemSelected(@NonNull Object item) {}
+
+            @Override
+            public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
+              List<Shipment> shipments = buildShipmentListFromMap(items);
+              if (areAllArchived) dh.unarchiveShipments(shipments); else dh.archiveShipments(shipments);
             }
-          } catch (IndexOutOfBoundsException e) {}
-          mDismissAdapter.animateDismiss(positionsToDismiss);
-
-          int messageRes = isSingleSelection
-            ? (areAllArchived ? R.string.toast_item_unarchived : R.string.toast_item_archived)
-            : (areAllArchived ? R.string.toast_items_unarchived : R.string.toast_items_archived);
-          UIUtils.showToast(mActivity, getString(messageRes, isSingleSelection ? firstItem.getDescription() : selectionSize, getString(R.string.category_all)));
-
+          }).dismiss(mListAdapter.getItemPositions(mSelectedList));
           clearSelection();
+
           return true;
 
         case R.id.delete_opt:
-          ShipmentDialogFragment.newInstance(R.id.delete_opt, mSelectedList).show(getFragmentManager(), ShipmentDialogFragment.TAG);
+          new SwipeDismissHandler(getView(), new Handler(),
+              R.string.toast_deleted_count_single, R.string.toast_deleted_count_multiple,
+              R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
+            @Override
+            public void onItemClicked(@NonNull Object item) {}
+
+            @Override
+            public void onItemSelected(@NonNull Object item) {}
+
+            @Override
+            public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
+              List<Shipment> shipments = buildShipmentListFromMap(items);
+              dh.deleteShipments(shipments);
+            }
+          }).dismiss(mListAdapter.getItemPositions(mSelectedList));
+          clearSelection();
+
           return true;
 
         case R.id.fav_opt:
           // Mark or unmark selected items as favorites depending on their collective favorite state
           boolean areAllFavorites = mCollectiveActionMap.get(actionId);
+
           for (Shipment shipment : mSelectedList) {
             String cod = shipment.getNumber();
             if (areAllFavorites) dh.unfavPostalItem(cod);
@@ -380,7 +410,7 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
       switch (actionId) {
         case R.id.place_opt:
           try {
-            UIUtils.locateItem(mActivity, firstItem);
+            UIUtils.locateItem(mActivity, mSelectedList.get(0));
           } catch (Exception e) {
             UIUtils.showToast(mActivity, e.getMessage());
           }
@@ -391,7 +421,7 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
           return true;
 
         case R.id.sro_opt:
-          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", firstItem).setAction("sro");
+          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", mSelectedList.get(0)).setAction("sro");
           startActivity(intent);
           return true;
       }
@@ -401,9 +431,32 @@ public class ShipmentListFragment extends ShipmentFragment implements Contextual
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+      mActionMode = null;
+
       mCollectiveActionMap.clear();
       mSelectedList.clear();
-      mActionMode = null;
+      mListAdapter.notifyDataSetChanged();
+    }
+
+    public void setItemCheckedState(Shipment shipment, boolean checked) {
+      if (checked) {
+        mSelectedList.add(shipment);
+
+      } else {
+        mSelectedList.remove(shipment);
+      }
+
+      if (mSelectedList.isEmpty()) {
+        finishActionMode();
+
+      } else {
+        mActionMode.invalidate();
+        mListAdapter.notifyDataSetChanged();
+      }
+    }
+
+    public void toggleItemCheckedState(Shipment shipment) {
+      setItemCheckedState(shipment, !mSelectedList.contains(shipment));
     }
 
     public boolean hasActionMode() {

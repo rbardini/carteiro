@@ -88,11 +88,15 @@
   <string name="toast_item_renamed">%1$s renomeado para %2$s.</string>
   <string name="toast_item_renamed_empty">Nome removido de %s.</string>
   <string name="toast_item_archived">%s arquivado.</string>
-  <string name="toast_items_archived">%d objetos arquivados.</string>
+  <string name="toast_archived_count_single">Arquivado</string>
+  <string name="toast_archived_count_multiple">Arquivado (%d)</string>
+  <string name="toast_unarchived_count_single">Movido para Todos</string>
+  <string name="toast_unarchived_count_multiple">Movido para Todos (%d)</string>
   <string name="toast_item_unarchived">%1$s movido para %2$s.</string>
-  <string name="toast_items_unarchived">%1$d objetos movidos para %2$s.</string>
   <string name="toast_item_deleted">%s excluído.</string>
   <string name="toast_items_deleted">%d objetos excluídos.</string>
+  <string name="toast_deleted_count_single">Excluído</string>
+  <string name="toast_deleted_count_multiple">Excluído (%d)</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_net_error">Oops! O serviço dos Correios está fora do ar, ou a conexão falhou :(</string>
   <string name="toast_unexpected_error">Oops! Algo de errado aconteceu :( Por favor, tente novamente mais tarde.</string>
@@ -103,10 +107,6 @@
   <string name="toast_backup_not_found">Nenhum backup encontrado.</string>
   <string name="toast_external_storage_write_error">Armazenamento externo não montado ou sem acesso de escrita.</string>
   <string name="toast_external_storage_read_error">Armazenamento externo não montado ou sem acesso de leitura.</string>
-
-  <!-- Labels -->
-  <string name="label_item_archived">Arquivado</string>
-  <string name="label_item_deleted">Excluído</string>
 
   <!-- Context Menu -->
   <string name="opt_search">Pesquisar</string>

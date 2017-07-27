@@ -8,10 +8,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView style="@style/ListView"
+    <com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView
       android:id="@android:id/list"
-      android:background="@color/list_background"
-      android:paddingBottom="@dimen/tile_min_height" />
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingBottom="@dimen/tile_min_height"
+      android:clipToPadding="false" />
 
   </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -19,7 +21,8 @@
     android:id="@android:id/empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/keyline_1">
+    android:layout_margin="@dimen/keyline_1"
+    android:visibility="gone">
 
     <ImageView
       android:id="@+id/placeholder"

@@ -1,7 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.Activity;
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -9,7 +9,7 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 
-public abstract class ShipmentFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class ShipmentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
   protected Activity mActivity;
   protected CarteiroApplication app;
   protected DatabaseHelper dh;

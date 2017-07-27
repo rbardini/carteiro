@@ -2,6 +2,8 @@ package com.rbardini.carteiro.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ public class RecordFragment extends ShipmentFragment {
 
   private Shipment mShipment;
   private ShipmentAdapter mListAdapter;
+  private RecyclerView mRecyclerView;
 
   public static RecordFragment newInstance(Shipment shipment) {
     RecordFragment f = new RecordFragment();
@@ -34,15 +37,21 @@ public class RecordFragment extends ShipmentFragment {
     setRetainInstance(true);
 
     mShipment = (Shipment) getArguments().getSerializable("shipment");
-    mListAdapter = new ShipmentAdapter(mActivity, mShipment);
-    setListAdapter(mListAdapter);
 
     updateList();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.list_record, container, false);
+    View view = inflater.inflate(R.layout.list_record, container, false);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+    mListAdapter = new ShipmentAdapter(getActivity(), mShipment);
+    mRecyclerView = view.findViewById(android.R.id.list);
+    mRecyclerView.setLayoutManager(layoutManager);
+    mRecyclerView.setAdapter(mListAdapter);
+
+    return view;
   }
 
   @Override

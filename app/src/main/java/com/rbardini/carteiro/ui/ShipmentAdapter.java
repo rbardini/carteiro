@@ -3,11 +3,11 @@ package com.rbardini.carteiro.ui;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +17,7 @@ import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.util.PostalUtils.Status;
 import com.rbardini.carteiro.util.UIUtils;
 
-public class ShipmentAdapter extends BaseAdapter {
+public class ShipmentAdapter extends RecyclerView.Adapter<ShipmentAdapter.ViewHolder> {
   private final Context mContext;
   private final Shipment mShipment;
   private final LayoutInflater mInflater;
@@ -26,51 +26,17 @@ public class ShipmentAdapter extends BaseAdapter {
     mContext = context;
     mShipment = shipment;
 
-    // Cache the LayoutInflate to avoid asking for a new one each time
+    // Cache the LayoutInflater to avoid asking for a new one each time
     mInflater = LayoutInflater.from(context);
   }
 
   @Override
-  public int getCount() {
-    return mShipment.size();
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    return new ViewHolder(mInflater.inflate(R.layout.list_record_item, parent, false));
   }
 
   @Override
-  public ShipmentRecord getItem(int position) {
-    return mShipment.getRecord(mShipment.size() - position - 1);
-  }
-
-  @Override
-  public long getItemId(int position) {
-    return position;
-  }
-
-  @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    // A ViewHolder keeps references to children views to avoid unnecessary calls to findViewById() on each row
-    ViewHolder holder;
-
-    // When convertView is not null, we can reuse it directly, there is no need to re-inflate it
-    // We only inflate a new View when the convertView supplied by ListView is null
-    if (convertView == null) {
-      convertView = mInflater.inflate(R.layout.list_record_item, parent, false);
-
-      // Creates a ViewHolder and store references to the two children views we want to bind data to
-      holder = new ViewHolder();
-      holder.timeline = convertView.findViewById(R.id.timeline);
-      holder.date = convertView.findViewById(R.id.text_postal_status_date);
-      holder.time = convertView.findViewById(R.id.text_postal_status_time);
-      holder.status = convertView.findViewById(R.id.text_postal_status_title);
-      holder.loc = convertView.findViewById(R.id.text_postal_status_loc);
-      holder.info = convertView.findViewById(R.id.text_postal_status_info);
-      holder.icon = convertView.findViewById(R.id.img_postal_status);
-
-      convertView.setTag(holder);
-    } else {
-      // Get the ViewHolder back to get fast access to the TextView and the ImageView
-      holder = (ViewHolder) convertView.getTag();
-    }
-
+  public void onBindViewHolder(ViewHolder holder, int position) {
     ShipmentRecord record = getItem(position);
 
     // Bind the data efficiently with the holder
@@ -101,13 +67,32 @@ public class ShipmentAdapter extends BaseAdapter {
         holder.timeline.setBackgroundResource(R.drawable.timeline_middle);
       }
     }
-
-    return convertView;
   }
 
-  private static class ViewHolder {
+  @Override
+  public int getItemCount() {
+    return mShipment.size();
+  }
+
+  private ShipmentRecord getItem(int position) {
+    return mShipment.getRecord(mShipment.size() - position - 1);
+  }
+
+  final class ViewHolder extends RecyclerView.ViewHolder {
     private View timeline;
     private TextView date, time, status, loc, info;
     private ImageView icon;
+
+    ViewHolder(View itemView) {
+      super(itemView);
+
+      timeline = itemView.findViewById(R.id.timeline);
+      date = itemView.findViewById(R.id.text_postal_status_date);
+      time = itemView.findViewById(R.id.text_postal_status_time);
+      status = itemView.findViewById(R.id.text_postal_status_title);
+      loc = itemView.findViewById(R.id.text_postal_status_loc);
+      info = itemView.findViewById(R.id.text_postal_status_info);
+      icon = itemView.findViewById(R.id.img_postal_status);
+    }
   }
 }
