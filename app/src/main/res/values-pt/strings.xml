@@ -19,7 +19,7 @@
   <string name="backup_btn">Criar</string>
   <string name="restore_btn">Restaurar</string>
   <string name="undo_btn">Desfazer</string>
-  <string name="status_btn">Status</string>
+  <string name="check_btn">Checar</string>
 
   <!-- Main Navigation Drawer -->
   <string name="category_all">Todos</string>
@@ -150,17 +150,6 @@
   <string name="pref_syncing_header">Sincronização</string>
   <string name="pref_auto_sync_title">Sincronização automática</string>
   <string name="pref_auto_sync_summary">Sincronizar objetos automaticamente</string>
-  <string name="pref_refresh_interval_title">Intervalo de sincronização</string>
-  <string name="pref_refresh_interval_summary">Sincronizar a cada %s</string>
-  <string-array name="array_refresh_interval">
-    <item>5 minutos</item>
-    <item>15 minutos</item>
-    <item>30 minutos</item>
-    <item>1 hora</item>
-    <item>3 horas</item>
-    <item>6 horas</item>
-    <item>1 dia</item>
-  </string-array>
   <string name="pref_sync_favorites_only_title">Sincronizar apenas favoritos</string>
   <string name="pref_sync_favorites_only_summary">Sincronizar apenas objetos marcados como favoritos</string>
   <string name="pref_dont_sync_delivered_items_title">Não sincronizar objetos entregues</string>

@@ -75,20 +75,20 @@
       android:parentActivityName=".ui.MainActivity">
     </activity>
 
-    <service android:name=".svc.SyncService" />
+    <service android:name=".svc.SyncService"
+      android:permission="android.permission.BIND_JOB_SERVICE" />
 
-    <receiver android:name=".svc.AlarmReceiver">
+    <receiver android:name=".svc.BootReceiver"
+      android:exported="false">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-      </intent-filter>
-      <intent-filter>
-       <action android:name="android.intent.action.PACKAGE_REPLACED" />
-       <data android:scheme="package" />
+        <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+        <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
       </intent-filter>
     </receiver>
 
     <provider android:name=".svc.SearchProvider"
-      android:exported="false"
       android:authorities="com.rbardini.carteiro.SearchProvider" />
 
     <!-- Enable background dispatching to improve delivery on non-Google Play devices -->

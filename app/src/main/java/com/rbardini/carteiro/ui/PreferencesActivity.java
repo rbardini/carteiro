@@ -11,7 +11,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
@@ -28,7 +27,7 @@ import android.widget.EditText;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -110,8 +109,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       addPreferencesFromResource(R.xml.preferences_syncing);
-
-      setRefreshIntervalPreference();
     }
 
     @Override
@@ -120,24 +117,18 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
       if (key.equals(getString(R.string.pref_key_auto_sync))) {
         if (sharedPreferences.getBoolean(key, true)) {
-          SyncService.scheduleSync(getActivity());
+          SyncScheduler.schedule(getActivity());
 
         } else {
-          SyncService.unscheduleSync(getActivity());
+          SyncScheduler.unschedule(getActivity());
         }
 
         return;
       }
 
-      if (key.equals(getString(R.string.pref_key_refresh_interval))) {
-        setRefreshIntervalPreference();
-        SyncService.scheduleSync(getActivity());
+      if (key.equals(getString(R.string.pref_key_sync_wifi_only))) {
+        SyncScheduler.schedule(getActivity());
       }
-    }
-
-    private void setRefreshIntervalPreference() {
-      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_refresh_interval));
-      pref.setSummary(String.format(getString(R.string.pref_refresh_interval_summary), pref.getEntry()));
     }
   }
 

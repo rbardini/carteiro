@@ -20,7 +20,7 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
-import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
@@ -93,10 +93,10 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
   @Override
   public void onSyncStatusChange(Intent intent) {
-    int status = intent.getIntExtra(SyncService.EXTRA_STATUS, SyncService.STATUS_FINISHED);
+    int status = intent.getIntExtra(SyncTask.EXTRA_STATUS, SyncTask.STATUS_FINISHED);
 
     switch (status) {
-      case SyncService.STATUS_FINISHED:
+      case SyncTask.STATUS_FINISHED:
         updateRefreshStatus();
         mRecordFragment.refreshList();
         break;

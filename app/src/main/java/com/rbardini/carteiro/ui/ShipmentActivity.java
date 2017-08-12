@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +20,7 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.Shipment;
-import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -49,7 +48,7 @@ public abstract class ShipmentActivity extends AppCompatActivity implements Ship
   @Override
   protected void onResume() {
     super.onResume();
-    LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(SyncService.ACTION_SYNC));
+    LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(SyncTask.ACTION_SYNC));
     updateRefreshStatus();
   }
 
@@ -72,34 +71,32 @@ public abstract class ShipmentActivity extends AppCompatActivity implements Ship
   }
 
   public void onSyncStatusChange(Intent intent) {
-    int status = intent.getIntExtra(SyncService.EXTRA_STATUS, SyncService.STATUS_FINISHED);
+    int status = intent.getIntExtra(SyncTask.EXTRA_STATUS, SyncTask.STATUS_FINISHED);
 
     switch (status) {
-      case SyncService.STATUS_RUNNING:
+      case SyncTask.STATUS_RUNNING:
         updateRefreshStatus();
         break;
 
-      case SyncService.STATUS_FINISHED:
+      case SyncTask.STATUS_FINISHED:
         updateRefreshStatus();
         refreshList();
         break;
 
-      case SyncService.STATUS_ERROR:
+      case SyncTask.STATUS_ERROR:
         updateRefreshStatus();
 
         Snackbar snackbar = Snackbar
           .make(findViewById(R.id.content), R.string.toast_net_error, Snackbar.LENGTH_LONG)
-          .setAction(R.string.status_btn, new View.OnClickListener() {
+          .setAction(R.string.check_btn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               UIUtils.openURL(ShipmentActivity.this, PostalUtils.HEALTH_URL);
             }
-          })
-          .setActionTextColor(ContextCompat.getColor(this, R.color.error_foreground));
-        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.error_background));
+          });
         snackbar.show();
 
-        Log.e(TAG, intent.getStringExtra(SyncService.EXTRA_ERROR));
+        Log.e(TAG, intent.getStringExtra(SyncTask.EXTRA_ERROR));
         break;
     }
   }

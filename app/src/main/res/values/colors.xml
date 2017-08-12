@@ -20,7 +20,6 @@
   <color name="postal_status_returned">@color/red_400</color>
 
   <color name="success_background">@color/green_500</color>
-  <color name="error_foreground">@color/red_100</color>
   <color name="error_background">@color/red_700</color>
   <color name="dialog_scrim">#99000000</color>
 

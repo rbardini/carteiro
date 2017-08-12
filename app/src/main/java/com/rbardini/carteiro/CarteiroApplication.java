@@ -13,7 +13,8 @@ import android.support.v7.app.AppCompatDelegate;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.rbardini.carteiro.db.DatabaseHelper;
-import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.svc.SyncScheduler;
+import com.rbardini.carteiro.svc.SyncTask;
 
 public class CarteiroApplication extends Application {
   public static boolean syncing = false;
@@ -27,9 +28,9 @@ public class CarteiroApplication extends Application {
     LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
-        syncing = intent.getBooleanExtra(SyncService.EXTRA_RUNNING, false);
+        syncing = intent.getBooleanExtra(SyncTask.EXTRA_RUNNING, false);
       }
-    }, new IntentFilter(SyncService.ACTION_SYNC));
+    }, new IntentFilter(SyncTask.ACTION_SYNC));
 
     GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
     tracker = analytics.newTracker(R.xml.tracker_config);
@@ -64,8 +65,8 @@ public class CarteiroApplication extends Application {
     boolean autoSync = prefs.getBoolean(getString(R.string.pref_key_auto_sync), true);
 
     if (!onBoot && autoSync) {
-      // Schedule sync service on first start
-      SyncService.scheduleSync(this);
+      // Schedule sync on first start
+      SyncScheduler.schedule(this);
       prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
     }
   }

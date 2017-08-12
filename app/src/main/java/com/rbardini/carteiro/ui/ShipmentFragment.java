@@ -42,7 +42,6 @@ public abstract class ShipmentFragment extends Fragment implements SwipeRefreshL
 
   public void updateRefreshStatus() {
     if (mSwipeRefreshLayout == null) return;
-
     mSwipeRefreshLayout.setRefreshing(CarteiroApplication.syncing);
   }
 

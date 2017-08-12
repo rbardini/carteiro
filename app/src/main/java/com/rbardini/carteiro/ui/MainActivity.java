@@ -3,7 +3,6 @@ package com.rbardini.carteiro.ui;
 import android.app.ActivityOptions;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -21,8 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.svc.SyncService;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
@@ -33,9 +32,7 @@ public class MainActivity extends ShipmentActivity {
 
   private FragmentManager mFragmentManager;
   private ShipmentListFragment mCurrentFragment;
-  private NotificationManager mNotificationManager;
   private Handler mHandler;
-  private View mMainContainer;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   private NavigationView mNavigationView;
@@ -46,13 +43,10 @@ public class MainActivity extends ShipmentActivity {
     setContentView(R.layout.activity_main);
 
     mFragmentManager = getFragmentManager();
-    mNotificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
     mHandler = new Handler();
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-    mMainContainer = findViewById(R.id.main_content);
 
     setupNavigationDrawer();
     setupAddButton();
@@ -73,7 +67,7 @@ public class MainActivity extends ShipmentActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    mNotificationManager.cancel(SyncService.NOTIFICATION_NEW_UPDATE);
+    NotificationUtils.cancelShipmentUpdates(this);
   }
 
   @Override

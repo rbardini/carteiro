@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
-import com.rbardini.carteiro.svc.SyncService;
+import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView;
@@ -157,9 +157,11 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   @Override
   public void onRefresh() {
-    if (!CarteiroApplication.syncing) {
-      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("shipments", mList);
-      mActivity.startService(intent);
+    if (CarteiroApplication.syncing || mList.isEmpty()) {
+      updateRefreshStatus();
+
+    } else {
+      SyncTask.run(app, mList);
     }
   }
 
@@ -334,8 +336,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
       switch (actionId) {
         case R.id.refresh_opt:
           if (!CarteiroApplication.syncing) {
-            Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("shipments", mSelectedList);
-            mActivity.startService(intent);
+            SyncTask.run(app, mSelectedList);
           }
           return true;
 

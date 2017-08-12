@@ -24,7 +24,6 @@
   <string name="pref_key_always_add_returned" translatable="false">alwaysaddreturned</string>
   <string name="pref_key_always_add_net_error" translatable="false">alwaysaddneterror</string>
   <string name="pref_key_auto_sync" translatable="false">autosync</string>
-  <string name="pref_key_refresh_interval" translatable="false">refreshinterval</string>
   <string name="pref_key_sync_favorites_only" translatable="false">syncfavoritesonly</string>
   <string name="pref_key_dont_sync_delivered_items" translatable="false">dontsyncdelivereditems</string>
   <string name="pref_key_sync_wifi_only" translatable="false">syncwifionly</string>

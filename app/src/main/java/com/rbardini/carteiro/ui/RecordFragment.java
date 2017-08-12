@@ -1,6 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +10,7 @@ import android.view.ViewGroup;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
-import com.rbardini.carteiro.svc.SyncService;
-
-import java.util.ArrayList;
+import com.rbardini.carteiro.svc.SyncTask;
 
 public class RecordFragment extends ShipmentFragment {
   public static final String TAG = "RecordFragment";
@@ -57,11 +54,7 @@ public class RecordFragment extends ShipmentFragment {
   @Override
   public void onRefresh() {
     if (!CarteiroApplication.syncing) {
-      ArrayList<Shipment> shipments = new ArrayList<>();
-      shipments.add(mShipment);
-
-      Intent intent = new Intent(Intent.ACTION_SYNC, null, mActivity, SyncService.class).putExtra("shipments", shipments);
-      mActivity.startService(intent);
+      SyncTask.run(app, mShipment);
     }
   }
 

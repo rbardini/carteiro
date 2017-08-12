@@ -53,12 +53,14 @@ data class Shipment(val number: String) : Serializable {
 
   fun isEmpty() = records.isEmpty()
 
+  fun isNotEmpty() = records.isNotEmpty()
+
   fun clear() = records.clear()
 
   fun getService() = PostalUtils.Service.getService(number)
 
   fun getFlag(context: Context): Int {
-    val resourceName = "flag_" + number?.substring(11, 13)?.toLowerCase(Locale.getDefault())
-    return context.resources.getIdentifier(resourceName, "drawable", context.applicationInfo.packageName)
+    val countryCode = number.substring(11, 13).toLowerCase(Locale.getDefault())
+    return context.resources.getIdentifier("flag_$countryCode", "drawable", context.applicationInfo.packageName)
   }
 }
