@@ -23,6 +23,7 @@ import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -30,6 +31,11 @@ import java.util.ArrayList;
 
 public class RecordActivity extends ShipmentActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
+
+  public static final String EXTRA_SHIPMENT = TAG + ".EXTRA_SHIPMENT";
+  public static final String ACTION_LOCATE = TAG + ".ACTION_LOCATE";
+  public static final String ACTION_SHARE = TAG + ".ACTION_SHARE";
+  public static final String ACTION_SRO = TAG + ".ACTION_SRO";
 
   private DatabaseHelper dh;
   private FragmentManager mFragManager;
@@ -74,6 +80,12 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
     setupTransition();
     setTitleBar();
     setFragment(savedInstanceState == null);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    NotificationUtils.cancelShipmentUpdates(this);
   }
 
   @Override
@@ -260,7 +272,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   }
 
   private void setActionBarTitle(CharSequence title) {
-    CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+    CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
     collapsingToolbar.setTitle(title);
   }
 
@@ -277,8 +289,8 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
       return;
     }
 
-    mShipment = (Shipment) extras.getSerializable("shipment");
-    intent.removeExtra("shipment");
+    mShipment = (Shipment) extras.getSerializable(EXTRA_SHIPMENT);
+    intent.removeExtra(EXTRA_SHIPMENT);
 
     if (mShipment.isUnread()) {
       dh.readPostalItem(mShipment.getNumber());
@@ -309,7 +321,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
   private void handleAction(String action) {
     switch (action) {
-      case "locate":
+      case ACTION_LOCATE:
         try {
           UIUtils.locateItem(this, mShipment);
         } catch (Exception e) {
@@ -317,11 +329,11 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
         }
         break;
 
-      case "share":
+      case ACTION_SHARE:
         UIUtils.shareItem(this, mShipment);
         break;
 
-      case "sro":
+      case ACTION_SRO:
         mOnlySRO = true;
         break;
     }

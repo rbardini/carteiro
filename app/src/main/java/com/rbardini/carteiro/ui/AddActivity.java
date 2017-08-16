@@ -507,7 +507,7 @@ public class AddActivity extends AppCompatActivity {
 
     mShipment.saveTo(dh);
 
-    Intent intent = new Intent(this, RecordActivity.class).putExtra("shipment", mShipment);
+    Intent intent = new Intent(this, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, mShipment);
     intent.putExtra("isNew", true);
     startActivity(intent);
     finish();

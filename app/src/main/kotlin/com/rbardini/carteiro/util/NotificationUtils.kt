@@ -21,8 +21,11 @@ import com.rbardini.carteiro.util.PostalUtils.Status
 import java.util.*
 
 object NotificationUtils {
-  const val NOTIFICATION_ONGOING_SYNC = 1
-  const val NOTIFICATION_NEW_UPDATE = 2
+  private const val NOTIFICATION_ONGOING_SYNC_ID = 1
+  private const val NOTIFICATION_UPDATE_SUMMARY_ID = 2
+
+  private const val NOTIFICATION_NEW_UPDATE_TAG = "NOTIFICATION_NEW_UPDATE"
+  private const val NOTIFICATION_UPDATE_GROUP_KEY = "NOTIFICATION_UPDATE_GROUP"
 
   fun notifyOngoingSyncIfAllowed(context: Context) {
     if (shouldNotifyOnGoingSync(context)) notifyOngoingSync(context)
@@ -37,10 +40,10 @@ object NotificationUtils {
       .setProgress(0, 0, true)
       .setOngoing(true)
 
-    getNotificationManager(context).notify(NOTIFICATION_ONGOING_SYNC, notification.build())
+    getNotificationManager(context).notify(NOTIFICATION_ONGOING_SYNC_ID, notification.build())
   }
 
-  fun cancelOngoingSync(context: Context) = getNotificationManager(context).cancel(NOTIFICATION_ONGOING_SYNC)
+  fun cancelOngoingSync(context: Context) = getNotificationManager(context).cancel(NOTIFICATION_ONGOING_SYNC_ID)
 
   fun notifyShipmentUpdatesIfAllowed(context: Context, shipments: List<Shipment>) {
     if (shipments.isEmpty()) return
@@ -51,77 +54,82 @@ object NotificationUtils {
     val notifiableShipments = shipments.filter { shouldNotifyShipmentUpdate(it, flags) }
     if (notifiableShipments.isEmpty()) return
 
+    val shouldBundle = notifiableShipments.size > 1
+    notifiableShipments.forEach { notifyShipmentUpdate(context, it, shouldBundle) }
+    if (shouldBundle) notifyShipmentUpdates(context, notifiableShipments)
+  }
+
+  private fun notifyShipmentUpdate(context: Context, shipment: Shipment, bundled: Boolean) {
+    val lastRecord = shipment.getLastRecord()
+    val ticker = String.format(context.getString(R.string.notf_tckr_single_obj), shipment.getDescription(), lastRecord?.status?.toLowerCase(Locale.getDefault()))
+    val intent = Intent(context, RecordActivity::class.java).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment)
+
+    val notification = getBaseShipmentUpdateNotificationBuilder(context, intent, !bundled)
+      .setStyle(Notification.BigTextStyle().bigText(lastRecord?.getDescription()))
+      .setTicker(ticker)
+      .setContentTitle(shipment.getDescription())
+      .setContentText(lastRecord?.status)
+      .setWhen(lastRecord?.date?.time!!)
+      .setColor(ContextCompat.getColor(context, UIUtils.getPostalStatusColor(lastRecord.status)))
+      .setSubText(lastRecord.local)
+      .addAction(Notification.Action.Builder(R.drawable.ic_place_white_24dp, context.getString(R.string.opt_view_place),
+          getNotificationActionIntent(context, intent, shipment, RecordActivity.ACTION_LOCATE)).build())
+      .addAction(Notification.Action.Builder(R.drawable.ic_share_white_24dp, context.getString(R.string.opt_share),
+          getNotificationActionIntent(context, intent, shipment, RecordActivity.ACTION_SHARE)).build())
+
+    getNotificationManager(context).notify(NOTIFICATION_NEW_UPDATE_TAG, shipment.number.hashCode(), notification.build())
+  }
+
+  private fun notifyShipmentUpdates(context: Context, shipments: List<Shipment>) {
+    val deliveredCount = shipments.count { Status.getCategory(it.getLastRecord()?.status) == Category.DELIVERED }
+    val ticker = String.format(context.getString(R.string.notf_tckr_multi_obj), shipments.size)
+    val intent = Intent(context, MainActivity::class.java)
+
+    val style = Notification.InboxStyle().setSummaryText(context.resources.getQuantityString(R.plurals.notf_summ_multi_obj, deliveredCount, deliveredCount))
+    val lineFormat = context.getString(R.string.notf_line_multi_obj)
+    val contentText = TextUtils.join(", ", shipments.map {
+      style.addLine(Html.fromHtml(String.format(lineFormat, it.getDescription(), it.getLastRecord()?.status)))
+      it.getDescription()
+    })
+
+    val notification = getBaseShipmentUpdateNotificationBuilder(context, intent, true)
+      .setStyle(style)
+      .setTicker(ticker)
+      .setContentTitle(ticker)
+      .setContentText(contentText)
+      .setWhen(System.currentTimeMillis())
+      .setNumber(shipments.size)
+      .setGroupSummary(true)
+
+    getNotificationManager(context).notify(NOTIFICATION_UPDATE_SUMMARY_ID, notification.build())
+  }
+
+  private fun getBaseShipmentUpdateNotificationBuilder(context: Context, intent: Intent, unique: Boolean): Notification.Builder {
     val prefs = getSharedPreferences(context)
+    val stackBuilder = TaskStackBuilder.create(context).addNextIntentWithParentStack(intent)
+
     val notification = Notification.Builder(context)
+      .setSmallIcon(R.drawable.ic_stat_notify)
+      .setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT))
+      .setAutoCancel(true)
+      .setGroup(NOTIFICATION_UPDATE_GROUP_KEY)
 
-    val ticker: String
-    val title: String?
-    val desc: String?
-    val date: Long?
-    val intent: Intent
-    val style: Notification.Style
-
-    if (notifiableShipments.size == 1) {
-      val shipment = notifiableShipments[0]
-      val lastRecord = shipment.getLastRecord()
-      val actionIntent = Intent(context, RecordActivity::class.java).putExtra("shipment", shipment)
-
-      ticker = String.format(context.getString(R.string.notf_tckr_single_obj), shipment.getDescription(), lastRecord?.status?.toLowerCase(Locale.getDefault()))
-      title = shipment.getDescription()
-      desc = lastRecord?.status
-      date = lastRecord?.date?.time
-      intent = Intent(context, RecordActivity::class.java).putExtra("shipment", shipment)
-      style = Notification.BigTextStyle().bigText(lastRecord?.getDescription())
-
-      notification
-        .setColor(ContextCompat.getColor(context, UIUtils.getPostalStatusColor(lastRecord?.status)))
-        .setSubText(lastRecord?.local)
-        .addAction(Notification.Action.Builder(R.drawable.ic_place_white_24dp, context.getString(R.string.opt_view_place),
-            PendingIntent.getActivity(context, 0, Intent(actionIntent).setAction("locate"), PendingIntent.FLAG_CANCEL_CURRENT)).build())
-        .addAction(Notification.Action.Builder(R.drawable.ic_share_white_24dp, context.getString(R.string.opt_share),
-            PendingIntent.getActivity(context, 0, Intent(actionIntent).setAction("share"), PendingIntent.FLAG_CANCEL_CURRENT)).build())
-
-    } else {
-      val deliveredCount = notifiableShipments.count { Status.getCategory(it.getLastRecord()?.status) == Category.DELIVERED }
-      val lineFormat = context.getString(R.string.notf_line_multi_obj)
-
-      ticker = String.format(context.getString(R.string.notf_tckr_multi_obj), notifiableShipments.size)
-      title = ticker
-      date = System.currentTimeMillis()
-      intent = Intent(context, MainActivity::class.java)
-      style = Notification.InboxStyle().setSummaryText(context.resources.getQuantityString(R.plurals.notf_summ_multi_obj, deliveredCount, deliveredCount))
-
-      desc = TextUtils.join(", ", notifiableShipments.map {
-        style.addLine(Html.fromHtml(String.format(lineFormat, it.getDescription(), it.getLastRecord()?.status)))
-        it.getDescription()
-      })
+    if (unique) {
+      notification.setSound(Uri.parse(prefs.getString(context.getString(R.string.pref_key_ringtone), "DEFAULT_SOUND")))
+      if (prefs.getBoolean(context.getString(R.string.pref_key_lights), true)) notification.setLights(Color.YELLOW, 1000, 1200)
+      if (prefs.getBoolean(context.getString(R.string.pref_key_vibrate), true)) notification.setDefaults(Notification.DEFAULT_VIBRATE)
     }
 
-    val stackBuilder = TaskStackBuilder.create(context)
-    stackBuilder.addNextIntentWithParentStack(intent)
-    val pending = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT)
-
-    notification
-      .setStyle(style)
-      .setSmallIcon(R.drawable.ic_stat_notify)
-      .setTicker(ticker)
-      .setContentTitle(title)
-      .setContentText(desc)
-      .setContentIntent(pending)
-      .setWhen(date!!)
-      .setAutoCancel(true)
-      .setSound(Uri.parse(prefs.getString(context.getString(R.string.pref_key_ringtone), "DEFAULT_SOUND")))
-
-    if (prefs.getBoolean(context.getString(R.string.pref_key_lights), true)) notification.setLights(Color.YELLOW, 1000, 1200)
-    if (prefs.getBoolean(context.getString(R.string.pref_key_vibrate), true)) notification.setDefaults(Notification.DEFAULT_VIBRATE)
-
-    getNotificationManager(context).notify(NOTIFICATION_NEW_UPDATE, notification.build())
+    return notification
   }
 
   @JvmStatic
-  fun cancelShipmentUpdates(context: Context) = getNotificationManager(context).cancel(NOTIFICATION_NEW_UPDATE)
+  fun cancelShipmentUpdates(context: Context) = getNotificationManager(context).cancel(NOTIFICATION_UPDATE_SUMMARY_ID)
 
   private fun getSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
+
+  private fun getNotificationActionIntent(context: Context, intent: Intent, shipment: Shipment, action: String) =
+    PendingIntent.getActivity(context, shipment.number.hashCode(), Intent(intent).setAction(action), PendingIntent.FLAG_UPDATE_CURRENT)
 
   private fun shouldNotifyOnGoingSync(context: Context) =
     getSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_notify_sync), false)

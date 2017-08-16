@@ -86,7 +86,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
     // Restore postal and selected lists
     if (savedInstanceState != null) {
-      mList = (ArrayList<Shipment>) savedInstanceState.getSerializable("shipment");
+      mList = (ArrayList<Shipment>) savedInstanceState.getSerializable("shipments");
       mSelectedList = (ArrayList<Shipment>) savedInstanceState.getSerializable("selectedShipments");
 
     } else {
@@ -151,7 +151,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable("shipment", mList);
+    outState.putSerializable("shipments", mList);
     outState.putSerializable("selectedShipments", mSelectedList);
   }
 
@@ -190,7 +190,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     }
 
     View icon = viewHolder.itemView.findViewById(R.id.img_postal_status);
-    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", shipment);
+    Intent intent = new Intent(mActivity, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment);
 
     RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.shipment_color), (int) icon.getTag(R.id.shipment_icon), 2);
     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_record));
@@ -332,7 +332,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
       final int actionId = item.getItemId();
 
-      /* Multiple items actions */
+      // Multiple items actions
       switch (actionId) {
         case R.id.refresh_opt:
           if (!CarteiroApplication.syncing) {
@@ -407,7 +407,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
           return true;
       }
 
-      /* Single item actions */
+      // Single item actions
       switch (actionId) {
         case R.id.place_opt:
           try {
@@ -418,11 +418,15 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
           return true;
 
         case R.id.rename_opt:
-          ShipmentDialogFragment.newInstance(R.id.rename_opt, mSelectedList).show(getFragmentManager(), ShipmentDialogFragment.TAG);
+          ShipmentDialogFragment
+            .newInstance(R.id.rename_opt, mSelectedList)
+            .show(getFragmentManager(), ShipmentDialogFragment.TAG);
           return true;
 
         case R.id.sro_opt:
-          Intent intent = new Intent(mActivity, RecordActivity.class).putExtra("shipment", mSelectedList.get(0)).setAction("sro");
+          Intent intent = new Intent(mActivity, RecordActivity.class)
+            .putExtra(RecordActivity.EXTRA_SHIPMENT, mSelectedList.get(0))
+            .setAction(RecordActivity.ACTION_SRO);
           startActivity(intent);
           return true;
       }

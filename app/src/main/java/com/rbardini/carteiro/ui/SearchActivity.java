@@ -83,7 +83,7 @@ public class SearchActivity extends ShipmentActivity {
 
     } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
       Shipment shipment = app.getDatabaseHelper().getShallowShipment(intent.getDataString());
-      Intent recordIntent = new Intent(this, RecordActivity.class).putExtra("shipment", shipment);
+      Intent recordIntent = new Intent(this, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment);
       startActivity(recordIntent);
       finish();
     }
