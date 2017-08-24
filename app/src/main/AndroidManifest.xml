@@ -73,6 +73,10 @@
     <activity android:name=".ui.PreferencesActivity"
       android:label="@string/title_preferences"
       android:parentActivityName=".ui.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+      </intent-filter>
     </activity>
 
     <service android:name=".svc.SyncService"

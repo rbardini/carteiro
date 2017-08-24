@@ -85,7 +85,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   @Override
   protected void onResume() {
     super.onResume();
-    NotificationUtils.cancelShipmentUpdates(this);
+    NotificationUtils.cancelShipmentUpdateNotifications(this);
   }
 
   @Override

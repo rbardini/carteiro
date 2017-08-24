@@ -6,19 +6,19 @@
    android:summary="@string/pref_auto_sync_summary"
    android:defaultValue="true" />
 
-  <CheckBoxPreference android:key="@string/pref_key_sync_favorites_only"
+  <SwitchPreference android:key="@string/pref_key_sync_favorites_only"
     android:title="@string/pref_sync_favorites_only_title"
     android:summary="@string/pref_sync_favorites_only_summary"
     android:defaultValue="false"
     android:dependency="@string/pref_key_auto_sync" />
 
-  <CheckBoxPreference android:key="@string/pref_key_dont_sync_delivered_items"
+  <SwitchPreference android:key="@string/pref_key_dont_sync_delivered_items"
     android:title="@string/pref_dont_sync_delivered_items_title"
     android:summary="@string/pref_dont_sync_delivered_items_summary"
     android:defaultValue="false"
     android:dependency="@string/pref_key_auto_sync" />
 
-  <CheckBoxPreference android:key="@string/pref_key_sync_wifi_only"
+  <SwitchPreference android:key="@string/pref_key_sync_wifi_only"
     android:title="@string/pref_sync_only_wifi_title"
     android:summary="@string/pref_sync_only_wifi_summary"
     android:defaultValue="false"

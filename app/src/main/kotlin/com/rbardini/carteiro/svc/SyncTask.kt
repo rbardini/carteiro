@@ -95,7 +95,7 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
       hasError = true
     }
 
-    NotificationUtils.cancelOngoingSync(app)
+    NotificationUtils.cancelOngoingSyncNotification(app)
 
     if (hasError) {
       broadcaster.sendBroadcast(buildStatusIntent(STATUS_ERROR).putExtra(EXTRA_ERROR, "Sync for ${shipments.size} item(s) failed"))

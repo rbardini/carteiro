@@ -39,6 +39,7 @@
   <string name="pref_key_ringtone" translatable="false">ringtone</string>
   <string name="pref_key_lights" translatable="false">lights</string>
   <string name="pref_key_vibrate" translatable="false">vibrate</string>
+  <string name="pref_key_notification_settings" translatable="false">notificationsettings</string>
   <string name="pref_key_theme" translatable="false">theme</string>
   <string name="pref_key_use_adaptive_keyboard" translatable="false">useadaptivekeyboard</string>
   <string name="pref_key_create_backup" translatable="false">createbackup</string>

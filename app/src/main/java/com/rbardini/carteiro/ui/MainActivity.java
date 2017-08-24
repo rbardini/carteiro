@@ -56,6 +56,8 @@ public class MainActivity extends ShipmentActivity {
     } else {
       mCurrentFragment = getCurrentFragment();
     }
+
+    NotificationUtils.createNotificationChannels(this);
   }
 
   @Override
@@ -67,7 +69,7 @@ public class MainActivity extends ShipmentActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    NotificationUtils.cancelShipmentUpdates(this);
+    NotificationUtils.cancelShipmentUpdateNotifications(this);
   }
 
   @Override

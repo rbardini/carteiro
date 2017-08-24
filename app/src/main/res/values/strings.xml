@@ -61,6 +61,8 @@
   <string name="msg_alert_cod_not_found">Tracking number not found. Check if the page has information about the item.</string>
 
   <!-- Notifications -->
+  <string name="notf_channel_sync">Ongoing syncs</string>
+  <string name="notf_channel_update">Item updates</string>
   <string name="notf_title_syncing">Syncing items&#8230;</string>
   <string name="notf_tckr_single_obj">%1$s: %2$s</string>
   <string name="notf_tckr_multi_obj">%d items updated</string>
@@ -162,21 +164,22 @@
   <string name="pref_activate_notifications_summary">Enable system notifications</string>
   <string name="pref_notify_sync_title">Ongoing syncs</string>
   <string name="pref_notify_sync_summary">Notify progress of ongoing syncs</string>
-  <string name="pref_notify_all_summary">Notify updates of all items</string>
-  <string name="pref_notify_favorites_summary">Notify updates of items marked as favorites</string>
-  <string name="pref_notify_available_summary">Notify updates of items to be picked up or out for departure</string>
-  <string name="pref_notify_delivered_summary">Notify updates of delivered items</string>
-  <string name="pref_notify_irregular_summary">Notify updates of items with issues or being treated</string>
-  <string name="pref_notify_unknown_summary">Notify updates of items not found or whose status is indeterminate</string>
-  <string name="pref_notify_returned_summary">Notify updates of items refused or being returned</string>
+  <string name="pref_notify_all_summary">Notify all items</string>
+  <string name="pref_notify_favorites_summary">Notify items marked as favorites</string>
+  <string name="pref_notify_available_summary">Notify items to be picked up or out for departure</string>
+  <string name="pref_notify_delivered_summary">Notify delivered items</string>
+  <string name="pref_notify_irregular_summary">Notify items with issues or being treated</string>
+  <string name="pref_notify_unknown_summary">Notify items not found or whose status is indeterminate</string>
+  <string name="pref_notify_returned_summary">Notify items refused or being returned</string>
 
+  <string name="pref_categories_category">Categories</string>
   <string name="pref_indication_category">Indication</string>
-  <string name="pref_ringtone_title">Notification ringtone</string>
-  <string name="pref_ringtone_summary">Set notification ringtone</string>
-  <string name="pref_lights_title">Notification light</string>
-  <string name="pref_lights_summary">Flash LED on incoming notifications</string>
+  <string name="pref_ringtone_title">Sound</string>
+  <string name="pref_ringtone_summary">Default notification sound</string>
+  <string name="pref_lights_title">Blink light</string>
   <string name="pref_vibrate_title">Vibrate</string>
-  <string name="pref_vibrate_summary">Vibrate on incoming notifications</string>
+  <string name="pref_notification_settings_title">Additional settings in the system</string>
+  <string name="pref_notification_settings_summary">Sound, vibration, light and more</string>
 
   <string name="pref_appearance_header">Appearance</string>
   <string name="pref_theme_title">Theme</string>

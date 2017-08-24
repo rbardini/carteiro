@@ -61,6 +61,8 @@
   <string name="msg_alert_cod_not_found">Código de rastreamento não encontrado. Verifique se a página possui informações sobre o objeto.</string>
 
   <!-- Notifications -->
+  <string name="notf_channel_sync">Sincronizações em andamento</string>
+  <string name="notf_channel_update">Atualizações de objetos</string>
   <string name="notf_title_syncing">Sincronizando objetos&#8230;</string>
   <string name="notf_tckr_single_obj">%1$s: %2$s</string>
   <string name="notf_tckr_multi_obj">%d objetos atualizados</string>
@@ -162,21 +164,22 @@
   <string name="pref_activate_notifications_summary">Ativar notificações do sistema</string>
   <string name="pref_notify_sync_title">Sincronizações em andamento</string>
   <string name="pref_notify_sync_summary">Notificar progresso de sincronizações em andamento</string>
-  <string name="pref_notify_all_summary">Notificar atualizações de todos os objetos</string>
-  <string name="pref_notify_favorites_summary">Notificar atualizações de objetos marcados como favoritos</string>
-  <string name="pref_notify_available_summary">Notificar atualizações de objetos à retirar ou em entrega</string>
-  <string name="pref_notify_delivered_summary">Notificar atualizações de objetos entregues</string>
-  <string name="pref_notify_irregular_summary">Notificar atualizações de objetos com problemas ou em tratamento</string>
-  <string name="pref_notify_unknown_summary">Notificar atualizações de objetos não encontrados ou indeterminados</string>
-  <string name="pref_notify_returned_summary">Notificar atualizações de objetos devolvidos ou em devolução</string>
+  <string name="pref_notify_all_summary">Notificar todos os objetos</string>
+  <string name="pref_notify_favorites_summary">Notificar objetos marcados como favoritos</string>
+  <string name="pref_notify_available_summary">Notificar objetos a retirar ou em entrega</string>
+  <string name="pref_notify_delivered_summary">Notificar objetos entregues</string>
+  <string name="pref_notify_irregular_summary">Notificar objetos com problemas ou em tratamento</string>
+  <string name="pref_notify_unknown_summary">Notificar objetos não encontrados ou indeterminados</string>
+  <string name="pref_notify_returned_summary">Notificar objetos devolvidos ou em devolução</string>
 
+  <string name="pref_categories_category">Categorias</string>
   <string name="pref_indication_category">Indicação</string>
-  <string name="pref_ringtone_title">Toque de notificação</string>
-  <string name="pref_ringtone_summary">Definir toque de notificação</string>
-  <string name="pref_lights_title">Luz de notificação</string>
-  <string name="pref_lights_summary">Piscar LED ao receber notificações</string>
+  <string name="pref_ringtone_title">Som</string>
+  <string name="pref_ringtone_summary">Som de notificação padrão</string>
+  <string name="pref_lights_title">Piscar a luz</string>
   <string name="pref_vibrate_title">Vibrar</string>
-  <string name="pref_vibrate_summary">Vibrar ao receber notificações</string>
+  <string name="pref_notification_settings_title">Configurações adicionais no sistema</string>
+  <string name="pref_notification_settings_summary">Som, vibração, luz e mais</string>
 
   <string name="pref_appearance_header">Aparência</string>
   <string name="pref_theme_title">Tema</string>

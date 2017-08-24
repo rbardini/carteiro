@@ -4,30 +4,36 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toolbar;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
+import com.rbardini.carteiro.util.Constants;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -36,10 +42,9 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import static com.rbardini.carteiro.util.Constants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
-
-public class PreferencesActivity extends AppCompatPreferenceActivity {
+public class PreferencesActivity extends PreferenceActivity {
   private static CarteiroApplication app;
   private static DatabaseHelper dh;
 
@@ -53,11 +58,13 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.action_bar, root, false);
     root.addView(toolbar, 0);
 
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    setActionBar(toolbar);
+    getActionBar().setDisplayHomeAsUpEnabled(true);
 
     app = (CarteiroApplication) getApplication();
     dh = app.getDatabaseHelper();
+
+    handleIntent();
   }
 
   @Override
@@ -85,7 +92,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
     switch (requestCode) {
-      case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+      case Constants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
         if (grantResults.length == 0) {
           onBackPressed();
           return;
@@ -102,6 +109,20 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
   @Override
   protected boolean isValidFragment(String fragmentName) {
     return fragments.contains(fragmentName);
+  }
+
+  private void handleIntent() {
+    Intent intent = getIntent();
+    if (intent == null) return;
+
+    Set<String> categories = intent.getCategories();
+    if (categories == null || categories.isEmpty()) return;
+
+    if (categories.contains("android.intent.category.NOTIFICATION_PREFERENCES")) {
+      Intent fragmentIntent = new Intent(this, PreferencesActivity.class)
+          .putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, NotificationPreferences.class.getName());
+      startActivity(fragmentIntent);
+    }
   }
 
   public static class SyncingPreferences extends PreferencesFragment {
@@ -139,8 +160,30 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       addPreferencesFromResource(R.xml.preferences_notification);
+      addPreferencesFromResource(R.xml.preferences_notification_indication);
 
-      setNotificationSoundPreference();
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        setNotificationSettingsPreference();
+
+      } else {
+        setNotificationSoundPreference();
+      }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setNotificationSettingsPreference() {
+      Preference pref = findPreference(getString(R.string.pref_key_notification_settings));
+      if (pref != null) {
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+          @Override
+          public boolean onPreferenceClick(Preference preference) {
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, app.getPackageName());
+            startActivity(intent);
+            return true;
+          }
+        });
+      }
     }
 
     private void setNotificationSoundPreference() {
@@ -214,7 +257,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
       if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(getActivity(), new String[]{permission}, PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{permission}, Constants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
       }
     }
 

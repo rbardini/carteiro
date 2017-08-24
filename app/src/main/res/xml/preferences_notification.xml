@@ -6,76 +6,56 @@
     android:summary="@string/pref_activate_notifications_summary"
     android:defaultValue="true" />
 
-  <CheckBoxPreference android:key="@string/pref_key_notify_sync"
+  <SwitchPreference android:key="@string/pref_key_notify_sync"
     android:title="@string/pref_notify_sync_title"
     android:summary="@string/pref_notify_sync_summary"
     android:defaultValue="false"
     android:dependency="@string/pref_key_notify" />
 
-  <CheckBoxPreference android:key="@string/pref_key_notify_all"
-    android:title="@string/category_all"
-    android:summary="@string/pref_notify_all_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify"
-    android:disableDependentsState="true" />
+  <PreferenceCategory android:title="@string/pref_categories_category">
 
-  <CheckBoxPreference android:key="@string/pref_key_notify_favorites"
-    android:title="@string/category_favorites"
-    android:summary="@string/pref_notify_favorites_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify_all" />
-
-  <CheckBoxPreference android:key="@string/pref_key_notify_available"
-    android:title="@string/category_available"
-    android:summary="@string/pref_notify_available_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify_all" />
-
-  <CheckBoxPreference android:key="@string/pref_key_notify_delivered"
-    android:title="@string/category_delivered"
-    android:summary="@string/pref_notify_delivered_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify_all" />
-
-  <CheckBoxPreference android:key="@string/pref_key_notify_irregular"
-    android:title="@string/category_irregular"
-    android:summary="@string/pref_notify_irregular_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify_all" />
-
-  <CheckBoxPreference android:key="@string/pref_key_notify_unknown"
-    android:title="@string/category_unknown"
-    android:summary="@string/pref_notify_unknown_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify_all" />
-
-  <CheckBoxPreference android:key="@string/pref_key_notify_returned"
-    android:title="@string/category_returned"
-    android:summary="@string/pref_notify_returned_summary"
-    android:defaultValue="true"
-    android:dependency="@string/pref_key_notify_all" />
-
-  <PreferenceCategory android:title="@string/pref_indication_category">
-
-    <RingtonePreference android:key="@string/pref_key_ringtone"
-      android:title="@string/pref_ringtone_title"
-      android:summary="@string/pref_ringtone_summary"
-      android:ringtoneType="notification"
-      android:showDefault="true"
-      android:showSilent="true"
-      android:dependency="@string/pref_key_notify" />
-
-    <CheckBoxPreference android:key="@string/pref_key_lights"
-      android:title="@string/pref_lights_title"
-      android:summary="@string/pref_lights_summary"
+    <SwitchPreference android:key="@string/pref_key_notify_all"
+      android:title="@string/category_all"
+      android:summary="@string/pref_notify_all_summary"
       android:defaultValue="true"
-      android:dependency="@string/pref_key_notify" />
+      android:dependency="@string/pref_key_notify"
+      android:disableDependentsState="true" />
 
-    <CheckBoxPreference android:key="@string/pref_key_vibrate"
-      android:title="@string/pref_vibrate_title"
-      android:summary="@string/pref_vibrate_summary"
+    <SwitchPreference android:key="@string/pref_key_notify_favorites"
+      android:title="@string/category_favorites"
+      android:summary="@string/pref_notify_favorites_summary"
       android:defaultValue="true"
-      android:dependency="@string/pref_key_notify" />
+      android:dependency="@string/pref_key_notify_all" />
+
+    <SwitchPreference android:key="@string/pref_key_notify_available"
+      android:title="@string/category_available"
+      android:summary="@string/pref_notify_available_summary"
+      android:defaultValue="true"
+      android:dependency="@string/pref_key_notify_all" />
+
+    <SwitchPreference android:key="@string/pref_key_notify_delivered"
+      android:title="@string/category_delivered"
+      android:summary="@string/pref_notify_delivered_summary"
+      android:defaultValue="true"
+      android:dependency="@string/pref_key_notify_all" />
+
+    <SwitchPreference android:key="@string/pref_key_notify_irregular"
+      android:title="@string/category_irregular"
+      android:summary="@string/pref_notify_irregular_summary"
+      android:defaultValue="true"
+      android:dependency="@string/pref_key_notify_all" />
+
+    <SwitchPreference android:key="@string/pref_key_notify_unknown"
+      android:title="@string/category_unknown"
+      android:summary="@string/pref_notify_unknown_summary"
+      android:defaultValue="true"
+      android:dependency="@string/pref_key_notify_all" />
+
+    <SwitchPreference android:key="@string/pref_key_notify_returned"
+      android:title="@string/category_returned"
+      android:summary="@string/pref_notify_returned_summary"
+      android:defaultValue="true"
+      android:dependency="@string/pref_key_notify_all" />
 
   </PreferenceCategory>
 
