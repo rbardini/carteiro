@@ -6680,8 +6680,6 @@ android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.w$a:
     java.lang.CharSequence title -> c
     android.app.PendingIntent actionIntent -> d
     android.support.v4.app.NotificationCompatBase$Action$Factory FACTORY -> e
-    void <init>(int,java.lang.CharSequence,android.app.PendingIntent) -> <init>
-    void <init>(int,java.lang.CharSequence,android.app.PendingIntent,android.os.Bundle,android.support.v4.app.RemoteInput[],android.support.v4.app.RemoteInput[],boolean) -> <init>
     int getIcon() -> a
     java.lang.CharSequence getTitle() -> b
     android.app.PendingIntent getActionIntent() -> c
@@ -6702,7 +6700,6 @@ android.support.v4.app.NotificationCompat$BigPictureStyle -> android.support.v4.
 android.support.v4.app.NotificationCompat$BigTextStyle -> android.support.v4.app.w$c:
     java.lang.CharSequence mBigText -> a
     void <init>() -> <init>
-    void <init>(android.support.v4.app.NotificationCompat$Builder) -> <init>
     android.support.v4.app.NotificationCompat$BigTextStyle bigText(java.lang.CharSequence) -> a
 android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.w$d:
     android.content.Context mContext -> a
@@ -6751,24 +6748,15 @@ android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.w$d:
     android.support.v4.app.NotificationCompat$Builder setSmallIcon(int) -> a
     android.support.v4.app.NotificationCompat$Builder setContentTitle(java.lang.CharSequence) -> a
     android.support.v4.app.NotificationCompat$Builder setContentText(java.lang.CharSequence) -> b
-    android.support.v4.app.NotificationCompat$Builder setSubText(java.lang.CharSequence) -> c
-    android.support.v4.app.NotificationCompat$Builder setNumber(int) -> b
-    android.support.v4.app.NotificationCompat$Builder setProgress(int,int,boolean) -> a
     android.support.v4.app.NotificationCompat$Builder setContentIntent(android.app.PendingIntent) -> a
-    android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence) -> d
-    android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri) -> a
-    android.support.v4.app.NotificationCompat$Builder setLights(int,int,int) -> a
-    android.support.v4.app.NotificationCompat$Builder setOngoing(boolean) -> a
-    android.support.v4.app.NotificationCompat$Builder setAutoCancel(boolean) -> b
-    android.support.v4.app.NotificationCompat$Builder setLocalOnly(boolean) -> c
-    android.support.v4.app.NotificationCompat$Builder setDefaults(int) -> c
+    android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence) -> c
+    android.support.v4.app.NotificationCompat$Builder setAutoCancel(boolean) -> a
+    android.support.v4.app.NotificationCompat$Builder setLocalOnly(boolean) -> b
     void setFlag(int,boolean) -> a
-    android.support.v4.app.NotificationCompat$Builder addAction(int,java.lang.CharSequence,android.app.PendingIntent) -> a
     android.support.v4.app.NotificationCompat$Builder setStyle(android.support.v4.app.NotificationCompat$Style) -> a
-    android.support.v4.app.NotificationCompat$Builder setColor(int) -> d
     android.app.Notification build() -> a
     android.support.v4.app.NotificationCompat$BuilderExtender getExtender() -> b
-    java.lang.CharSequence limitCharSequenceLength(java.lang.CharSequence) -> e
+    java.lang.CharSequence limitCharSequenceLength(java.lang.CharSequence) -> d
     java.lang.CharSequence resolveText() -> c
     java.lang.CharSequence resolveTitle() -> d
     int access$000(android.support.v4.app.NotificationCompat$Builder) -> a
@@ -6778,9 +6766,6 @@ android.support.v4.app.NotificationCompat$BuilderExtender -> android.support.v4.
 android.support.v4.app.NotificationCompat$InboxStyle -> android.support.v4.app.w$f:
     java.util.ArrayList mTexts -> a
     void <init>() -> <init>
-    void <init>(android.support.v4.app.NotificationCompat$Builder) -> <init>
-    android.support.v4.app.NotificationCompat$InboxStyle setSummaryText(java.lang.CharSequence) -> a
-    android.support.v4.app.NotificationCompat$InboxStyle addLine(java.lang.CharSequence) -> b
 android.support.v4.app.NotificationCompat$MessagingStyle -> android.support.v4.app.w$g:
     java.lang.CharSequence mUserDisplayName -> a
     java.lang.CharSequence mConversationTitle -> b
@@ -6883,7 +6868,6 @@ android.support.v4.app.NotificationCompatApi26$Builder -> android.support.v4.app
     android.app.Notification build() -> b
 android.support.v4.app.NotificationCompatBase -> android.support.v4.app.ab:
 android.support.v4.app.NotificationCompatBase$Action -> android.support.v4.app.ab$a:
-    void <init>() -> <init>
     int getIcon() -> a
     java.lang.CharSequence getTitle() -> b
     android.app.PendingIntent getActionIntent() -> c
@@ -23254,45 +23238,45 @@ com.google.android.gms.iid.zzd -> com.google.android.gms.iid.a:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
 com.google.android.gms.internal.adg -> com.google.android.gms.internal.adg:
     byte[] buffer -> buffer
-    int zzcrT -> zzcrT
-    int zzcrU -> zzcrU
-    int zzcrV -> zzcrV
-    int zzcrW -> zzcrW
-    int zzcrX -> zzcrX
-    int zzcrY -> zzcrY
-    int zzcrZ -> zzcrZ
-    int zzcsa -> zzcsa
-    int zzcsb -> zzcsb
+    int zzcse -> zzcse
+    int zzcsf -> zzcsf
+    int zzcsg -> zzcsg
+    int zzcsh -> zzcsh
+    int zzcsi -> zzcsi
+    int zzcsj -> zzcsj
+    int zzcsk -> zzcsk
+    int zzcsl -> zzcsl
+    int zzcsm -> zzcsm
     com.google.android.gms.internal.adg zzH(byte[]) -> zzH
     com.google.android.gms.internal.adg zzb(byte[],int,int) -> zzb
-    int zzLB() -> zzLB
+    int zzLA() -> zzLA
     void zzcl(int) -> zzcl
     boolean zzcm(int) -> zzcm
-    long zzLC() -> zzLC
-    int zzLD() -> zzLD
-    boolean zzLE() -> zzLE
+    long zzLB() -> zzLB
+    int zzLC() -> zzLC
+    boolean zzLD() -> zzLD
     java.lang.String readString() -> readString
     void zza(com.google.android.gms.internal.adp,int) -> zza
     void zza(com.google.android.gms.internal.adp) -> zza
     byte[] readBytes() -> readBytes
-    long zzLF() -> zzLF
-    int zzLG() -> zzLG
-    long zzLH() -> zzLH
-    int zzLI() -> zzLI
-    long zzLJ() -> zzLJ
+    long zzLE() -> zzLE
+    int zzLF() -> zzLF
+    long zzLG() -> zzLG
+    int zzLH() -> zzLH
+    long zzLI() -> zzLI
     void <init>(byte[],int,int) -> <init>
     int zzcn(int) -> zzcn
-    void zzLK() -> zzLK
+    void zzLJ() -> zzLJ
     void zzco(int) -> zzco
-    int zzLL() -> zzLL
+    int zzLK() -> zzLK
     int getPosition() -> getPosition
     byte[] zzp(int,int) -> zzp
     void zzcp(int) -> zzcp
     void zzq(int,int) -> zzq
-    byte zzLM() -> zzLM
+    byte zzLL() -> zzLL
     void zzcq(int) -> zzcq
 com.google.android.gms.internal.adh -> com.google.android.gms.internal.adh:
-    java.nio.ByteBuffer zzcsc -> zzcsc
+    java.nio.ByteBuffer zzcsn -> zzcsn
     void <init>(byte[],int,int) -> <init>
     void <init>(java.nio.ByteBuffer) -> <init>
     com.google.android.gms.internal.adh zzI(byte[]) -> zzI
@@ -23320,9 +23304,9 @@ com.google.android.gms.internal.adh -> com.google.android.gms.internal.adh:
     int zzc(int,byte[]) -> zzc
     int zzf(int,long) -> zzf
     int zzcr(int) -> zzcr
-    int zzhS(java.lang.String) -> zzhS
+    int zzhQ(java.lang.String) -> zzhQ
     int zzJ(byte[]) -> zzJ
-    void zzLN() -> zzLN
+    void zzLM() -> zzLM
     void zzcs(int) -> zzcs
     void zzK(byte[]) -> zzK
     void zzt(int,int) -> zzt
@@ -23337,20 +23321,20 @@ com.google.android.gms.internal.adh -> com.google.android.gms.internal.adh:
 com.google.android.gms.internal.adi -> com.google.android.gms.internal.adi:
     void <init>(int,int) -> <init>
 com.google.android.gms.internal.adj -> com.google.android.gms.internal.adj:
-    com.google.android.gms.internal.adl zzcsd -> zzcsd
+    com.google.android.gms.internal.adl zzcso -> zzcso
     void <init>() -> <init>
     int zzn() -> zzn
     void zza(com.google.android.gms.internal.adh) -> zza
     java.lang.Object zza(com.google.android.gms.internal.adk) -> zza
     boolean zza(com.google.android.gms.internal.adg,int) -> zza
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.adk -> com.google.android.gms.internal.adk:
     int type -> type
     java.lang.Class zzcjG -> zzcjG
     int tag -> tag
-    boolean zzcse -> zzcse
+    boolean zzcsp -> zzcsp
     com.google.android.gms.internal.adk zza(int,java.lang.Class,long) -> zza
     void <init>(int,java.lang.Class,int,boolean) -> <init>
     boolean equals(java.lang.Object) -> equals
@@ -23360,10 +23344,10 @@ com.google.android.gms.internal.adk -> com.google.android.gms.internal.adk:
     void zza(java.lang.Object,com.google.android.gms.internal.adh) -> zza
     int zzav(java.lang.Object) -> zzav
 com.google.android.gms.internal.adl -> com.google.android.gms.internal.adl:
-    com.google.android.gms.internal.adm zzcsf -> zzcsf
-    boolean zzcsg -> zzcsg
-    int[] zzcsh -> zzcsh
-    com.google.android.gms.internal.adm[] zzcsi -> zzcsi
+    com.google.android.gms.internal.adm zzcsq -> zzcsq
+    boolean zzcsr -> zzcsr
+    int[] zzcss -> zzcss
+    com.google.android.gms.internal.adm[] zzcst -> zzcst
     int mSize -> mSize
     void <init>() -> <init>
     void <init>(int) -> <init>
@@ -23379,9 +23363,9 @@ com.google.android.gms.internal.adl -> com.google.android.gms.internal.adl:
     java.lang.Object clone() -> clone
     void <clinit>() -> <clinit>
 com.google.android.gms.internal.adm -> com.google.android.gms.internal.a:
-    com.google.android.gms.internal.adk zzcsj -> a
+    com.google.android.gms.internal.adk zzcsu -> a
     java.lang.Object value -> b
-    java.util.List zzcsk -> c
+    java.util.List zzcsv -> c
     void <init>() -> <init>
     void zza(com.google.android.gms.internal.adr) -> a
     java.lang.Object zzb(com.google.android.gms.internal.adk) -> a
@@ -23390,12 +23374,12 @@ com.google.android.gms.internal.adm -> com.google.android.gms.internal.a:
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     byte[] toByteArray() -> b
-    com.google.android.gms.internal.adm zzLQ() -> c
+    com.google.android.gms.internal.adm zzLP() -> c
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.adn -> com.google.android.gms.internal.adn:
     java.nio.charset.Charset UTF_8 -> UTF_8
     java.nio.charset.Charset ISO_8859_1 -> ISO_8859_1
-    java.lang.Object zzcsl -> zzcsl
+    java.lang.Object zzcsw -> zzcsw
     boolean equals(int[],int[]) -> equals
     boolean equals(long[],long[]) -> equals
     boolean equals(float[],float[]) -> equals
@@ -23412,15 +23396,15 @@ com.google.android.gms.internal.adn -> com.google.android.gms.internal.adn:
     void <clinit>() -> <clinit>
 com.google.android.gms.internal.ado -> com.google.android.gms.internal.ado:
     void <init>(java.lang.String) -> <init>
+    com.google.android.gms.internal.ado zzLQ() -> zzLQ
     com.google.android.gms.internal.ado zzLR() -> zzLR
     com.google.android.gms.internal.ado zzLS() -> zzLS
     com.google.android.gms.internal.ado zzLT() -> zzLT
-    com.google.android.gms.internal.ado zzLU() -> zzLU
 com.google.android.gms.internal.adp -> com.google.android.gms.internal.adp:
-    int zzcsm -> zzcsm
+    int zzcsx -> zzcsx
     void <init>() -> <init>
+    int zzLU() -> zzLU
     int zzLV() -> zzLV
-    int zzLW() -> zzLW
     int zzn() -> zzn
     void zza(com.google.android.gms.internal.adh) -> zza
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
@@ -23428,12 +23412,12 @@ com.google.android.gms.internal.adp -> com.google.android.gms.internal.adp:
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adp,byte[]) -> zza
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adp,byte[],int,int) -> zza
     java.lang.String toString() -> toString
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.adq -> com.google.android.gms.internal.adq:
     java.lang.String zzd(com.google.android.gms.internal.adp) -> zzd
     void zza(java.lang.String,java.lang.Object,java.lang.StringBuffer,java.lang.StringBuffer) -> zza
-    java.lang.String zzhT(java.lang.String) -> zzhT
+    java.lang.String zzhR(java.lang.String) -> zzhR
     java.lang.String zzcK(java.lang.String) -> zzcK
     void zza(byte[],java.lang.StringBuffer) -> zza
 com.google.android.gms.internal.adr -> com.google.android.gms.internal.b:
@@ -23443,125 +23427,125 @@ com.google.android.gms.internal.adr -> com.google.android.gms.internal.b:
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
 com.google.android.gms.internal.ads -> com.google.android.gms.internal.ads:
-    int zzcsn -> zzcsn
-    int zzcso -> zzcso
-    int zzcsp -> zzcsp
-    int zzcsq -> zzcsq
-    int[] zzcsr -> zzcsr
-    long[] zzcss -> zzcss
-    float[] zzcst -> zzcst
-    double[] zzcsu -> zzcsu
-    boolean[] zzcsv -> zzcsv
+    int zzcsy -> zzcsy
+    int zzcsz -> zzcsz
+    int zzcsA -> zzcsA
+    int zzcsB -> zzcsB
+    int[] zzcsC -> zzcsC
+    long[] zzcsD -> zzcsD
+    float[] zzcsE -> zzcsE
+    double[] zzcsF -> zzcsF
+    boolean[] zzcsG -> zzcsG
     java.lang.String[] EMPTY_STRING_ARRAY -> EMPTY_STRING_ARRAY
-    byte[][] zzcsw -> zzcsw
-    byte[] zzcsx -> zzcsx
+    byte[][] zzcsH -> zzcsH
+    byte[] zzcsI -> zzcsI
     int zzb(com.google.android.gms.internal.adg,int) -> zzb
     void <clinit>() -> <clinit>
 com.google.android.gms.internal.aeg -> com.google.android.gms.internal.aeg:
-    java.lang.String[] zzctv -> zzctv
-    java.lang.String[] zzctw -> zzctw
-    int[] zzctx -> zzctx
-    long[] zzcty -> zzcty
-    long[] zzctz -> zzctz
+    java.lang.String[] zzctG -> zzctG
+    java.lang.String[] zzctH -> zzctH
+    int[] zzctI -> zzctI
+    long[] zzctJ -> zzctJ
+    long[] zzctK -> zzctK
     void <init>() -> <init>
-    com.google.android.gms.internal.aeg zzMb() -> zzMb
+    com.google.android.gms.internal.aeg zzMa() -> zzMa
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void zza(com.google.android.gms.internal.adh) -> zza
     int zzn() -> zzn
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.aeh -> com.google.android.gms.internal.aeh:
     int zzbpb -> zzbpb
-    java.lang.String zzctA -> zzctA
+    java.lang.String zzctL -> zzctL
     java.lang.String version -> version
     void <init>() -> <init>
-    com.google.android.gms.internal.aeh zzMc() -> zzMc
+    com.google.android.gms.internal.aeh zzMb() -> zzMb
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void zza(com.google.android.gms.internal.adh) -> zza
     int zzn() -> zzn
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.aei -> com.google.android.gms.internal.aei:
-    byte[] zzctB -> zzctB
-    java.lang.String zzctC -> zzctC
-    byte[][] zzctD -> zzctD
-    boolean zzctE -> zzctE
+    byte[] zzctM -> zzctM
+    java.lang.String zzctN -> zzctN
+    byte[][] zzctO -> zzctO
+    boolean zzctP -> zzctP
     void <init>() -> <init>
-    com.google.android.gms.internal.aei zzMd() -> zzMd
+    com.google.android.gms.internal.aei zzMc() -> zzMc
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void zza(com.google.android.gms.internal.adh) -> zza
     int zzn() -> zzn
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.aej -> com.google.android.gms.internal.aej:
-    long zzctF -> zzctF
-    long zzctG -> zzctG
-    long zzctH -> zzctH
+    long zzctQ -> zzctQ
+    long zzctR -> zzctR
+    long zzctS -> zzctS
     java.lang.String tag -> tag
-    int zzctI -> zzctI
+    int zzctT -> zzctT
     int zzrB -> zzrB
     boolean zzccZ -> zzccZ
-    com.google.android.gms.internal.aek[] zzctJ -> zzctJ
-    byte[] zzctK -> zzctK
-    com.google.android.gms.internal.aeh zzctL -> zzctL
-    byte[] zzctM -> zzctM
-    java.lang.String zzctN -> zzctN
-    java.lang.String zzctO -> zzctO
-    com.google.android.gms.internal.aeg zzctP -> zzctP
-    java.lang.String zzctQ -> zzctQ
-    long zzctR -> zzctR
-    com.google.android.gms.internal.aei zzctS -> zzctS
-    byte[] zzctT -> zzctT
-    java.lang.String zzctU -> zzctU
-    int zzctV -> zzctV
-    int[] zzctW -> zzctW
-    long zzctX -> zzctX
-    com.google.android.gms.internal.ael zzcmM -> zzcmM
+    com.google.android.gms.internal.aek[] zzctU -> zzctU
+    byte[] zzctV -> zzctV
+    com.google.android.gms.internal.aeh zzctW -> zzctW
+    byte[] zzctX -> zzctX
+    java.lang.String zzctY -> zzctY
+    java.lang.String zzctZ -> zzctZ
+    com.google.android.gms.internal.aeg zzcua -> zzcua
+    java.lang.String zzcub -> zzcub
+    long zzcuc -> zzcuc
+    com.google.android.gms.internal.aei zzcud -> zzcud
+    byte[] zzcue -> zzcue
+    java.lang.String zzcuf -> zzcuf
+    int zzcug -> zzcug
+    int[] zzcuh -> zzcuh
+    long zzcui -> zzcui
+    com.google.android.gms.internal.ael zzcmX -> zzcmX
     void <init>() -> <init>
-    com.google.android.gms.internal.aej zzMe() -> zzMe
+    com.google.android.gms.internal.aej zzMd() -> zzMd
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void zza(com.google.android.gms.internal.adh) -> zza
     int zzn() -> zzn
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.aek -> com.google.android.gms.internal.aek:
-    com.google.android.gms.internal.aek[] zzctY -> zzctY
+    com.google.android.gms.internal.aek[] zzcuj -> zzcuj
     java.lang.String key -> key
     java.lang.String value -> value
-    com.google.android.gms.internal.aek[] zzMf() -> zzMf
+    com.google.android.gms.internal.aek[] zzMe() -> zzMe
     void <init>() -> <init>
-    com.google.android.gms.internal.aek zzMg() -> zzMg
+    com.google.android.gms.internal.aek zzMf() -> zzMf
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void zza(com.google.android.gms.internal.adh) -> zza
     int zzn() -> zzn
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.ael -> com.google.android.gms.internal.ael:
-    int zzctZ -> zzctZ
-    int zzcua -> zzcua
+    int zzcuk -> zzcuk
+    int zzcul -> zzcul
     void <init>() -> <init>
-    com.google.android.gms.internal.ael zzMh() -> zzMh
+    com.google.android.gms.internal.ael zzMg() -> zzMg
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     void zza(com.google.android.gms.internal.adh) -> zza
     int zzn() -> zzn
-    com.google.android.gms.internal.adj zzLO() -> zzLO
-    com.google.android.gms.internal.adp zzLP() -> zzLP
+    com.google.android.gms.internal.adj zzLN() -> zzLN
+    com.google.android.gms.internal.adp zzLO() -> zzLO
     com.google.android.gms.internal.adp zza(com.google.android.gms.internal.adg) -> zza
     java.lang.Object clone() -> clone
 com.google.android.gms.internal.ee -> com.google.android.gms.internal.ee:
@@ -29232,9 +29216,10 @@ com.rbardini.carteiro.model.Shipment -> com.rbardini.carteiro.b.a:
     com.rbardini.carteiro.model.ShipmentRecord getLastRecord() -> h
     int size() -> i
     boolean isEmpty() -> j
-    java.lang.String getService() -> k
+    boolean isNotEmpty() -> k
+    java.lang.String getService() -> l
     int getFlag(android.content.Context) -> b
-    java.lang.String getNumber() -> l
+    java.lang.String getNumber() -> m
     void <init>(java.lang.String) -> <init>
     void <clinit>() -> <clinit>
     java.lang.String toString() -> toString
@@ -29263,9 +29248,6 @@ com.rbardini.carteiro.model.ShipmentRecord -> com.rbardini.carteiro.b.b:
 com.rbardini.carteiro.model.ShipmentRecord$Companion -> com.rbardini.carteiro.b.b$a:
     void <init>() -> <init>
     void <init>(kotlin.jvm.internal.DefaultConstructorMarker) -> <init>
-com.rbardini.carteiro.svc.AlarmReceiver -> com.rbardini.carteiro.svc.AlarmReceiver:
-    void <init>() -> <init>
-    void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.rbardini.carteiro.svc.BackupAgent -> com.rbardini.carteiro.svc.BackupAgent:
     void <init>() -> <init>
     void onCreate() -> onCreate
@@ -29278,6 +29260,9 @@ com.rbardini.carteiro.svc.BackupManagerWrapper -> com.rbardini.carteiro.svc.a:
     void dataChanged() -> b
     void dataChanged(java.lang.String) -> a
     void <clinit>() -> <clinit>
+com.rbardini.carteiro.svc.BootReceiver -> com.rbardini.carteiro.svc.BootReceiver:
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    void <init>() -> <init>
 com.rbardini.carteiro.svc.SearchProvider -> com.rbardini.carteiro.svc.SearchProvider:
     android.net.Uri CONTENT_URI -> a
     com.rbardini.carteiro.db.DatabaseHelper dh -> b
@@ -29289,23 +29274,55 @@ com.rbardini.carteiro.svc.SearchProvider -> com.rbardini.carteiro.svc.SearchProv
     int delete(android.net.Uri,java.lang.String,java.lang.String[]) -> delete
     java.lang.String getType(android.net.Uri) -> getType
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.svc.SyncService -> com.rbardini.carteiro.svc.SyncService:
-    com.rbardini.carteiro.db.DatabaseHelper dh -> a
-    android.app.NotificationManager nm -> b
-    android.content.SharedPreferences prefs -> c
-    android.support.v4.content.LocalBroadcastManager broadcaster -> d
+com.rbardini.carteiro.svc.SyncScheduler -> com.rbardini.carteiro.svc.b:
+    com.rbardini.carteiro.svc.SyncScheduler INSTANCE -> a
+    void schedule(android.content.Context) -> a
+    void unschedule(android.content.Context) -> b
+    android.app.job.JobScheduler getScheduler(android.content.Context) -> c
+    int getNetworkType(android.content.Context) -> d
     void <init>() -> <init>
-    void onCreate() -> onCreate
-    void onHandleIntent(android.content.Intent) -> onHandleIntent
-    boolean shouldSync(android.content.Intent) -> a
+    void <clinit>() -> <clinit>
+com.rbardini.carteiro.svc.SyncService -> com.rbardini.carteiro.svc.SyncService:
+    com.rbardini.carteiro.svc.SyncService$mReceiver$1 mReceiver -> b
+    android.os.AsyncTask mSyncTask -> c
+    com.rbardini.carteiro.svc.SyncService$Companion Companion -> a
+    boolean onStartJob(android.app.job.JobParameters) -> onStartJob
+    boolean onStopJob(android.app.job.JobParameters) -> onStopJob
+    void onSyncStatusChange(android.content.Intent) -> a
+    void registerReceiver() -> a
+    void unregisterReceiver() -> b
+    java.util.List getShipmentsForSync() -> c
+    int getSyncFlags() -> d
+    void <init>() -> <init>
+    void <clinit>() -> <clinit>
+    void access$onSyncStatusChange(com.rbardini.carteiro.svc.SyncService,android.content.Intent) -> a
+com.rbardini.carteiro.svc.SyncService$Companion -> com.rbardini.carteiro.svc.SyncService$a:
+    void <init>() -> <init>
+    void <init>(kotlin.jvm.internal.DefaultConstructorMarker) -> <init>
+com.rbardini.carteiro.svc.SyncService$mReceiver$1 -> com.rbardini.carteiro.svc.SyncService$b:
+    com.rbardini.carteiro.svc.SyncService this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    void <init>(com.rbardini.carteiro.svc.SyncService) -> <init>
+com.rbardini.carteiro.svc.SyncTask -> com.rbardini.carteiro.svc.c:
+    android.support.v4.content.LocalBroadcastManager broadcaster -> b
+    android.app.Application app -> c
+    android.content.Intent intent -> d
+    com.rbardini.carteiro.svc.SyncTask$Companion Companion -> a
+    java.lang.Boolean doInBackground(com.rbardini.carteiro.model.Shipment[]) -> a
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    android.content.Intent buildStatusIntent(int) -> a
+    boolean isConnected() -> a
     void updateShipments(java.util.List) -> a
-    int getSyncFlags() -> a
-    int getNotificationFlags() -> b
-    void showNotification(java.util.List,int) -> a
-    boolean notifiable(com.rbardini.carteiro.model.Shipment,int) -> a
-    android.app.PendingIntent getSender(android.content.Context) -> c
-    void scheduleSync(android.content.Context) -> a
-    void unscheduleSync(android.content.Context) -> b
+    void <init>(android.app.Application,android.content.Intent) -> <init>
+    void <clinit>() -> <clinit>
+    android.os.AsyncTask run(android.app.Application,java.util.List) -> a
+    android.os.AsyncTask run(android.app.Application,com.rbardini.carteiro.model.Shipment) -> a
+com.rbardini.carteiro.svc.SyncTask$Companion -> com.rbardini.carteiro.svc.c$a:
+    android.os.AsyncTask run(android.app.Application,java.util.List,android.content.Intent) -> a
+    android.os.AsyncTask run(android.app.Application,java.util.List) -> a
+    android.os.AsyncTask run(android.app.Application,com.rbardini.carteiro.model.Shipment) -> a
+    void <init>() -> <init>
+    void <init>(kotlin.jvm.internal.DefaultConstructorMarker) -> <init>
 com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     boolean mIsFormView -> m
     android.content.SharedPreferences mPrefs -> n
@@ -29403,34 +29420,13 @@ com.rbardini.carteiro.ui.AddActivity$FetchShipmentTask -> com.rbardini.carteiro.
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void <init>(com.rbardini.carteiro.ui.AddActivity,com.rbardini.carteiro.ui.AddActivity$1) -> <init>
-com.rbardini.carteiro.ui.AppCompatPreferenceActivity -> com.rbardini.carteiro.ui.a:
-    android.support.v7.app.AppCompatDelegate mDelegate -> a
-    void <init>() -> <init>
-    void onCreate(android.os.Bundle) -> onCreate
-    void onPostCreate(android.os.Bundle) -> onPostCreate
-    android.support.v7.app.ActionBar getSupportActionBar() -> a
-    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
-    android.view.MenuInflater getMenuInflater() -> getMenuInflater
-    void setContentView(int) -> setContentView
-    void setContentView(android.view.View) -> setContentView
-    void setContentView(android.view.View,android.view.ViewGroup$LayoutParams) -> setContentView
-    void addContentView(android.view.View,android.view.ViewGroup$LayoutParams) -> addContentView
-    void onPostResume() -> onPostResume
-    void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
-    void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    void onStop() -> onStop
-    void onDestroy() -> onDestroy
-    void invalidateOptionsMenu() -> invalidateOptionsMenu
-    android.support.v7.app.AppCompatDelegate getDelegate() -> b
 com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     android.app.FragmentManager mFragmentManager -> n
     com.rbardini.carteiro.ui.ShipmentListFragment mCurrentFragment -> o
-    android.app.NotificationManager mNotificationManager -> p
-    android.os.Handler mHandler -> q
-    android.view.View mMainContainer -> r
-    android.support.v4.widget.DrawerLayout mDrawerLayout -> s
-    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle -> t
-    android.support.design.widget.NavigationView mNavigationView -> u
+    android.os.Handler mHandler -> p
+    android.support.v4.widget.DrawerLayout mDrawerLayout -> q
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle -> r
+    android.support.design.widget.NavigationView mNavigationView -> s
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onPostCreate(android.os.Bundle) -> onPostCreate
@@ -29476,8 +29472,9 @@ com.rbardini.carteiro.ui.PreferencesActivity -> com.rbardini.carteiro.ui.Prefere
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void onRequestPermissionsResult(int,java.lang.String[],int[]) -> onRequestPermissionsResult
     boolean isValidFragment(java.lang.String) -> isValidFragment
-    com.rbardini.carteiro.CarteiroApplication access$200() -> b
-    com.rbardini.carteiro.db.DatabaseHelper access$300() -> c
+    void handleIntent() -> c
+    com.rbardini.carteiro.CarteiroApplication access$000() -> a
+    com.rbardini.carteiro.db.DatabaseHelper access$300() -> b
     void <clinit>() -> <clinit>
 com.rbardini.carteiro.ui.PreferencesActivity$AboutPreferences -> com.rbardini.carteiro.ui.PreferencesActivity$AboutPreferences:
     void <init>() -> <init>
@@ -29499,7 +29496,7 @@ com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences -> com.rbardini.c
     java.lang.String getDatabaseFileExtension() -> b
     void setupCreatePreference() -> c
     void setupRestorePreference() -> d
-    java.lang.String access$100(com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences) -> a
+    java.lang.String access$200(com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences) -> a
 com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences$1 -> com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences$1:
     com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences this$0 -> a
     void <init>(com.rbardini.carteiro.ui.PreferencesActivity$BackupPreferences) -> <init>
@@ -29534,11 +29531,16 @@ com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences -> com.rbar
     java.lang.String unknownRingtoneTitle -> a
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
-    void setNotificationSoundPreference() -> a
-    void updateNotificationSoundPreference() -> b
+    void setNotificationSettingsPreference() -> a
+    void setNotificationSoundPreference() -> b
+    void updateNotificationSoundPreference() -> c
     void updateNotificationSoundPreference(android.preference.RingtonePreference,android.net.Uri) -> a
-    void access$000(com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences,android.preference.RingtonePreference,android.net.Uri) -> a
+    void access$100(com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences,android.preference.RingtonePreference,android.net.Uri) -> a
 com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences$1 -> com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences$1:
+    com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences this$0 -> a
+    void <init>(com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences) -> <init>
+    boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
+com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences$2 -> com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences$2:
     com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences this$0 -> a
     void <init>(com.rbardini.carteiro.ui.PreferencesActivity$NotificationPreferences) -> <init>
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
@@ -29546,8 +29548,7 @@ com.rbardini.carteiro.ui.PreferencesActivity$SyncingPreferences -> com.rbardini.
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
-    void setRefreshIntervalPreference() -> a
-com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.b:
+com.rbardini.carteiro.ui.PreferencesFragment -> com.rbardini.carteiro.ui.a:
     boolean mIsBackupManagerAvailable -> a
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
@@ -29566,6 +29567,7 @@ com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivi
     android.widget.ProgressBar mProgressBar -> v
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
+    void onResume() -> onResume
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     void onNewIntent(android.content.Intent) -> onNewIntent
     void onSyncStatusChange(android.content.Intent) -> c
@@ -29592,7 +29594,7 @@ com.rbardini.carteiro.ui.RecordActivity$2 -> com.rbardini.carteiro.ui.RecordActi
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.c:
+com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.b:
     com.rbardini.carteiro.model.Shipment mShipment -> e
     com.rbardini.carteiro.ui.ShipmentAdapter mListAdapter -> f
     android.support.v7.widget.RecyclerView mRecyclerView -> g
@@ -29604,7 +29606,7 @@ com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.c:
     void refreshList() -> b
     void setShipment(com.rbardini.carteiro.model.Shipment) -> b
     void updateList() -> c
-com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.d:
+com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.c:
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener listener -> a
     android.webkit.WebView mWebView -> b
     void <init>() -> <init>
@@ -29615,11 +29617,11 @@ com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.d:
     boolean canGoBack() -> a
     void goBack() -> b
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener access$000(com.rbardini.carteiro.ui.SROFragment) -> a
-com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.d$1:
+com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.c$1:
     com.rbardini.carteiro.ui.SROFragment this$0 -> a
     void <init>(com.rbardini.carteiro.ui.SROFragment) -> <init>
     void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.d$a:
+com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.c$a:
     void onProgress(int) -> c
     void onLeave() -> k
 com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivity:
@@ -29634,7 +29636,7 @@ com.rbardini.carteiro.ui.SearchActivity -> com.rbardini.carteiro.ui.SearchActivi
     void finish() -> finish
     com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
     void handleIntent() -> k
-com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.e:
+com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.d:
     com.rbardini.carteiro.CarteiroApplication app -> m
     android.content.BroadcastReceiver mReceiver -> n
     void <init>() -> <init>
@@ -29651,15 +29653,15 @@ com.rbardini.carteiro.ui.ShipmentActivity -> com.rbardini.carteiro.ui.e:
     void refreshList() -> m
     void clearSelection() -> n
     com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> j
-com.rbardini.carteiro.ui.ShipmentActivity$1 -> com.rbardini.carteiro.ui.e$1:
+com.rbardini.carteiro.ui.ShipmentActivity$1 -> com.rbardini.carteiro.ui.d$1:
     com.rbardini.carteiro.ui.ShipmentActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.ShipmentActivity) -> <init>
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.rbardini.carteiro.ui.ShipmentActivity$2 -> com.rbardini.carteiro.ui.e$2:
+com.rbardini.carteiro.ui.ShipmentActivity$2 -> com.rbardini.carteiro.ui.d$2:
     com.rbardini.carteiro.ui.ShipmentActivity this$0 -> a
     void <init>(com.rbardini.carteiro.ui.ShipmentActivity) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.ShipmentAdapter -> com.rbardini.carteiro.ui.f:
+com.rbardini.carteiro.ui.ShipmentAdapter -> com.rbardini.carteiro.ui.e:
     android.content.Context mContext -> a
     com.rbardini.carteiro.model.Shipment mShipment -> b
     android.view.LayoutInflater mInflater -> c
@@ -29670,7 +29672,7 @@ com.rbardini.carteiro.ui.ShipmentAdapter -> com.rbardini.carteiro.ui.f:
     com.rbardini.carteiro.model.ShipmentRecord getItem(int) -> a
     void onBindViewHolder(android.support.v7.widget.RecyclerView$ViewHolder,int) -> onBindViewHolder
     android.support.v7.widget.RecyclerView$ViewHolder onCreateViewHolder(android.view.ViewGroup,int) -> onCreateViewHolder
-com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder -> com.rbardini.carteiro.ui.f$a:
+com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder -> com.rbardini.carteiro.ui.e$a:
     android.view.View timeline -> b
     android.widget.TextView date -> c
     android.widget.TextView time -> d
@@ -29687,7 +29689,7 @@ com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder -> com.rbardini.carteiro.ui.
     android.widget.TextView access$400(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> e
     android.widget.ImageView access$500(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> f
     android.view.View access$600(com.rbardini.carteiro.ui.ShipmentAdapter$ViewHolder) -> g
-com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.g:
+com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.f:
     com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener listener -> a
     void <init>() -> <init>
     com.rbardini.carteiro.ui.ShipmentDialogFragment newInstance(int,java.util.ArrayList) -> a
@@ -29696,27 +29698,27 @@ com.rbardini.carteiro.ui.ShipmentDialogFragment -> com.rbardini.carteiro.ui.g:
     void onRenameShipment(android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> a
     void access$000(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> a
     com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener access$100(com.rbardini.carteiro.ui.ShipmentDialogFragment) -> a
-com.rbardini.carteiro.ui.ShipmentDialogFragment$1 -> com.rbardini.carteiro.ui.g$1:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$1 -> com.rbardini.carteiro.ui.f$1:
     android.widget.EditText val$itemDesc -> a
     com.rbardini.carteiro.model.Shipment val$shipment -> b
     com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> c
     void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> <init>
     boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
-com.rbardini.carteiro.ui.ShipmentDialogFragment$2 -> com.rbardini.carteiro.ui.g$2:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$2 -> com.rbardini.carteiro.ui.f$2:
     android.widget.EditText val$itemDesc -> a
     com.rbardini.carteiro.model.Shipment val$shipment -> b
     com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> c
     void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,android.widget.EditText,com.rbardini.carteiro.model.Shipment) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.ShipmentDialogFragment$3 -> com.rbardini.carteiro.ui.g$3:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$3 -> com.rbardini.carteiro.ui.f$3:
     java.util.ArrayList val$shipments -> a
     com.rbardini.carteiro.ui.ShipmentDialogFragment this$0 -> b
     void <init>(com.rbardini.carteiro.ui.ShipmentDialogFragment,java.util.ArrayList) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener -> com.rbardini.carteiro.ui.g$a:
+com.rbardini.carteiro.ui.ShipmentDialogFragment$OnShipmentChangeListener -> com.rbardini.carteiro.ui.f$a:
     void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
     void onDeleteShipments(java.util.ArrayList) -> a
-com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.h:
+com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.g:
     android.app.Activity mActivity -> a
     com.rbardini.carteiro.CarteiroApplication app -> b
     com.rbardini.carteiro.db.DatabaseHelper dh -> c
@@ -29727,7 +29729,7 @@ com.rbardini.carteiro.ui.ShipmentFragment -> com.rbardini.carteiro.ui.h:
     void refreshList() -> b
     void updateRefreshStatus() -> d
     void clearSelection() -> e
-com.rbardini.carteiro.ui.ShipmentListAdapter -> com.rbardini.carteiro.ui.i:
+com.rbardini.carteiro.ui.ShipmentListAdapter -> com.rbardini.carteiro.ui.h:
     android.content.Context mContext -> a
     java.util.List mShipments -> b
     java.util.List mSelectedShipments -> c
@@ -29746,7 +29748,7 @@ com.rbardini.carteiro.ui.ShipmentListAdapter -> com.rbardini.carteiro.ui.i:
     java.lang.Object getItem(int) -> b
     android.support.v7.widget.RecyclerView$ViewHolder onCreateViewHolder(android.view.ViewGroup,int) -> onCreateViewHolder
     com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener access$600(com.rbardini.carteiro.ui.ShipmentListAdapter) -> a
-com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder -> com.rbardini.carteiro.ui.i$a:
+com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder -> com.rbardini.carteiro.ui.h$a:
     android.widget.TextView desc -> b
     android.widget.TextView date -> c
     android.widget.TextView loc -> d
@@ -29763,12 +29765,12 @@ com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder -> com.rbardini.carteiro
     android.widget.TextView access$300(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> d
     android.widget.CheckBox access$400(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> e
     android.widget.ImageView access$500(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder) -> f
-com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder$1 -> com.rbardini.carteiro.ui.i$a$1:
+com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder$1 -> com.rbardini.carteiro.ui.h$a$1:
     com.rbardini.carteiro.ui.ShipmentListAdapter val$this$0 -> a
     com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder this$1 -> b
     void <init>(com.rbardini.carteiro.ui.ShipmentListAdapter$ViewHolder,com.rbardini.carteiro.ui.ShipmentListAdapter) -> <init>
     void onClick(android.view.View) -> onClick
-com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.j:
+com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.i:
     com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener mListener -> e
     int category -> f
     java.lang.String query -> g
@@ -29804,8 +29806,8 @@ com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.j:
     java.util.ArrayList access$200(com.rbardini.carteiro.ui.ShipmentListFragment) -> b
     com.rbardini.carteiro.ui.ShipmentListAdapter access$300(com.rbardini.carteiro.ui.ShipmentListFragment) -> c
     java.util.List access$400(com.rbardini.carteiro.ui.ShipmentListFragment,java.util.Map) -> a
-com.rbardini.carteiro.ui.ShipmentListFragment$1 -> com.rbardini.carteiro.ui.j$1:
-com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.j$a:
+com.rbardini.carteiro.ui.ShipmentListFragment$1 -> com.rbardini.carteiro.ui.i$1:
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.i$a:
     android.view.ActionMode mActionMode -> b
     android.util.SparseBooleanArray mCollectiveActionMap -> c
     com.rbardini.carteiro.ui.ShipmentListFragment this$0 -> a
@@ -29820,20 +29822,20 @@ com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rba
     boolean hasActionMode() -> a
     void finishActionMode() -> b
     void <init>(com.rbardini.carteiro.ui.ShipmentListFragment,com.rbardini.carteiro.ui.ShipmentListFragment$1) -> <init>
-com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$1 -> com.rbardini.carteiro.ui.j$a$1:
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$1 -> com.rbardini.carteiro.ui.i$a$1:
     boolean val$areAllArchived -> a
     com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener this$1 -> b
     void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener,boolean) -> <init>
     void onItemClicked(java.lang.Object) -> a
     void onItemSelected(java.lang.Object) -> b
     void onItemsDismissed(java.util.Map) -> a
-com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$2 -> com.rbardini.carteiro.ui.j$a$2:
+com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$2 -> com.rbardini.carteiro.ui.i$a$2:
     com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener this$1 -> a
     void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener) -> <init>
     void onItemClicked(java.lang.Object) -> a
     void onItemSelected(java.lang.Object) -> b
     void onItemsDismissed(java.util.Map) -> a
-com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.j$b:
+com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.i$b:
     void onPostalListAttached(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
 com.rbardini.carteiro.ui.ThemePreference -> com.rbardini.carteiro.ui.ThemePreference:
     java.lang.String mChosenTheme -> a
@@ -30114,11 +30116,31 @@ com.rbardini.carteiro.util.MobileTracker$1 -> com.rbardini.carteiro.c.c$1:
     java.util.Map getHeaders() -> h
     java.lang.String getBodyContentType() -> o
     byte[] getBody() -> p
-com.rbardini.carteiro.util.PostalUtils -> com.rbardini.carteiro.c.d:
+com.rbardini.carteiro.util.NotificationUtils -> com.rbardini.carteiro.c.d:
+    com.rbardini.carteiro.util.NotificationUtils INSTANCE -> a
+    void createNotificationChannels(android.content.Context) -> a
+    void notifyOngoingSyncIfAllowed(android.content.Context) -> b
+    void notifyOngoingSync(android.content.Context) -> c
+    void cancelOngoingSyncNotification(android.content.Context) -> d
+    void notifyShipmentUpdatesIfAllowed(android.content.Context,java.util.List) -> a
+    void notifyShipmentUpdate(android.content.Context,com.rbardini.carteiro.model.Shipment) -> a
+    void notifyShipmentUpdates(android.content.Context,java.util.List) -> b
+    android.app.Notification$Builder getBaseNotificationBuilder(android.content.Context,java.lang.String) -> a
+    android.app.Notification$Builder getBaseShipmentUpdateNotificationBuilder(android.content.Context,android.content.Intent) -> a
+    void cancelShipmentUpdateNotifications(android.content.Context) -> e
+    android.content.SharedPreferences getSharedPreferences(android.content.Context) -> f
+    android.app.PendingIntent getNotificationActionIntent(android.content.Context,android.content.Intent,com.rbardini.carteiro.model.Shipment,java.lang.String) -> a
+    boolean shouldNotifyOnGoingSync(android.content.Context) -> g
+    android.app.NotificationManager getNotificationManager(android.content.Context) -> h
+    int getNotificationFlags(android.content.Context) -> i
+    boolean shouldNotifyShipmentUpdate(com.rbardini.carteiro.model.Shipment,int) -> a
+    void <init>() -> <init>
+    void <clinit>() -> <clinit>
+com.rbardini.carteiro.util.PostalUtils -> com.rbardini.carteiro.c.e:
     java.lang.String getLocation(com.rbardini.carteiro.model.ShipmentRecord,boolean) -> a
     android.content.Intent getShareIntent(android.content.Context,com.rbardini.carteiro.model.Shipment) -> a
     android.content.Intent getShareIntent(android.content.Context,java.util.List) -> a
-com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.d$a:
+com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.e$a:
     java.util.Map StatusesMap -> a
     java.util.Map IdMap -> b
     java.util.Map TitleMap -> c
@@ -30136,12 +30158,12 @@ com.rbardini.carteiro.util.PostalUtils$Category -> com.rbardini.carteiro.c.d$a:
     int getCategoryById(int) -> e
     java.util.Map access$000() -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.PostalUtils$Service -> com.rbardini.carteiro.c.d$b:
+com.rbardini.carteiro.util.PostalUtils$Service -> com.rbardini.carteiro.c.e$b:
     java.util.Map ServicesMap -> a
     java.util.TreeMap buildServicesMap() -> a
     java.lang.String getService(java.lang.String) -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.PostalUtils$Status -> com.rbardini.carteiro.c.d$c:
+com.rbardini.carteiro.util.PostalUtils$Status -> com.rbardini.carteiro.c.e$c:
     java.util.Map CategoryMap -> a
     java.util.Map IconMap -> b
     java.util.TreeMap buildCategoryMap() -> a
@@ -30149,7 +30171,7 @@ com.rbardini.carteiro.util.PostalUtils$Status -> com.rbardini.carteiro.c.d$c:
     int getCategory(java.lang.String) -> a
     int getIcon(java.lang.String) -> b
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.Tracker -> com.rbardini.carteiro.c.e:
+com.rbardini.carteiro.util.Tracker -> com.rbardini.carteiro.c.f:
     java.text.DateFormat DATE_FORMAT -> a
     java.util.regex.Pattern WHITESPACE_PATTERN -> b
     java.util.regex.Pattern SEPARATOR_PATTERN -> c
@@ -30162,7 +30184,7 @@ com.rbardini.carteiro.util.Tracker -> com.rbardini.carteiro.c.e:
     java.lang.String formatInfo(java.lang.String) -> c
     java.lang.String buildLocation(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void <clinit>() -> <clinit>
-com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.f:
+com.rbardini.carteiro.util.UIUtils -> com.rbardini.carteiro.c.g:
     void goHome(android.content.Context) -> a
     void openURL(android.content.Context,java.lang.String) -> a
     void openMarket(android.content.Context) -> b
@@ -30196,26 +30218,136 @@ com.rbardini.carteiro.util.validator.TrackingCodeValidator -> com.rbardini.carte
     int[] NUMERIC_WEIGHTS -> a
     com.rbardini.carteiro.util.validator.TrackingCodeValidation validate(java.lang.String) -> a
     void <clinit>() -> <clinit>
-kotlin.TypeCastException -> a.a:
+kotlin.KotlinNullPointerException -> a.a:
+    void <init>() -> <init>
+kotlin.TypeCastException -> a.b:
     void <init>() -> <init>
     void <init>(java.lang.String) -> <init>
-kotlin.collections.CollectionsKt -> a.a.a:
-kotlin.collections.CollectionsKt__CollectionsKt -> a.a.b:
-kotlin.collections.CollectionsKt__IterablesKt -> a.a.c:
-kotlin.collections.CollectionsKt__IteratorsKt -> a.a.d:
-kotlin.collections.CollectionsKt__MutableCollectionsKt -> a.a.e:
-kotlin.collections.CollectionsKt__ReversedViewsKt -> a.a.f:
-kotlin.collections.CollectionsKt___CollectionsKt -> a.a.g:
-    java.lang.Object lastOrNull(java.util.List) -> a
-kotlin.jvm.internal.DefaultConstructorMarker -> a.b.a.a:
-kotlin.jvm.internal.Intrinsics -> a.b.a.b:
+kotlin.UninitializedPropertyAccessException -> a.c:
     void <init>() -> <init>
+    void <init>(java.lang.String) -> <init>
+kotlin.collections.ArrayAsCollection -> a.a.a:
+    java.lang.Object[] values -> a
+    boolean isVarargs -> b
+    int getSize() -> a
+    int size() -> size
+    boolean isEmpty() -> isEmpty
+    boolean contains(java.lang.Object) -> contains
+    boolean containsAll(java.util.Collection) -> containsAll
+    java.util.Iterator iterator() -> iterator
+    java.lang.Object[] toArray() -> toArray
+    void <init>(java.lang.Object[],boolean) -> <init>
+    boolean removeAll(java.util.Collection) -> removeAll
+    boolean addAll(java.util.Collection) -> addAll
+    void clear() -> clear
+    boolean retainAll(java.util.Collection) -> retainAll
+    boolean add(java.lang.Object) -> add
+    boolean remove(java.lang.Object) -> remove
+    java.lang.Object[] toArray(java.lang.Object[]) -> toArray
+kotlin.collections.ArraysKt -> a.a.b:
+kotlin.collections.ArraysKt__ArraysJVMKt -> a.a.c:
+kotlin.collections.ArraysKt__ArraysKt -> a.a.d:
+kotlin.collections.ArraysKt___ArraysKt -> a.a.e:
+    boolean contains(java.lang.Object[],java.lang.Object) -> a
+    int indexOf(java.lang.Object[],java.lang.Object) -> b
+    java.util.List asList(java.lang.Object[]) -> a
+kotlin.collections.ArraysUtilJVM -> a.a.f:
+    java.util.List asList(java.lang.Object[]) -> a
+kotlin.collections.CollectionsKt -> a.a.g:
+kotlin.collections.CollectionsKt__CollectionsKt -> a.a.h:
+    java.util.List emptyList() -> a
+    java.util.List listOf(java.lang.Object[]) -> a
+    java.util.List mutableListOf(java.lang.Object[]) -> b
+    java.lang.Object[] copyToArrayOfAny$CollectionsKt__CollectionsKt(java.lang.Object[],boolean) -> b
+    java.lang.Object[] access$copyToArrayOfAny(java.lang.Object[],boolean) -> a
+kotlin.collections.CollectionsKt__IterablesKt -> a.a.i:
+    int collectionSizeOrDefault(java.lang.Iterable,int) -> a
+kotlin.collections.CollectionsKt__IteratorsKt -> a.a.j:
+kotlin.collections.CollectionsKt__MutableCollectionsKt -> a.a.k:
+kotlin.collections.CollectionsKt__ReversedViewsKt -> a.a.l:
+kotlin.collections.CollectionsKt___CollectionsKt -> a.a.m:
+    java.lang.Object lastOrNull(java.util.List) -> a
+kotlin.collections.EmptyIterator -> a.a.n:
+    kotlin.collections.EmptyIterator INSTANCE -> a
+    boolean hasNext() -> hasNext
+    boolean hasPrevious() -> hasPrevious
+    int nextIndex() -> nextIndex
+    int previousIndex() -> previousIndex
+    java.lang.Void next() -> a
+    java.lang.Object next() -> next
+    java.lang.Void previous() -> b
+    java.lang.Object previous() -> previous
+    void <init>() -> <init>
+    void <clinit>() -> <clinit>
+    void remove() -> remove
+    void set(java.lang.Object) -> set
+    void add(java.lang.Object) -> add
+kotlin.collections.EmptyList -> a.a.o:
+    kotlin.collections.EmptyList INSTANCE -> a
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    java.lang.String toString() -> toString
+    int getSize() -> a
+    int size() -> size
+    boolean isEmpty() -> isEmpty
+    boolean contains(java.lang.Void) -> a
+    boolean contains(java.lang.Object) -> contains
+    boolean containsAll(java.util.Collection) -> containsAll
+    java.lang.Void get(int) -> a
+    java.lang.Object get(int) -> get
+    int indexOf(java.lang.Void) -> b
+    int indexOf(java.lang.Object) -> indexOf
+    int lastIndexOf(java.lang.Void) -> c
+    int lastIndexOf(java.lang.Object) -> lastIndexOf
+    java.util.Iterator iterator() -> iterator
+    java.util.ListIterator listIterator() -> listIterator
+    java.util.ListIterator listIterator(int) -> listIterator
+    java.util.List subList(int,int) -> subList
+    void <init>() -> <init>
+    void <clinit>() -> <clinit>
+    void clear() -> clear
+    boolean removeAll(java.util.Collection) -> removeAll
+    boolean remove(java.lang.Object) -> remove
+    boolean addAll(java.util.Collection) -> addAll
+    boolean addAll(int,java.util.Collection) -> addAll
+    boolean retainAll(java.util.Collection) -> retainAll
+    java.lang.Object remove(int) -> remove
+    void add(int,java.lang.Object) -> add
+    boolean add(java.lang.Object) -> add
+    java.lang.Object set(int,java.lang.Object) -> set
+    java.lang.Object[] toArray() -> toArray
+    java.lang.Object[] toArray(java.lang.Object[]) -> toArray
+kotlin.jvm.internal.ArrayIterator -> a.b.a.a:
+    int index -> a
+    java.lang.Object[] array -> b
+    boolean hasNext() -> hasNext
+    java.lang.Object next() -> next
+    void <init>(java.lang.Object[]) -> <init>
+    void remove() -> remove
+kotlin.jvm.internal.ArrayIteratorKt -> a.b.a.b:
+    java.util.Iterator iterator(java.lang.Object[]) -> a
+kotlin.jvm.internal.CollectionToArray -> a.b.a.c:
+    java.lang.Object[] EMPTY_OBJECT_ARRAY -> a
+    java.lang.Object[] toArray(java.util.Collection) -> a
+    java.lang.Object[] toArray(java.util.Collection,java.lang.Object[]) -> a
+    java.lang.Object[] finishToArray(java.lang.Object[],java.util.Iterator) -> a
+    void <clinit>() -> <clinit>
+kotlin.jvm.internal.DefaultConstructorMarker -> a.b.a.d:
+kotlin.jvm.internal.Intrinsics -> a.b.a.e:
+    void <init>() -> <init>
+    void throwNpe() -> a
+    void throwUninitializedProperty(java.lang.String) -> a
+    void throwUninitializedPropertyAccessException(java.lang.String) -> b
     void checkExpressionValueIsNotNull(java.lang.Object,java.lang.String) -> a
     void checkParameterIsNotNull(java.lang.Object,java.lang.String) -> b
-    void throwParameterIsNullException(java.lang.String) -> a
+    void throwParameterIsNullException(java.lang.String) -> c
     boolean areEqual(java.lang.Object,java.lang.Object) -> a
     java.lang.Throwable sanitizeStackTrace(java.lang.Throwable) -> a
     java.lang.Throwable sanitizeStackTrace(java.lang.Throwable,java.lang.String) -> a
+kotlin.jvm.internal.StringCompanionObject -> a.b.a.f:
+    kotlin.jvm.internal.StringCompanionObject INSTANCE -> a
+    void <init>() -> <init>
+    void <clinit>() -> <clinit>
 okhttp3.Address -> b.a:
     okhttp3.HttpUrl url -> a
     okhttp3.Dns dns -> b
