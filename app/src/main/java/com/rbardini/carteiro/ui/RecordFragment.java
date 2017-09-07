@@ -61,7 +61,7 @@ public class RecordFragment extends ShipmentFragment {
   @Override
   public void refreshList() {
     updateList();
-    mListAdapter.notifyDataSetChanged();
+    if (mListAdapter != null) mListAdapter.notifyDataSetChanged();
   }
 
   public void setShipment(Shipment shipment) {

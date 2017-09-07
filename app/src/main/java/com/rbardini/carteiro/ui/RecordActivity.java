@@ -292,6 +292,11 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
     mShipment = (Shipment) extras.getSerializable(EXTRA_SHIPMENT);
     intent.removeExtra(EXTRA_SHIPMENT);
 
+    if (mShipment == null) {
+      finishAfterTransition();
+      return;
+    }
+
     if (mShipment.isUnread()) {
       dh.readPostalItem(mShipment.getNumber());
       mShipment.setUnread(false);
