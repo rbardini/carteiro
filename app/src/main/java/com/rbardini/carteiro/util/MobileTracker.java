@@ -80,11 +80,10 @@ public final class MobileTracker extends Tracker {
         JSONObject objeto = objetos.getJSONObject(i);
 
         String cod = objeto.getString("numero");
+        JSONArray eventos = objeto.optJSONArray("evento");
         List<ShipmentRecord> records = new ArrayList<>();
 
-        if (!objeto.getString("categoria").startsWith("ERRO")) {
-          JSONArray eventos = objeto.getJSONArray("evento");
-
+        if (eventos != null) {
           for (int j = eventos.length() - 1; j >= 0; j--) {
             JSONObject evento = eventos.getJSONObject(j);
 
