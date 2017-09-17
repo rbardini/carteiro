@@ -29430,7 +29430,6 @@ com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onPostCreate(android.os.Bundle) -> onPostCreate
-    void onResume() -> onResume
     void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
@@ -29567,7 +29566,6 @@ com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivi
     android.widget.ProgressBar mProgressBar -> v
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
-    void onResume() -> onResume
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     void onNewIntent(android.content.Intent) -> onNewIntent
     void onSyncStatusChange(android.content.Intent) -> c
@@ -30126,13 +30124,12 @@ com.rbardini.carteiro.util.NotificationUtils -> com.rbardini.carteiro.c.d:
     void notifyShipmentUpdate(android.content.Context,com.rbardini.carteiro.model.Shipment) -> a
     void notifyShipmentUpdates(android.content.Context,java.util.List) -> b
     android.app.Notification$Builder getBaseNotificationBuilder(android.content.Context,java.lang.String) -> a
-    android.app.Notification$Builder getBaseShipmentUpdateNotificationBuilder(android.content.Context,android.content.Intent) -> a
-    void cancelShipmentUpdateNotifications(android.content.Context) -> e
-    android.content.SharedPreferences getSharedPreferences(android.content.Context) -> f
-    android.app.PendingIntent getNotificationActionIntent(android.content.Context,android.content.Intent,com.rbardini.carteiro.model.Shipment,java.lang.String) -> a
-    boolean shouldNotifyOnGoingSync(android.content.Context) -> g
-    android.app.NotificationManager getNotificationManager(android.content.Context) -> h
-    int getNotificationFlags(android.content.Context) -> i
+    android.app.Notification$Builder getBaseShipmentUpdateNotificationBuilder(android.content.Context,android.content.Intent,int) -> a
+    android.content.SharedPreferences getSharedPreferences(android.content.Context) -> e
+    android.app.PendingIntent getNotificationActionIntent(android.content.Context,android.content.Intent,int,java.lang.String) -> a
+    boolean shouldNotifyOnGoingSync(android.content.Context) -> f
+    android.app.NotificationManager getNotificationManager(android.content.Context) -> g
+    int getNotificationFlags(android.content.Context) -> h
     boolean shouldNotifyShipmentUpdate(com.rbardini.carteiro.model.Shipment,int) -> a
     void <init>() -> <init>
     void <clinit>() -> <clinit>
@@ -30237,12 +30234,12 @@ kotlin.collections.ArrayAsCollection -> a.a.a:
     java.util.Iterator iterator() -> iterator
     java.lang.Object[] toArray() -> toArray
     void <init>(java.lang.Object[],boolean) -> <init>
-    boolean removeAll(java.util.Collection) -> removeAll
-    boolean addAll(java.util.Collection) -> addAll
-    void clear() -> clear
-    boolean retainAll(java.util.Collection) -> retainAll
-    boolean add(java.lang.Object) -> add
     boolean remove(java.lang.Object) -> remove
+    boolean addAll(java.util.Collection) -> addAll
+    boolean retainAll(java.util.Collection) -> retainAll
+    boolean removeAll(java.util.Collection) -> removeAll
+    void clear() -> clear
+    boolean add(java.lang.Object) -> add
     java.lang.Object[] toArray(java.lang.Object[]) -> toArray
 kotlin.collections.ArraysKt -> a.a.b:
 kotlin.collections.ArraysKt__ArraysJVMKt -> a.a.c:
@@ -30305,16 +30302,16 @@ kotlin.collections.EmptyList -> a.a.o:
     java.util.List subList(int,int) -> subList
     void <init>() -> <init>
     void <clinit>() -> <clinit>
-    void clear() -> clear
-    boolean removeAll(java.util.Collection) -> removeAll
     boolean remove(java.lang.Object) -> remove
     boolean addAll(java.util.Collection) -> addAll
     boolean addAll(int,java.util.Collection) -> addAll
+    boolean removeAll(java.util.Collection) -> removeAll
     boolean retainAll(java.util.Collection) -> retainAll
-    java.lang.Object remove(int) -> remove
-    void add(int,java.lang.Object) -> add
-    boolean add(java.lang.Object) -> add
+    void clear() -> clear
     java.lang.Object set(int,java.lang.Object) -> set
+    java.lang.Object remove(int) -> remove
+    boolean add(java.lang.Object) -> add
+    void add(int,java.lang.Object) -> add
     java.lang.Object[] toArray() -> toArray
     java.lang.Object[] toArray(java.lang.Object[]) -> toArray
 kotlin.jvm.internal.ArrayIterator -> a.b.a.a:
