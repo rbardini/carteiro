@@ -27,8 +27,8 @@ object NotificationUtils {
   private const val NOTIFICATION_ID_ONGOING_SYNC = 1
   private const val NOTIFICATION_ID_UPDATE_SUMMARY = 2
 
-  const val NOTIFICATION_CHANNEL_ID_ONGOING_SYNC = "NOTIFICATION_CHANNEL_ID_ONGOING_SYNC";
-  const val NOTIFICATION_CHANNEL_ID_ITEM_UPDATE = "NOTIFICATION_CHANNEL_ID_ITEM_UPDATE";
+  private const val NOTIFICATION_CHANNEL_ID_ONGOING_SYNC = "NOTIFICATION_CHANNEL_ID_ONGOING_SYNC";
+  private const val NOTIFICATION_CHANNEL_ID_ITEM_UPDATE = "NOTIFICATION_CHANNEL_ID_ITEM_UPDATE";
 
   private const val NOTIFICATION_TAG_SINGLE_ITEM_UPDATE = "NOTIFICATION_TAG_SINGLE_ITEM_UPDATE"
   private const val NOTIFICATION_GROUP_KEY_UPDATE = "NOTIFICATION_GROUP_KEY_UPDATE"
@@ -91,8 +91,9 @@ object NotificationUtils {
     val lastRecord = shipment.getLastRecord()
     val ticker = String.format(context.getString(R.string.notf_tckr_single_obj), shipment.getDescription(), lastRecord?.status?.toLowerCase(Locale.getDefault()))
     val intent = Intent(context, RecordActivity::class.java).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment)
+    val requestCode = shipment.number.hashCode()
 
-    val notification = getBaseShipmentUpdateNotificationBuilder(context, intent)
+    val notification = getBaseShipmentUpdateNotificationBuilder(context, intent, requestCode)
       .setStyle(Notification.BigTextStyle().bigText(lastRecord?.getDescription()))
       .setTicker(ticker)
       .setContentTitle(shipment.getDescription())
@@ -101,9 +102,9 @@ object NotificationUtils {
       .setColor(ContextCompat.getColor(context, UIUtils.getPostalStatusColor(lastRecord.status)))
       .setSubText(lastRecord.local)
       .addAction(Notification.Action.Builder(R.drawable.ic_place_white_24dp, context.getString(R.string.opt_view_place),
-          getNotificationActionIntent(context, intent, shipment, RecordActivity.ACTION_LOCATE)).build())
+          getNotificationActionIntent(context, intent, requestCode, RecordActivity.ACTION_LOCATE)).build())
       .addAction(Notification.Action.Builder(R.drawable.ic_share_white_24dp, context.getString(R.string.opt_share),
-          getNotificationActionIntent(context, intent, shipment, RecordActivity.ACTION_SHARE)).build())
+          getNotificationActionIntent(context, intent, requestCode, RecordActivity.ACTION_SHARE)).build())
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
       notification.setSound(Settings.System.DEFAULT_NOTIFICATION_URI,
@@ -114,7 +115,7 @@ object NotificationUtils {
       if (prefs.getBoolean(context.getString(R.string.pref_key_vibrate), true)) notification.setDefaults(Notification.DEFAULT_VIBRATE)
     }
 
-    getNotificationManager(context).notify(NOTIFICATION_TAG_SINGLE_ITEM_UPDATE, shipment.number.hashCode(), notification.build())
+    getNotificationManager(context).notify(NOTIFICATION_TAG_SINGLE_ITEM_UPDATE, requestCode, notification.build())
   }
 
   private fun notifyShipmentUpdates(context: Context, shipments: List<Shipment>) {
@@ -129,7 +130,7 @@ object NotificationUtils {
       it.getDescription()
     })
 
-    val notification = getBaseShipmentUpdateNotificationBuilder(context, intent)
+    val notification = getBaseShipmentUpdateNotificationBuilder(context, intent, NOTIFICATION_ID_UPDATE_SUMMARY)
       .setStyle(style)
       .setTicker(ticker)
       .setContentTitle(ticker)
@@ -144,12 +145,12 @@ object NotificationUtils {
   private fun getBaseNotificationBuilder(context: Context, channelId: String) =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(context, channelId) else Notification.Builder(context)
 
-  private fun getBaseShipmentUpdateNotificationBuilder(context: Context, intent: Intent): Notification.Builder {
+  private fun getBaseShipmentUpdateNotificationBuilder(context: Context, intent: Intent, requestCode: Int): Notification.Builder {
     val stackBuilder = TaskStackBuilder.create(context).addNextIntentWithParentStack(intent)
 
     return getBaseNotificationBuilder(context, NOTIFICATION_CHANNEL_ID_ITEM_UPDATE)
       .setSmallIcon(R.drawable.ic_stat_notify)
-      .setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT))
+      .setContentIntent(stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT))
       .setAutoCancel(true)
       .setGroup(NOTIFICATION_GROUP_KEY_UPDATE)
   }
@@ -159,8 +160,8 @@ object NotificationUtils {
 
   private fun getSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
 
-  private fun getNotificationActionIntent(context: Context, intent: Intent, shipment: Shipment, action: String) =
-    PendingIntent.getActivity(context, shipment.number.hashCode(), Intent(intent).setAction(action), PendingIntent.FLAG_UPDATE_CURRENT)
+  private fun getNotificationActionIntent(context: Context, intent: Intent, requestCode: Int, action: String) =
+    PendingIntent.getActivity(context, requestCode, Intent(intent).setAction(action), PendingIntent.FLAG_UPDATE_CURRENT)
 
   private fun shouldNotifyOnGoingSync(context: Context) =
     getSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_notify_sync), false)

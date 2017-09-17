@@ -134,6 +134,8 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
 
       databaseHelper.setTransactionSuccessful()
       databaseHelper.endTransaction()
+
+      it.isUnread = true
     }
   }
 }

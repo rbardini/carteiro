@@ -23,7 +23,6 @@ import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
-import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -80,12 +79,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
     setupTransition();
     setTitleBar();
     setFragment(savedInstanceState == null);
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-    NotificationUtils.cancelShipmentUpdateNotifications(this);
   }
 
   @Override

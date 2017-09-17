@@ -67,12 +67,6 @@ public class MainActivity extends ShipmentActivity {
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
-    NotificationUtils.cancelShipmentUpdateNotifications(this);
-  }
-
-  @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     mDrawerToggle.onConfigurationChanged(newConfig);
