@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.Settings
@@ -107,10 +108,9 @@ object NotificationUtils {
           getNotificationActionIntent(context, intent, requestCode, RecordActivity.ACTION_SHARE)).build())
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-      notification.setSound(Settings.System.DEFAULT_NOTIFICATION_URI,
-          AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
-
       val prefs = getSharedPreferences(context)
+
+      notification.setSound(Uri.parse(prefs.getString(context.getString(R.string.pref_key_ringtone), "DEFAULT_SOUND")))
       if (prefs.getBoolean(context.getString(R.string.pref_key_lights), true)) notification.setLights(Color.YELLOW, 1000, 1200)
       if (prefs.getBoolean(context.getString(R.string.pref_key_vibrate), true)) notification.setDefaults(Notification.DEFAULT_VIBRATE)
     }
