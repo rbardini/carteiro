@@ -62,8 +62,8 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
 
     var hasError = false
 
-    val lastRecordMap = hashMapOf<String, ShipmentRecord?>()
-    shipments.forEach { lastRecordMap.put(it.number, it.getLastRecord()) }
+    val oldRecordsMap = hashMapOf<String, MutableList<ShipmentRecord>>()
+    shipments.forEach { oldRecordsMap.put(it.number, it.records.toMutableList()) }
 
     NotificationUtils.notifyOngoingSyncIfAllowed(app)
 
@@ -72,7 +72,7 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
       MobileTracker.shallowTrack(shipments, app)
 
       val updatedShipments = shipments.filter {
-        if (it.isEmpty()) false else it.getLastRecord() != lastRecordMap[it.number]
+        if (it.isEmpty()) false else !oldRecordsMap[it.number]!!.contains(it.getLastRecord())
       }
 
       if (updatedShipments.isNotEmpty()) {
