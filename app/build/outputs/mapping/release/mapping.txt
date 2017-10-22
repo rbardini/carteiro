@@ -29204,22 +29204,23 @@ com.rbardini.carteiro.model.Shipment -> com.rbardini.carteiro.b.a:
     void setArchived(boolean) -> b
     boolean isUnread() -> d
     void setUnread(boolean) -> c
-    void toggleFavorite() -> e
-    void toggleArchived() -> f
-    java.lang.String getDescription() -> g
+    java.util.List getRecords() -> e
+    void toggleFavorite() -> f
+    void toggleArchived() -> g
+    java.lang.String getDescription() -> h
     void saveTo(com.rbardini.carteiro.db.DatabaseHelper) -> a
     com.rbardini.carteiro.model.Shipment fetchRecords(android.content.Context) -> a
     void loadRecords(com.rbardini.carteiro.db.DatabaseHelper) -> b
     boolean addRecord(com.rbardini.carteiro.model.ShipmentRecord) -> a
     void replaceRecords(java.util.List) -> a
     com.rbardini.carteiro.model.ShipmentRecord getRecord(int) -> a
-    com.rbardini.carteiro.model.ShipmentRecord getLastRecord() -> h
-    int size() -> i
-    boolean isEmpty() -> j
-    boolean isNotEmpty() -> k
-    java.lang.String getService() -> l
+    com.rbardini.carteiro.model.ShipmentRecord getLastRecord() -> i
+    int size() -> j
+    boolean isEmpty() -> k
+    boolean isNotEmpty() -> l
+    java.lang.String getService() -> m
     int getFlag(android.content.Context) -> b
-    java.lang.String getNumber() -> m
+    java.lang.String getNumber() -> n
     void <init>(java.lang.String) -> <init>
     void <clinit>() -> <clinit>
     java.lang.String toString() -> toString
@@ -30234,12 +30235,12 @@ kotlin.collections.ArrayAsCollection -> a.a.a:
     java.util.Iterator iterator() -> iterator
     java.lang.Object[] toArray() -> toArray
     void <init>(java.lang.Object[],boolean) -> <init>
+    void clear() -> clear
+    boolean removeAll(java.util.Collection) -> removeAll
     boolean remove(java.lang.Object) -> remove
     boolean addAll(java.util.Collection) -> addAll
-    boolean retainAll(java.util.Collection) -> retainAll
-    boolean removeAll(java.util.Collection) -> removeAll
-    void clear() -> clear
     boolean add(java.lang.Object) -> add
+    boolean retainAll(java.util.Collection) -> retainAll
     java.lang.Object[] toArray(java.lang.Object[]) -> toArray
 kotlin.collections.ArraysKt -> a.a.b:
 kotlin.collections.ArraysKt__ArraysJVMKt -> a.a.c:
@@ -30263,7 +30264,10 @@ kotlin.collections.CollectionsKt__IteratorsKt -> a.a.j:
 kotlin.collections.CollectionsKt__MutableCollectionsKt -> a.a.k:
 kotlin.collections.CollectionsKt__ReversedViewsKt -> a.a.l:
 kotlin.collections.CollectionsKt___CollectionsKt -> a.a.m:
+    boolean contains(java.lang.Iterable,java.lang.Object) -> a
+    int indexOf(java.lang.Iterable,java.lang.Object) -> b
     java.lang.Object lastOrNull(java.util.List) -> a
+    java.util.List toMutableList(java.util.Collection) -> a
 kotlin.collections.EmptyIterator -> a.a.n:
     kotlin.collections.EmptyIterator INSTANCE -> a
     boolean hasNext() -> hasNext
@@ -30277,8 +30281,8 @@ kotlin.collections.EmptyIterator -> a.a.n:
     void <init>() -> <init>
     void <clinit>() -> <clinit>
     void remove() -> remove
-    void set(java.lang.Object) -> set
     void add(java.lang.Object) -> add
+    void set(java.lang.Object) -> set
 kotlin.collections.EmptyList -> a.a.o:
     kotlin.collections.EmptyList INSTANCE -> a
     boolean equals(java.lang.Object) -> equals
@@ -30303,15 +30307,15 @@ kotlin.collections.EmptyList -> a.a.o:
     void <init>() -> <init>
     void <clinit>() -> <clinit>
     boolean remove(java.lang.Object) -> remove
-    boolean addAll(java.util.Collection) -> addAll
     boolean addAll(int,java.util.Collection) -> addAll
-    boolean removeAll(java.util.Collection) -> removeAll
+    boolean addAll(java.util.Collection) -> addAll
     boolean retainAll(java.util.Collection) -> retainAll
+    boolean removeAll(java.util.Collection) -> removeAll
     void clear() -> clear
+    void add(int,java.lang.Object) -> add
+    boolean add(java.lang.Object) -> add
     java.lang.Object set(int,java.lang.Object) -> set
     java.lang.Object remove(int) -> remove
-    boolean add(java.lang.Object) -> add
-    void add(int,java.lang.Object) -> add
     java.lang.Object[] toArray() -> toArray
     java.lang.Object[] toArray(java.lang.Object[]) -> toArray
 kotlin.jvm.internal.ArrayIterator -> a.b.a.a:
