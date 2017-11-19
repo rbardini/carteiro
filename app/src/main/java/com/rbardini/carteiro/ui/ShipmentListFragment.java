@@ -157,6 +157,8 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   @Override
   public void onRefresh() {
+    mSwipeDismissHandler.finish();
+
     if (CarteiroApplication.syncing || mList.isEmpty()) {
       updateRefreshStatus();
 
@@ -167,7 +169,8 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   @Override
   public void refreshList() {
-    // TODO commit removals if any
+    mSwipeDismissHandler.finish();
+
     updateList();
     mListAdapter.notifyDataSetChanged();
 
