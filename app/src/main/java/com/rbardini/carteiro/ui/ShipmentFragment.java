@@ -30,7 +30,7 @@ public abstract class ShipmentFragment extends Fragment implements SwipeRefreshL
 
     mSwipeRefreshLayout = getView().findViewById(R.id.swipe_layout);
     mSwipeRefreshLayout.setOnRefreshListener(this);
-    mSwipeRefreshLayout.setColorSchemeResources(R.color.theme_accent, R.color.theme_primary_light, R.color.theme_accent, R.color.theme_primary_dark);
+    mSwipeRefreshLayout.setColorSchemeResources(R.color.theme_accent, R.color.theme_accent_dark);
 
     updateRefreshStatus();
   }
