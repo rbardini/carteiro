@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name" translatable="false">Carteiro</string>
-  <string name="app_url" translatable="false">http://carteiroapp.com/</string>
+  <string name="app_url" translatable="false">https://carteiro.app/</string>
 
-  <string name="blog_url" translatable="false">http://blog.carteiroapp.com/</string>
+  <string name="blog_url" translatable="false">https://blog.carteiro.app/</string>
   <string name="facebook_url" translatable="false">http://www.facebook.com/carteiroapp</string>
   <string name="twitter_url" translatable="false">http://twitter.com/carteiroapp</string>
   <string name="gplus_url" translatable="false">http://plus.google.com/communities/102688961399152413062</string>
-  <string name="feedback_url" translatable="false">http://feedback.carteiroapp.com/</string>
+  <string name="feedback_url" translatable="false">https://carteiroapp.uservoice.com/</string>
 
   <!-- Theme names -->
   <string name="theme_light" translatable="false">light</string>
