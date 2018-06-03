@@ -49,6 +49,10 @@
       android:icon="@drawable/ic_help_white_24dp"
       android:title="@string/action_feedback" />
 
+    <item android:id="@+id/action_contact"
+      android:icon="@drawable/ic_question_answer_white_24dp"
+      android:title="@string/action_contact" />
+
   </group>
 
 </menu>

@@ -8,6 +8,7 @@
   <string name="twitter_url" translatable="false">http://twitter.com/carteiroapp</string>
   <string name="gplus_url" translatable="false">http://plus.google.com/communities/102688961399152413062</string>
   <string name="feedback_url" translatable="false">https://carteiroapp.uservoice.com/</string>
+  <string name="contact_url" translatable="false">http://www2.correios.com.br/sistemas/falecomoscorreios/</string>
 
   <!-- Theme names -->
   <string name="theme_light" translatable="false">light</string>

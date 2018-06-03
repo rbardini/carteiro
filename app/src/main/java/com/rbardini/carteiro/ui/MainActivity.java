@@ -190,6 +190,10 @@ public class MainActivity extends ShipmentActivity {
                 UIUtils.openURL(MainActivity.this, getString(R.string.feedback_url));
                 break;
 
+              case R.id.action_contact:
+                UIUtils.openURL(MainActivity.this, getString(R.string.contact_url));
+                break;
+
               default:
                 mCurrentFragment.clearSelection();
                 showCategory(Category.getCategoryById(id));

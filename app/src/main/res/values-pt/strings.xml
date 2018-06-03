@@ -31,7 +31,8 @@
   <string name="category_returned">Devolvidos</string>
   <string name="category_archived">Arquivados</string>
   <string name="action_preferences">Configurações</string>
-  <string name="action_feedback">Feedback &amp; Suporte</string>
+  <string name="action_feedback">Ajuda e feedback</string>
+  <string name="action_contact">Fale com os Correios</string>
 
   <!-- Add Activity -->
   <string name="title_add">Adicionar objeto</string>
