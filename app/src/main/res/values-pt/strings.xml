@@ -114,6 +114,8 @@
   <!-- Context Menu -->
   <string name="opt_search">Pesquisar</string>
   <string name="opt_scan_barcode">Escanear</string>
+  <string name="opt_select_all">Marcar todos</string>
+  <string name="opt_deselect_all">Desmarcar todos</string>
   <string name="opt_refresh_item">Atualizar</string>
   <string name="opt_rename_item">Renomear</string>
   <string name="opt_mark_as_fav">Marcar como favorito</string>

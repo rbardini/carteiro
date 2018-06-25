@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <item android:id="@+id/refresh_opt"
-    android:icon="@drawable/ic_sync_white_24dp"
-    android:title="@string/opt_refresh_item"
+  <item android:id="@+id/select_all_opt"
+    android:icon="@drawable/ic_select_all_white_24dp"
+    android:title="@string/opt_select_all"
     app:showAsAction="ifRoom" />
 
   <item android:id="@+id/archive_opt"
@@ -19,6 +19,11 @@
   <item android:id="@+id/fav_opt"
     android:icon="@drawable/ic_star_border_white_24dp"
     android:title="@string/opt_mark_as_fav"
+    app:showAsAction="ifRoom" />
+
+  <item android:id="@+id/refresh_opt"
+    android:icon="@drawable/ic_sync_white_24dp"
+    android:title="@string/opt_refresh_item"
     app:showAsAction="ifRoom" />
 
   <item android:id="@+id/share_opt"

@@ -296,6 +296,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
       final int selectionSize = mSelectedList.size();
       final boolean isSingleSelection = selectionSize == 1;
+      final boolean areAllSelected = selectionSize == mList.size();
 
       // Show or hide actions depending on selection size
       menu.findItem(R.id.place_opt).setVisible(isSingleSelection);
@@ -315,7 +316,11 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
         if (!areAllFavorites && !areAllArchived) break;
       }
 
-      // Update favorite and archive actions depending on the selected items
+      // Update select all, favorite and archive actions depending on the selected items
+      MenuItem selectAllAction = menu.findItem(R.id.select_all_opt)
+        .setIcon(areAllSelected ? R.drawable.ic_deselect_all_white_24dp : R.drawable.ic_select_all_white_24dp)
+        .setTitle(areAllSelected ? R.string.opt_deselect_all : R.string.opt_select_all);
+      mCollectiveActionMap.put(selectAllAction.getItemId(), areAllSelected);
       MenuItem favAction = menu.findItem(R.id.fav_opt)
         .setIcon(areAllFavorites ? R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp)
         .setTitle(areAllFavorites ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
@@ -337,6 +342,11 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
       // Multiple items actions
       switch (actionId) {
+        case R.id.select_all_opt:
+          final boolean areAllSelected = mCollectiveActionMap.get(actionId);
+          toggleAllItemsCheckedState(!areAllSelected);
+          return true;
+
         case R.id.refresh_opt:
           if (!CarteiroApplication.syncing) {
             SyncTask.run(app, mSelectedList);
@@ -465,6 +475,19 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
     public void toggleItemCheckedState(Shipment shipment) {
       setItemCheckedState(shipment, !mSelectedList.contains(shipment));
+    }
+
+    public void toggleAllItemsCheckedState(boolean checked) {
+      if (!checked) {
+        finishActionMode();
+        return;
+      }
+
+      mSelectedList.clear();
+      mSelectedList.addAll(mList);
+
+      mActionMode.invalidate();
+      mListAdapter.notifyDataSetChanged();
     }
 
     public boolean hasActionMode() {
