@@ -22,6 +22,8 @@
   <string name="check_btn">Checar</string>
 
   <!-- Main Navigation Drawer -->
+  <string name="last_sync_notice_synced">Sincronizado %s</string>
+  <string name="last_sync_notice_syncing">Sincronizando&#8230;</string>
   <string name="category_all">Todos</string>
   <string name="category_favorites">Favoritos</string>
   <string name="category_available">Disponíveis</string>

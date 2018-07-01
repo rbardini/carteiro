@@ -21,7 +21,9 @@
   <string name="undo_btn">Undo</string>
   <string name="check_btn">Check</string>
 
-  <!-- Main Drawer -->
+  <!-- Main Navigation Drawer -->
+  <string name="last_sync_notice_synced">Synced %s</string>
+  <string name="last_sync_notice_syncing">Syncing&#8230;</string>
   <string name="category_all">All</string>
   <string name="category_favorites">Favorite</string>
   <string name="category_available">Available</string>

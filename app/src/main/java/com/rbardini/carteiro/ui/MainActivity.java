@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,16 +16,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
+
+import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
+import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 
 public class MainActivity extends ShipmentActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
@@ -36,6 +44,7 @@ public class MainActivity extends ShipmentActivity {
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   private NavigationView mNavigationView;
+  private TextView mLastSyncNotice;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +143,12 @@ public class MainActivity extends ShipmentActivity {
   }
 
   @Override
+  public void onSyncStatusChange(Intent intent) {
+    super.onSyncStatusChange(intent);
+    updateLastSyncNotice();
+  }
+
+  @Override
   public void onPostalListAttached(ShipmentListFragment f) {
     int category = f.getCategory();
 
@@ -168,7 +183,13 @@ public class MainActivity extends ShipmentActivity {
 
   private void setupNavigationDrawer() {
     mDrawerLayout = findViewById(R.id.drawer_layout);
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+      @Override
+      public void onDrawerOpened(View view) {
+        super.onDrawerOpened(view);
+        updateLastSyncNotice();
+      }
+    };
     mDrawerLayout.addDrawerListener(mDrawerToggle);
 
     mNavigationView = findViewById(R.id.navigation_view);
@@ -205,6 +226,38 @@ public class MainActivity extends ShipmentActivity {
         return true;
       }
     });
+
+    mLastSyncNotice = mNavigationView.getHeaderView(0).findViewById(R.id.last_sync_notice);
+    mLastSyncNotice.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        SyncTask.run(app, mCurrentFragment.getList());
+      }
+    });
+    updateLastSyncNotice();
+  }
+
+  private void updateLastSyncNotice() {
+    if (mLastSyncNotice == null) return;
+
+    long lastSyncTimestamp = PreferenceManager.getDefaultSharedPreferences(this).getLong(getString(R.string.pref_key_last_sync), 0);
+
+    if (lastSyncTimestamp == 0) {
+      mLastSyncNotice.setVisibility(View.GONE);
+      return;
+    }
+
+    mLastSyncNotice.setVisibility(View.VISIBLE);
+
+    if (CarteiroApplication.syncing) {
+      mLastSyncNotice.setText(R.string.last_sync_notice_syncing);
+      return;
+    }
+
+    long now = System.currentTimeMillis();
+    CharSequence lastSyncRelative = DateUtils.getRelativeTimeSpanString(lastSyncTimestamp, now, MINUTE_IN_MILLIS, FORMAT_ABBREV_RELATIVE);
+
+    mLastSyncNotice.setText(getString(R.string.last_sync_notice_synced, lastSyncRelative));
   }
 
   private void showCategory(int category) {

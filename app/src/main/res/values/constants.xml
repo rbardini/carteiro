@@ -20,6 +20,7 @@
 
   <!-- Preferences keys -->
   <string name="pref_key_on_boot" translatable="false">onboot</string>
+  <string name="pref_key_last_sync" translatable="false">lastsync</string>
   <string name="pref_key_always_add_not_found" translatable="false">alwaysaddnotfound</string>
   <string name="pref_key_always_add_delivered" translatable="false">alwaysadddelivered</string>
   <string name="pref_key_always_add_returned" translatable="false">alwaysaddreturned</string>

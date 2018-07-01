@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.AsyncTask
+import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.rbardini.carteiro.CarteiroApplication
+import com.rbardini.carteiro.R
 import com.rbardini.carteiro.model.Shipment
 import com.rbardini.carteiro.model.ShipmentRecord
 import com.rbardini.carteiro.util.MobileTracker
@@ -101,6 +103,7 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
       broadcaster.sendBroadcast(buildStatusIntent(STATUS_ERROR).putExtra(EXTRA_ERROR, "Sync for ${shipments.size} item(s) failed"))
 
     } else {
+      updateLastSyncTimestamp()
       broadcaster.sendBroadcast(buildStatusIntent(STATUS_FINISHED))
     }
 
@@ -108,6 +111,13 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
     Log.i(TAG, "Sync finished in ${TimeUnit.NANOSECONDS.toMillis(elapsedTime)} ms")
 
     return !hasError
+  }
+
+  private fun updateLastSyncTimestamp() {
+    PreferenceManager.getDefaultSharedPreferences(app)
+      .edit()
+      .putLong(app.getString(R.string.pref_key_last_sync), System.currentTimeMillis())
+      .apply()
   }
 
   private fun buildStatusIntent(status: Int): Intent {
