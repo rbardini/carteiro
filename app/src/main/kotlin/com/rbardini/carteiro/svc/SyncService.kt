@@ -7,13 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.AsyncTask
-import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.rbardini.carteiro.CarteiroApplication
-import com.rbardini.carteiro.R
 import com.rbardini.carteiro.model.Shipment
-import com.rbardini.carteiro.util.PostalUtils
+import com.rbardini.carteiro.util.SyncUtils
 
 class SyncService : JobService() {
   companion object {
@@ -30,7 +28,7 @@ class SyncService : JobService() {
   override fun onStartJob(params: JobParameters?): Boolean {
     Log.i(TAG, "Sync job started")
 
-    val shipments = getShipmentsForSync()
+    val shipments = SyncUtils.getShipmentsForSync(application as CarteiroApplication)
     if (shipments.isEmpty()) return false
 
     registerReceiver()
@@ -65,25 +63,4 @@ class SyncService : JobService() {
   private fun registerReceiver() = LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, IntentFilter(SyncTask.ACTION_SYNC))
 
   private fun unregisterReceiver() = LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver)
-
-  private fun getShipmentsForSync(): List<Shipment> {
-    val app = application as CarteiroApplication
-    val flags = getSyncFlags()
-
-    return app.databaseHelper.getShallowShipmentsForSync(flags)
-  }
-
-  private fun getSyncFlags(): Int {
-    val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-    var flags = 0
-
-    if (prefs.getBoolean(getString(R.string.pref_key_sync_favorites_only), false)) {
-      flags = flags or PostalUtils.Category.FAVORITES
-    }
-    if (prefs.getBoolean(getString(R.string.pref_key_dont_sync_delivered_items), false)) {
-      flags = flags or PostalUtils.Category.UNDELIVERED
-    }
-
-    return flags
-  }
 }

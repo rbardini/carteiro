@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
+import com.rbardini.carteiro.util.SyncUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
@@ -67,6 +69,7 @@ public class MainActivity extends ShipmentActivity {
     }
 
     NotificationUtils.createNotificationChannels(this);
+    syncOnLaunchIfEnabled();
   }
 
   @Override
@@ -235,6 +238,14 @@ public class MainActivity extends ShipmentActivity {
       }
     });
     updateLastSyncNotice();
+  }
+
+  private void syncOnLaunchIfEnabled() {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    if (prefs.getBoolean(getString(R.string.pref_key_sync_on_launch), true)) {
+      SyncTask.run(app, SyncUtils.getShipmentsForSync(app));
+    }
   }
 
   private void updateLastSyncNotice() {

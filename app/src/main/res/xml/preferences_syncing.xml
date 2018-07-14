@@ -6,6 +6,11 @@
    android:summary="@string/pref_auto_sync_summary"
    android:defaultValue="true" />
 
+  <SwitchPreference android:key="@string/pref_key_sync_on_launch"
+    android:title="@string/pref_sync_on_launch_title"
+    android:summary="@string/pref_sync_on_launch_summary"
+    android:defaultValue="true" />
+
   <SwitchPreference android:key="@string/pref_key_sync_favorites_only"
     android:title="@string/pref_sync_favorites_only_title"
     android:summary="@string/pref_sync_favorites_only_summary"

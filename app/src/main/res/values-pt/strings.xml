@@ -157,6 +157,8 @@
   <string name="pref_syncing_header">Sincronização</string>
   <string name="pref_auto_sync_title">Sincronização automática</string>
   <string name="pref_auto_sync_summary">Sincronizar objetos automaticamente</string>
+  <string name="pref_sync_on_launch_title">Sincronizar ao iniciar</string>
+  <string name="pref_sync_on_launch_summary">Atualizar objetos ao abrir o aplicativo</string>
   <string name="pref_sync_favorites_only_title">Sincronizar apenas favoritos</string>
   <string name="pref_sync_favorites_only_summary">Sincronizar apenas objetos marcados como favoritos</string>
   <string name="pref_dont_sync_delivered_items_title">Não sincronizar objetos entregues</string>
