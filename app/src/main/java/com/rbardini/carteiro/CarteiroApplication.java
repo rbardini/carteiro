@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
+import android.webkit.WebView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -17,6 +19,8 @@ import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
 
 public class CarteiroApplication extends Application {
+  private static final String TAG = "CarteiroApplication";
+
   public static boolean syncing = false;
 
   private Tracker tracker;
@@ -56,6 +60,13 @@ public class CarteiroApplication extends Application {
 
     if (currentTheme.equals(darkTheme)) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+      // Workaround for broken colors after WebView is created (https://stackoverflow.com/q/44035654)
+      try {
+        new WebView(getApplicationContext());
+      } catch (Exception e) {
+        Log.w(TAG, "Could not instantiate WebView to avoid night mode issues");
+      }
     }
   }
 
