@@ -189,6 +189,8 @@
   <string name="pref_notification_settings_summary">Sound, vibration, light and more</string>
 
   <string name="pref_appearance_header">Appearance</string>
+  <string name="pref_initial_category_title">Initial category</string>
+  <string name="pref_initial_category_summary">Select the category to be displayed on launch</string>
   <string name="pref_theme_title">Theme</string>
   <string name="pref_theme_summary">Choose a theme</string>
   <string name="pref_theme_light">Light</string>

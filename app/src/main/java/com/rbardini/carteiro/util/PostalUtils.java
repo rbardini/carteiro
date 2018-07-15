@@ -7,6 +7,7 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -171,8 +172,9 @@ public final class PostalUtils {
       return map;
     }
 
-    private static TreeMap<Integer, Integer> buildTitleMap() {
-      TreeMap<Integer, Integer> map = new TreeMap<>();
+    private static LinkedHashMap<Integer, Integer> buildTitleMap() {
+      // Use LinkedHashMap to keep insertion order
+      LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
 
       map.put(ALL, R.string.category_all);
       map.put(FAVORITES, R.string.category_favorites);
@@ -222,6 +224,10 @@ public final class PostalUtils {
 
     public static int getTitle(int category) {
       return TitleMap.get(category);
+    }
+
+    public static Map<Integer, Integer> getTitleMap() {
+      return TitleMap;
     }
 
     public static int getColor(int category) {

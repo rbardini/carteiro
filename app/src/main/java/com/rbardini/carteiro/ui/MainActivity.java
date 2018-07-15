@@ -40,6 +40,7 @@ public class MainActivity extends ShipmentActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
   private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
+  private SharedPreferences mPrefs;
   private FragmentManager mFragmentManager;
   private ShipmentListFragment mCurrentFragment;
   private Handler mHandler;
@@ -53,6 +54,7 @@ public class MainActivity extends ShipmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
     mFragmentManager = getFragmentManager();
     mHandler = new Handler();
 
@@ -61,12 +63,7 @@ public class MainActivity extends ShipmentActivity {
 
     setupNavigationDrawer();
     setupAddButton();
-
-    if (savedInstanceState == null) {
-      showCategory(Category.ALL);
-    } else {
-      mCurrentFragment = getCurrentFragment();
-    }
+    setupFragment(savedInstanceState == null);
 
     NotificationUtils.createNotificationChannels(this);
     syncOnLaunchIfEnabled();
@@ -137,8 +134,9 @@ public class MainActivity extends ShipmentActivity {
       return;
     }
 
-    if (!mCurrentFragment.hasSelection() && mCurrentFragment.getCategory() != Category.ALL) {
-      showCategory(Category.ALL);
+    int initialCategory = getInitialCategory();
+    if (!mCurrentFragment.hasSelection() && mCurrentFragment.getCategory() != initialCategory) {
+      showCategory(initialCategory);
       return;
     }
 
@@ -182,6 +180,14 @@ public class MainActivity extends ShipmentActivity {
         startActivity(intent, options.toBundle());
       }
     });
+  }
+
+  private void setupFragment(boolean initializing) {
+    if (initializing) {
+      showCategory(getInitialCategory());
+    } else {
+      mCurrentFragment = getCurrentFragment();
+    }
   }
 
   private void setupNavigationDrawer() {
@@ -241,9 +247,7 @@ public class MainActivity extends ShipmentActivity {
   }
 
   private void syncOnLaunchIfEnabled() {
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-    if (prefs.getBoolean(getString(R.string.pref_key_sync_on_launch), true)) {
+    if (mPrefs.getBoolean(getString(R.string.pref_key_sync_on_launch), true)) {
       SyncTask.run(app, SyncUtils.getShipmentsForSync(app));
     }
   }
@@ -285,6 +289,10 @@ public class MainActivity extends ShipmentActivity {
 
       mCurrentFragment = newFragment;
     }
+  }
+
+  private int getInitialCategory() {
+    return Integer.parseInt(mPrefs.getString(getString(R.string.pref_key_initial_category), String.valueOf(Category.ALL)));
   }
 
   private ShipmentListFragment getCurrentFragment() {

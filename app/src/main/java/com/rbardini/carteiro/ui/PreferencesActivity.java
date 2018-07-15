@@ -13,6 +13,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -35,6 +36,7 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.util.Constants;
 import com.rbardini.carteiro.util.IOUtils;
+import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.io.File;
@@ -42,6 +44,8 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class PreferencesActivity extends PreferenceActivity {
@@ -227,7 +231,42 @@ public class PreferencesActivity extends PreferenceActivity {
       super.onCreate(savedInstanceState);
       addPreferencesFromResource(R.xml.preferences_appearance);
 
+      setupInitialCategoryPreference();
       setThemePreference();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+      super.onSharedPreferenceChanged(sharedPreferences, key);
+
+      if (key.equals(getString(R.string.pref_key_initial_category))) {
+        setInitialCategoryPreference();
+      }
+    }
+
+    private void setupInitialCategoryPreference() {
+      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_initial_category));
+      Map<Integer, Integer> titleMap = Category.getTitleMap();
+
+      CharSequence[] entries = new CharSequence[titleMap.size()];
+      CharSequence[] entryValues = new CharSequence[titleMap.size()];
+      int index = 0;
+
+      for (Entry<Integer, Integer> entry : Category.getTitleMap().entrySet()) {
+        entries[index] = getString(entry.getValue());
+        entryValues[index] = String.valueOf(entry.getKey());
+        index++;
+      }
+
+      pref.setEntries(entries);
+      pref.setEntryValues(entryValues);
+
+      setInitialCategoryPreference();
+    }
+
+    private void setInitialCategoryPreference() {
+      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_initial_category));
+      pref.setSummary(pref.getEntry());
     }
 
     private void setThemePreference() {
