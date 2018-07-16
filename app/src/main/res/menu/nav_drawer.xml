@@ -20,6 +20,10 @@
       android:icon="@drawable/ic_done_white_24dp"
       android:title="@string/category_delivered" />
 
+    <item android:id="@id/category_in_transit"
+      android:icon="@drawable/ic_directions_white_24dp"
+      android:title="@string/category_in_transit" />
+
     <item android:id="@id/category_irregular"
       android:icon="@drawable/ic_info_white_24dp"
       android:title="@string/category_irregular" />

@@ -16,6 +16,7 @@ import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
+import com.rbardini.carteiro.util.PostalUtils.Status;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -450,30 +451,46 @@ public class DatabaseHelper {
   }
 
   public List<Shipment> getShallowShipments(int category) {
-    String selection;
+    String selection = "archived = ?";
     String[] selectionArgs;
+    String[] statuses;
 
     switch (category) {
       case Category.ALL:
-        selection = "archived = ?";
         selectionArgs = new String[] {"0"};
         break;
+
       case Category.FAVORITES:
-        selection = "archived = ? AND fav = ?";
+        selection += " AND fav = ?";
         selectionArgs = new String[] {"0", "1"};
         break;
+
+      case Category.IN_TRANSIT:
+        Map<String, Integer> statusesMap = Status.getCategoryMap();
+        statuses = statusesMap.keySet().toArray(new String[statusesMap.size()]);
+
+        selection += " AND status NOT IN (";
+        for (int i=0; i<statuses.length-1; i++) selection += "?, ";
+        selection += "?)";
+
+        selectionArgs = new String[statuses.length + 1];
+        selectionArgs[0] = "0";
+        System.arraycopy(statuses, 0, selectionArgs, 1, statuses.length);
+        break;
+
       case Category.ARCHIVED:
-        selection = "archived = ?";
         selectionArgs = new String[] {"1"};
         break;
+
       default:
-        selection = "archived = ?";
-        String[] statuses = Category.getStatuses(category);
+        statuses = Category.getStatuses(category);
+
         if (statuses != null) {
           selection += " AND status IN (";
           for (int i=0; i<statuses.length-1; i++) selection += "?, ";
           selection += "?)";
         }
+
         selectionArgs = new String[(statuses != null ? statuses.length : 0) + 1];
         selectionArgs[0] = "0";
         System.arraycopy(statuses, 0, selectionArgs, 1, statuses.length);

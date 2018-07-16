@@ -28,6 +28,7 @@ public final class PostalUtils {
     public static final int IRREGULAR   = 0x80;
     public static final int UNKNOWN     = 0x100;
     public static final int RETURNED    = 0x200;
+    public static final int IN_TRANSIT  = 0x400;
 
     private static final Map<Integer, String[]> StatusesMap = buildStatusesMap();
     private static final Map<Integer, Integer> IdMap = buildIdMap();
@@ -164,6 +165,7 @@ public final class PostalUtils {
       map.put(FAVORITES, R.id.category_favorites);
       map.put(AVAILABLE, R.id.category_available);
       map.put(DELIVERED, R.id.category_delivered);
+      map.put(IN_TRANSIT, R.id.category_in_transit);
       map.put(IRREGULAR, R.id.category_irregular);
       map.put(UNKNOWN, R.id.category_unknown);
       map.put(RETURNED, R.id.category_returned);
@@ -180,6 +182,7 @@ public final class PostalUtils {
       map.put(FAVORITES, R.string.category_favorites);
       map.put(AVAILABLE, R.string.category_available);
       map.put(DELIVERED, R.string.category_delivered);
+      map.put(IN_TRANSIT, R.string.category_in_transit);
       map.put(IRREGULAR, R.string.category_irregular);
       map.put(UNKNOWN, R.string.category_unknown);
       map.put(RETURNED, R.string.category_returned);
@@ -195,6 +198,7 @@ public final class PostalUtils {
       map.put(POSTED, R.color.postal_status_posted);
       map.put(AVAILABLE, R.color.postal_status_available);
       map.put(DELIVERED, R.color.postal_status_delivered);
+      map.put(IN_TRANSIT, R.color.postal_status_in_transit);
       map.put(IRREGULAR, R.color.postal_status_irregular);
       map.put(UNKNOWN, R.color.postal_status_unknown);
       map.put(RETURNED, R.color.postal_status_returned);
@@ -535,6 +539,10 @@ public final class PostalUtils {
     public static int getCategory(String status) {
       Integer flag = CategoryMap.get(status);
       return flag != null ? flag : 0;
+    }
+
+    public static Map<String, Integer> getCategoryMap() {
+      return CategoryMap;
     }
 
     public static int getIcon(String status) {

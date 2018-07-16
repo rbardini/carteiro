@@ -6,6 +6,7 @@
   <item type="id" name="category_favorites" />
   <item type="id" name="category_available" />
   <item type="id" name="category_delivered" />
+  <item type="id" name="category_in_transit" />
   <item type="id" name="category_irregular" />
   <item type="id" name="category_unknown" />
   <item type="id" name="category_returned" />

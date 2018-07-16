@@ -7,10 +7,11 @@
   <color name="theme_background">@color/blue_grey_900</color>
   <color name="theme_placeholder">@color/blue_grey_800</color>
 
-  <color name="postal_status_all">@color/light_blue_600</color>
+  <color name="postal_status_all">@color/postal_status_in_transit</color>
   <color name="postal_status_posted">@color/brown_600</color>
   <color name="postal_status_available">@color/deep_purple_600</color>
   <color name="postal_status_delivered">@color/light_green_600</color>
+  <color name="postal_status_in_transit">@color/light_blue_600</color>
   <color name="postal_status_irregular">@color/orange_600</color>
   <color name="postal_status_unknown">@color/blue_grey_600</color>
   <color name="postal_status_returned">@color/red_600</color>

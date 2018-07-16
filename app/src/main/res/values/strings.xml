@@ -28,6 +28,7 @@
   <string name="category_favorites">Favorite</string>
   <string name="category_available">Available</string>
   <string name="category_delivered">Delivered</string>
+  <string name="category_in_transit">In transit</string>
   <string name="category_irregular">Irregular</string>
   <string name="category_unknown">Unknown</string>
   <string name="category_returned">Returned</string>

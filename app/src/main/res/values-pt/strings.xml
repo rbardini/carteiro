@@ -28,6 +28,7 @@
   <string name="category_favorites">Favoritos</string>
   <string name="category_available">Disponíveis</string>
   <string name="category_delivered">Entregues</string>
+  <string name="category_in_transit">Em trânsito</string>
   <string name="category_irregular">Irregulares</string>
   <string name="category_unknown">Desconhecidos</string>
   <string name="category_returned">Devolvidos</string>
