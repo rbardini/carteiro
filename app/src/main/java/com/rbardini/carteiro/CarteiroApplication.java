@@ -37,6 +37,7 @@ public class CarteiroApplication extends Application {
     }, new IntentFilter(SyncTask.ACTION_SYNC));
 
     GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+    analytics.setDryRun(true);
     tracker = analytics.newTracker(R.xml.tracker_config);
     tracker.enableAdvertisingIdCollection(true);
 
