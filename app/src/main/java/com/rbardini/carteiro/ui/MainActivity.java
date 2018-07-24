@@ -272,7 +272,7 @@ public class MainActivity extends ShipmentActivity {
     long now = System.currentTimeMillis();
     CharSequence lastSyncRelative = DateUtils.getRelativeTimeSpanString(lastSyncTimestamp, now, MINUTE_IN_MILLIS, FORMAT_ABBREV_RELATIVE);
 
-    mLastSyncNotice.setText(getString(R.string.last_sync_notice_synced, lastSyncRelative));
+    mLastSyncNotice.setText(getString(R.string.last_sync_notice_synced, lastSyncRelative.toString().toLowerCase()));
   }
 
   private void showCategory(int category) {
