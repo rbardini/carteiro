@@ -33,6 +33,22 @@ object SyncScheduler {
   }
 
   @JvmStatic
+  fun reschedule(context: Context) {
+    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    val isScheduled = SyncScheduler.isScheduled(context)
+    val autoSync = prefs.getBoolean(context.getString(R.string.pref_key_auto_sync), true)
+
+    if (!isScheduled && autoSync) {
+      Log.i(TAG, "Rescheduling sync...")
+      SyncScheduler.schedule(context)
+    }
+  }
+
+  @JvmStatic
+  fun isScheduled(context: Context): Boolean =
+    getScheduler(context).allPendingJobs.any { it.id == JOB_ID }
+
+  @JvmStatic
   fun unschedule(context: Context) {
     getScheduler(context).cancel(JOB_ID)
     Log.i(TAG, "Sync unscheduled")
@@ -43,8 +59,8 @@ object SyncScheduler {
 
   private fun getNetworkType(context: Context): Int {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    val key = context.getString(R.string.pref_key_sync_wifi_only)
+    val syncWifiOnly = prefs.getBoolean(context.getString(R.string.pref_key_sync_wifi_only), false)
 
-    return if (prefs.getBoolean(key, false)) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY
+    return if (syncWifiOnly) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY
   }
 }

@@ -36,13 +36,10 @@ public class CarteiroApplication extends Application {
       }
     }, new IntentFilter(SyncTask.ACTION_SYNC));
 
-    GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-    analytics.setDryRun(true);
-    tracker = analytics.newTracker(R.xml.tracker_config);
-    tracker.enableAdvertisingIdCollection(true);
+    SyncScheduler.reschedule(this);
 
-    setTheme();
-    scheduleSync();
+    setupAnalytics();
+    setupTheme();
   }
 
   public Tracker getTracker() {
@@ -53,7 +50,13 @@ public class CarteiroApplication extends Application {
     return DatabaseHelper.getInstance(this);
   }
 
-  private void setTheme() {
+  private void setupAnalytics() {
+    GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+    tracker = analytics.newTracker(R.xml.tracker_config);
+    tracker.enableAdvertisingIdCollection(true);
+  }
+
+  private void setupTheme() {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     String lightTheme = getString(R.string.theme_light);
     String darkTheme = getString(R.string.theme_dark);
@@ -68,18 +71,6 @@ public class CarteiroApplication extends Application {
       } catch (Exception e) {
         Log.w(TAG, "Could not instantiate WebView to avoid night mode issues");
       }
-    }
-  }
-
-  private void scheduleSync() {
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    boolean onBoot = prefs.getBoolean(getString(R.string.pref_key_on_boot), false);
-    boolean autoSync = prefs.getBoolean(getString(R.string.pref_key_auto_sync), true);
-
-    if (!onBoot && autoSync) {
-      // Schedule sync on first start
-      SyncScheduler.schedule(this);
-      prefs.edit().putBoolean(getString(R.string.pref_key_on_boot), true).apply();
     }
   }
 }
