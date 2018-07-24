@@ -52,6 +52,8 @@ public class CarteiroApplication extends Application {
 
   private void setupAnalytics() {
     GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+    analytics.setDryRun(BuildConfig.DEBUG);
+
     tracker = analytics.newTracker(R.xml.tracker_config);
     tracker.enableAdvertisingIdCollection(true);
   }
