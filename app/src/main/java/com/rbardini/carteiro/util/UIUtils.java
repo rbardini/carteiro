@@ -20,6 +20,9 @@ import com.rbardini.carteiro.ui.MainActivity;
 
 import java.util.Date;
 
+import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
+import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
+
 public final class UIUtils {
   public static void goHome(Context context) {
     final Intent intent = new Intent(context, MainActivity.class);
@@ -57,23 +60,33 @@ public final class UIUtils {
     return context.getString(R.string.date_relative_over_year);
   }
 
+  public static CharSequence getRelativeMinutesString(Context context, long time) {
+    long now = System.currentTimeMillis();
+
+    if (now - time <= MINUTE_IN_MILLIS) {
+      return context.getString(R.string.date_just_now);
+    }
+
+    return DateUtils.getRelativeTimeSpanString(time, now, MINUTE_IN_MILLIS, FORMAT_ABBREV_RELATIVE);
+  }
+
   public static Bitmap getBitmapFromDrawable(Context context, @DrawableRes int drawableId) {
     Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 
     if (drawable instanceof BitmapDrawable) {
       return ((BitmapDrawable) drawable).getBitmap();
+    }
 
-    } else if (drawable instanceof VectorDrawable) {
+    if (drawable instanceof VectorDrawable) {
       Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
       Canvas canvas = new Canvas(bitmap);
       drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
       drawable.draw(canvas);
 
       return bitmap;
-
-    } else {
-      throw new IllegalArgumentException("Unsupported drawable type");
     }
+
+    throw new IllegalArgumentException("Unsupported drawable type");
   }
 
   public static void shareItem(Context context, Shipment shipment) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <!-- Date -->
+  <string name="date_just_now">Just now</string>
   <string name="date_today">Today</string>
   <string name="date_yesterday">Yesterday</string>
   <string name="date_relative_days_ago">%d days ago</string>

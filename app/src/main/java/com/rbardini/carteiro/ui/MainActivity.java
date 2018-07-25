@@ -17,7 +17,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +31,6 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.SyncUtils;
 import com.rbardini.carteiro.util.UIUtils;
-
-import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
-import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 
 public class MainActivity extends ShipmentActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
@@ -269,9 +265,7 @@ public class MainActivity extends ShipmentActivity {
       return;
     }
 
-    long now = System.currentTimeMillis();
-    CharSequence lastSyncRelative = DateUtils.getRelativeTimeSpanString(lastSyncTimestamp, now, MINUTE_IN_MILLIS, FORMAT_ABBREV_RELATIVE);
-
+    CharSequence lastSyncRelative = UIUtils.getRelativeMinutesString(this, lastSyncTimestamp);
     mLastSyncNotice.setText(getString(R.string.last_sync_notice_synced, lastSyncRelative.toString().toLowerCase()));
   }
 
