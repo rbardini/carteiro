@@ -9,8 +9,8 @@ android {
     applicationId "com.rbardini.carteiro"
     minSdkVersion 21
     targetSdkVersion 28
-    versionCode 34
-    versionName "3.3.4"
+    versionCode 35
+    versionName "3.4.0"
   }
 
   sourceSets {
