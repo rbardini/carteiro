@@ -14,7 +14,7 @@ import com.rbardini.carteiro.R;
 public class SROFragment extends Fragment {
   public static final String TAG = "SROFragment";
 
-  private static final String SRO_URL = "http://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm";
+  private static final String SRO_URL = "https://www2.correios.com.br/sistemas/rastreamento/newprint.cfm";
 
   interface OnStateChangeListener {
     void onProgress(int progress);
