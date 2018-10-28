@@ -1,8 +1,8 @@
 package com.rbardini.carteiro.ui.swipedismiss;
 
-import android.support.annotation.NonNull;
-
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 public interface SwipeDismissListener {
   void onItemClicked(@NonNull Object item);

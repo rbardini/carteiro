@@ -3,9 +3,6 @@ package com.rbardini.carteiro.ui;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +21,10 @@ import com.rbardini.carteiro.util.PostalUtils.Status;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ShipmentListAdapter extends SwipeDismissAdapter {
   private final Context mContext;

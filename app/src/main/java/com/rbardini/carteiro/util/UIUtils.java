@@ -8,8 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
-import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.widget.Toast;
 
@@ -19,6 +17,9 @@ import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.ui.MainActivity;
 
 import java.util.Date;
+
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
 import static android.text.format.DateUtils.MINUTE_IN_MILLIS;

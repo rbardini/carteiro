@@ -7,9 +7,6 @@ import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.transition.ChangeBounds;
 import android.transition.TransitionValues;
 import android.view.View;
@@ -17,6 +14,10 @@ import android.view.ViewGroup;
 
 import com.rbardini.carteiro.ui.drawable.MorphDrawable;
 import com.rbardini.carteiro.util.AnimUtils;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * An extension to {@link ChangeBounds} that also morphs the views background (color & corner

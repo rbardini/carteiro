@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -17,6 +15,9 @@ import com.google.android.gms.analytics.Tracker;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class CarteiroApplication extends Application {
   private static final String TAG = "CarteiroApplication";

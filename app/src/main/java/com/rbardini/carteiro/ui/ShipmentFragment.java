@@ -1,13 +1,14 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
+
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public abstract class ShipmentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
   protected Activity mActivity;

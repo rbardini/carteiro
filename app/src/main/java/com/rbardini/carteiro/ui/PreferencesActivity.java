@@ -1,7 +1,6 @@
 package com.rbardini.carteiro.ui;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,9 +18,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -47,6 +43,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 
 public class PreferencesActivity extends PreferenceActivity {
   private static CarteiroApplication app;

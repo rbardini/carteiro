@@ -3,13 +3,14 @@ package com.rbardini.carteiro.ui;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 
 public class SearchActivity extends ShipmentActivity {
   private ActionBar mActionBar;
@@ -74,7 +75,7 @@ public class SearchActivity extends ShipmentActivity {
 
       if (mCurrentFragment == null) {
         mCurrentFragment = ShipmentListFragment.newInstance(mQuery);
-        getFragmentManager().beginTransaction().replace(R.id.content, mCurrentFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, mCurrentFragment).commit();
 
       } else {
         mCurrentFragment.setQuery(mQuery);

@@ -1,9 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -19,7 +17,10 @@ import com.rbardini.carteiro.model.Shipment;
 
 import java.util.ArrayList;
 
-public class ShipmentDialogFragment extends DialogFragment {
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
+
+public class ShipmentDialogFragment extends AppCompatDialogFragment {
   public static final String TAG = "ShipmentDialogFragment";
 
   interface OnShipmentChangeListener {

@@ -4,11 +4,6 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -35,6 +30,12 @@ import com.rbardini.carteiro.util.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ShipmentListFragment extends ShipmentFragment implements SwipeDismissListener {
   interface OnPostalListActionListener {

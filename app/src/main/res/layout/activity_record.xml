@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.design.widget.AppBarLayout android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+  <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     android:id="@+id/app_bar"
     android:transitionName="@string/transition_record"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.widget.CollapsingToolbarLayout
+    <com.google.android.material.appbar.CollapsingToolbarLayout
       android:id="@+id/collapsing_toolbar"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed|snap"
       app:expandedTitleMarginStart="?attr/actionBarSize">
 
-      <android.support.v7.widget.Toolbar style="@style/ActionBar.Flat"
+      <androidx.appcompat.widget.Toolbar style="@style/ActionBar.Flat"
         app:layout_collapseMode="pin">
 
         <ProgressBar
@@ -28,7 +28,7 @@
           android:indeterminate="true"
           android:visibility="gone" />
 
-      </android.support.v7.widget.Toolbar>
+      </androidx.appcompat.widget.Toolbar>
 
       <LinearLayout style="@style/RecordSubHeader"
         android:orientation="vertical"
@@ -45,11 +45,11 @@
 
       </LinearLayout>
 
-    </android.support.design.widget.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-  </android.support.design.widget.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
-  <android.support.v4.widget.NestedScrollView
+  <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -61,6 +61,6 @@
       android:layout_height="match_parent"
       android:background="@color/theme_background" />
 
-  </android.support.v4.widget.NestedScrollView>
+  </androidx.core.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

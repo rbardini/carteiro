@@ -12,17 +12,17 @@ import android.net.Uri
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.Settings
-import android.support.v4.app.TaskStackBuilder
-import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.text.TextUtils
+import androidx.core.app.TaskStackBuilder
+import androidx.core.content.ContextCompat
 import com.rbardini.carteiro.R
 import com.rbardini.carteiro.model.Shipment
 import com.rbardini.carteiro.ui.MainActivity
 import com.rbardini.carteiro.ui.RecordActivity
 import com.rbardini.carteiro.util.PostalUtils.Category
 import com.rbardini.carteiro.util.PostalUtils.Status
-import java.util.*
+import java.util.Locale
 
 object NotificationUtils {
   private const val NOTIFICATION_ID_ONGOING_SYNC = 1

@@ -1,8 +1,6 @@
 package com.rbardini.carteiro.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,9 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncTask;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecordFragment extends ShipmentFragment {
   public static final String TAG = "RecordFragment";

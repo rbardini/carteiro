@@ -1,7 +1,6 @@
 package com.rbardini.carteiro.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.rbardini.carteiro.R;
+
+import androidx.fragment.app.Fragment;
 
 public class SROFragment extends Fragment {
   public static final String TAG = "SROFragment";

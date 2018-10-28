@@ -6,16 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -25,6 +21,11 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public abstract class ShipmentActivity extends AppCompatActivity implements ShipmentListFragment.OnPostalListActionListener, ShipmentDialogFragment.OnShipmentChangeListener {
   private static final String TAG = "ShipmentActivity";

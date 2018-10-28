@@ -6,8 +6,8 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.AsyncTask
 import android.preference.PreferenceManager
-import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.rbardini.carteiro.CarteiroApplication
 import com.rbardini.carteiro.R
 import com.rbardini.carteiro.model.Shipment

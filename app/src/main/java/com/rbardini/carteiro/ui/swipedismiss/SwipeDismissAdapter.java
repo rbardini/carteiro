@@ -1,9 +1,9 @@
 package com.rbardini.carteiro.ui.swipedismiss;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class SwipeDismissAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   public abstract boolean addItem(int index, @NonNull Object item);

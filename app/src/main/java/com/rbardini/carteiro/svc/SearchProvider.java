@@ -1,12 +1,13 @@
 package com.rbardini.carteiro.svc;
 
-import com.rbardini.carteiro.db.DatabaseHelper;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+
+import com.rbardini.carteiro.db.DatabaseHelper;
+
+import androidx.annotation.NonNull;
 
 public class SearchProvider extends ContentProvider {
   public static final String AUTHORITY = "com.rbardini.carteiro.SearchProvider";

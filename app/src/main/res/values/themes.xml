@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="Theme.Carteiro" parent="Theme.AppCompat.DayNight.NoActionBar">
+  <style name="Base.Theme.Carteiro" parent="Theme.MaterialComponents.Light.NoActionBar" />
+
+  <style name="Theme.Carteiro" parent="Base.Theme.Carteiro">
     <item name="colorPrimary">@color/theme_primary</item>
     <item name="colorPrimaryDark">@color/theme_primary_dark</item>
     <item name="colorAccent">@color/theme_accent</item>
@@ -21,8 +23,6 @@
   <style name="Theme.Carteiro.Translucent.Dialog">
     <item name="android:windowBackground">@color/dialog_scrim</item>
     <item name="android:colorBackgroundCacheHint">@null</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowIsFloating">false</item>
     <item name="android:windowIsTranslucent">true</item>
   </style>
 </resources>

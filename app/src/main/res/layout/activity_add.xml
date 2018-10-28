@@ -18,7 +18,7 @@
     android:transitionName="@string/transition_add_item"
     android:clickable="true">
 
-    <android.support.v7.widget.Toolbar style="@style/ActionBar.Flat.Light"
+    <androidx.appcompat.widget.Toolbar style="@style/ActionBar.Flat.Light"
       android:background="@android:color/transparent" />
 
     <LinearLayout
@@ -38,28 +38,28 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/keyline_1_half">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
           android:id="@+id/trk_code_input"
           android:layout_width="match_parent"
           android:layout_height="wrap_content">
 
-          <android.support.design.widget.TextInputEditText style="@style/TrkCodeField"
+          <com.google.android.material.textfield.TextInputEditText style="@style/TrkCodeField"
             android:id="@+id/trk_code_fld"
             android:paddingTop="6dp" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/keyline_1_half">
 
-          <android.support.design.widget.TextInputEditText style="@style/ItemDescField"
+          <com.google.android.material.textfield.TextInputEditText style="@style/ItemDescField"
             android:id="@+id/item_desc_fld"
             android:imeOptions="actionGo"
             android:paddingTop="6dp" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
       </LinearLayout>
 
@@ -94,14 +94,14 @@
         app:flexWrap="wrap"
         app:justifyContent="flex_end">
 
-        <Button style="?attr/buttonBarButtonStyle"
+        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
           android:id="@+id/cancel_button"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="@string/negative_btn"
           android:onClick="onCancelClick" />
 
-        <Button style="?attr/buttonBarButtonStyle"
+        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
           android:id="@+id/add_button"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
           android:onClick="onAddClick"
           android:enabled="false" />
 
-        <Button style="?attr/buttonBarButtonStyle"
+        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
           android:id="@+id/skip_button"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
           android:onClick="onSkipClick"
           android:visibility="gone" />
 
-        <Button style="?attr/buttonBarButtonStyle"
+        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
           android:id="@+id/just_once_button"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
           android:onClick="onJustOnceClick"
           android:visibility="gone" />
 
-        <Button style="?attr/buttonBarButtonStyle"
+        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
           android:id="@+id/always_button"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"

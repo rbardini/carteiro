@@ -1,14 +1,7 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentManager.OnBackStackChangedListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +9,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.Shipment;
@@ -27,6 +22,12 @@ import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
 
 public class RecordActivity extends ShipmentActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
@@ -57,7 +58,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     dh = app.getDatabaseHelper();
-    mFragManager = getFragmentManager();
+    mFragManager = getSupportFragmentManager();
     mFragManager.addOnBackStackChangedListener(new OnBackStackChangedListener() {
       @Override
       public void onBackStackChanged() {
@@ -158,7 +159,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
         return true;
 
       case R.id.rename_opt:
-        ShipmentDialogFragment.newInstance(R.id.rename_opt, shipments).show(getFragmentManager(), ShipmentDialogFragment.TAG);
+        ShipmentDialogFragment.newInstance(R.id.rename_opt, shipments).show(getSupportFragmentManager(), ShipmentDialogFragment.TAG);
         return true;
 
       case R.id.archive_opt:
