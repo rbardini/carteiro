@@ -4,8 +4,8 @@
   android:layout_height="match_parent"
   android:orientation="vertical"
   android:paddingTop="@dimen/keyline_1"
-  android:paddingLeft="@dimen/keyline_1"
-  android:paddingRight="@dimen/keyline_1">
+  android:paddingStart="@dimen/keyline_1"
+  android:paddingEnd="@dimen/keyline_1">
 
   <Button android:id="@+id/theme_light_button"
     android:layout_width="match_parent"
@@ -13,8 +13,8 @@
     android:layout_marginBottom="@dimen/keyline_1_half"
     android:background="@drawable/theme_preview_light"
     android:gravity="center|end"
-    android:paddingLeft="@dimen/keyline_1"
-    android:paddingRight="@dimen/keyline_1"
+    android:paddingStart="@dimen/keyline_1"
+    android:paddingEnd="@dimen/keyline_1"
     android:tag="@string/theme_light"
     android:text="@string/pref_theme_light"
     android:textColor="@android:color/background_dark" />
@@ -25,8 +25,8 @@
     android:layout_marginBottom="@dimen/keyline_1_half"
     android:background="@drawable/theme_preview_dark"
     android:gravity="center|end"
-    android:paddingLeft="@dimen/keyline_1"
-    android:paddingRight="@dimen/keyline_1"
+    android:paddingStart="@dimen/keyline_1"
+    android:paddingEnd="@dimen/keyline_1"
     android:tag="@string/theme_dark"
     android:text="@string/pref_theme_dark"
     android:textColor="@android:color/background_light" />

@@ -5,8 +5,8 @@
   android:orientation="vertical"
   android:paddingTop="12dp"
   android:paddingBottom="12dp"
-  android:paddingLeft="@dimen/keyline_1"
-  android:paddingRight="@dimen/keyline_1">
+  android:paddingStart="@dimen/keyline_1"
+  android:paddingEnd="@dimen/keyline_1">
 
   <TextView
     android:layout_width="wrap_content"

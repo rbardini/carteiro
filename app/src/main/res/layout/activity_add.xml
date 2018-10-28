@@ -28,8 +28,8 @@
       android:animateLayoutChanges="true"
       android:paddingTop="@dimen/keyline_1_quarter"
       android:paddingBottom="@dimen/keyline_1_quarter"
-      android:paddingLeft="@dimen/keyline_1"
-      android:paddingRight="@dimen/keyline_1">
+      android:paddingStart="@dimen/keyline_1"
+      android:paddingEnd="@dimen/keyline_1">
 
       <LinearLayout
         android:id="@+id/form_layout"
