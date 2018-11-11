@@ -3,13 +3,15 @@ package com.rbardini.carteiro.ui;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
+import com.takisoft.preferencex.PreferenceFragmentCompat;
 
-public class PreferencesFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
+public abstract class PreferencesFragment extends PreferenceFragmentCompat implements OnSharedPreferenceChangeListener {
   private static boolean mIsBackupManagerAvailable;
+
+  abstract int getTitleId();
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -28,16 +30,19 @@ public class PreferencesFragment extends PreferenceFragment implements OnSharedP
   public void onResume() {
     super.onResume();
 
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    prefs.registerOnSharedPreferenceChangeListener(this);
+    getActivity().setTitle(getTitleId());
+    PreferenceManager
+      .getDefaultSharedPreferences(getActivity())
+      .registerOnSharedPreferenceChangeListener(this);
   }
 
   @Override
   public void onPause() {
     super.onPause();
 
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    prefs.unregisterOnSharedPreferenceChangeListener(this);
+    PreferenceManager
+      .getDefaultSharedPreferences(getActivity())
+      .unregisterOnSharedPreferenceChangeListener(this);
   }
 
   @Override

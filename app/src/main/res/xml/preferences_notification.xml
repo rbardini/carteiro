@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
   <SwitchPreference android:key="@string/pref_key_notify"
     android:title="@string/pref_activate_notifications_title"
@@ -59,4 +59,4 @@
 
   </PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

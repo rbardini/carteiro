@@ -142,7 +142,7 @@ public class AddActivity extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.add_actions, menu);
 
-    TypedArray attrs = getTheme().obtainStyledAttributes(R.style.Theme_Carteiro, new int[] {android.R.attr.textColorPrimary});
+    TypedArray attrs = getTheme().obtainStyledAttributes(new int[] {android.R.attr.textColorPrimary});
     menu.findItem(R.id.scan_opt).getIcon().mutate().setColorFilter(attrs.getColor(0, Color.BLACK), PorterDuff.Mode.SRC_ATOP);
 
     return super.onCreateOptionsMenu(menu);

@@ -2,17 +2,17 @@ package com.rbardini.carteiro.ui;
 
 import android.content.Context;
 import android.os.Handler;
-import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.rbardini.carteiro.R;
 
-public class ThemePreference extends DialogPreference implements View.OnClickListener {
-  private static final int THEME_CHANGE_DELAY = 250;
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
-  private String mChosenTheme;
+public class ThemePreference extends DialogPreference {
+  private static final int THEME_CHANGE_DELAY = 250;
 
   public ThemePreference(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -21,37 +21,49 @@ public class ThemePreference extends DialogPreference implements View.OnClickLis
     setPositiveButtonText(null);
   }
 
-  @Override
-  protected void onBindDialogView(View view) {
-    super.onBindDialogView(view);
-
-    view.findViewById(R.id.theme_light_button).setOnClickListener(this);
-    view.findViewById(R.id.theme_dark_button).setOnClickListener(this);
+  public String getValue() {
+    return getPersistedString(getContext().getString(R.string.theme_light));
   }
 
-  @Override
-  protected void onDialogClosed(boolean positiveResult) {
-    if (mChosenTheme != null && !mChosenTheme.equals(getValue())) {
-      persistString(mChosenTheme);
+  public static class ThemePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat implements View.OnClickListener {
+    private String mChosenTheme;
 
-      new Handler().postDelayed(new Runnable() {
-        @Override
-        public void run() {
-          ProcessPhoenix.triggerRebirth(getContext());
-        }
-      }, THEME_CHANGE_DELAY);
+    public ThemePreferenceDialogFragmentCompat() {}
+
+    @Override
+    protected void onBindDialogView(View view) {
+      super.onBindDialogView(view);
+
+      view.findViewById(R.id.theme_light_button).setOnClickListener(this);
+      view.findViewById(R.id.theme_dark_button).setOnClickListener(this);
     }
 
-    super.onDialogClosed(positiveResult);
-  }
+    @Override
+    public void onDialogClosed(boolean positiveResult) {
+      final ThemePreference pref = getThemePreference();
+      final Context context = getContext().getApplicationContext();
 
-  @Override
-  public void onClick(View v) {
-    mChosenTheme = (String) v.getTag();
-    getDialog().dismiss();
-  }
+      if (mChosenTheme != null && !mChosenTheme.equals(pref.getValue())) {
+        pref.persistString(mChosenTheme);
 
-  String getValue() {
-    return getPersistedString(getContext().getString(R.string.theme_light));
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            ProcessPhoenix.triggerRebirth(context);
+          }
+        }, THEME_CHANGE_DELAY);
+      }
+    }
+
+    @Override
+    public void onClick(View v) {
+      mChosenTheme = (String) v.getTag();
+      getDialog().dismiss();
+    }
+
+    private ThemePreference getThemePreference() {
+      return (ThemePreference) this.getPreference();
+    }
+
   }
 }

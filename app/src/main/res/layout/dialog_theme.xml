@@ -7,7 +7,7 @@
   android:paddingStart="@dimen/keyline_1"
   android:paddingEnd="@dimen/keyline_1">
 
-  <Button android:id="@+id/theme_light_button"
+  <androidx.appcompat.widget.AppCompatButton android:id="@+id/theme_light_button"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/keyline_1_half"
@@ -19,7 +19,7 @@
     android:text="@string/pref_theme_light"
     android:textColor="@android:color/background_dark" />
 
-  <Button android:id="@+id/theme_dark_button"
+  <androidx.appcompat.widget.AppCompatButton android:id="@+id/theme_dark_button"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/keyline_1_half"

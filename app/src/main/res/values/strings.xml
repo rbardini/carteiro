@@ -156,7 +156,8 @@
   <!-- Preferences Activity -->
   <string name="title_preferences">Settings</string>
 
-  <string name="pref_syncing_header">Syncing</string>
+  <string name="pref_syncing_title">Syncing</string>
+  <string name="pref_syncing_summary">On launch, exclusions, data usage</string>
   <string name="pref_auto_sync_title">Automatic syncing</string>
   <string name="pref_auto_sync_summary">Automatically sync items</string>
   <string name="pref_sync_on_launch_title">Sync on launch</string>
@@ -168,7 +169,8 @@
   <string name="pref_sync_only_wifi_title">Limit mobile data usage</string>
   <string name="pref_sync_only_wifi_summary">Only sync items on Wi-Fi</string>
 
-  <string name="pref_notification_header">Notifications</string>
+  <string name="pref_notification_title">Notifications</string>
+  <string name="pref_notification_summary">Syncs, categories, indication</string>
   <string name="pref_activate_notifications_title">Notifications</string>
   <string name="pref_activate_notifications_summary">Enable system notifications</string>
   <string name="pref_notify_sync_title">Ongoing syncs</string>
@@ -190,7 +192,8 @@
   <string name="pref_notification_settings_title">Additional settings in the system</string>
   <string name="pref_notification_settings_summary">Sound, vibration, light and more</string>
 
-  <string name="pref_appearance_header">Appearance</string>
+  <string name="pref_appearance_title">Appearance</string>
+  <string name="pref_appearance_summary">Initial category, theme, keyboard</string>
   <string name="pref_initial_category_title">Initial category</string>
   <string name="pref_initial_category_summary">Select the category to be displayed on launch</string>
   <string name="pref_theme_title">Theme</string>
@@ -200,14 +203,16 @@
   <string name="pref_use_adaptive_keyboard_title">Use adaptive keyboard</string>
   <string name="pref_use_adaptive_keyboard_summary">Automatically change keyboard layout while adding item</string>
 
-  <string name="pref_backup_header">Backup &amp; restore</string>
+  <string name="pref_backup_title">Backup</string>
+  <string name="pref_backup_summary">Create &amp; restore</string>
   <string name="pref_backup_permission_denied">Permission to access files is required in order to backup and restore.</string>
   <string name="pref_create_backup_title">Create backup</string>
   <string name="pref_create_backup_summary">Export data to the external storage</string>
   <string name="pref_restore_backup_title">Restore backup</string>
   <string name="pref_restore_backup_summary">Import data from the external storage</string>
 
-  <string name="pref_about_header">About Carteiro</string>
+  <string name="pref_about_title">About Carteiro</string>
+  <string name="pref_about_summary">Blog, social networks, version</string>
   <string name="pref_version_category">Version</string>
   <string name="pref_version_title">%1$s %2$s</string>
   <string name="pref_version_summary">© %d Rafael Bardini</string>

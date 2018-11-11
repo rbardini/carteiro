@@ -60,7 +60,7 @@ public class MainActivity extends ShipmentActivity {
 
     setupNavigationDrawer();
     setupAddButton();
-    setupFragment(savedInstanceState == null);
+    setupFragment(savedInstanceState);
 
     NotificationUtils.createNotificationChannels(this);
     syncOnLaunchIfEnabled();
@@ -179,8 +179,8 @@ public class MainActivity extends ShipmentActivity {
     });
   }
 
-  private void setupFragment(boolean initializing) {
-    if (initializing) {
+  private void setupFragment(Bundle savedInstanceState) {
+    if (savedInstanceState == null) {
       showCategory(getInitialCategory());
     } else {
       mCurrentFragment = getCurrentFragment();
@@ -276,11 +276,11 @@ public class MainActivity extends ShipmentActivity {
       ShipmentListFragment newFragment = ShipmentListFragment.newInstance(category);
       String name = getString(Category.getTitle(category));
 
-      FragmentTransaction ft = mFragmentManager
+      mFragmentManager
         .beginTransaction()
         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        .replace(R.id.main_content, newFragment, name);
-      ft.commit();
+        .replace(R.id.main_content, newFragment, name)
+        .commit();
 
       mCurrentFragment = newFragment;
     }

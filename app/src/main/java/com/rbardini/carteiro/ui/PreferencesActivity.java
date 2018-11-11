@@ -6,25 +6,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
 import android.provider.Settings;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toolbar;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
@@ -34,12 +28,11 @@ import com.rbardini.carteiro.util.Constants;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
+import com.takisoft.preferencex.RingtonePreference;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -47,46 +40,43 @@ import java.util.Set;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceFragmentCompat.OnPreferenceStartFragmentCallback;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceManager;
 
-public class PreferencesActivity extends PreferenceActivity {
+public class PreferencesActivity extends AppCompatActivity implements OnPreferenceStartFragmentCallback {
   private static CarteiroApplication app;
   private static DatabaseHelper dh;
-
-  private static final List<String> fragments = new ArrayList<>();
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_preferences);
 
-    ViewGroup root = (ViewGroup) findViewById(android.R.id.list).getParent().getParent().getParent();
-    Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.action_bar, root, false);
-    root.addView(toolbar, 0);
-
-    setActionBar(toolbar);
-    getActionBar().setDisplayHomeAsUpEnabled(true);
+    setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     app = (CarteiroApplication) getApplication();
     dh = app.getDatabaseHelper();
 
+    showFragment(getCurrentFragment(savedInstanceState), false);
     handleIntent();
-  }
-
-  @Override
-  public void onBuildHeaders(List<Header> target) {
-    loadHeadersFromResource(R.xml.preference_headers, target);
-
-    fragments.clear();
-    for (Header header : target) {
-      fragments.add(header.fragment);
-    }
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
-        finish();
+        onBackPressed();
         return true;
 
       default:
@@ -112,8 +102,29 @@ public class PreferencesActivity extends PreferenceActivity {
   }
 
   @Override
-  protected boolean isValidFragment(String fragmentName) {
-    return fragments.contains(fragmentName);
+  public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+    final Fragment fragment = Fragment.instantiate(this, pref.getFragment(), pref.getExtras());
+    showFragment(fragment, true);
+
+    return true;
+  }
+
+  private Fragment getCurrentFragment(Bundle savedInstanceState) {
+    return savedInstanceState == null ?
+      new MainPreferences() : getSupportFragmentManager().findFragmentById(R.id.main_content);
+  }
+
+  private void showFragment(Fragment fragment, boolean addToBackStack) {
+    FragmentTransaction ft = getSupportFragmentManager()
+      .beginTransaction()
+      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+      .replace(R.id.main_content, fragment);
+
+    if (addToBackStack) {
+      ft.addToBackStack(null);
+    }
+
+    ft.commit();
   }
 
   private void handleIntent() {
@@ -124,17 +135,37 @@ public class PreferencesActivity extends PreferenceActivity {
     if (categories == null || categories.isEmpty()) return;
 
     if (categories.contains("android.intent.category.NOTIFICATION_PREFERENCES")) {
-      Intent fragmentIntent = new Intent(this, PreferencesActivity.class)
-          .putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, NotificationPreferences.class.getName());
-      startActivity(fragmentIntent);
+      showFragment(new NotificationPreferences(), false);
+    }
+  }
+
+  public static class MainPreferences extends PreferencesFragment {
+    @Override
+    int getTitleId() {
+      return R.string.title_preferences;
+    }
+
+    @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+      setPreferencesFromResource(R.xml.preferences, rootKey);
+
+      TypedArray attrs = getActivity().getTheme().obtainStyledAttributes(new int[] {android.R.attr.textColorSecondary});
+      PreferenceGroup group = getPreferenceScreen();
+      for (int i = 0; i < group.getPreferenceCount(); i++) {
+        group.getPreference(i).getIcon().mutate().setColorFilter(attrs.getColor(0, Color.TRANSPARENT), PorterDuff.Mode.SRC_ATOP);
+      }
     }
   }
 
   public static class SyncingPreferences extends PreferencesFragment {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      addPreferencesFromResource(R.xml.preferences_syncing);
+    int getTitleId() {
+      return R.string.pref_syncing_title;
+    }
+
+    @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+      setPreferencesFromResource(R.xml.preferences_syncing, rootKey);
     }
 
     @Override
@@ -159,12 +190,14 @@ public class PreferencesActivity extends PreferenceActivity {
   }
 
   public static class NotificationPreferences extends PreferencesFragment {
-    private static String unknownRingtoneTitle;
+    @Override
+    int getTitleId() {
+      return R.string.pref_notification_title;
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      addPreferencesFromResource(R.xml.preferences_notification);
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+      setPreferencesFromResource(R.xml.preferences_notification, rootKey);
       addPreferencesFromResource(R.xml.preferences_notification_indication);
 
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -192,14 +225,12 @@ public class PreferencesActivity extends PreferenceActivity {
     }
 
     private void setNotificationSoundPreference() {
-      unknownRingtoneTitle = getString(Resources.getSystem().getIdentifier("ringtone_unknown", "string", "android"));
-
       Preference pref = findPreference(getString(R.string.pref_key_ringtone));
       if (pref != null) {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
           @Override
           public boolean onPreferenceChange(Preference preference, Object newValue) {
-            updateNotificationSoundPreference((RingtonePreference) preference, Uri.parse((String) newValue));
+            updateNotificationSoundPreference((RingtonePreference) preference, (Uri) newValue);
             return true;
           }
         });
@@ -220,7 +251,6 @@ public class PreferencesActivity extends PreferenceActivity {
       String ringtoneTitle = null;
 
       if (ringtone != null) ringtoneTitle = ringtone.getTitle(getActivity());
-      if (ringtoneTitle == null || ringtoneTitle.equals(unknownRingtoneTitle)) ringtoneTitle = getString(R.string.pref_ringtone_summary);
 
       preference.setSummary(ringtoneTitle);
     }
@@ -228,9 +258,13 @@ public class PreferencesActivity extends PreferenceActivity {
 
   public static class AppearancePreferences extends PreferencesFragment {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      addPreferencesFromResource(R.xml.preferences_appearance);
+    int getTitleId() {
+      return R.string.pref_appearance_title;
+    }
+
+    @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+      setPreferencesFromResource(R.xml.preferences_appearance, rootKey);
 
       setupInitialCategoryPreference();
       setThemePreference();
@@ -242,6 +276,21 @@ public class PreferencesActivity extends PreferenceActivity {
 
       if (key.equals(getString(R.string.pref_key_initial_category))) {
         setInitialCategoryPreference();
+      }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+      if (preference instanceof ThemePreference) {
+        Bundle bundle = new Bundle(1);
+        bundle.putString("key", preference.getKey());
+
+        DialogFragment dialogFragment = new ThemePreference.ThemePreferenceDialogFragmentCompat();
+        dialogFragment.setArguments(bundle);
+        dialogFragment.setTargetFragment(this, 0);
+        dialogFragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
+      } else {
+        super.onDisplayPreferenceDialog(preference);
       }
     }
 
@@ -284,9 +333,13 @@ public class PreferencesActivity extends PreferenceActivity {
 
   public static class BackupPreferences extends PreferencesFragment {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      addPreferencesFromResource(R.xml.preferences_backup);
+    int getTitleId() {
+      return R.string.pref_backup_title;
+    }
+
+    @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+      setPreferencesFromResource(R.xml.preferences_backup, rootKey);
 
       checkRequiredPermissions();
       setupCreatePreference();
@@ -314,7 +367,7 @@ public class PreferencesActivity extends PreferenceActivity {
           @Override
           public boolean onPreferenceClick(Preference preference) {
             final View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup, null);
-            final EditText backupNameField = (EditText) dialogView.findViewById(R.id.backup_name);
+            final EditText backupNameField = dialogView.findViewById(R.id.backup_name);
             final Context context = getActivity();
             final String[] currentName = DatabaseHelper.DB_NAME.split("\\.");
 
@@ -430,9 +483,13 @@ public class PreferencesActivity extends PreferenceActivity {
 
   public static class AboutPreferences extends PreferencesFragment {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      addPreferencesFromResource(R.xml.preferences_about);
+    int getTitleId() {
+      return R.string.pref_about_title;
+    }
+
+    @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+      setPreferencesFromResource(R.xml.preferences_about, rootKey);
 
       setupRatePreference();
       setupVersionPreference();
