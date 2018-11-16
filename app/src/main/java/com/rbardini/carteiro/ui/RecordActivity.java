@@ -136,7 +136,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
     switch (item.getItemId()) {
       case android.R.id.home:
-        finishAfterTransition();
+        onBackPressed();
         return true;
 
       case R.id.fav_opt:
