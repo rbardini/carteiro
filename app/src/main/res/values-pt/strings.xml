@@ -93,12 +93,10 @@
   <string name="toast_item_added">%s adicionado.</string>
   <string name="toast_item_renamed">%1$s renomeado para %2$s.</string>
   <string name="toast_item_renamed_empty">Nome removido de %s.</string>
-  <string name="toast_item_archived">%s arquivado.</string>
   <string name="toast_archived_count_single">Arquivado</string>
   <string name="toast_archived_count_multiple">Arquivado (%d)</string>
   <string name="toast_unarchived_count_single">Movido para Todos</string>
   <string name="toast_unarchived_count_multiple">Movido para Todos (%d)</string>
-  <string name="toast_item_unarchived">%1$s movido para %2$s.</string>
   <string name="toast_deleted_count_single">Excluído</string>
   <string name="toast_deleted_count_multiple">Excluído (%d)</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>

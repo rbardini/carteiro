@@ -37,6 +37,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.rbardini.carteiro.ui.RecordActivity.ACTION_ARCHIVE;
+import static com.rbardini.carteiro.ui.RecordActivity.ACTION_DELETE;
+
 public class ShipmentListFragment extends ShipmentFragment implements SwipeDismissListener {
   interface OnPostalListActionListener {
     void onPostalListAttached(ShipmentListFragment f);
@@ -44,7 +47,8 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   private static final String CATEGORY_KEY = "category";
   private static final String QUERY_KEY = "query";
-  private static final String SHIPMENT_TO_DELETE = "shipmentToDelete";
+  private static final String ACTION_KEY = "action";
+  private static final String ACTION_SHIPMENT_KEY = "actionShipment";
   private static final String SHIPMENTS_KEY = "shipments";
   private static final String SELECTED_SHIPMENTS_KEY = "selectedShipments";
 
@@ -59,11 +63,12 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   private ShipmentListAdapter mListAdapter;
   private SwipeDismissHandler mSwipeDismissHandler;
 
-  public static ShipmentListFragment newInstance(int category, Shipment shipmentToDelete) {
+  public static ShipmentListFragment newInstance(int category, String action, Shipment actionShipment) {
     ShipmentListFragment f = new ShipmentListFragment();
     Bundle args = new Bundle();
     args.putInt(CATEGORY_KEY, category);
-    args.putSerializable(SHIPMENT_TO_DELETE, shipmentToDelete);
+    args.putString(ACTION_KEY, action);
+    args.putSerializable(ACTION_SHIPMENT_KEY, actionShipment);
     f.setArguments(args);
 
     return f;
@@ -149,11 +154,23 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     super.onResume();
     refreshList();
 
-    Bundle arguments = getArguments();
-    Shipment shipmentToDelete = (Shipment) arguments.getSerializable(SHIPMENT_TO_DELETE);
-    if (shipmentToDelete != null) {
-      deleteShipment(shipmentToDelete);
-      arguments.remove(SHIPMENT_TO_DELETE);
+    final Bundle arguments = getArguments();
+    final String action = arguments.getString(ACTION_KEY);
+    final Shipment actionShipment = (Shipment) arguments.getSerializable(ACTION_SHIPMENT_KEY);
+
+    arguments.remove(ACTION_KEY);
+    arguments.remove(ACTION_SHIPMENT_KEY);
+
+    if (action == null || actionShipment == null) return;
+
+    switch (action) {
+      case ACTION_ARCHIVE:
+        archiveShipment(actionShipment);
+        break;
+
+      case ACTION_DELETE:
+        deleteShipment(actionShipment);
+        break;
     }
   }
 
@@ -279,6 +296,11 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     }
 
     mMultiChoiceModeListener.toggleItemCheckedState(shipment);
+  }
+
+  private void archiveShipment(Shipment shipment) {
+    selectShipment(shipment);
+    mMultiChoiceModeListener.archiveItems(false);
   }
 
   private void deleteShipment(Shipment shipment) {

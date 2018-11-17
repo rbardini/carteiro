@@ -31,6 +31,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   protected static final String TAG = "RecordActivity";
 
   public static final String EXTRA_SHIPMENT = TAG + ".EXTRA_SHIPMENT";
+  public static final String ACTION_ARCHIVE = TAG + ".ACTION_ARCHIVE";
   public static final String ACTION_DELETE = TAG + ".ACTION_DELETE";
   public static final String ACTION_LOCATE = TAG + ".ACTION_LOCATE";
   public static final String ACTION_SHARE = TAG + ".ACTION_SHARE";
@@ -159,12 +160,22 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
         return true;
 
       case R.id.archive_opt:
-        mShipment.toggleArchived();
-        dh.toggleShipmentArchived(mShipment);
+        if (mShipment.isArchived()) {
+          mShipment.toggleArchived();
+          dh.toggleShipmentArchived(mShipment);
 
-        UIUtils.showToast(this, mShipment.isArchived() ? getString(R.string.toast_item_archived, mShipment.getDescription())
-            : getString(R.string.toast_item_unarchived, mShipment.getDescription(), getString(R.string.category_all)));
-        invalidateOptionsMenu();
+          UIUtils.showToast(this, R.string.toast_unarchived_count_single);
+          invalidateOptionsMenu();
+        } else {
+          final Intent intent = new Intent(this, MainActivity.class)
+            .putExtra(EXTRA_SHIPMENT, mShipment)
+            .setAction(ACTION_ARCHIVE)
+            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+          startActivity(intent);
+          finish();
+        }
+
         return true;
 
       case R.id.delete_opt:

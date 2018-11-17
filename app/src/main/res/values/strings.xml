@@ -93,12 +93,10 @@
   <string name="toast_item_added">%s added.</string>
   <string name="toast_item_renamed">%1$s renamed to %2$s.</string>
   <string name="toast_item_renamed_empty">Name removed from %s.</string>
-  <string name="toast_item_archived">%s archived.</string>
   <string name="toast_archived_count_single">Archived</string>
   <string name="toast_archived_count_multiple">Archived (%d)</string>
   <string name="toast_unarchived_count_single">Moved to All</string>
   <string name="toast_unarchived_count_multiple">Moved to All (%d)</string>
-  <string name="toast_item_unarchived">%1$s moved to %2$s.</string>
   <string name="toast_deleted_count_single">Deleted</string>
   <string name="toast_deleted_count_multiple">Deleted (%d)</string>
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>

@@ -34,6 +34,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import static com.rbardini.carteiro.ui.RecordActivity.ACTION_ARCHIVE;
 import static com.rbardini.carteiro.ui.RecordActivity.ACTION_DELETE;
 import static com.rbardini.carteiro.ui.RecordActivity.EXTRA_SHIPMENT;
 
@@ -210,8 +211,12 @@ public class MainActivity extends ShipmentActivity {
     }
 
     switch (action) {
+      case ACTION_ARCHIVE:
+        showCategory(Category.ALL, action, shipment);
+        break;
+
       case ACTION_DELETE:
-        showCategory(shipment.isArchived() ? Category.ARCHIVED : Category.ALL, shipment);
+        showCategory(shipment.isArchived() ? Category.ARCHIVED : Category.ALL, action, shipment);
         break;
 
       default:
@@ -302,12 +307,13 @@ public class MainActivity extends ShipmentActivity {
     mLastSyncNotice.setText(getString(R.string.last_sync_notice_synced, lastSyncRelative.toString().toLowerCase()));
   }
 
-  private void showCategory(int category, Shipment shipmentToDelete) {
+  private void showCategory(int category, String action, Shipment actionShipment) {
     final boolean isDifferentCategory = mCurrentFragment == null || mCurrentFragment.getCategory() != category;
-    final boolean hasShipmentToDelete = shipmentToDelete != null;
+    final boolean hasAction = action != null;
+    final boolean hasActionShipment = actionShipment != null;
 
-    if (isDifferentCategory || hasShipmentToDelete) {
-      ShipmentListFragment newFragment = ShipmentListFragment.newInstance(category, shipmentToDelete);
+    if (isDifferentCategory || (hasAction && hasActionShipment)) {
+      ShipmentListFragment newFragment = ShipmentListFragment.newInstance(category, action, actionShipment);
       String name = getString(Category.getTitle(category));
 
       mFragmentManager
@@ -321,7 +327,7 @@ public class MainActivity extends ShipmentActivity {
   }
 
   private void showCategory(int category) {
-    showCategory(category, null);
+    showCategory(category, null, null);
   }
 
   private int getInitialCategory() {
