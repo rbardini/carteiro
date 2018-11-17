@@ -6,6 +6,16 @@
     android:title="@string/opt_mark_as_fav"
     app:showAsAction="ifRoom" />
 
+  <item android:id="@+id/archive_opt"
+    android:icon="@drawable/ic_archive_white_24dp"
+    android:title="@string/opt_archive_item"
+    app:showAsAction="ifRoom" />
+
+  <item android:id="@+id/delete_opt"
+    android:icon="@drawable/ic_delete_white_24dp"
+    android:title="@string/opt_delete_item"
+    app:showAsAction="ifRoom" />
+
   <item android:id="@+id/share_opt"
     android:icon="@drawable/ic_share_white_24dp"
     android:title="@string/opt_share"
@@ -21,19 +31,9 @@
     android:title="@string/opt_rename_item"
     app:showAsAction="ifRoom" />
 
-  <item android:id="@+id/archive_opt"
-    android:icon="@drawable/ic_archive_white_24dp"
-    android:title="@string/opt_archive_item"
-    app:showAsAction="never" />
-
-  <item android:id="@+id/delete_opt"
-    android:icon="@drawable/ic_delete_white_24dp"
-    android:title="@string/opt_delete_item"
-    app:showAsAction="never" />
-
   <item android:id="@+id/sro_opt"
     android:icon="@drawable/ic_public_white_24dp"
     android:title="@string/opt_open_sro"
-    app:showAsAction="never" />
+    app:showAsAction="ifRoom" />
 
 </menu>

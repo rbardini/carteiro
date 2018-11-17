@@ -333,7 +333,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
       mActionMode = mode;
       mCollectiveActionMap = new SparseBooleanArray();
 
-      mActionMode.getMenuInflater().inflate(R.menu.postal_list_context, menu);
+      mActionMode.getMenuInflater().inflate(R.menu.postal_list_actions, menu);
 
       return true;
     }
