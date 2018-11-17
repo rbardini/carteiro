@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name" translatable="false">Carteiro</string>
-  <string name="app_url" translatable="false">https://carteiro.app/</string>
 
   <string name="blog_url" translatable="false">https://blog.carteiro.app/</string>
   <string name="facebook_url" translatable="false">http://www.facebook.com/carteiroapp</string>
