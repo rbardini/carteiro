@@ -42,6 +42,12 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     void onPostalListAttached(ShipmentListFragment f);
   }
 
+  private static final String CATEGORY_KEY = "category";
+  private static final String QUERY_KEY = "query";
+  private static final String SHIPMENT_TO_DELETE = "shipmentToDelete";
+  private static final String SHIPMENTS_KEY = "shipments";
+  private static final String SELECTED_SHIPMENTS_KEY = "selectedShipments";
+
   private OnPostalListActionListener mListener;
 
   private int category;
@@ -53,10 +59,11 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   private ShipmentListAdapter mListAdapter;
   private SwipeDismissHandler mSwipeDismissHandler;
 
-  public static ShipmentListFragment newInstance(int category) {
+  public static ShipmentListFragment newInstance(int category, Shipment shipmentToDelete) {
     ShipmentListFragment f = new ShipmentListFragment();
     Bundle args = new Bundle();
-    args.putInt("category", category);
+    args.putInt(CATEGORY_KEY, category);
+    args.putSerializable(SHIPMENT_TO_DELETE, shipmentToDelete);
     f.setArguments(args);
 
     return f;
@@ -65,7 +72,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   public static ShipmentListFragment newInstance(String query) {
     ShipmentListFragment f = new ShipmentListFragment();
     Bundle args = new Bundle();
-    args.putString("query", query);
+    args.putString(QUERY_KEY, query);
     f.setArguments(args);
 
     return f;
@@ -82,13 +89,13 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     }
 
     Bundle arguments = getArguments();
-    setCategory(arguments.getInt("category"));
-    setQuery(arguments.getString("query"));
+    setCategory(arguments.getInt(CATEGORY_KEY));
+    setQuery(arguments.getString(QUERY_KEY));
 
     // Restore postal and selected lists
     if (savedInstanceState != null) {
-      mList = (ArrayList<Shipment>) savedInstanceState.getSerializable("shipments");
-      mSelectedList = (ArrayList<Shipment>) savedInstanceState.getSerializable("selectedShipments");
+      mList = (ArrayList<Shipment>) savedInstanceState.getSerializable(SHIPMENTS_KEY);
+      mSelectedList = (ArrayList<Shipment>) savedInstanceState.getSerializable(SELECTED_SHIPMENTS_KEY);
 
     } else {
       mList = new ArrayList<>();
@@ -141,6 +148,13 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   public void onResume() {
     super.onResume();
     refreshList();
+
+    Bundle arguments = getArguments();
+    Shipment shipmentToDelete = (Shipment) arguments.getSerializable(SHIPMENT_TO_DELETE);
+    if (shipmentToDelete != null) {
+      deleteShipment(shipmentToDelete);
+      arguments.remove(SHIPMENT_TO_DELETE);
+    }
   }
 
   @Override
@@ -152,8 +166,8 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable("shipments", mList);
-    outState.putSerializable("selectedShipments", mSelectedList);
+    outState.putSerializable(SHIPMENTS_KEY, mList);
+    outState.putSerializable(SELECTED_SHIPMENTS_KEY, mSelectedList);
   }
 
   @Override
@@ -207,11 +221,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) item;
     Shipment shipment = mListAdapter.getItem(viewHolder.getAdapterPosition());
 
-    if (!mMultiChoiceModeListener.hasActionMode()) {
-      mActivity.startActionMode(mMultiChoiceModeListener);
-    }
-
-    mMultiChoiceModeListener.toggleItemCheckedState(shipment);
+    selectShipment(shipment);
   }
 
   @Override
@@ -261,6 +271,19 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   public void updateList() {
     if (query != null) dh.getSearchResults(mList, query);
     else dh.getShallowShipments(mList, category);
+  }
+
+  private void selectShipment(Shipment shipment) {
+    if (!mMultiChoiceModeListener.hasActionMode()) {
+      mActivity.startActionMode(mMultiChoiceModeListener);
+    }
+
+    mMultiChoiceModeListener.toggleItemCheckedState(shipment);
+  }
+
+  private void deleteShipment(Shipment shipment) {
+    selectShipment(shipment);
+    mMultiChoiceModeListener.deleteItems();
   }
 
   private List<Shipment> buildShipmentListFromMap(Map<Integer, Object> items) {
@@ -357,62 +380,17 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
         case R.id.archive_opt:
           // Archive selected items or move to all depending on their collective archived state
           final boolean areAllArchived = mCollectiveActionMap.get(actionId);
-
-          new SwipeDismissHandler(getView(), new Handler(),
-              areAllArchived ? R.string.toast_unarchived_count_single : R.string.toast_archived_count_single,
-              areAllArchived ? R.string.toast_unarchived_count_multiple : R.string.toast_archived_count_multiple,
-              R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
-            @Override
-            public void onItemClicked(@NonNull Object item) {}
-
-            @Override
-            public void onItemSelected(@NonNull Object item) {}
-
-            @Override
-            public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
-              List<Shipment> shipments = buildShipmentListFromMap(items);
-              if (areAllArchived) dh.unarchiveShipments(shipments); else dh.archiveShipments(shipments);
-            }
-          }).dismiss(mListAdapter.getItemPositions(mSelectedList));
-          clearSelection();
-
+          archiveItems(areAllArchived);
           return true;
 
         case R.id.delete_opt:
-          new SwipeDismissHandler(getView(), new Handler(),
-              R.string.toast_deleted_count_single, R.string.toast_deleted_count_multiple,
-              R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
-            @Override
-            public void onItemClicked(@NonNull Object item) {}
-
-            @Override
-            public void onItemSelected(@NonNull Object item) {}
-
-            @Override
-            public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
-              List<Shipment> shipments = buildShipmentListFromMap(items);
-              dh.deleteShipments(shipments);
-            }
-          }).dismiss(mListAdapter.getItemPositions(mSelectedList));
-          clearSelection();
-
+          deleteItems();
           return true;
 
         case R.id.fav_opt:
           // Mark or unmark selected items as favorites depending on their collective favorite state
-          boolean areAllFavorites = mCollectiveActionMap.get(actionId);
-
-          for (Shipment shipment : mSelectedList) {
-            String cod = shipment.getNumber();
-            if (areAllFavorites) dh.unfavPostalItem(cod);
-            else dh.favPostalItem(cod);
-            shipment.setFavorite(!areAllFavorites);
-          }
-
-          // Update item list and available actions
-          mListAdapter.notifyDataSetChanged();
-          mActionMode.invalidate();
-
+          final boolean areAllFavorites = mCollectiveActionMap.get(actionId);
+          favoriteItems(areAllFavorites);
           return true;
 
         case R.id.share_opt:
@@ -432,9 +410,9 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
           return true;
 
         case R.id.rename_opt:
-          ShipmentDialogFragment
-            .newInstance(R.id.rename_opt, mSelectedList)
-            .show(getFragmentManager(), ShipmentDialogFragment.TAG);
+          ShipmentRenameDialogFragment
+            .newInstance(mSelectedList.get(0))
+            .show(getFragmentManager(), ShipmentRenameDialogFragment.TAG);
           return true;
 
         case R.id.sro_opt:
@@ -497,6 +475,58 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
     public void finishActionMode() {
       if (this.hasActionMode()) mActionMode.finish();
+    }
+
+    public void archiveItems(final boolean areAllArchived) {
+      new SwipeDismissHandler(getView(), new Handler(),
+          areAllArchived ? R.string.toast_unarchived_count_single : R.string.toast_archived_count_single,
+          areAllArchived ? R.string.toast_unarchived_count_multiple : R.string.toast_archived_count_multiple,
+          R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
+        @Override
+        public void onItemClicked(@NonNull Object item) {}
+
+        @Override
+        public void onItemSelected(@NonNull Object item) {}
+
+        @Override
+        public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
+          List<Shipment> shipments = buildShipmentListFromMap(items);
+          if (areAllArchived) dh.unarchiveShipments(shipments); else dh.archiveShipments(shipments);
+        }
+      }).dismiss(mListAdapter.getItemPositions(mSelectedList));
+      clearSelection();
+    }
+
+    public void deleteItems() {
+      new SwipeDismissHandler(getView(), new Handler(),
+          R.string.toast_deleted_count_single, R.string.toast_deleted_count_multiple,
+          R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
+        @Override
+        public void onItemClicked(@NonNull Object item) {}
+
+        @Override
+        public void onItemSelected(@NonNull Object item) {}
+
+        @Override
+        public void onItemsDismissed(@NonNull Map<Integer, Object> items) {
+          List<Shipment> shipments = buildShipmentListFromMap(items);
+          dh.deleteShipments(shipments);
+        }
+      }).dismiss(mListAdapter.getItemPositions(mSelectedList));
+      clearSelection();
+    }
+
+    public void favoriteItems(final boolean areAllFavorites) {
+      for (Shipment shipment : mSelectedList) {
+        String cod = shipment.getNumber();
+        if (areAllFavorites) dh.unfavPostalItem(cod);
+        else dh.favPostalItem(cod);
+        shipment.setFavorite(!areAllFavorites);
+      }
+
+      // Update item list and available actions
+      mListAdapter.notifyDataSetChanged();
+      mActionMode.invalidate();
     }
   }
 }

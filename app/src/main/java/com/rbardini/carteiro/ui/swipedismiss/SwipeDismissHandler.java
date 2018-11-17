@@ -1,10 +1,10 @@
 package com.rbardini.carteiro.ui.swipedismiss;
 
-import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.rbardini.carteiro.ui.undo.UndoHandler;
+import com.rbardini.carteiro.ui.undo.UndoListener;
 
 import java.util.List;
 import java.util.Map;
@@ -15,45 +15,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-public class SwipeDismissHandler implements SwipeableRecyclerView.RecyclerViewSwipeListener {
-  public static final int UNDO_TIMEOUT = 4000;
-
-  private Snackbar mSnackbar;
-  private View mRootView;
-  private Handler mUiHandler;
-  private int mSingleTextResId;
-  private int mMultipleTextResId;
-  private int mActionTextResId;
+public class SwipeDismissHandler implements SwipeableRecyclerView.RecyclerViewSwipeListener, UndoListener {
   private SwipeDismissAdapter mAdapter;
   private SwipeDismissListener mListener;
+  private UndoHandler mHandler;
 
   private ConcurrentSkipListMap<Integer, Object> mDismissQueue = new ConcurrentSkipListMap<>();
   private ConcurrentSkipListMap<Integer, Object> mRestoreQueue = new ConcurrentSkipListMap<>();
-  private final Runnable mHandlerCallback = new Runnable() {
-    @Override
-    public void run() {
-      TreeMap<Integer, Object> mDismissQueueCopy = new TreeMap<>(mDismissQueue);
-
-      mListener.onItemsDismissed(mDismissQueueCopy);
-      setUpDismissQueue();
-
-      if (mSnackbar != null) {
-        mSnackbar.dismiss();
-        mSnackbar = null;
-      }
-    }
-  };
 
   public <T extends SwipeDismissAdapter> SwipeDismissHandler(@NonNull View view, @NonNull Handler uiHandler,
       @StringRes int singleTextResId, @StringRes int multipleTextResId, @StringRes int actionTextResId,
       @NonNull T adapter, @NonNull SwipeDismissListener listener) {
-    mRootView = view;
-    mUiHandler = uiHandler;
-    mSingleTextResId = singleTextResId;
-    mMultipleTextResId = multipleTextResId;
-    mActionTextResId = actionTextResId;
     mAdapter = adapter;
     mListener = listener;
+    mHandler = new UndoHandler(view, uiHandler, singleTextResId, multipleTextResId, actionTextResId, this);
 
     setUpDismissQueue();
     setUpRestoreQueue(mAdapter.getItems());
@@ -64,17 +39,36 @@ public class SwipeDismissHandler implements SwipeableRecyclerView.RecyclerViewSw
     dismiss(position);
   }
 
+  @Override
+  public void onDismiss(@NonNull int count) {
+    TreeMap<Integer, Object> mDismissQueueCopy = new TreeMap<>(mDismissQueue);
+
+    mListener.onItemsDismissed(mDismissQueueCopy);
+    setUpDismissQueue();
+  }
+
+  @Override
+  public void onUndo(@NonNull int count) {
+    for (Map.Entry<Integer, Object> entry : mDismissQueue.entrySet()) {
+      int insertIndex = getInitialListPosition(entry.getValue());
+      mAdapter.addItem(insertIndex, entry.getValue());
+    }
+
+    setUpDismissQueue();
+  }
+
   public void dismiss(final int currentPosition) {
     Object item = addToDismissQueue(currentPosition);
     mAdapter.removeItem(item);
 
-    notifyUser(mRootView);
+    mHandler.dismiss(1);
   }
 
   public void dismiss(final int[] currentPositions) {
-    Object[] items = new Object[currentPositions.length];
+    int count = currentPositions.length;
+    Object[] items = new Object[count];
 
-    for (int i = 0; i < currentPositions.length; i++) {
+    for (int i = 0; i < count; i++) {
       items[i] = addToDismissQueue(currentPositions[i]);
     }
 
@@ -82,18 +76,11 @@ public class SwipeDismissHandler implements SwipeableRecyclerView.RecyclerViewSw
       mAdapter.removeItem(item);
     }
 
-    notifyUser(mRootView);
+    mHandler.dismiss(count);
   }
 
   public void finish() {
-    if (mDismissQueue.size() > 0) {
-      mListener.onItemsDismissed(mDismissQueue);
-    }
-
-    if (mSnackbar != null) {
-      mSnackbar.dismiss();
-      mSnackbar = null;
-    }
+    mHandler.finish();
   }
 
   private void setUpDismissQueue() {
@@ -117,40 +104,6 @@ public class SwipeDismissHandler implements SwipeableRecyclerView.RecyclerViewSw
     mDismissQueue.put(restoreIndex, item);
 
     return item;
-  }
-
-  private void notifyUser(final View view) {
-    Context context = view.getContext();
-    int dismissQueueSize = mDismissQueue.size();
-    String text = context.getString(dismissQueueSize > 1 ? mMultipleTextResId : mSingleTextResId, dismissQueueSize);
-    String actionText = context.getString(mActionTextResId);
-
-    mUiHandler.removeCallbacks(mHandlerCallback);
-
-    if (mSnackbar == null) {
-      mSnackbar = Snackbar
-        .make(view, text, Snackbar.LENGTH_INDEFINITE)
-        .setAction(actionText, new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            mUiHandler.removeCallbacks(mHandlerCallback);
-
-            for (Map.Entry<Integer, Object> entry : mDismissQueue.entrySet()) {
-              int insertIndex = getInitialListPosition(entry.getValue());
-              mAdapter.addItem(insertIndex, entry.getValue());
-            }
-
-            setUpDismissQueue();
-            mSnackbar = null;
-          }
-        });
-      mSnackbar.show();
-
-    } else {
-      mSnackbar.setText(text);
-    }
-
-    mUiHandler.postDelayed(mHandlerCallback, UNDO_TIMEOUT);
   }
 
   private int getInitialListPosition(final Object value) {

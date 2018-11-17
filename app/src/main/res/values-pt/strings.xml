@@ -15,7 +15,6 @@
   <string name="always_btn">Sempre</string>
   <string name="skip_btn">Pular</string>
   <string name="rename_btn">Renomear</string>
-  <string name="delete_btn">Excluir</string>
   <string name="install_btn">Instalar</string>
   <string name="backup_btn">Criar</string>
   <string name="restore_btn">Restaurar</string>
@@ -100,8 +99,6 @@
   <string name="toast_unarchived_count_single">Movido para Todos</string>
   <string name="toast_unarchived_count_multiple">Movido para Todos (%d)</string>
   <string name="toast_item_unarchived">%1$s movido para %2$s.</string>
-  <string name="toast_item_deleted">%s excluído.</string>
-  <string name="toast_items_deleted">%d objetos excluídos.</string>
   <string name="toast_deleted_count_single">Excluído</string>
   <string name="toast_deleted_count_multiple">Excluído (%d)</string>
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
@@ -133,14 +130,6 @@
 
   <!-- Dialogs -->
   <string name="title_alert_rename">Renomear %s</string>
-  <plurals name="title_alert_delete">
-    <item quantity="one">Excluir %s?</item>
-    <item quantity="other">Excluir objetos?</item>
-  </plurals>
-  <plurals name="msg_alert_delete">
-    <item quantity="one">Seu histórico será apagado.</item>
-    <item quantity="other">Seus históricos serão apagados.</item>
-  </plurals>
   <string name="msg_alert_create_backup">Digite o nome do arquivo de backup:</string>
   <string name="title_alert_select_backup">Escolha um backup</string>
   <string name="title_alert_restore_backup">Restaurar backup?</string>

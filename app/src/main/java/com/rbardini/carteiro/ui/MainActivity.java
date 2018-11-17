@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
+import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.NotificationUtils;
@@ -32,6 +33,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import static com.rbardini.carteiro.ui.RecordActivity.ACTION_DELETE;
+import static com.rbardini.carteiro.ui.RecordActivity.EXTRA_SHIPMENT;
 
 public class MainActivity extends ShipmentActivity {
   // Delay to launch navigation drawer item, to allow close animation to play
@@ -76,6 +80,12 @@ public class MainActivity extends ShipmentActivity {
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     mDrawerToggle.onConfigurationChanged(newConfig);
+  }
+
+  @Override
+  protected void onNewIntent(Intent intent) {
+    setIntent(intent);
+    handleNewIntent();
   }
 
   @Override
@@ -180,10 +190,32 @@ public class MainActivity extends ShipmentActivity {
   }
 
   private void setupFragment(Bundle savedInstanceState) {
-    if (savedInstanceState == null) {
-      showCategory(getInitialCategory());
-    } else {
-      mCurrentFragment = getCurrentFragment();
+    if (savedInstanceState != null) {
+      mCurrentFragment = (ShipmentListFragment) mFragmentManager.findFragmentById(R.id.main_content);
+      return;
+    }
+
+    handleNewIntent();
+  }
+
+  private void handleNewIntent() {
+    final Intent intent = getIntent();
+    final Bundle extras = intent.getExtras();
+    final String action = intent.getAction();
+    Shipment shipment = null;
+
+    if (extras != null) {
+      shipment = (Shipment) extras.getSerializable(EXTRA_SHIPMENT);
+      intent.removeExtra(EXTRA_SHIPMENT);
+    }
+
+    switch (action) {
+      case ACTION_DELETE:
+        showCategory(shipment.isArchived() ? Category.ARCHIVED : Category.ALL, shipment);
+        break;
+
+      default:
+        showCategory(getInitialCategory());
     }
   }
 
@@ -270,27 +302,29 @@ public class MainActivity extends ShipmentActivity {
     mLastSyncNotice.setText(getString(R.string.last_sync_notice_synced, lastSyncRelative.toString().toLowerCase()));
   }
 
-  private void showCategory(int category) {
-    // Only replace fragment if it is a different category
-    if (mCurrentFragment == null || mCurrentFragment.getCategory() != category) {
-      ShipmentListFragment newFragment = ShipmentListFragment.newInstance(category);
+  private void showCategory(int category, Shipment shipmentToDelete) {
+    final boolean isDifferentCategory = mCurrentFragment == null || mCurrentFragment.getCategory() != category;
+    final boolean hasShipmentToDelete = shipmentToDelete != null;
+
+    if (isDifferentCategory || hasShipmentToDelete) {
+      ShipmentListFragment newFragment = ShipmentListFragment.newInstance(category, shipmentToDelete);
       String name = getString(Category.getTitle(category));
 
       mFragmentManager
         .beginTransaction()
         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         .replace(R.id.main_content, newFragment, name)
-        .commit();
+        .commitAllowingStateLoss();
 
       mCurrentFragment = newFragment;
     }
   }
 
-  private int getInitialCategory() {
-    return Integer.parseInt(mPrefs.getString(getString(R.string.pref_key_initial_category), String.valueOf(Category.ALL)));
+  private void showCategory(int category) {
+    showCategory(category, null);
   }
 
-  private ShipmentListFragment getCurrentFragment() {
-    return (ShipmentListFragment) mFragmentManager.findFragmentById(R.id.main_content);
+  private int getInitialCategory() {
+    return Integer.parseInt(mPrefs.getString(getString(R.string.pref_key_initial_category), String.valueOf(Category.ALL)));
   }
 }

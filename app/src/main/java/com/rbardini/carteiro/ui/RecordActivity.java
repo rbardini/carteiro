@@ -21,8 +21,6 @@ import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
-import java.util.ArrayList;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -33,6 +31,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   protected static final String TAG = "RecordActivity";
 
   public static final String EXTRA_SHIPMENT = TAG + ".EXTRA_SHIPMENT";
+  public static final String ACTION_DELETE = TAG + ".ACTION_DELETE";
   public static final String ACTION_LOCATE = TAG + ".ACTION_LOCATE";
   public static final String ACTION_SHARE = TAG + ".ACTION_SHARE";
   public static final String ACTION_SRO = TAG + ".ACTION_SRO";
@@ -131,9 +130,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    final ArrayList<Shipment> shipments = new ArrayList<>();
-    shipments.add(mShipment);
-
     switch (item.getItemId()) {
       case android.R.id.home:
         onBackPressed();
@@ -159,7 +155,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
         return true;
 
       case R.id.rename_opt:
-        ShipmentDialogFragment.newInstance(R.id.rename_opt, shipments).show(getSupportFragmentManager(), ShipmentDialogFragment.TAG);
+        ShipmentRenameDialogFragment.newInstance(mShipment).show(getSupportFragmentManager(), ShipmentRenameDialogFragment.TAG);
         return true;
 
       case R.id.archive_opt:
@@ -172,7 +168,13 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
         return true;
 
       case R.id.delete_opt:
-        ShipmentDialogFragment.newInstance(R.id.delete_opt, shipments).show(mFragManager, ShipmentDialogFragment.TAG);
+        final Intent intent = new Intent(this, MainActivity.class)
+          .putExtra(EXTRA_SHIPMENT, mShipment)
+          .setAction(ACTION_DELETE)
+          .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+        finish();
         return true;
 
       case R.id.sro_opt:
@@ -206,15 +208,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
     mShipment.setName(desc);
     setActionBarTitle(mShipment.getDescription());
-  }
-
-  @Override
-  public void onDeleteShipments(ArrayList<Shipment> shipments) {
-    final Shipment shipment = shipments.get(0);
-    dh.deletePostalItem(shipment.getNumber());
-
-    UIUtils.showToast(this, String.format(getString(R.string.toast_item_deleted), shipment.getDescription()));
-    UIUtils.goHome(this);
   }
 
   @Override

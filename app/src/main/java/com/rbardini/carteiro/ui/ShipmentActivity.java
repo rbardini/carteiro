@@ -14,20 +14,17 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
-import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
-
-import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public abstract class ShipmentActivity extends AppCompatActivity implements ShipmentListFragment.OnPostalListActionListener, ShipmentDialogFragment.OnShipmentChangeListener {
+public abstract class ShipmentActivity extends AppCompatActivity implements ShipmentListFragment.OnPostalListActionListener, ShipmentRenameDialogFragment.OnShipmentRenameListener {
   private static final String TAG = "ShipmentActivity";
 
   protected CarteiroApplication app;
@@ -113,24 +110,6 @@ public abstract class ShipmentActivity extends AppCompatActivity implements Ship
     if (desc == null) toast = getString(R.string.toast_item_renamed_empty, shipment.getNumber());
     else toast = getString(R.string.toast_item_renamed, shipment.getDescription(), desc);
     UIUtils.showToast(this, toast);
-
-    clearSelection();
-    refreshList();
-  }
-
-  @Override
-  public void onDeleteShipments(ArrayList<Shipment> shipments) {
-    final int listSize = shipments.size();
-    final DatabaseHelper dh = app.getDatabaseHelper();
-
-    for (Shipment shipment : shipments) {
-      dh.deletePostalItem(shipment.getNumber());
-    }
-
-    String message = listSize == 1
-        ? getString(R.string.toast_item_deleted, shipments.get(0).getDescription())
-        : getString(R.string.toast_items_deleted, listSize);
-    UIUtils.showToast(this, message);
 
     clearSelection();
     refreshList();

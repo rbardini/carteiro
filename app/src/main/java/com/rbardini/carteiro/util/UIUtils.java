@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
-import com.rbardini.carteiro.ui.MainActivity;
 
 import java.util.Date;
 
@@ -25,12 +24,6 @@ import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
 import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 
 public final class UIUtils {
-  public static void goHome(Context context) {
-    final Intent intent = new Intent(context, MainActivity.class);
-    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    context.startActivity(intent);
-  }
-
   public static void openURL(Context context, String url) {
     final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     context.startActivity(intent);
