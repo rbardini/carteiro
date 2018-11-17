@@ -262,7 +262,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
       Log.w(TAG, "Could not get first postal activity_record for postal item " + mShipment.getNumber(), e);
 
     } finally {
-      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mShipment.getService()));
+      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mShipment.getService()).trim());
       // TODO Set title bar again when postal records updated
     }
 
