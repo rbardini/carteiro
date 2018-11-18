@@ -33,7 +33,6 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -142,7 +141,12 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     recyclerView.setLeaveBehindColor(ContextCompat.getColor(mActivity, shouldDeleteItems ? R.color.error_background : R.color.success_background));
     recyclerView.setLeaveBehindPadding(getResources().getDimensionPixelSize(R.dimen.icon));
     recyclerView.setLeaveBehindIcon(shouldDeleteItems ? R.drawable.ic_delete_white_24dp : R.drawable.ic_archive_white_24dp);
-    recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation()));
+    recyclerView.addItemDecoration(new InsetDividerItemDecoration(
+      recyclerView.getContext(),
+      layoutManager.getOrientation(),
+      getResources().getDimensionPixelSize(R.dimen.keyline_3),
+      0
+    ));
 
     mListener.onPostalListAttached(this);
 

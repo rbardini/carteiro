@@ -7,7 +7,7 @@
     android:id="@+id/timeline"
     android:layout_width="1dp"
     android:layout_height="match_parent"
-    android:layout_marginStart="40dp"
+    android:layout_marginStart="36dp"
     android:background="@drawable/timeline_middle" />
 
   <RelativeLayout style="@style/ListItem">
