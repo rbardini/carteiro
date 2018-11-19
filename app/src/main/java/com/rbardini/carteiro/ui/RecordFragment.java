@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncTask;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,13 +43,25 @@ public class RecordFragment extends ShipmentFragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.list_record, container, false);
-    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+    final FragmentActivity activity = getActivity();
 
-    mListAdapter = new ShipmentAdapter(getActivity(), mShipment);
+    View view = inflater.inflate(R.layout.list_record, container, false);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
+
+    mListAdapter = new ShipmentAdapter(activity, mShipment);
     mRecyclerView = view.findViewById(android.R.id.list);
     mRecyclerView.setLayoutManager(layoutManager);
     mRecyclerView.setAdapter(mListAdapter);
+    mRecyclerView.getViewTreeObserver().addOnPreDrawListener(
+      new ViewTreeObserver.OnPreDrawListener() {
+        @Override
+        public boolean onPreDraw() {
+          mRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+          activity.supportStartPostponedEnterTransition();
+          return true;
+        }
+      }
+    );
 
     return view;
   }

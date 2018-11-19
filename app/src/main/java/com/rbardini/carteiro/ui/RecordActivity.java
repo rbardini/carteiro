@@ -16,13 +16,10 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.SyncTask;
-import com.rbardini.carteiro.ui.transition.MorphTransition;
-import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
@@ -53,6 +50,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_record);
+    supportPostponeEnterTransition();
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,7 +75,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
       handleNewIntent();
     }
 
-    setupTransition();
     setTitleBar();
     setFragment(savedInstanceState == null);
   }
@@ -234,17 +231,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   @Override
   public ShipmentFragment getPostalFragment() {
     return mRecordFragment;
-  }
-
-  private void setupTransition() {
-    View content = findViewById(R.id.app_bar);
-
-    if (!RoundIconTransition.setup(this, content)) {
-      int appBarColor = ContextCompat.getColor(this, R.color.theme_accent);
-      int appBarRadius = 0;
-
-      MorphTransition.setup(this, content, appBarColor, appBarRadius);
-    }
   }
 
   private void setTitleBar() {

@@ -53,6 +53,9 @@ public class ShipmentAdapter extends RecyclerView.Adapter<ShipmentAdapter.ViewHo
     // Set postal status icon background color
     ((GradientDrawable) holder.icon.getBackground()).setColor(ContextCompat.getColor(mContext, UIUtils.getPostalStatusColor(record.getStatus())));
 
+    // Set shared postal status icon transition name
+    holder.icon.setTransitionName(position == 0 ? mContext.getString(R.string.transition_record_status) : null);
+
     // Clip timeline ends
     if (mShipment.size() <= 1) {
       holder.timeline.setBackgroundResource(0);

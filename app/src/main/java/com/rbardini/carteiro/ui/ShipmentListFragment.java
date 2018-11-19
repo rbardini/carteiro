@@ -1,6 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +21,6 @@ import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView;
-import com.rbardini.carteiro.ui.transition.RoundIconTransition;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
@@ -32,7 +30,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -219,6 +219,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public void onItemClicked(@NonNull Object item) {
     RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) item;
     Shipment shipment = mListAdapter.getItem(viewHolder.getAdapterPosition());
@@ -228,11 +229,15 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
       return;
     }
 
+    View toolbar = mActivity.findViewById(R.id.toolbar);
     View icon = viewHolder.itemView.findViewById(R.id.img_postal_status);
     Intent intent = new Intent(mActivity, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment);
 
-    RoundIconTransition.addExtras(intent, (int) icon.getTag(R.id.shipment_color), (int) icon.getTag(R.id.shipment_icon), 2);
-    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, icon, getString(R.string.transition_record));
+    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+      mActivity,
+      Pair.create(toolbar, getString(R.string.transition_record_app_bar)),
+      Pair.create(icon, getString(R.string.transition_record_status))
+    );
 
     startActivity(intent, options.toBundle());
   }

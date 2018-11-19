@@ -1,6 +1,5 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -28,6 +27,7 @@ import com.rbardini.carteiro.util.UIUtils;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -183,7 +183,7 @@ public class MainActivity extends ShipmentActivity {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
 
         RoundIconTransition.addExtras(intent, ContextCompat.getColor(MainActivity.this, R.color.theme_accent), R.drawable.ic_add_white_24dp, 1);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));
 
         startActivity(intent, options.toBundle());
       }
