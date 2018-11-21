@@ -24,6 +24,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ShipmentListAdapter extends SwipeDismissAdapter {
@@ -135,6 +136,15 @@ public class ShipmentListAdapter extends SwipeDismissAdapter {
     return positions;
   }
 
+  public void updateList(List<Shipment> newShipments) {
+    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallback(mShipments, newShipments));
+
+    mShipments.clear();
+    mShipments.addAll(newShipments);
+
+    diffResult.dispatchUpdatesTo(this);
+  }
+
   final class ViewHolder extends RecyclerView.ViewHolder implements SwipeableRecyclerView.SwipeableViewHolder,
       View.OnClickListener, View.OnLongClickListener {
     private TextView desc, date, loc, info;
@@ -172,6 +182,36 @@ public class ShipmentListAdapter extends SwipeDismissAdapter {
     public boolean onLongClick(View view) {
       mListener.onItemSelected(this);
       return true;
+    }
+  }
+
+  final class DiffCallback extends DiffUtil.Callback {
+    private List<Shipment> oldShipments;
+    private List<Shipment> newShipments;
+
+    public DiffCallback(List<Shipment> oldShipments, List<Shipment> newShipments) {
+      this.oldShipments = oldShipments;
+      this.newShipments = newShipments;
+    }
+
+    @Override
+    public int getOldListSize() {
+      return oldShipments.size();
+    }
+
+    @Override
+    public int getNewListSize() {
+      return newShipments.size();
+    }
+
+    @Override
+    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+      return oldShipments.get(oldItemPosition).getNumber().equals(newShipments.get(newItemPosition).getNumber());
+    }
+
+    @Override
+    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+      return oldShipments.get(oldItemPosition).equals(newShipments.get(newItemPosition));
     }
   }
 }

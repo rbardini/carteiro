@@ -287,14 +287,6 @@ public class DatabaseHelper {
     return db.query(POSTAL_ITEM_TABLE, new String[] {"cod"}, "cod = ?", new String[] {cod}, null, null, null).moveToFirst();
   }
 
-  /**
-   * @deprecated Use {@link #getSearchResults(String query)} instead.
-   */
-  @Deprecated
-  public int getSearchResults(List<Shipment> list, String query) {
-    return getShallowShipments(list, "cod LIKE ? OR desc LIKE ?", new String[] {"%" + query + "%", "%" + query + "%"});
-  }
-
   public List<Shipment> getSearchResults(String query) {
     return getShallowShipments("cod LIKE ? OR desc LIKE ?", new String[] {"%" + query + "%", "%" + query + "%"});
   }
@@ -324,17 +316,6 @@ public class DatabaseHelper {
     return record;
   }
 
-  /**
-   * @deprecated Use {@link #getPostalRecords(String cod)} instead.
-   */
-  @Deprecated
-  public int getPostalRecords(List<ShipmentRecord> list, String cod) {
-    list.clear();
-    list.addAll(getPostalRecords(cod));
-
-    return list.size();
-  }
-
   public List<ShipmentRecord> getPostalRecords(String cod) {
     List<ShipmentRecord> records = new ArrayList<>();
 
@@ -357,31 +338,19 @@ public class DatabaseHelper {
   }
 
   public Shipment getShallowShipment(String cod) {
-    List<Shipment> shipments = new ArrayList<>();
-    getShallowShipments(shipments, "cod = ?", new String[] {cod});
-
-    return shipments.size() > 0 ? shipments.get(0) : null;
+    List<Shipment> shipments = getShallowShipments("cod = ?", new String[] {cod});
+    return shipments.isEmpty() ? null : shipments.get(0);
   }
 
   public Shipment getShipment(String cod) {
     Shipment shipment = getShallowShipment(cod);
 
     if (shipment != null) {
-      getPostalRecords(shipment.getRecords(), cod);
+      shipment.getRecords().clear();
+      shipment.getRecords().addAll(getPostalRecords(cod));
     }
 
     return shipment;
-  }
-
-  /**
-   * @deprecated Use {@link #getShallowShipments(String selection, String[] selectionArgs)} instead.
-   */
-  @Deprecated
-  public int getShallowShipments(List<Shipment> list, String selection, String[] selectionArgs) {
-    list.clear();
-    list.addAll(getShallowShipments(selection, selectionArgs));
-
-    return list.size();
   }
 
   public List<Shipment> getShallowShipments(String selection, String[] selectionArgs) {
@@ -437,17 +406,6 @@ public class DatabaseHelper {
     }
 
     return getShallowShipments(selection.toString(), selectionArgs.toArray(new String[0]));
-  }
-
-  /**
-   * @deprecated Use {@link #getShallowShipments(int category)} instead.
-   */
-  @Deprecated
-  public int getShallowShipments(List<Shipment> list, int category) {
-    list.clear();
-    list.addAll(getShallowShipments(category));
-
-    return list.size();
   }
 
   public List<Shipment> getShallowShipments(int category) {

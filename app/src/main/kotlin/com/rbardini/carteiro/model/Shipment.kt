@@ -5,17 +5,19 @@ import com.rbardini.carteiro.db.DatabaseHelper
 import com.rbardini.carteiro.util.MobileTracker
 import com.rbardini.carteiro.util.PostalUtils
 import java.io.Serializable
-import java.util.*
+import java.util.Locale
 
-data class Shipment(val number: String) : Serializable {
+data class Shipment @JvmOverloads constructor(
+  val number: String,
+  var name: String? = null,
+  var isFavorite: Boolean = false,
+  var isArchived: Boolean = false,
+  var isUnread: Boolean = false
+) : Serializable {
   companion object {
     private const val serialVersionUID: Long = 1L
   }
 
-  var name: String? = null
-  var isFavorite = false
-  var isArchived = false
-  var isUnread = false
   val records = mutableListOf<ShipmentRecord>()
 
   fun toggleFavorite() { isFavorite = !isFavorite }

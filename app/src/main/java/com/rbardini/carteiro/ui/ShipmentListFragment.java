@@ -208,7 +208,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     mSwipeDismissHandler.finish();
 
     updateList();
-    mListAdapter.notifyDataSetChanged();
+    mListAdapter.updateList(mList);
 
     // TODO Handle possible selection change while CAB is active
   }
@@ -295,8 +295,15 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   }
 
   public void updateList() {
-    if (query != null) dh.getSearchResults(mList, query);
-    else dh.getShallowShipments(mList, category);
+    final ArrayList<Shipment> newList;
+
+    if (query == null) {
+      newList = new ArrayList<>(dh.getShallowShipments(category));
+    } else {
+      newList = new ArrayList<>(dh.getSearchResults(query));
+    }
+
+    mList = newList;
   }
 
   private void selectShipment(Shipment shipment) {
