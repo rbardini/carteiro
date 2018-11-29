@@ -21,7 +21,6 @@ import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeDismissListener;
 import com.rbardini.carteiro.ui.swipedismiss.SwipeableRecyclerView;
-import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -432,8 +431,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
           return true;
 
         case R.id.share_opt:
-          Intent shareIntent = PostalUtils.getShareIntent(mActivity, mSelectedList);
-          if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
+          UIUtils.shareItems(mActivity, mSelectedList);
           return true;
       }
 

@@ -18,8 +18,8 @@ import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.util.AnalyticsUtils;
 import com.rbardini.carteiro.util.NotificationUtils;
-import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.SyncUtils;
 import com.rbardini.carteiro.util.UIUtils;
@@ -84,6 +84,12 @@ public class MainActivity extends ShipmentActivity {
   }
 
   @Override
+  public void onResume() {
+    super.onResume();
+    recordScreenView();
+  }
+
+  @Override
   protected void onNewIntent(Intent intent) {
     setIntent(intent);
     handleNewIntent();
@@ -121,8 +127,7 @@ public class MainActivity extends ShipmentActivity {
         return true;
 
       case R.id.share_opt:
-        Intent shareIntent = PostalUtils.getShareIntent(this, mCurrentFragment.getList());
-        if (shareIntent != null) startActivity(Intent.createChooser(shareIntent, getString(R.string.title_send_list)));
+        UIUtils.shareItems(this, mCurrentFragment.getList());
         return true;
 
       default:
@@ -163,6 +168,8 @@ public class MainActivity extends ShipmentActivity {
 
     setTitle(Category.getTitle(category));
     setDrawerCategoryChecked(category);
+
+    recordScreenView();
   }
 
   @Override
@@ -332,5 +339,13 @@ public class MainActivity extends ShipmentActivity {
 
   private int getInitialCategory() {
     return Integer.parseInt(mPrefs.getString(getString(R.string.pref_key_initial_category), String.valueOf(Category.ALL)));
+  }
+
+  private void recordScreenView() {
+    int category = mCurrentFragment.getCategory();
+    int title = Category.getTitle(category);
+    String screenName = UIUtils.getDefaultString(this, title);
+
+    AnalyticsUtils.recordScreenView(this, screenName);
   }
 }

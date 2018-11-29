@@ -24,6 +24,7 @@ import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
+import com.rbardini.carteiro.util.AnalyticsUtils;
 import com.rbardini.carteiro.util.Constants;
 import com.rbardini.carteiro.util.IOUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
@@ -45,6 +46,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -57,6 +59,8 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
   private static CarteiroApplication app;
   private static DatabaseHelper dh;
 
+  private PreferencesFragment mCurrentFragment;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -68,8 +72,22 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     app = (CarteiroApplication) getApplication();
     dh = app.getDatabaseHelper();
 
+    getSupportFragmentManager().addOnBackStackChangedListener(new OnBackStackChangedListener() {
+      @Override
+      public void onBackStackChanged() {
+        mCurrentFragment = (PreferencesFragment) getSupportFragmentManager().findFragmentById(R.id.main_content);
+        recordScreenView();
+      }
+    });
+
     showFragment(getCurrentFragment(savedInstanceState), false);
     handleIntent();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    recordScreenView();
   }
 
   @Override
@@ -125,6 +143,8 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     ft.commit();
+
+    mCurrentFragment = (PreferencesFragment) fragment;
   }
 
   private void handleIntent() {
@@ -137,6 +157,13 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     if (categories.contains("android.intent.category.NOTIFICATION_PREFERENCES")) {
       showFragment(new NotificationPreferences(), false);
     }
+  }
+
+  private void recordScreenView() {
+    int title = mCurrentFragment.getTitleId();
+    String screenName = UIUtils.getDefaultString(this, title);
+
+    AnalyticsUtils.recordScreenView(this, screenName);
   }
 
   public static class MainPreferences extends PreferencesFragment {

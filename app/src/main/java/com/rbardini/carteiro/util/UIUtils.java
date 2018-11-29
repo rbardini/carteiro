@@ -2,6 +2,7 @@ package com.rbardini.carteiro.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,8 +17,11 @@ import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
@@ -39,6 +43,13 @@ public final class UIUtils {
 
   public static void showToast(Context context, int resId) {
     showToast(context, context.getString(resId));
+  }
+
+  public static String getDefaultString(Context context, @StringRes int id) {
+    Configuration config = new Configuration(context.getResources().getConfiguration());
+    config.setLocale(Locale.ENGLISH);
+
+    return context.createConfigurationContext(config).getResources().getString(id);
   }
 
   public static CharSequence getRelativeTime(Date date) {
@@ -85,7 +96,17 @@ public final class UIUtils {
 
   public static void shareItem(Context context, Shipment shipment) {
     Intent shareIntent = PostalUtils.getShareIntent(context, shipment);
+
     context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share_title)));
+    AnalyticsUtils.recordShare(context, shipment);
+  }
+
+  public static void shareItems(Context context, List<Shipment> shipments) {
+    Intent shareIntent = PostalUtils.getShareIntent(context, shipments);
+    if (shareIntent == null) return;
+
+    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.title_send_list)));
+    AnalyticsUtils.recordShare(context, shipments);
   }
 
   public static void locateItem(Context context, Shipment shipment) throws Exception {

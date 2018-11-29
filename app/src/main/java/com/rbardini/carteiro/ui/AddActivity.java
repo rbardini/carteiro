@@ -37,6 +37,7 @@ import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.ui.transition.MorphTransition;
 import com.rbardini.carteiro.ui.transition.RoundIconTransition;
+import com.rbardini.carteiro.util.AnalyticsUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 import com.rbardini.carteiro.util.validator.TrackingCodeValidation;
@@ -508,10 +509,13 @@ public class AddActivity extends AppCompatActivity {
 
     mShipment.saveTo(dh);
 
-    Intent intent = new Intent(this, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, mShipment);
-    intent.putExtra("isNew", true);
+    Intent intent = new Intent(this, RecordActivity.class)
+      .putExtra(RecordActivity.EXTRA_SHIPMENT, mShipment)
+      .putExtra(RecordActivity.EXTRA_IS_NEW_SHIPMENT, true);
     startActivity(intent);
     finish();
+
+    AnalyticsUtils.recordShipmentAdd(this, mShipment);
   }
 
   private void cancelShipmentFetch() {

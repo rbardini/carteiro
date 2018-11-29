@@ -10,8 +10,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.WebView;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
@@ -23,8 +21,6 @@ public class CarteiroApplication extends Application {
   private static final String TAG = "CarteiroApplication";
 
   public static boolean syncing = false;
-
-  private Tracker tracker;
 
   @Override
   public void onCreate() {
@@ -38,25 +34,11 @@ public class CarteiroApplication extends Application {
     }, new IntentFilter(SyncTask.ACTION_SYNC));
 
     SyncScheduler.reschedule(this);
-
-    setupAnalytics();
     setupTheme();
-  }
-
-  public Tracker getTracker() {
-    return tracker;
   }
 
   public DatabaseHelper getDatabaseHelper() {
     return DatabaseHelper.getInstance(this);
-  }
-
-  private void setupAnalytics() {
-    GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-    analytics.setDryRun(BuildConfig.DEBUG);
-
-    tracker = analytics.newTracker(R.xml.tracker_config);
-    tracker.enableAdvertisingIdCollection(true);
   }
 
   private void setupTheme() {

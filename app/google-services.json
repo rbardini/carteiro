@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "558586182175",
+    "firebase_url": "https://carteiro-5f4bc.firebaseio.com",
+    "project_id": "carteiro-5f4bc",
+    "storage_bucket": "carteiro-5f4bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558586182175:android:705553562de123cf",
+        "android_client_info": {
+          "package_name": "com.rbardini.carteiro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558586182175-c9id8ko2gqg8ht7kp5rucmcra3e9m01v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rbardini.carteiro",
+            "certificate_hash": "5a137bb83ed2a2d1a42e96707624b1377ce55265"
+          }
+        },
+        {
+          "client_id": "558586182175-7l90mkbf5hdlc8ppmhsue42k83i1km1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7YxlWknWvz_wjgZqw21kx-ZIfBu74WbY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-3034872-4"
+          }
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558586182175-7l90mkbf5hdlc8ppmhsue42k83i1km1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

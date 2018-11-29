@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <string name="app_name" translatable="false">Carteiro</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="app_name">Carteiro</string>
 
-  <string name="blog_url" translatable="false">https://blog.carteiro.app/</string>
-  <string name="facebook_url" translatable="false">http://www.facebook.com/carteiroapp</string>
-  <string name="twitter_url" translatable="false">http://twitter.com/carteiroapp</string>
-  <string name="gplus_url" translatable="false">http://plus.google.com/communities/102688961399152413062</string>
-  <string name="feedback_url" translatable="false">https://carteiroapp.uservoice.com/</string>
-  <string name="contact_url" translatable="false">http://www2.correios.com.br/sistemas/falecomoscorreios/</string>
+  <string name="blog_url">https://blog.carteiro.app/</string>
+  <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
+  <string name="twitter_url">http://twitter.com/carteiroapp</string>
+  <string name="gplus_url">http://plus.google.com/communities/102688961399152413062</string>
+  <string name="feedback_url">https://carteiroapp.uservoice.com/</string>
+  <string name="contact_url">http://www2.correios.com.br/sistemas/falecomoscorreios/</string>
 
   <!-- Theme names -->
-  <string name="theme_light" translatable="false">light</string>
-  <string name="theme_dark" translatable="false">dark</string>
+  <string name="theme_light">light</string>
+  <string name="theme_dark">dark</string>
 
   <!-- Transition names -->
-  <string name="transition_add_item" translatable="false">transition_add_item</string>
-  <string name="transition_record_app_bar" translatable="false">transition_record_app_bar</string>
-  <string name="transition_record_status" translatable="false">transition_record_status</string>
+  <string name="transition_add_item">transition_add_item</string>
+  <string name="transition_record_app_bar">transition_record_app_bar</string>
+  <string name="transition_record_status">transition_record_status</string>
 
   <!-- Preferences keys -->
-  <string name="pref_key_last_sync" translatable="false">lastsync</string>
-  <string name="pref_key_always_add_not_found" translatable="false">alwaysaddnotfound</string>
-  <string name="pref_key_always_add_delivered" translatable="false">alwaysadddelivered</string>
-  <string name="pref_key_always_add_returned" translatable="false">alwaysaddreturned</string>
-  <string name="pref_key_always_add_net_error" translatable="false">alwaysaddneterror</string>
-  <string name="pref_key_auto_sync" translatable="false">autosync</string>
-  <string name="pref_key_sync_on_launch" translatable="false">synconlaunch</string>
-  <string name="pref_key_sync_favorites_only" translatable="false">syncfavoritesonly</string>
-  <string name="pref_key_dont_sync_delivered_items" translatable="false">dontsyncdelivereditems</string>
-  <string name="pref_key_sync_wifi_only" translatable="false">syncwifionly</string>
-  <string name="pref_key_notify" translatable="false">notify</string>
-  <string name="pref_key_notify_sync" translatable="false">notifysync</string>
-  <string name="pref_key_notify_all" translatable="false">notifyall</string>
-  <string name="pref_key_notify_returned" translatable="false">notifyreturned</string>
-  <string name="pref_key_notify_unknown" translatable="false">notifyunknown</string>
-  <string name="pref_key_notify_irregular" translatable="false">notifyirregular</string>
-  <string name="pref_key_notify_favorites" translatable="false">notifyfavorites</string>
-  <string name="pref_key_notify_available" translatable="false">notifyavailable</string>
-  <string name="pref_key_notify_delivered" translatable="false">notifydelivered</string>
-  <string name="pref_key_ringtone" translatable="false">ringtone</string>
-  <string name="pref_key_lights" translatable="false">lights</string>
-  <string name="pref_key_vibrate" translatable="false">vibrate</string>
-  <string name="pref_key_notification_settings" translatable="false">notificationsettings</string>
-  <string name="pref_key_initial_category" translatable="false">initialcategory</string>
-  <string name="pref_key_theme" translatable="false">theme</string>
-  <string name="pref_key_use_adaptive_keyboard" translatable="false">useadaptivekeyboard</string>
-  <string name="pref_key_create_backup" translatable="false">createbackup</string>
-  <string name="pref_key_restore_backup" translatable="false">restorebackup</string>
-  <string name="pref_key_version" translatable="false">version</string>
-  <string name="pref_key_blog" translatable="false">blog</string>
-  <string name="pref_key_facebook" translatable="false">facebook</string>
-  <string name="pref_key_twitter" translatable="false">twitter</string>
-  <string name="pref_key_gplus" translatable="false">gplus</string>
-  <string name="pref_key_rate" translatable="false">rate</string>
+  <string name="pref_key_last_sync">lastsync</string>
+  <string name="pref_key_always_add_not_found">alwaysaddnotfound</string>
+  <string name="pref_key_always_add_delivered">alwaysadddelivered</string>
+  <string name="pref_key_always_add_returned">alwaysaddreturned</string>
+  <string name="pref_key_always_add_net_error">alwaysaddneterror</string>
+  <string name="pref_key_auto_sync">autosync</string>
+  <string name="pref_key_sync_on_launch">synconlaunch</string>
+  <string name="pref_key_sync_favorites_only">syncfavoritesonly</string>
+  <string name="pref_key_dont_sync_delivered_items">dontsyncdelivereditems</string>
+  <string name="pref_key_sync_wifi_only">syncwifionly</string>
+  <string name="pref_key_notify">notify</string>
+  <string name="pref_key_notify_sync">notifysync</string>
+  <string name="pref_key_notify_all">notifyall</string>
+  <string name="pref_key_notify_returned">notifyreturned</string>
+  <string name="pref_key_notify_unknown">notifyunknown</string>
+  <string name="pref_key_notify_irregular">notifyirregular</string>
+  <string name="pref_key_notify_favorites">notifyfavorites</string>
+  <string name="pref_key_notify_available">notifyavailable</string>
+  <string name="pref_key_notify_delivered">notifydelivered</string>
+  <string name="pref_key_ringtone">ringtone</string>
+  <string name="pref_key_lights">lights</string>
+  <string name="pref_key_vibrate">vibrate</string>
+  <string name="pref_key_notification_settings">notificationsettings</string>
+  <string name="pref_key_initial_category">initialcategory</string>
+  <string name="pref_key_theme">theme</string>
+  <string name="pref_key_use_adaptive_keyboard">useadaptivekeyboard</string>
+  <string name="pref_key_create_backup">createbackup</string>
+  <string name="pref_key_restore_backup">restorebackup</string>
+  <string name="pref_key_version">version</string>
+  <string name="pref_key_blog">blog</string>
+  <string name="pref_key_facebook">facebook</string>
+  <string name="pref_key_twitter">twitter</string>
+  <string name="pref_key_gplus">gplus</string>
+  <string name="pref_key_rate">rate</string>
 </resources>

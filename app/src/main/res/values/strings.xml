@@ -198,7 +198,7 @@
   <string name="pref_restore_backup_title">Restore backup</string>
   <string name="pref_restore_backup_summary">Import data from the external storage</string>
 
-  <string name="pref_about_title">About Carteiro</string>
+  <string name="pref_about_title">About</string>
   <string name="pref_about_summary">Blog, social networks, version</string>
   <string name="pref_version_category">Version</string>
   <string name="pref_version_title">%1$s %2$s</string>
@@ -210,8 +210,8 @@
   <string name="pref_rate_title">Rate Carteiro on Google Play</string>
 
   <!-- Search Activity -->
-  <string name="title_search">Items</string>
-  <string name="subtitle_search">Search results</string>
+  <string name="title_search">Search</string>
+  <string name="subtitle_search">Results</string>
   <string name="search_hint">Search items</string>
   <string name="search_desc">Number and name of your tracked items</string>
 

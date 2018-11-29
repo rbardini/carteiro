@@ -198,7 +198,7 @@
   <string name="pref_restore_backup_title">Restaurar backup</string>
   <string name="pref_restore_backup_summary">Importar dados do armazenamento externo</string>
 
-  <string name="pref_about_title">Sobre o Carteiro</string>
+  <string name="pref_about_title">Sobre</string>
   <string name="pref_about_summary">Blog, redes sociais, versão</string>
   <string name="pref_version_category">Versão</string>
   <string name="pref_version_title">%1$s %2$s</string>
@@ -210,8 +210,8 @@
   <string name="pref_rate_title">Avalie o Carteiro no Google Play</string>
 
   <!-- Search Activity -->
-  <string name="title_search">Objetos</string>
-  <string name="subtitle_search">Resultados da pesquisa</string>
+  <string name="title_search">Pesquisa</string>
+  <string name="subtitle_search">Resultados</string>
   <string name="search_hint">Pesquisar objetos</string>
   <string name="search_desc">Código e nome dos seus objetos rastreados</string>
 

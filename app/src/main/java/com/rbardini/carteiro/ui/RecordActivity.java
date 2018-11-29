@@ -16,6 +16,7 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.model.Shipment;
 import com.rbardini.carteiro.model.ShipmentRecord;
 import com.rbardini.carteiro.svc.SyncTask;
+import com.rbardini.carteiro.util.AnalyticsUtils;
 import com.rbardini.carteiro.util.PostalUtils;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -27,6 +28,7 @@ import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
 public class RecordActivity extends ShipmentActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
 
+  public static final String EXTRA_IS_NEW_SHIPMENT = TAG + ".EXTRA_IS_NEW_SHIPMENT";
   public static final String EXTRA_SHIPMENT = TAG + ".EXTRA_SHIPMENT";
   public static final String ACTION_ARCHIVE = TAG + ".ACTION_ARCHIVE";
   public static final String ACTION_DELETE = TAG + ".ACTION_DELETE";
@@ -286,7 +288,7 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
       mShipment.setUnread(false);
     }
 
-    if (extras.getBoolean("isNew")) {
+    if (extras.getBoolean(EXTRA_IS_NEW_SHIPMENT)) {
       String message = String.format(getString(R.string.toast_item_added), mShipment.getDescription());
       Snackbar
         .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
@@ -299,8 +301,10 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
           }
         })
         .show();
-      intent.removeExtra("isNew");
+      intent.removeExtra(EXTRA_IS_NEW_SHIPMENT);
     }
+
+    AnalyticsUtils.recordShipmentView(this, mShipment);
 
     String action = intent.getAction();
     if (action != null) {

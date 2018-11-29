@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
+import com.rbardini.carteiro.util.AnalyticsUtils;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -15,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 public class SearchActivity extends ShipmentActivity {
   private ActionBar mActionBar;
   private ShipmentListFragment mCurrentFragment;
-  private String mQuery;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +25,16 @@ public class SearchActivity extends ShipmentActivity {
 
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     mActionBar = getSupportActionBar();
-    mActionBar.setTitle(R.string.subtitle_search);
+    mActionBar.setSubtitle(R.string.subtitle_search);
     mActionBar.setDisplayHomeAsUpEnabled(true);
-    mQuery = null;
 
-    handleIntent();
+    handleIntent(savedInstanceState == null);
   }
 
   @Override
   protected void onNewIntent(Intent intent) {
     setIntent(intent);
-    handleIntent();
+    handleIntent(true);
   }
 
   @Override
@@ -67,26 +66,34 @@ public class SearchActivity extends ShipmentActivity {
     return mCurrentFragment;
   }
 
-  private void handleIntent() {
+  private void handleIntent(boolean isNewSearch) {
     Intent intent = getIntent();
-    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-      mQuery = intent.getStringExtra(SearchManager.QUERY);
-      mActionBar.setSubtitle(mQuery);
 
-      if (mCurrentFragment == null) {
-        mCurrentFragment = ShipmentListFragment.newInstance(mQuery);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, mCurrentFragment).commit();
+    switch (intent.getAction()) {
+      case Intent.ACTION_SEARCH:
+        String query = intent.getStringExtra(SearchManager.QUERY);
+        mActionBar.setTitle(query);
 
-      } else {
-        mCurrentFragment.setQuery(mQuery);
-        refreshList();
-      }
+        if (mCurrentFragment == null) {
+          mCurrentFragment = ShipmentListFragment.newInstance(query);
+          getSupportFragmentManager().beginTransaction().replace(R.id.content, mCurrentFragment).commit();
 
-    } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-      Shipment shipment = app.getDatabaseHelper().getShallowShipment(intent.getDataString());
-      Intent recordIntent = new Intent(this, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment);
-      startActivity(recordIntent);
-      finish();
+        } else {
+          mCurrentFragment.setQuery(query);
+          refreshList();
+        }
+
+        if (isNewSearch) {
+          AnalyticsUtils.recordSearch(this, query);
+        }
+        break;
+
+      case Intent.ACTION_VIEW:
+        Shipment shipment = app.getDatabaseHelper().getShallowShipment(intent.getDataString());
+        Intent recordIntent = new Intent(this, RecordActivity.class).putExtra(RecordActivity.EXTRA_SHIPMENT, shipment);
+        startActivity(recordIntent);
+        finish();
+        break;
     }
   }
 }
