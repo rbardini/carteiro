@@ -383,7 +383,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
         .setTitle(areAllSelected ? R.string.opt_deselect_all : R.string.opt_select_all);
       mCollectiveActionMap.put(selectAllAction.getItemId(), areAllSelected);
       MenuItem favAction = menu.findItem(R.id.fav_opt)
-        .setIcon(areAllFavorites ? R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp)
+        .setIcon(areAllFavorites ? R.drawable.ic_favorite_white_24dp : R.drawable.ic_favorite_border_white_24dp)
         .setTitle(areAllFavorites ? R.string.opt_unmark_as_fav : R.string.opt_mark_as_fav);
       mCollectiveActionMap.put(favAction.getItemId(), areAllFavorites);
       MenuItem archiveAction = menu.findItem(R.id.archive_opt)

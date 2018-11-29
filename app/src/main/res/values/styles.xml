@@ -43,7 +43,7 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_marginRight">-2dp</item>
     <item name="android:layout_marginBottom">-2dp</item>
-    <item name="android:button">@drawable/button_star</item>
+    <item name="android:button">@drawable/button_favorite</item>
   </style>
 
   <!-- List -->

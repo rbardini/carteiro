@@ -9,7 +9,7 @@
       android:title="@string/category_all" />
 
     <item android:id="@id/category_favorites"
-      android:icon="@drawable/ic_star_white_24dp"
+      android:icon="@drawable/ic_favorite_white_24dp"
       android:title="@string/category_favorites" />
 
     <item android:id="@id/category_available"
