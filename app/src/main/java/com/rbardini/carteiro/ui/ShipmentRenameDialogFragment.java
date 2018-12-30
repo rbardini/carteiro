@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -58,7 +57,7 @@ public class ShipmentRenameDialogFragment extends AppCompatDialogFragment {
     final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
     LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    View layout = inflater.inflate(R.layout.dialog_rename, (ViewGroup) activity.findViewById(R.id.layout_root));
+    View layout = inflater.inflate(R.layout.dialog_rename, null);
 
     final EditText itemDesc = layout.findViewById(R.id.item_desc_fld);
     itemDesc.setText(shipment.getName());

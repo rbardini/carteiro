@@ -106,11 +106,6 @@ public abstract class ShipmentActivity extends AppCompatActivity implements Ship
   public void onRenameShipment(String desc, Shipment shipment) {
     app.getDatabaseHelper().renamePostalItem(shipment.getNumber(), desc);
 
-    String toast;
-    if (desc == null) toast = getString(R.string.toast_item_renamed_empty, shipment.getNumber());
-    else toast = getString(R.string.toast_item_renamed, shipment.getDescription(), desc);
-    UIUtils.showToast(this, toast);
-
     clearSelection();
     refreshList();
   }

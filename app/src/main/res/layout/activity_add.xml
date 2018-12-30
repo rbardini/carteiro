@@ -13,7 +13,9 @@
     android:layout_marginStart="@dimen/keyline_2"
     android:orientation="vertical"
     android:background="@drawable/dialog_background"
-    android:padding="@dimen/keyline_1_half"
+    android:paddingTop="@dimen/keyline_1_half"
+    android:paddingStart="@dimen/keyline_1_half"
+    android:paddingEnd="@dimen/keyline_1_half"
     android:elevation="@dimen/dialog_elevation"
     android:transitionName="@string/transition_add_item"
     android:clickable="true">
@@ -26,8 +28,7 @@
       android:layout_height="match_parent"
       android:orientation="vertical"
       android:animateLayoutChanges="true"
-      android:paddingTop="@dimen/keyline_1_quarter"
-      android:paddingBottom="@dimen/keyline_1_quarter"
+      android:paddingBottom="@dimen/keyline_1"
       android:paddingStart="@dimen/keyline_1"
       android:paddingEnd="@dimen/keyline_1">
 
@@ -44,8 +45,7 @@
           android:layout_height="wrap_content">
 
           <com.google.android.material.textfield.TextInputEditText style="@style/TrkCodeField"
-            android:id="@+id/trk_code_fld"
-            android:paddingTop="6dp" />
+            android:id="@+id/trk_code_fld" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,8 +56,7 @@
 
           <com.google.android.material.textfield.TextInputEditText style="@style/ItemDescField"
             android:id="@+id/item_desc_fld"
-            android:imeOptions="actionGo"
-            android:paddingTop="6dp" />
+            android:imeOptions="actionGo" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,55 +86,56 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
-      <com.google.android.flexbox.FlexboxLayout style="?attr/buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        app:flexWrap="wrap"
-        app:justifyContent="flex_end">
-
-        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-          android:id="@+id/cancel_button"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/negative_btn"
-          android:onClick="onCancelClick" />
-
-        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-          android:id="@+id/add_button"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/add_btn"
-          android:onClick="onAddClick"
-          android:enabled="false" />
-
-        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-          android:id="@+id/skip_button"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/skip_btn"
-          android:onClick="onSkipClick"
-          android:visibility="gone" />
-
-        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-          android:id="@+id/just_once_button"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/just_once_btn"
-          android:onClick="onJustOnceClick"
-          android:visibility="gone" />
-
-        <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-          android:id="@+id/always_button"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/always_btn"
-          android:onClick="onAlwaysClick"
-          android:visibility="gone" />
-
-      </com.google.android.flexbox.FlexboxLayout>
-
     </LinearLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="end"
+      android:padding="@dimen/keyline_1_quarter"
+      app:flexWrap="wrap"
+      app:justifyContent="flex_end">
+
+      <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/negative_btn"
+        android:onClick="onCancelClick" />
+
+      <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_btn"
+        android:onClick="onAddClick"
+        android:enabled="false" />
+
+      <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/skip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/skip_btn"
+        android:onClick="onSkipClick"
+        android:visibility="gone" />
+
+      <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/just_once_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/just_once_btn"
+        android:onClick="onJustOnceClick"
+        android:visibility="gone" />
+
+      <Button style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/always_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/always_btn"
+        android:onClick="onAlwaysClick"
+        android:visibility="gone" />
+
+    </com.google.android.flexbox.FlexboxLayout>
 
   </LinearLayout>
 

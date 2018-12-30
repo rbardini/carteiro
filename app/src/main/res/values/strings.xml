@@ -91,8 +91,6 @@
 
   <!--  Toasts -->
   <string name="toast_item_added">%s added.</string>
-  <string name="toast_item_renamed">%1$s renamed to %2$s.</string>
-  <string name="toast_item_renamed_empty">Name removed from %s.</string>
   <string name="toast_archived_count_single">Archived</string>
   <string name="toast_archived_count_multiple">Archived (%d)</string>
   <string name="toast_unarchived_count_single">Moved to All</string>
