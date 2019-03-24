@@ -13,8 +13,8 @@
     <intent android:action="android.intent.action.VIEW" android:data="@string/twitter_url" />
   </Preference>
 
-  <Preference android:key="@string/pref_key_gplus" android:title="@string/pref_gplus_title">
-    <intent android:action="android.intent.action.VIEW" android:data="@string/gplus_url" />
+  <Preference android:key="@string/pref_key_community" android:title="@string/pref_community_title">
+    <intent android:action="android.intent.action.VIEW" android:data="@string/community_url" />
   </Preference>
 
   <Preference android:key="@string/pref_key_rate" android:title="@string/pref_rate_title" />

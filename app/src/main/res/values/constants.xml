@@ -5,7 +5,7 @@
   <string name="blog_url">https://blog.carteiro.app/</string>
   <string name="facebook_url">http://www.facebook.com/carteiroapp</string>
   <string name="twitter_url">http://twitter.com/carteiroapp</string>
-  <string name="gplus_url">http://plus.google.com/communities/102688961399152413062</string>
+  <string name="community_url">https://spectrum.chat/carteiro</string>
   <string name="feedback_url">https://carteiroapp.uservoice.com/</string>
   <string name="contact_url">http://www2.correios.com.br/sistemas/falecomoscorreios/</string>
 
@@ -51,6 +51,6 @@
   <string name="pref_key_blog">blog</string>
   <string name="pref_key_facebook">facebook</string>
   <string name="pref_key_twitter">twitter</string>
-  <string name="pref_key_gplus">gplus</string>
+  <string name="pref_key_community">community</string>
   <string name="pref_key_rate">rate</string>
 </resources>
