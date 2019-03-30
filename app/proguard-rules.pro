@@ -20,4 +20,10 @@
 -dontwarn com.google.android.gms.**
 -keep public class com.google.android.gms.** { *; }
 
+# Crashlytics
+# https://firebase.google.com/docs/crashlytics/get-deobfuscated-reports
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
 -keep class com.rbardini.carteiro.ui.PreferencesActivity$** { *; }
