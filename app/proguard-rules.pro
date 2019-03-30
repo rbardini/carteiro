@@ -16,4 +16,8 @@
 #   public *;
 #}
 
+# Google Play Services
+-dontwarn com.google.android.gms.**
+-keep public class com.google.android.gms.** { *; }
+
 -keep class com.rbardini.carteiro.ui.PreferencesActivity$** { *; }
