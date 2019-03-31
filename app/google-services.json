@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "558586182175-cgoakca1ajb4vpr3lg8ebg819g66nsrf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rbardini.carteiro",
+            "certificate_hash": "77dd5d448980681fe19154c1f04e9dc186c593f4"
+          }
+        },
+        {
           "client_id": "558586182175-7l90mkbf5hdlc8ppmhsue42k83i1km1k.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -47,6 +55,37 @@
               "client_type": 3
             }
           ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558586182175:android:cac03ea4d90ff012",
+        "android_client_info": {
+          "package_name": "com.rbardini.carteiro.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558586182175-7l90mkbf5hdlc8ppmhsue42k83i1km1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7YxlWknWvz_wjgZqw21kx-ZIfBu74WbY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

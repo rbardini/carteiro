@@ -10,12 +10,15 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.WebView;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import io.fabric.sdk.android.Fabric;
 
 public class CarteiroApplication extends Application {
   private static final String TAG = "CarteiroApplication";
@@ -25,6 +28,14 @@ public class CarteiroApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    // Set up Crashlytics, disabled for debug builds
+    Crashlytics crashlytics = new Crashlytics.Builder()
+      .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+      .build();
+
+    // Initialize Fabric with the debug-disabled Crashlytics.
+    Fabric.with(this, crashlytics);
 
     LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
       @Override

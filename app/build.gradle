@@ -23,6 +23,13 @@ android {
   }
 
   buildTypes {
+    debug {
+      applicationIdSuffix ".debug"
+      versionNameSuffix "-debug"
+      // Disable Fabric build ID generation for debug builds
+      // https://docs.fabric.io/android/crashlytics/build-tools.html#disable-crashlytics-for-debug-builds
+      ext.enableCrashlytics = false
+    }
     release {
       minifyEnabled true
       shrinkResources true

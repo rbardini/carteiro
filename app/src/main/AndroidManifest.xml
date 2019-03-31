@@ -30,6 +30,11 @@
     <meta-data android:name="com.google.android.gms.version"
       android:value="@integer/google_play_services_version" />
 
+    <!-- Enable opt-in Firebase Crashlytics reporting -->
+    <!-- https://firebase.google.com/docs/crashlytics/customize-crash-reports#enable_opt-in_reporting -->
+    <meta-data android:name="firebase_crashlytics_collection_enabled"
+      android:value="false" />
+
     <meta-data android:name="android.app.default_searchable"
       android:value=".ui.SearchActivity" />
 
