@@ -35,6 +35,11 @@
     <meta-data android:name="firebase_crashlytics_collection_enabled"
       android:value="false" />
 
+    <!-- Enable opt-in Firebase Performance Monitoring reporting -->
+    <!-- https://firebase.google.com/docs/perf-mon/disable-sdk#disable_during_your_app_build_process -->
+    <meta-data android:name="firebase_performance_collection_enabled"
+      android:value="false" />
+
     <meta-data android:name="android.app.default_searchable"
       android:value=".ui.SearchActivity" />
 

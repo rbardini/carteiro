@@ -11,7 +11,7 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.firebase.perf.FirebasePerformance;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
@@ -29,13 +29,10 @@ public class CarteiroApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    // Set up Crashlytics, disabled for debug builds
-    Crashlytics crashlytics = new Crashlytics.Builder()
-      .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-      .build();
-
-    // Initialize Fabric with the debug-disabled Crashlytics.
-    Fabric.with(this, crashlytics);
+    if (!BuildConfig.DEBUG) {
+      Fabric.with(this, new Crashlytics());
+      FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
+    }
 
     LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
       @Override
