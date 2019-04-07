@@ -57,7 +57,7 @@ public final class UIUtils {
   }
 
   public static CharSequence getRelativeDaysString(Context context, Date date) {
-    int days = (int) ((System.currentTimeMillis() - date.getTime()) / (1000 * 60 * 60 * 24));
+    int days = (int) ((System.currentTimeMillis() - date.getTime()) / DateUtils.DAY_IN_MILLIS);
 
     if (days == 0) return context.getString(R.string.date_today);
     if (days == 1) return context.getString(R.string.date_yesterday);
