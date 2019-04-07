@@ -12,6 +12,7 @@ import android.webkit.WebView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.perf.FirebasePerformance;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
@@ -29,7 +30,7 @@ public class CarteiroApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    if (!BuildConfig.DEBUG) {
+    if (!BuildConfig.DEBUG && !ProcessPhoenix.isPhoenixProcess(this)) {
       Fabric.with(this, new Crashlytics());
       FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
     }
