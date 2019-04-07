@@ -206,6 +206,7 @@
   <string name="pref_twitter_title">Siga o @carteiroapp no Twitter</string>
   <string name="pref_community_title">Participe da comunidade no Spectrum</string>
   <string name="pref_rate_title">Avalie o Carteiro no Google Play</string>
+  <string name="pref_privacy_title">Política de privacidade</string>
 
   <!-- Search Activity -->
   <string name="title_search">Pesquisa</string>
