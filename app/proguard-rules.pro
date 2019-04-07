@@ -16,10 +16,6 @@
 #   public *;
 #}
 
-# Google Play Services
--dontwarn com.google.android.gms.**
--keep public class com.google.android.gms.** { *; }
-
 # Crashlytics
 # https://firebase.google.com/docs/crashlytics/get-deobfuscated-reports
 -keepattributes *Annotation*

@@ -27,9 +27,6 @@
     <meta-data android:name="com.google.android.backup.api_key"
       android:value="AEdPqrEAAAAIpMwL3ExpHhp_HZW5m5j70OJXOjyAW90IHa1DCA" />
 
-    <meta-data android:name="com.google.android.gms.version"
-      android:value="@integer/google_play_services_version" />
-
     <!-- Enable opt-in Firebase Crashlytics reporting -->
     <!-- https://firebase.google.com/docs/crashlytics/customize-crash-reports#enable_opt-in_reporting -->
     <meta-data android:name="firebase_crashlytics_collection_enabled"
@@ -110,30 +107,6 @@
 
     <provider android:name=".svc.SearchProvider"
       android:authorities="com.rbardini.carteiro.SearchProvider" />
-
-    <!-- Enable background dispatching to improve delivery on non-Google Play devices -->
-    <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-      android:enabled="true">
-      <intent-filter>
-        <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
-      </intent-filter>
-    </receiver>
-
-    <service android:name="com.google.android.gms.analytics.AnalyticsService"
-      android:enabled="true"
-      android:exported="false" />
-
-    <!-- Enable Google Play Store Campaign reports -->
-    <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-      android:exported="true"
-      android:enabled="true">
-      <intent-filter>
-        <action android:name="com.android.vending.INSTALL_REFERRER" />
-      </intent-filter>
-    </receiver>
-
-    <service android:name="com.google.android.gms.analytics.CampaignTrackingService"
-      android:enabled="true" />
 
   </application>
 
