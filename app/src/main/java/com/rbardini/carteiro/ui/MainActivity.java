@@ -217,6 +217,11 @@ public class MainActivity extends ShipmentActivity {
       intent.removeExtra(EXTRA_SHIPMENT);
     }
 
+    if (action == null) {
+      showCategory(getInitialCategory());
+      return;
+    }
+
     switch (action) {
       case ACTION_ARCHIVE:
         showCategory(Category.ALL, action, shipment);
