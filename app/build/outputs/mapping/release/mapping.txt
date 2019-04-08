@@ -46297,14 +46297,14 @@ com.rbardini.carteiro.ui.MainActivity -> com.rbardini.carteiro.ui.MainActivity:
     181:183:void setDrawerCategoryChecked(int) -> c
     186:198:void setupAddButton() -> n
     201:207:void setupFragment(android.os.Bundle) -> a
-    210:232:void handleNewIntent() -> r
-    235:288:void setupNavigationDrawer() -> s
-    291:294:void syncOnLaunchIfEnabled() -> t
-    297:315:void updateLastSyncNotice() -> u
-    318:334:void showCategory(int,java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
-    337:338:void showCategory(int) -> d
-    341:341:int getInitialCategory() -> v
-    345:350:void recordScreenView() -> w
+    210:237:void handleNewIntent() -> r
+    240:293:void setupNavigationDrawer() -> s
+    296:299:void syncOnLaunchIfEnabled() -> t
+    302:320:void updateLastSyncNotice() -> u
+    323:339:void showCategory(int,java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
+    342:343:void showCategory(int) -> d
+    346:346:int getInitialCategory() -> v
+    350:355:void recordScreenView() -> w
     41:41:void access$000(com.rbardini.carteiro.ui.MainActivity) -> a
     41:41:com.rbardini.carteiro.ui.ShipmentListFragment access$100(com.rbardini.carteiro.ui.MainActivity) -> b
     41:41:void access$200(com.rbardini.carteiro.ui.MainActivity,int) -> a
@@ -46317,21 +46317,21 @@ com.rbardini.carteiro.ui.MainActivity$1 -> com.rbardini.carteiro.ui.MainActivity
     190:196:void onClick(android.view.View) -> onClick
 com.rbardini.carteiro.ui.MainActivity$2 -> com.rbardini.carteiro.ui.MainActivity$2:
     com.rbardini.carteiro.ui.MainActivity this$0 -> c
-    236:236:void <init>(com.rbardini.carteiro.ui.MainActivity,android.app.Activity,androidx.drawerlayout.widget.DrawerLayout,int,int) -> <init>
-    239:241:void onDrawerOpened(android.view.View) -> a
+    241:241:void <init>(com.rbardini.carteiro.ui.MainActivity,android.app.Activity,androidx.drawerlayout.widget.DrawerLayout,int,int) -> <init>
+    244:246:void onDrawerOpened(android.view.View) -> a
 com.rbardini.carteiro.ui.MainActivity$3 -> com.rbardini.carteiro.ui.MainActivity$3:
     com.rbardini.carteiro.ui.MainActivity this$0 -> a
-    246:246:void <init>(com.rbardini.carteiro.ui.MainActivity) -> <init>
-    249:276:boolean onNavigationItemSelected(android.view.MenuItem) -> a
+    251:251:void <init>(com.rbardini.carteiro.ui.MainActivity) -> <init>
+    254:281:boolean onNavigationItemSelected(android.view.MenuItem) -> a
 com.rbardini.carteiro.ui.MainActivity$3$1 -> com.rbardini.carteiro.ui.MainActivity$3$1:
     int val$id -> a
     com.rbardini.carteiro.ui.MainActivity$3 this$1 -> b
-    252:252:void <init>(com.rbardini.carteiro.ui.MainActivity$3,int) -> <init>
-    255:272:void run() -> run
+    257:257:void <init>(com.rbardini.carteiro.ui.MainActivity$3,int) -> <init>
+    260:277:void run() -> run
 com.rbardini.carteiro.ui.MainActivity$4 -> com.rbardini.carteiro.ui.MainActivity$4:
     com.rbardini.carteiro.ui.MainActivity this$0 -> a
-    281:281:void <init>(com.rbardini.carteiro.ui.MainActivity) -> <init>
-    284:285:void onClick(android.view.View) -> onClick
+    286:286:void <init>(com.rbardini.carteiro.ui.MainActivity) -> <init>
+    289:290:void onClick(android.view.View) -> onClick
 com.rbardini.carteiro.ui.PreferencesActivity -> com.rbardini.carteiro.ui.PreferencesActivity:
     com.rbardini.carteiro.CarteiroApplication app -> k
     com.rbardini.carteiro.db.DatabaseHelper dh -> l
