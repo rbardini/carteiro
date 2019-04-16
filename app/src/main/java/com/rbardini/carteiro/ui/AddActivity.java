@@ -53,6 +53,7 @@ import androidx.core.content.ContextCompat;
 
 public class AddActivity extends AppCompatActivity {
   private static final String TAG = "AddActivity";
+  private static final String SHIPMENT_KEY = "shipment";
   private static final int DEFAULT_INPUT_TYPES = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
 
   private static final int NOT_FOUND      = 0x1;
@@ -110,7 +111,7 @@ public class AddActivity extends AppCompatActivity {
     mJustOnceButton = findViewById(R.id.just_once_button);
     mAlwaysButton = findViewById(R.id.always_button);
 
-    if (savedInstanceState != null) mShipment = (Shipment) savedInstanceState.getSerializable("shipment");
+    if (savedInstanceState != null) mShipment = (Shipment) savedInstanceState.getSerializable(SHIPMENT_KEY);
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
 
     setupTransition();
@@ -135,7 +136,7 @@ public class AddActivity extends AppCompatActivity {
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    savedInstanceState.putSerializable("shipment", mShipment);
+    savedInstanceState.putSerializable(SHIPMENT_KEY, mShipment);
     super.onSaveInstanceState(savedInstanceState);
   }
 

@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecordFragment extends ShipmentFragment {
   public static final String TAG = "RecordFragment";
 
+  private static final String SHIPMENT_KEY = "shipment";
+
   private Shipment mShipment;
   private ShipmentAdapter mListAdapter;
   private RecyclerView mRecyclerView;
@@ -25,7 +27,7 @@ public class RecordFragment extends ShipmentFragment {
   public static RecordFragment newInstance(Shipment shipment) {
     RecordFragment f = new RecordFragment();
     Bundle args = new Bundle();
-    args.putSerializable("shipment", shipment);
+    args.putSerializable(SHIPMENT_KEY, shipment);
     f.setArguments(args);
 
     return f;
@@ -36,7 +38,7 @@ public class RecordFragment extends ShipmentFragment {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
 
-    mShipment = (Shipment) getArguments().getSerializable("shipment");
+    mShipment = (Shipment) getArguments().getSerializable(SHIPMENT_KEY);
 
     updateList();
   }

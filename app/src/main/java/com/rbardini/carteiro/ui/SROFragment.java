@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 public class SROFragment extends Fragment {
   public static final String TAG = "SROFragment";
 
+  private static final String COD_KEY = "cod";
   private static final String SRO_URL = "https://www2.correios.com.br/sistemas/rastreamento/newprint.cfm";
 
   interface OnStateChangeListener {
@@ -28,7 +29,7 @@ public class SROFragment extends Fragment {
   public static SROFragment newInstance(String cod) {
     SROFragment f = new SROFragment();
     Bundle args = new Bundle();
-    args.putString("cod", cod);
+    args.putString(COD_KEY, cod);
     f.setArguments(args);
 
     return f;
@@ -59,7 +60,7 @@ public class SROFragment extends Fragment {
       }
     });
 
-    String postData = "objetos=" + getArguments().getString("cod");
+    String postData = "objetos=" + getArguments().getString(COD_KEY);
     mWebView.postUrl(SRO_URL, postData.getBytes());
 
     return view;

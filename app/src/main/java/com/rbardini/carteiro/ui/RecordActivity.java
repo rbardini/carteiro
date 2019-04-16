@@ -28,6 +28,9 @@ import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
 public class RecordActivity extends ShipmentActivity implements SROFragment.OnStateChangeListener {
   protected static final String TAG = "RecordActivity";
 
+  private static final String SHIPMENT_KEY = "shipment";
+  private static final String ONLY_SRO_KEY = "onlySRO";
+
   public static final String EXTRA_IS_NEW_SHIPMENT = TAG + ".EXTRA_IS_NEW_SHIPMENT";
   public static final String EXTRA_SHIPMENT = TAG + ".EXTRA_SHIPMENT";
   public static final String ACTION_ARCHIVE = TAG + ".ACTION_ARCHIVE";
@@ -71,8 +74,8 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
     mProgressBar = findViewById(R.id.progress_bar);
 
     if (savedInstanceState != null) {
-      mShipment = (Shipment) savedInstanceState.getSerializable("shipment");
-      mOnlySRO = savedInstanceState.getBoolean("onlySRO");
+      mShipment = (Shipment) savedInstanceState.getSerializable(SHIPMENT_KEY);
+      mOnlySRO = savedInstanceState.getBoolean(ONLY_SRO_KEY);
     } else {
       handleNewIntent();
     }
@@ -83,8 +86,8 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    savedInstanceState.putSerializable("shipment", mShipment);
-    savedInstanceState.putSerializable("onlySRO", mOnlySRO);
+    savedInstanceState.putSerializable(SHIPMENT_KEY, mShipment);
+    savedInstanceState.putSerializable(ONLY_SRO_KEY, mOnlySRO);
 
     super.onSaveInstanceState(savedInstanceState);
   }
