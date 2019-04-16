@@ -46179,43 +46179,43 @@ com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     android.os.AsyncTask mFetchShipmentTask -> A
     com.rbardini.carteiro.db.DatabaseHelper dh -> B
     54:54:void <init>() -> <init>
-    87:119:void onCreate(android.os.Bundle) -> onCreate
-    123:128:void onResume() -> onResume
-    132:134:void onDestroy() -> onDestroy
-    138:140:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    144:149:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    154:155:boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
-    160:168:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    174:185:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    189:191:void onNewIntent(android.content.Intent) -> onNewIntent
-    194:203:void scanBarcode() -> m
-    206:223:void onAddClick(android.view.View) -> onAddClick
-    226:236:void onCancelClick(android.view.View) -> onCancelClick
-    239:241:void onSkipClick(android.view.View) -> onSkipClick
-    244:245:void onJustOnceClick(android.view.View) -> onJustOnceClick
-    248:252:void onAlwaysClick(android.view.View) -> onAlwaysClick
-    255:256:void dismiss(android.view.View) -> dismiss
-    259:261:void hideSoftKeyboard() -> n
-    264:272:void toggleFormView(boolean) -> a
-    275:276:void showFormView() -> o
-    279:281:void hideFormView() -> p
-    284:287:void toggleLoadingView(boolean) -> b
-    290:292:void showLoadingView() -> q
-    295:296:void hideLoadingView() -> r
-    299:305:void toggleConfirmationView(boolean) -> c
-    308:310:void showConfirmationView(int) -> c
-    313:314:void hideConfirmationView() -> s
-    319:345:void setConfirmation(int) -> d
-    348:350:void resetConfirmation() -> t
-    353:361:void setupTransition() -> u
-    364:407:void setupFormFields() -> v
-    410:444:void handleIntent() -> w
-    447:470:void fillFromClipboard() -> x
-    473:502:java.lang.String validateCod(java.lang.String) -> a
-    506:519:void addShipment() -> y
-    522:529:void cancelShipmentFetch() -> z
-    532:546:int getConfirmationPreferenceKeyById(int) -> e
-    551:552:boolean shouldAskForConfirmation(int) -> f
+    88:120:void onCreate(android.os.Bundle) -> onCreate
+    124:129:void onResume() -> onResume
+    133:135:void onDestroy() -> onDestroy
+    139:141:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    145:150:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    155:156:boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
+    161:169:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    175:186:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    190:192:void onNewIntent(android.content.Intent) -> onNewIntent
+    195:204:void scanBarcode() -> m
+    207:224:void onAddClick(android.view.View) -> onAddClick
+    227:237:void onCancelClick(android.view.View) -> onCancelClick
+    240:242:void onSkipClick(android.view.View) -> onSkipClick
+    245:246:void onJustOnceClick(android.view.View) -> onJustOnceClick
+    249:253:void onAlwaysClick(android.view.View) -> onAlwaysClick
+    256:257:void dismiss(android.view.View) -> dismiss
+    260:262:void hideSoftKeyboard() -> n
+    265:273:void toggleFormView(boolean) -> a
+    276:277:void showFormView() -> o
+    280:282:void hideFormView() -> p
+    285:288:void toggleLoadingView(boolean) -> b
+    291:293:void showLoadingView() -> q
+    296:297:void hideLoadingView() -> r
+    300:306:void toggleConfirmationView(boolean) -> c
+    309:311:void showConfirmationView(int) -> c
+    314:315:void hideConfirmationView() -> s
+    320:346:void setConfirmation(int) -> d
+    349:351:void resetConfirmation() -> t
+    354:362:void setupTransition() -> u
+    365:408:void setupFormFields() -> v
+    411:445:void handleIntent() -> w
+    448:471:void fillFromClipboard() -> x
+    474:503:java.lang.String validateCod(java.lang.String) -> a
+    507:520:void addShipment() -> y
+    523:530:void cancelShipmentFetch() -> z
+    533:547:int getConfirmationPreferenceKeyById(int) -> e
+    552:553:boolean shouldAskForConfirmation(int) -> f
     54:54:com.google.android.material.textfield.TextInputEditText access$100(com.rbardini.carteiro.ui.AddActivity) -> a
     54:54:android.widget.Button access$200(com.rbardini.carteiro.ui.AddActivity) -> b
     54:54:java.lang.String access$300(com.rbardini.carteiro.ui.AddActivity,java.lang.String) -> a
@@ -46229,33 +46229,33 @@ com.rbardini.carteiro.ui.AddActivity -> com.rbardini.carteiro.ui.AddActivity:
     54:54:android.os.AsyncTask access$1102(com.rbardini.carteiro.ui.AddActivity,android.os.AsyncTask) -> a
 com.rbardini.carteiro.ui.AddActivity$1 -> com.rbardini.carteiro.ui.AddActivity$1:
     com.rbardini.carteiro.ui.AddActivity this$0 -> a
-    365:365:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
-    367:367:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    371:374:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    377:377:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    366:366:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
+    368:368:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    372:375:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    378:378:void afterTextChanged(android.text.Editable) -> afterTextChanged
 com.rbardini.carteiro.ui.AddActivity$2 -> com.rbardini.carteiro.ui.AddActivity$2:
     com.rbardini.carteiro.ui.AddActivity this$0 -> a
-    381:381:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
-    384:397:void onFocusChange(android.view.View,boolean) -> onFocusChange
+    382:382:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
+    385:398:void onFocusChange(android.view.View,boolean) -> onFocusChange
 com.rbardini.carteiro.ui.AddActivity$3 -> com.rbardini.carteiro.ui.AddActivity$3:
     com.rbardini.carteiro.ui.AddActivity this$0 -> a
-    400:400:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
-    403:404:boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
+    401:401:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
+    404:405:boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
 com.rbardini.carteiro.ui.AddActivity$4 -> com.rbardini.carteiro.ui.AddActivity$4:
     int[] $SwitchMap$com$rbardini$carteiro$util$validator$TrackingCodeValidation$Result -> a
-    484:484:void <clinit>() -> <clinit>
+    485:485:void <clinit>() -> <clinit>
 com.rbardini.carteiro.ui.AddActivity$FetchShipmentTask -> com.rbardini.carteiro.ui.AddActivity$a:
     java.lang.String error -> b
     com.rbardini.carteiro.ui.AddActivity this$0 -> a
-    555:555:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
-    560:562:void onPreExecute() -> onPreExecute
-    566:589:com.rbardini.carteiro.model.Shipment doInBackground(java.lang.Object[]) -> a
-    594:620:void onPostExecute(com.rbardini.carteiro.model.Shipment) -> a
-    624:625:void onCancelled(com.rbardini.carteiro.model.Shipment) -> b
-    555:555:void onCancelled(java.lang.Object) -> onCancelled
-    555:555:void onPostExecute(java.lang.Object) -> onPostExecute
-    555:555:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    555:555:void <init>(com.rbardini.carteiro.ui.AddActivity,com.rbardini.carteiro.ui.AddActivity$1) -> <init>
+    556:556:void <init>(com.rbardini.carteiro.ui.AddActivity) -> <init>
+    561:563:void onPreExecute() -> onPreExecute
+    567:590:com.rbardini.carteiro.model.Shipment doInBackground(java.lang.Object[]) -> a
+    595:621:void onPostExecute(com.rbardini.carteiro.model.Shipment) -> a
+    625:626:void onCancelled(com.rbardini.carteiro.model.Shipment) -> b
+    556:556:void onCancelled(java.lang.Object) -> onCancelled
+    556:556:void onPostExecute(java.lang.Object) -> onPostExecute
+    556:556:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    556:556:void <init>(com.rbardini.carteiro.ui.AddActivity,com.rbardini.carteiro.ui.AddActivity$1) -> <init>
 com.rbardini.carteiro.ui.InsetDividerItemDecoration -> com.rbardini.carteiro.ui.a:
     int[] ATTRS -> a
     android.graphics.drawable.Drawable mDivider -> b
@@ -46457,64 +46457,64 @@ com.rbardini.carteiro.ui.RecordActivity -> com.rbardini.carteiro.ui.RecordActivi
     android.widget.TextView mLegend -> s
     android.widget.ProgressBar mProgressBar -> t
     28:28:void <init>() -> <init>
-    53:82:void onCreate(android.os.Bundle) -> onCreate
-    86:90:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    94:97:void onNewIntent(android.content.Intent) -> onNewIntent
-    101:112:void onSyncStatusChange(android.content.Intent) -> c
-    116:128:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    133:196:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    202:213:void onBackPressed() -> onBackPressed
-    217:221:void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
-    225:226:void onProgress(int) -> c
-    230:231:void onLeave() -> n
-    235:235:com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> m
-    239:258:void setTitleBar() -> r
-    261:263:void setActionBarTitle(java.lang.CharSequence) -> a
-    266:266:androidx.fragment.app.Fragment getCurrentFragment() -> s
-    270:313:void handleNewIntent() -> t
-    316:333:void handleAction(java.lang.String) -> a
-    336:351:void setFragment(boolean) -> a
+    56:85:void onCreate(android.os.Bundle) -> onCreate
+    89:93:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    97:100:void onNewIntent(android.content.Intent) -> onNewIntent
+    104:115:void onSyncStatusChange(android.content.Intent) -> c
+    119:131:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    136:199:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    205:216:void onBackPressed() -> onBackPressed
+    220:224:void onRenameShipment(java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
+    228:229:void onProgress(int) -> c
+    233:234:void onLeave() -> n
+    238:238:com.rbardini.carteiro.ui.ShipmentFragment getPostalFragment() -> m
+    242:261:void setTitleBar() -> r
+    264:266:void setActionBarTitle(java.lang.CharSequence) -> a
+    269:269:androidx.fragment.app.Fragment getCurrentFragment() -> s
+    273:316:void handleNewIntent() -> t
+    319:336:void handleAction(java.lang.String) -> a
+    339:354:void setFragment(boolean) -> a
 com.rbardini.carteiro.ui.RecordActivity$1 -> com.rbardini.carteiro.ui.RecordActivity$1:
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
-    62:62:void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
-    65:66:void onBackStackChanged() -> onBackStackChanged
+    65:65:void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
+    68:69:void onBackStackChanged() -> onBackStackChanged
 com.rbardini.carteiro.ui.RecordActivity$2 -> com.rbardini.carteiro.ui.RecordActivity$2:
     com.rbardini.carteiro.ui.RecordActivity this$0 -> a
-    295:295:void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
-    298:301:void onClick(android.view.View) -> onClick
+    298:298:void <init>(com.rbardini.carteiro.ui.RecordActivity) -> <init>
+    301:304:void onClick(android.view.View) -> onClick
 com.rbardini.carteiro.ui.RecordFragment -> com.rbardini.carteiro.ui.c:
     com.rbardini.carteiro.model.Shipment mShipment -> e
     com.rbardini.carteiro.ui.ShipmentAdapter mListAdapter -> f
     androidx.recyclerview.widget.RecyclerView mRecyclerView -> g
     18:18:void <init>() -> <init>
-    26:31:com.rbardini.carteiro.ui.RecordFragment newInstance(com.rbardini.carteiro.model.Shipment) -> a
-    36:42:void onCreate(android.os.Bundle) -> onCreate
-    46:66:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    71:74:void onRefresh() -> a
-    78:80:void refreshList() -> b
-    83:84:void setShipment(com.rbardini.carteiro.model.Shipment) -> b
-    87:88:void updateList() -> c
+    28:33:com.rbardini.carteiro.ui.RecordFragment newInstance(com.rbardini.carteiro.model.Shipment) -> a
+    38:44:void onCreate(android.os.Bundle) -> onCreate
+    48:68:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    73:76:void onRefresh() -> a
+    80:82:void refreshList() -> b
+    85:86:void setShipment(com.rbardini.carteiro.model.Shipment) -> b
+    89:90:void updateList() -> c
     18:18:androidx.recyclerview.widget.RecyclerView access$000(com.rbardini.carteiro.ui.RecordFragment) -> a
 com.rbardini.carteiro.ui.RecordFragment$1 -> com.rbardini.carteiro.ui.c$1:
     androidx.fragment.app.FragmentActivity val$activity -> a
     com.rbardini.carteiro.ui.RecordFragment this$0 -> b
-    56:56:void <init>(com.rbardini.carteiro.ui.RecordFragment,androidx.fragment.app.FragmentActivity) -> <init>
-    59:61:boolean onPreDraw() -> onPreDraw
+    58:58:void <init>(com.rbardini.carteiro.ui.RecordFragment,androidx.fragment.app.FragmentActivity) -> <init>
+    61:63:boolean onPreDraw() -> onPreDraw
 com.rbardini.carteiro.ui.SROFragment -> com.rbardini.carteiro.ui.d:
     com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener listener -> a
     android.webkit.WebView mWebView -> b
     15:15:void <init>() -> <init>
-    29:34:com.rbardini.carteiro.ui.SROFragment newInstance(java.lang.String) -> a
-    39:48:void onCreate(android.os.Bundle) -> onCreate
-    52:65:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    70:72:void onPause() -> onPause
-    75:75:boolean canGoBack() -> a
-    79:80:void goBack() -> b
+    30:35:com.rbardini.carteiro.ui.SROFragment newInstance(java.lang.String) -> a
+    40:49:void onCreate(android.os.Bundle) -> onCreate
+    53:66:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    71:73:void onPause() -> onPause
+    76:76:boolean canGoBack() -> a
+    80:81:void goBack() -> b
     15:15:com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener access$000(com.rbardini.carteiro.ui.SROFragment) -> a
 com.rbardini.carteiro.ui.SROFragment$1 -> com.rbardini.carteiro.ui.d$1:
     com.rbardini.carteiro.ui.SROFragment this$0 -> a
-    55:55:void <init>(com.rbardini.carteiro.ui.SROFragment) -> <init>
-    58:59:void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
+    56:56:void <init>(com.rbardini.carteiro.ui.SROFragment) -> <init>
+    59:60:void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
 com.rbardini.carteiro.ui.SROFragment$OnStateChangeListener -> com.rbardini.carteiro.ui.d$a:
     void onProgress(int) -> c
     void onLeave() -> n
@@ -46652,69 +46652,73 @@ com.rbardini.carteiro.ui.ShipmentListFragment -> com.rbardini.carteiro.ui.i:
     java.util.ArrayList mSelectedList -> j
     com.rbardini.carteiro.ui.ShipmentListAdapter mListAdapter -> k
     com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler mSwipeDismissHandler -> l
+    com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler mMultiChoiceSwipeDismissHandler -> m
     41:41:void <init>() -> <init>
-    65:72:com.rbardini.carteiro.ui.ShipmentListFragment newInstance(int,java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
-    76:81:com.rbardini.carteiro.ui.ShipmentListFragment newInstance(java.lang.String) -> a
-    86:109:void onCreate(android.os.Bundle) -> onCreate
-    113:152:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    157:178:void onResume() -> onResume
-    182:184:void onPause() -> onPause
-    188:191:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    195:203:void onRefresh() -> a
-    207:213:void refreshList() -> b
-    217:218:void clearSelection() -> e
-    223:242:void onItemClicked(java.lang.Object) -> a
-    246:250:void onItemSelected(java.lang.Object) -> b
-    254:266:void onItemsDismissed(java.util.Map) -> a
-    269:270:void setQuery(java.lang.String) -> b
-    273:274:void setCategory(int) -> a
-    277:277:int getCategory() -> c
-    281:281:java.util.List getList() -> f
-    285:285:int getListSize() -> g
-    289:289:boolean hasSelection() -> h
-    293:293:boolean shouldDeleteItems() -> i
-    299:306:void updateList() -> j
-    309:314:void selectShipment(com.rbardini.carteiro.model.Shipment) -> a
-    317:319:void archiveShipment(com.rbardini.carteiro.model.Shipment) -> b
-    322:324:void deleteShipment(com.rbardini.carteiro.model.Shipment) -> c
-    327:333:java.util.List buildShipmentListFromMap(java.util.Map) -> b
+    66:73:com.rbardini.carteiro.ui.ShipmentListFragment newInstance(int,java.lang.String,com.rbardini.carteiro.model.Shipment) -> a
+    77:82:com.rbardini.carteiro.ui.ShipmentListFragment newInstance(java.lang.String) -> a
+    87:110:void onCreate(android.os.Bundle) -> onCreate
+    114:153:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    158:179:void onResume() -> onResume
+    183:185:void onPause() -> onPause
+    189:192:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    196:204:void onRefresh() -> a
+    208:214:void refreshList() -> b
+    218:219:void clearSelection() -> e
+    224:243:void onItemClicked(java.lang.Object) -> a
+    247:251:void onItemSelected(java.lang.Object) -> b
+    255:267:void onItemsDismissed(java.util.Map) -> a
+    270:271:void setQuery(java.lang.String) -> b
+    274:275:void setCategory(int) -> a
+    278:278:int getCategory() -> c
+    282:282:java.util.List getList() -> f
+    286:286:int getListSize() -> g
+    290:290:boolean hasSelection() -> h
+    294:294:boolean shouldDeleteItems() -> i
+    300:307:void updateList() -> j
+    310:315:void selectShipment(com.rbardini.carteiro.model.Shipment) -> a
+    318:320:void archiveShipment(com.rbardini.carteiro.model.Shipment) -> b
+    323:325:void deleteShipment(com.rbardini.carteiro.model.Shipment) -> c
+    328:333:void finishSwipeDismissHandlers() -> k
+    336:342:java.util.List buildShipmentListFromMap(java.util.Map) -> b
     41:41:java.util.ArrayList access$100(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
     41:41:java.util.ArrayList access$200(com.rbardini.carteiro.ui.ShipmentListFragment) -> b
     41:41:com.rbardini.carteiro.ui.ShipmentListAdapter access$300(com.rbardini.carteiro.ui.ShipmentListFragment) -> c
-    41:41:java.util.List access$400(com.rbardini.carteiro.ui.ShipmentListFragment,java.util.Map) -> a
+    41:41:com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler access$402(com.rbardini.carteiro.ui.ShipmentListFragment,com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler) -> a
+    41:41:java.util.List access$500(com.rbardini.carteiro.ui.ShipmentListFragment,java.util.Map) -> a
+    41:41:com.rbardini.carteiro.ui.swipedismiss.SwipeDismissHandler access$400(com.rbardini.carteiro.ui.ShipmentListFragment) -> d
 com.rbardini.carteiro.ui.ShipmentListFragment$1 -> com.rbardini.carteiro.ui.i$1:
 com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener -> com.rbardini.carteiro.ui.i$a:
     android.view.ActionMode mActionMode -> b
     android.util.SparseBooleanArray mCollectiveActionMap -> c
     com.rbardini.carteiro.ui.ShipmentListFragment this$0 -> a
-    336:336:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment) -> <init>
-    342:344:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-    348:353:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
-    358:397:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
-    402:462:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
-    467:472:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
-    475:489:void setItemCheckedState(com.rbardini.carteiro.model.Shipment,boolean) -> a
-    492:493:void toggleItemCheckedState(com.rbardini.carteiro.model.Shipment) -> a
-    496:506:void toggleAllItemsCheckedState(boolean) -> a
-    509:509:boolean hasActionMode() -> a
-    513:514:void finishActionMode() -> b
-    517:534:void archiveItems(boolean) -> b
-    537:553:void deleteItems() -> c
-    556:566:void favoriteItems(boolean) -> c
-    336:336:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment,com.rbardini.carteiro.ui.ShipmentListFragment$1) -> <init>
+    345:345:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment) -> <init>
+    351:353:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
+    357:362:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
+    367:406:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
+    411:471:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
+    476:481:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    484:498:void setItemCheckedState(com.rbardini.carteiro.model.Shipment,boolean) -> a
+    501:502:void toggleItemCheckedState(com.rbardini.carteiro.model.Shipment) -> a
+    505:515:void toggleAllItemsCheckedState(boolean) -> a
+    518:518:boolean hasActionMode() -> a
+    522:523:void finishActionMode() -> b
+    526:545:void archiveItems(boolean) -> b
+    548:566:void deleteItems() -> c
+    569:579:void favoriteItems(boolean) -> c
+    345:345:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment,com.rbardini.carteiro.ui.ShipmentListFragment$1) -> <init>
 com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$1 -> com.rbardini.carteiro.ui.i$a$1:
     boolean val$areAllArchived -> a
     com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener this$1 -> b
-    520:520:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener,boolean) -> <init>
-    522:522:void onItemClicked(java.lang.Object) -> a
-    525:525:void onItemSelected(java.lang.Object) -> b
-    529:531:void onItemsDismissed(java.util.Map) -> a
+    529:529:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener,boolean) -> <init>
+    531:531:void onItemClicked(java.lang.Object) -> a
+    534:534:void onItemSelected(java.lang.Object) -> b
+    538:540:void onItemsDismissed(java.util.Map) -> a
 com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener$2 -> com.rbardini.carteiro.ui.i$a$2:
     com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener this$1 -> a
-    539:539:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener) -> <init>
-    541:541:void onItemClicked(java.lang.Object) -> a
-    544:544:void onItemSelected(java.lang.Object) -> b
-    548:550:void onItemsDismissed(java.util.Map) -> a
+    550:550:void <init>(com.rbardini.carteiro.ui.ShipmentListFragment$MultiChoiceModeListener) -> <init>
+    552:552:void onItemClicked(java.lang.Object) -> a
+    555:555:void onItemSelected(java.lang.Object) -> b
+    559:561:void onItemsDismissed(java.util.Map) -> a
 com.rbardini.carteiro.ui.ShipmentListFragment$OnPostalListActionListener -> com.rbardini.carteiro.ui.i$b:
     void onPostalListAttached(com.rbardini.carteiro.ui.ShipmentListFragment) -> a
 com.rbardini.carteiro.ui.ShipmentRenameDialogFragment -> com.rbardini.carteiro.ui.j:
@@ -46910,10 +46914,10 @@ com.rbardini.carteiro.ui.undo.UndoHandler -> com.rbardini.carteiro.ui.c.a:
     java.lang.Runnable mHandlerCallback -> i
     24:47:void <init>(android.view.View,android.os.Handler,int,int,int,com.rbardini.carteiro.ui.undo.UndoListener) -> <init>
     50:52:void dismiss(int) -> a
-    55:61:void finish() -> a
-    64:65:void resetCount() -> b
-    68:69:void addToCount(int) -> b
-    72:98:void notifyUser() -> c
+    55:63:void finish() -> a
+    66:67:void resetCount() -> b
+    70:71:void addToCount(int) -> b
+    74:100:void notifyUser() -> c
     12:12:int access$000(com.rbardini.carteiro.ui.undo.UndoHandler) -> a
     12:12:com.rbardini.carteiro.ui.undo.UndoListener access$100(com.rbardini.carteiro.ui.undo.UndoHandler) -> b
     12:12:void access$200(com.rbardini.carteiro.ui.undo.UndoHandler) -> c
@@ -46927,8 +46931,8 @@ com.rbardini.carteiro.ui.undo.UndoHandler$1 -> com.rbardini.carteiro.ui.c.a$1:
     27:34:void run() -> run
 com.rbardini.carteiro.ui.undo.UndoHandler$2 -> com.rbardini.carteiro.ui.c.a$2:
     com.rbardini.carteiro.ui.undo.UndoHandler this$0 -> a
-    81:81:void <init>(com.rbardini.carteiro.ui.undo.UndoHandler) -> <init>
-    84:89:void onClick(android.view.View) -> onClick
+    83:83:void <init>(com.rbardini.carteiro.ui.undo.UndoHandler) -> <init>
+    86:91:void onClick(android.view.View) -> onClick
 com.rbardini.carteiro.ui.undo.UndoListener -> com.rbardini.carteiro.ui.c.b:
     void onDismiss(int) -> b
     void onUndo(int) -> c
@@ -51075,13 +51079,13 @@ io.fabric.sdk.android.services.settings.UpdateAppSpiCall -> io.fabric.sdk.androi
 kotlin.KotlinNullPointerException -> kotlin.KotlinNullPointerException:
     9:9:void <init>() -> <init>
 kotlin.NoWhenBranchMatchedException -> kotlin.NoWhenBranchMatchedException:
-    11:11:void <init>() -> <init>
+    9:9:void <init>() -> <init>
 kotlin.TypeCastException -> kotlin.TypeCastException:
     9:9:void <init>() -> <init>
     11:11:void <init>(java.lang.String) -> <init>
 kotlin.UninitializedPropertyAccessException -> kotlin.UninitializedPropertyAccessException:
-    11:11:void <init>() -> <init>
-    13:13:void <init>(java.lang.String) -> <init>
+    9:9:void <init>() -> <init>
+    11:11:void <init>(java.lang.String) -> <init>
 kotlin.collections.ArrayAsCollection -> kotlin.a.a:
     java.lang.Object[] values -> a
     boolean isVarargs -> b
@@ -51104,10 +51108,10 @@ kotlin.collections.ArraysKt -> kotlin.a.b:
 kotlin.collections.ArraysKt__ArraysJVMKt -> kotlin.a.c:
 kotlin.collections.ArraysKt__ArraysKt -> kotlin.a.d:
 kotlin.collections.ArraysKt___ArraysJvmKt -> kotlin.a.e:
-    37:37:java.util.List asList(java.lang.Object[]) -> a
+    127:127:java.util.List asList(java.lang.Object[]) -> a
 kotlin.collections.ArraysKt___ArraysKt -> kotlin.a.f:
     382:382:boolean contains(java.lang.Object[],java.lang.Object) -> a
-    1300:1313:int indexOf(java.lang.Object[],java.lang.Object) -> b
+    1273:1286:int indexOf(java.lang.Object[],java.lang.Object) -> b
 kotlin.collections.ArraysUtilJVM -> kotlin.a.g:
     13:13:java.util.List asList(java.lang.Object[]) -> a
 kotlin.collections.CollectionsKt -> kotlin.a.h:
@@ -51131,7 +51135,7 @@ kotlin.collections.CollectionsKt___CollectionsKt -> kotlin.a.r:
     62:64:boolean contains(java.lang.Iterable,java.lang.Object) -> a
     261:269:int indexOf(java.lang.Iterable,java.lang.Object) -> b
     441:441:java.lang.Object lastOrNull(java.util.List) -> a
-    1185:1185:java.util.List toMutableList(java.util.Collection) -> a
+    1193:1193:java.util.List toMutableList(java.util.Collection) -> a
 kotlin.collections.EmptyIterator -> kotlin.a.s:
     kotlin.collections.EmptyIterator INSTANCE -> a
     14:14:boolean hasNext() -> hasNext
