@@ -60,6 +60,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   private ArrayList<Shipment> mSelectedList;
   private ShipmentListAdapter mListAdapter;
   private SwipeDismissHandler mSwipeDismissHandler;
+  private SwipeDismissHandler mMultiChoiceSwipeDismissHandler;
 
   public static ShipmentListFragment newInstance(int category, String action, Shipment actionShipment) {
     ShipmentListFragment f = new ShipmentListFragment();
@@ -179,7 +180,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   @Override
   public void onPause() {
-    mSwipeDismissHandler.finish();
+    finishSwipeDismissHandlers();
     super.onPause();
   }
 
@@ -192,7 +193,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   @Override
   public void onRefresh() {
-    mSwipeDismissHandler.finish();
+    finishSwipeDismissHandlers();
 
     if (CarteiroApplication.syncing || mList.isEmpty()) {
       updateRefreshStatus();
@@ -204,7 +205,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
 
   @Override
   public void refreshList() {
-    mSwipeDismissHandler.finish();
+    finishSwipeDismissHandlers();
 
     updateList();
     mListAdapter.updateList(mList);
@@ -321,6 +322,14 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
   private void deleteShipment(Shipment shipment) {
     selectShipment(shipment);
     mMultiChoiceModeListener.deleteItems();
+  }
+
+  private void finishSwipeDismissHandlers() {
+    mSwipeDismissHandler.finish();
+
+    if (mMultiChoiceSwipeDismissHandler != null) {
+      mMultiChoiceSwipeDismissHandler.finish();
+    }
   }
 
   private List<Shipment> buildShipmentListFromMap(Map<Integer, Object> items) {
@@ -514,7 +523,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     }
 
     public void archiveItems(final boolean areAllArchived) {
-      new SwipeDismissHandler(getView(), new Handler(),
+      mMultiChoiceSwipeDismissHandler = new SwipeDismissHandler(getView(), new Handler(),
           areAllArchived ? R.string.toast_unarchived_count_single : R.string.toast_archived_count_single,
           areAllArchived ? R.string.toast_unarchived_count_multiple : R.string.toast_archived_count_multiple,
           R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
@@ -529,12 +538,14 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
           List<Shipment> shipments = buildShipmentListFromMap(items);
           if (areAllArchived) dh.unarchiveShipments(shipments); else dh.archiveShipments(shipments);
         }
-      }).dismiss(mListAdapter.getItemPositions(mSelectedList));
+      });
+      mMultiChoiceSwipeDismissHandler.dismiss(mListAdapter.getItemPositions(mSelectedList));
+
       clearSelection();
     }
 
     public void deleteItems() {
-      new SwipeDismissHandler(getView(), new Handler(),
+      mMultiChoiceSwipeDismissHandler = new SwipeDismissHandler(getView(), new Handler(),
           R.string.toast_deleted_count_single, R.string.toast_deleted_count_multiple,
           R.string.undo_btn, mListAdapter, new SwipeDismissListener() {
         @Override
@@ -548,7 +559,9 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
           List<Shipment> shipments = buildShipmentListFromMap(items);
           dh.deleteShipments(shipments);
         }
-      }).dismiss(mListAdapter.getItemPositions(mSelectedList));
+      });
+      mMultiChoiceSwipeDismissHandler.dismiss(mListAdapter.getItemPositions(mSelectedList));
+
       clearSelection();
     }
 

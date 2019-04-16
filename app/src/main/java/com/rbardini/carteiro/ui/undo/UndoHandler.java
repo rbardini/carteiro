@@ -52,6 +52,8 @@ public class UndoHandler {
   }
 
   public void finish() {
+    if (mCount == 0) return;
+
     mListener.onDismiss(mCount);
 
     if (mSnackbar != null) {
