@@ -129,7 +129,7 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
 
   private fun isConnected(): Boolean {
     val cm = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
+    return cm.activeNetworkInfo?.isConnected ?: false
   }
 
   private fun updateShipments(shipments: List<Shipment>) {
