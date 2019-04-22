@@ -23,7 +23,6 @@
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:hint">@string/hint_tracking_code</item>
     <item name="android:singleLine">true</item>
     <item name="android:inputType">textCapCharacters|textNoSuggestions</item>
     <item name="android:digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890</item>
@@ -33,7 +32,6 @@
   <style name="ItemDescField">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:hint">@string/hint_item_description</item>
     <item name="android:singleLine">true</item>
     <item name="android:inputType">textCapSentences</item>
     <item name="android:selectAllOnFocus">true</item>
