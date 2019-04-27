@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.rbardini.carteiro.svc.BackupManagerWrapper;
-import com.takisoft.preferencex.PreferenceFragmentCompat;
+
+import androidx.preference.PreferenceFragmentCompat;
 
 public abstract class PreferencesFragment extends PreferenceFragmentCompat implements OnSharedPreferenceChangeListener {
   private static boolean mIsBackupManagerAvailable;

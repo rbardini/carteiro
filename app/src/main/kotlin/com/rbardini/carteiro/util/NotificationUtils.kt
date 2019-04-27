@@ -35,6 +35,13 @@ object NotificationUtils {
   private const val NOTIFICATION_GROUP_KEY_UPDATE = "NOTIFICATION_GROUP_KEY_UPDATE"
 
   @JvmStatic
+  fun getNotificationRingtoneValue(context: Context): String? =
+    getSharedPreferences(context).getString(
+      context.getString(R.string.pref_key_ringtone),
+      Settings.System.DEFAULT_NOTIFICATION_URI.toString()
+    )
+
+  @JvmStatic
   fun createNotificationChannels(context: Context) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
@@ -109,8 +116,9 @@ object NotificationUtils {
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
       val prefs = getSharedPreferences(context)
+      val ringtone = getNotificationRingtoneValue(context)
 
-      notification.setSound(Uri.parse(prefs.getString(context.getString(R.string.pref_key_ringtone), "DEFAULT_SOUND")))
+      notification.setSound(Uri.parse(ringtone))
       if (prefs.getBoolean(context.getString(R.string.pref_key_lights), true)) notification.setLights(Color.YELLOW, 1000, 1200)
       if (prefs.getBoolean(context.getString(R.string.pref_key_vibrate), true)) notification.setDefaults(Notification.DEFAULT_VIBRATE)
     }

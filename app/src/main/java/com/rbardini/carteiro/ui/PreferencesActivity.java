@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,9 +28,9 @@ import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.util.AnalyticsUtils;
 import com.rbardini.carteiro.util.Constants;
 import com.rbardini.carteiro.util.IOUtils;
+import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
-import com.takisoft.preferencex.RingtonePreference;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -39,7 +40,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -173,7 +173,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences, rootKey);
 
       TypedArray attrs = getActivity().getTheme().obtainStyledAttributes(new int[] {android.R.attr.textColorSecondary});
@@ -191,7 +191,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences_syncing, rootKey);
     }
 
@@ -217,63 +217,86 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
   }
 
   public static class NotificationPreferences extends PreferencesFragment {
+    private static final int PICK_NOTIFICATION_RINGTONE_REQUEST = 0;
+
     @Override
     int getTitleId() {
       return R.string.pref_notification_title;
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences_notification, rootKey);
       addPreferencesFromResource(R.xml.preferences_notification_indication);
 
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        setNotificationSettingsPreference();
-
-      } else {
-        setNotificationSoundPreference();
+      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        updateNotificationSoundPreference();
       }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setNotificationSettingsPreference() {
-      Preference pref = findPreference(getString(R.string.pref_key_notification_settings));
-      if (pref != null) {
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-          @Override
-          public boolean onPreferenceClick(Preference preference) {
-            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, app.getPackageName());
-            startActivity(intent);
-            return true;
-          }
-        });
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference) {
+      final String key = preference.getKey();
+
+      if (key.equals(getString(R.string.pref_key_ringtone))) {
+        return showNotificationRingtonePicker();
+      }
+
+      if (key.equals(getString(R.string.pref_key_notification_settings))) {
+        return showSystemNotificationSettings();
+      }
+
+      return super.onPreferenceTreeClick(preference);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+
+      if (requestCode == PICK_NOTIFICATION_RINGTONE_REQUEST && data != null) {
+        Uri ringtone = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+        String value = ringtone == null ? "" : ringtone.toString();
+
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+          .edit()
+          .putString(getString(R.string.pref_key_ringtone), value)
+          .apply();
+
+        updateNotificationSoundPreference();
       }
     }
 
-    private void setNotificationSoundPreference() {
-      Preference pref = findPreference(getString(R.string.pref_key_ringtone));
-      if (pref != null) {
-        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-          @Override
-          public boolean onPreferenceChange(Preference preference, Object newValue) {
-            updateNotificationSoundPreference((RingtonePreference) preference, (Uri) newValue);
-            return true;
-          }
-        });
-      }
+    @TargetApi(Build.VERSION_CODES.O)
+    private boolean showSystemNotificationSettings() {
+      Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+        .putExtra(Settings.EXTRA_APP_PACKAGE, app.getPackageName());
 
-      updateNotificationSoundPreference();
+      startActivity(intent);
+      return true;
+    }
+
+    private boolean showNotificationRingtonePicker() {
+      String value = NotificationUtils.getNotificationRingtoneValue(getActivity());
+
+      Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
+        .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
+        .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+        .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
+        .putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)
+        .putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, value.isEmpty() ? null : Uri.parse(value));
+
+      startActivityForResult(intent, PICK_NOTIFICATION_RINGTONE_REQUEST);
+      return true;
     }
 
     private void updateNotificationSoundPreference() {
-      RingtonePreference pref = (RingtonePreference) findPreference(getString(R.string.pref_key_ringtone));
-      Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(pref.getKey(), ""));
+      Preference pref = findPreference(getString(R.string.pref_key_ringtone));
+      String value = NotificationUtils.getNotificationRingtoneValue(getActivity());
 
-      updateNotificationSoundPreference(pref, uri);
+      updateNotificationSoundPreference(pref, Uri.parse(value));
     }
 
-    private void updateNotificationSoundPreference(RingtonePreference preference, Uri uri) {
+    private void updateNotificationSoundPreference(Preference preference, Uri uri) {
       Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), uri);
       String ringtoneTitle = null;
 
@@ -290,7 +313,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences_appearance, rootKey);
 
       setupInitialCategoryPreference();
@@ -365,7 +388,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences_backup, rootKey);
 
       checkRequiredPermissions();
@@ -515,7 +538,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences_about, rootKey);
 
       setupRatePreference();

@@ -3,12 +3,9 @@
 
   <PreferenceCategory android:title="@string/pref_indication_category">
 
-    <com.takisoft.preferencex.RingtonePreference android:key="@string/pref_key_ringtone"
+    <Preference android:key="@string/pref_key_ringtone"
       android:title="@string/pref_ringtone_title"
       android:summary="@string/pref_ringtone_summary"
-      android:ringtoneType="notification"
-      android:showDefault="true"
-      android:showSilent="true"
       android:dependency="@string/pref_key_notify" />
 
     <SwitchPreference android:key="@string/pref_key_lights"
