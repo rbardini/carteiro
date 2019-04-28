@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -392,8 +393,35 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       setPreferencesFromResource(R.xml.preferences_backup, rootKey);
 
       checkRequiredPermissions();
+      updateLastBackup();
       setupCreatePreference();
       setupRestorePreference();
+    }
+
+    private void updateLastBackup() {
+      Preference pref = findPreference(getString(R.string.pref_key_last_backup));
+      long lastBackupTimestamp = PreferenceManager.getDefaultSharedPreferences(getActivity())
+        .getLong(getString(R.string.pref_key_last_backup), 0);
+
+      if (lastBackupTimestamp == 0) {
+        return;
+      }
+
+      String lastBackupRelative = DateUtils.getRelativeDateTimeString(
+        getActivity(),
+        lastBackupTimestamp,
+        DateUtils.MINUTE_IN_MILLIS,
+        DateUtils.WEEK_IN_MILLIS,
+        0
+      ).toString();
+
+      pref.setSummary(pref.getSummary() + "\n\n" + getString(R.string.pref_backup_last_notice, lastBackupRelative));
+      pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+          return showSystemBackupSettings();
+        }
+      });
     }
 
     private void checkRequiredPermissions() {
@@ -528,6 +556,13 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
           }
         });
       }
+    }
+
+    private boolean showSystemBackupSettings() {
+      Intent intent = new Intent(Settings.ACTION_PRIVACY_SETTINGS);
+
+      startActivity(intent);
+      return true;
     }
   }
 

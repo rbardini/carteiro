@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <Preference android:key="@string/pref_key_create_backup"
-    android:title="@string/pref_create_backup_title"
-    android:summary="@string/pref_create_backup_summary" />
+  <PreferenceCategory android:title="@string/pref_auto_backup_category">
 
-  <Preference android:key="@string/pref_key_restore_backup"
-    android:title="@string/pref_restore_backup_title"
-    android:summary="@string/pref_restore_backup_summary" />
+    <Preference android:key="@string/pref_key_last_backup"
+      android:summary="@string/pref_last_backup_summary" />
+
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/pref_manual_backup_category">
+
+    <Preference android:key="@string/pref_key_create_backup"
+      android:title="@string/pref_create_backup_title"
+      android:summary="@string/pref_create_backup_summary" />
+
+    <Preference android:key="@string/pref_key_restore_backup"
+      android:title="@string/pref_restore_backup_title"
+      android:summary="@string/pref_restore_backup_summary" />
+
+  </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

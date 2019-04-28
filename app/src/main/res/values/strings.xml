@@ -190,7 +190,11 @@
 
   <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Create &amp; restore</string>
+  <string name="pref_auto_backup_category">Auto backup</string>
+  <string name="pref_manual_backup_category">Manual backup</string>
   <string name="pref_backup_permission_denied">Permission to access files is required in order to backup and restore.</string>
+  <string name="pref_last_backup_summary">Your data is automatically backed up to Google Drive when Android backup is on. Touch to open the system backup settings.</string>
+  <string name="pref_backup_last_notice">Last backup: %s</string>
   <string name="pref_create_backup_title">Create backup</string>
   <string name="pref_create_backup_summary">Export data to the external storage</string>
   <string name="pref_restore_backup_title">Restore backup</string>
