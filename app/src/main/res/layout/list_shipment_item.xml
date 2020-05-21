@@ -9,6 +9,7 @@
     android:layout_height="@dimen/postal_status_icon_size"
     android:layout_alignParentStart="true"
     android:background="@drawable/circle"
+    android:tint="@color/theme_background"
     android:padding="@dimen/keyline_1_half"
     android:contentDescription="@string/desc_status" />
 

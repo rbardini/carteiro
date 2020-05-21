@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="theme_primary">@color/blue_grey_800</color>
-  <color name="theme_primary_dark">@color/blue_grey_900</color>
-  <color name="theme_accent">@color/amber_700</color>
-  <color name="theme_accent_dark">@color/amber_900</color>
-  <color name="theme_background">@color/blue_grey_900</color>
-  <color name="theme_placeholder">@color/blue_grey_800</color>
+  <color name="theme_primary">@color/dark_surface_04dp</color>
+  <color name="theme_primary_dark">@color/dark_surface</color>
+  <color name="theme_accent">@color/md_amber700</color>
+  <color name="theme_accent_dark">@color/md_amber900</color>
+  <color name="theme_background">@color/dark_surface</color>
+  <color name="theme_placeholder">@color/dark_surface_04dp</color>
 
   <color name="postal_status_all">@color/postal_status_in_transit</color>
-  <color name="postal_status_posted">@color/brown_600</color>
-  <color name="postal_status_available">@color/deep_purple_600</color>
-  <color name="postal_status_delivered">@color/light_green_600</color>
-  <color name="postal_status_in_transit">@color/light_blue_600</color>
-  <color name="postal_status_irregular">@color/orange_600</color>
-  <color name="postal_status_unknown">@color/blue_grey_600</color>
-  <color name="postal_status_returned">@color/red_600</color>
+  <color name="postal_status_posted">@color/md_brown600</color>
+  <color name="postal_status_available">@color/md_deeppurple600</color>
+  <color name="postal_status_delivered">@color/md_lightgreen600</color>
+  <color name="postal_status_in_transit">@color/md_lightblue600</color>
+  <color name="postal_status_irregular">@color/md_orange600</color>
+  <color name="postal_status_unknown">@color/md_bluegrey600</color>
+  <color name="postal_status_returned">@color/md_red600</color>
 
-  <color name="success_background">@color/green_800</color>
-  <color name="error_background">@color/red_900</color>
+  <color name="success_background">@color/md_green800</color>
+  <color name="error_background">@color/md_red900</color>
 </resources>

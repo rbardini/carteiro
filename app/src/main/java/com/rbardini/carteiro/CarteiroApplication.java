@@ -12,12 +12,11 @@ import android.webkit.WebView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.perf.FirebasePerformance;
-import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
+import com.rbardini.carteiro.util.UIUtils;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import io.fabric.sdk.android.Fabric;
 
@@ -30,7 +29,7 @@ public class CarteiroApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    if (!BuildConfig.DEBUG && !ProcessPhoenix.isPhoenixProcess(this)) {
+    if (!BuildConfig.DEBUG) {
       Fabric.with(this, new Crashlytics());
       FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
     }
@@ -55,17 +54,13 @@ public class CarteiroApplication extends Application {
     String lightTheme = getString(R.string.theme_light);
     String currentTheme = prefs.getString(getString(R.string.pref_key_theme), lightTheme);
 
-    if (currentTheme.equals(lightTheme)) {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-    } else {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    UIUtils.setTheme(this, currentTheme);
 
-      // Workaround for broken colors after WebView is created (https://stackoverflow.com/q/44035654)
-      try {
-        new WebView(getApplicationContext());
-      } catch (Exception e) {
-        Log.w(TAG, "Could not instantiate WebView to avoid night mode issues");
-      }
+    // Workaround for broken colors after WebView is created (https://stackoverflow.com/q/44035654)
+    try {
+      new WebView(getApplicationContext());
+    } catch (Exception e) {
+      Log.w(TAG, "Could not instantiate WebView to avoid night mode issues");
     }
   }
 }

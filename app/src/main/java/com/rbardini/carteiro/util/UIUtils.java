@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
@@ -120,5 +121,10 @@ public final class UIUtils {
   public static int getPostalStatusColor(String status) {
     int category = PostalUtils.Status.getCategory(status);
     return PostalUtils.Category.getColor(category == 0 ? PostalUtils.Category.ALL : category);
+  }
+
+  public static void setTheme(Context context, String theme) {
+    AppCompatDelegate.setDefaultNightMode(theme.equals(context.getString(R.string.theme_dark))
+      ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
   }
 }

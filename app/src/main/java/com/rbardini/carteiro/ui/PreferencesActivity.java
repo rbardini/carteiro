@@ -45,7 +45,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
 import androidx.fragment.app.FragmentTransaction;
@@ -327,21 +326,11 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
 
       if (key.equals(getString(R.string.pref_key_initial_category))) {
         setInitialCategoryPreference();
+        return;
       }
-    }
 
-    @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
-      if (preference instanceof ThemePreference) {
-        Bundle bundle = new Bundle(1);
-        bundle.putString("key", preference.getKey());
-
-        DialogFragment dialogFragment = new ThemePreference.ThemePreferenceDialogFragmentCompat();
-        dialogFragment.setArguments(bundle);
-        dialogFragment.setTargetFragment(this, 0);
-        dialogFragment.show(getFragmentManager(), "android.support.v7.preference.PreferenceFragment.DIALOG");
-      } else {
-        super.onDisplayPreferenceDialog(preference);
+      if (key.equals(getString(R.string.pref_key_theme))) {
+        setThemePreference();
       }
     }
 
@@ -371,14 +360,12 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     private void setThemePreference() {
-      ThemePreference pref = (ThemePreference) findPreference(getString(R.string.pref_key_theme));
+      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_theme));
+      String value = pref.getValue();
 
-      if (pref.getValue().equals(getString(R.string.theme_dark))) {
-        pref.setSummary(R.string.pref_theme_dark);
-
-      } else {
-        pref.setSummary(R.string.pref_theme_light);
-      }
+      pref.setSummary(value.equals(getString(R.string.theme_dark))
+        ? R.string.pref_theme_dark : R.string.pref_theme_light);
+      UIUtils.setTheme(getActivity(), value);
     }
   }
 
