@@ -4,7 +4,7 @@ apply plugin: "io.fabric"
 
 android {
   compileSdkVersion 28
-  buildToolsVersion '28.0.3'
+  buildToolsVersion '29.0.3'
 
   defaultConfig {
     applicationId "com.rbardini.carteiro"
@@ -39,10 +39,10 @@ android {
 }
 
 dependencies {
-  implementation "androidx.preference:preference:$material_version"
-  implementation "com.google.android.material:material:$material_version"
+  implementation "androidx.preference:preference:1.1.1"
+  implementation "com.google.android.material:material:1.0.0"
   implementation "com.android.volley:volley:1.1.1"
-  implementation "com.crashlytics.sdk.android:crashlytics:2.9.9"
+  implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
   implementation "com.google.android:flexbox:1.1.0"
   implementation "com.google.firebase:firebase-core:16.0.8"
   implementation "com.google.firebase:firebase-perf:16.2.5"
