@@ -10,15 +10,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.WebView;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.firebase.perf.FirebasePerformance;
 import com.rbardini.carteiro.db.DatabaseHelper;
 import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.svc.SyncTask;
 import com.rbardini.carteiro.util.UIUtils;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import io.fabric.sdk.android.Fabric;
 
 public class CarteiroApplication extends Application {
   private static final String TAG = "CarteiroApplication";
@@ -28,11 +25,6 @@ public class CarteiroApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-
-    if (!BuildConfig.DEBUG) {
-      Fabric.with(this, new Crashlytics());
-      FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
-    }
 
     LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
       @Override

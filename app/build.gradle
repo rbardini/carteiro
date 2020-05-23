@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
+apply plugin: "com.google.firebase.crashlytics"
+apply plugin: "com.google.firebase.firebase-perf"
+apply plugin: "com.google.gms.google-services"
 apply plugin: "kotlin-android"
-apply plugin: "io.fabric"
 
 android {
   compileSdkVersion 28
@@ -26,9 +28,6 @@ android {
     debug {
       applicationIdSuffix ".debug"
       versionNameSuffix "-debug"
-      // Disable Fabric build ID generation for debug builds
-      // https://docs.fabric.io/android/crashlytics/build-tools.html#disable-crashlytics-for-debug-builds
-      ext.enableCrashlytics = false
     }
     release {
       minifyEnabled true
@@ -40,13 +39,13 @@ android {
 
 dependencies {
   implementation "androidx.preference:preference:1.1.1"
-  implementation "com.google.android.material:material:1.0.0"
   implementation "com.android.volley:volley:1.1.1"
-  implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
   implementation "com.github.mcginty:material-colors:1.1.0"
   implementation "com.google.android:flexbox:1.1.0"
-  implementation "com.google.firebase:firebase-core:16.0.8"
-  implementation "com.google.firebase:firebase-perf:16.2.5"
+  implementation "com.google.android.material:material:1.0.0"
+  implementation "com.google.firebase:firebase-analytics:17.4.1"
+  implementation "com.google.firebase:firebase-crashlytics:17.0.0"
+  implementation "com.google.firebase:firebase-perf:19.0.7"
   implementation "com.google.zxing:android-integration:3.3.0"
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
