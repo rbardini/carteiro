@@ -3,19 +3,20 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+  <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
     android:transitionName="@string/transition_record_app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
       android:id="@+id/collapsing_toolbar"
+      android:background="@color/toolbar"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed|snap"
+      app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
       app:expandedTitleMarginStart="@dimen/keyline_3">
 
-      <androidx.appcompat.widget.Toolbar style="@style/ActionBar.Flat"
+      <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar.Flat"
         app:layout_collapseMode="pin">
 
         <ProgressBar
@@ -27,7 +28,7 @@
           android:indeterminate="true"
           android:visibility="gone" />
 
-      </androidx.appcompat.widget.Toolbar>
+      </com.google.android.material.appbar.MaterialToolbar>
 
       <LinearLayout style="@style/RecordSubHeader"
         android:orientation="vertical"

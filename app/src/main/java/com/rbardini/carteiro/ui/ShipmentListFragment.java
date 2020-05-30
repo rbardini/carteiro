@@ -145,7 +145,7 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
       recyclerView.getContext(),
       layoutManager.getOrientation(),
       getResources().getDimensionPixelSize(R.dimen.keyline_3),
-      0
+      getResources().getDimensionPixelSize(R.dimen.keyline_1)
     ));
 
     mListener.onPostalListAttached(this);

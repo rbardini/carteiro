@@ -189,7 +189,13 @@ public class MainActivity extends ShipmentActivity {
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
 
-        RoundIconTransition.addExtras(intent, ContextCompat.getColor(MainActivity.this, R.color.theme_accent), R.drawable.ic_add_white_24dp, 1);
+        RoundIconTransition.addExtras(
+          intent,
+          ContextCompat.getColor(MainActivity.this, R.color.theme_accent),
+          R.drawable.ic_add_white_24dp,
+          ContextCompat.getColor(MainActivity.this, R.color.theme_background),
+          1
+        );
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));
 
         startActivity(intent, options.toBundle());

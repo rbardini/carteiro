@@ -41,6 +41,7 @@
   <string name="title_add">Adicionar objeto</string>
 
   <string name="hint_tracking_code">Código de rastreamento</string>
+  <string name="helper_text_tracking_code">Ex.: AB123456789CD</string>
   <string name="hint_item_description">Nome do objeto</string>
 
   <string name="title_fetching_item_data">Buscando dados do objeto…</string>

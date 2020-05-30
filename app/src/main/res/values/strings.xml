@@ -41,6 +41,7 @@
   <string name="title_add">Add item</string>
 
   <string name="hint_tracking_code">Tracking number</string>
+  <string name="helper_text_tracking_code">E.g.: AB123456789CD</string>
   <string name="hint_item_description">Item name</string>
 
   <string name="title_fetching_item_data">Fetching item data…</string>

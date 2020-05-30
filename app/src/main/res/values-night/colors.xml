@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="theme_primary">@color/dark_surface_04dp</color>
+  <color name="theme_primary">@color/md_blue700</color>
   <color name="theme_primary_dark">@color/dark_surface</color>
   <color name="theme_accent">@color/md_amber700</color>
   <color name="theme_accent_dark">@color/md_amber900</color>
@@ -16,6 +16,7 @@
   <color name="postal_status_unknown">@color/md_bluegrey600</color>
   <color name="postal_status_returned">@color/md_red600</color>
 
+  <color name="toolbar">@color/theme_placeholder</color>
   <color name="success_background">@color/md_green800</color>
   <color name="error_background">@color/md_red900</color>
 </resources>

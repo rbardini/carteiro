@@ -2,23 +2,21 @@
 <resources>
 
   <!-- Widget -->
-  <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
-    <item name="android:colorBackground">@color/theme_background</item>
-  </style>
+  <style name="PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
   <style name="ActionBar">
     <item name="android:id">@id/toolbar</item>
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">?attr/actionBarSize</item>
-    <item name="android:background">?attr/colorPrimary</item>
+    <item name="android:background">@color/toolbar</item>
     <item name="android:elevation">4dp</item>
-    <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
     <item name="popupTheme">@style/PopupTheme</item>
   </style>
   <style name="ActionBar.Flat">
     <item name="android:elevation">0dp</item>
   </style>
   <style name="ActionBar.Flat.Light">
-    <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    <item name="android:theme">@style/ThemeOverlay.MaterialComponents.ActionBar</item>
   </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
@@ -36,12 +34,11 @@
     <item name="android:inputType">textCapSentences</item>
     <item name="android:selectAllOnFocus">true</item>
   </style>
-  <style name="Star" parent="@android:style/Widget.DeviceDefault.CompoundButton.Star">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_marginRight">-2dp</item>
-    <item name="android:layout_marginBottom">-2dp</item>
+  <style name="Star" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+    <item name="android:layout_width">24dp</item>
+    <item name="android:layout_height">24dp</item>
     <item name="android:button">@drawable/button_favorite</item>
+    <item name="useMaterialThemeColors">false</item>
   </style>
 
   <!-- List -->

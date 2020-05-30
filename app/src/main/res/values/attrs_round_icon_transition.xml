@@ -3,6 +3,7 @@
   <declare-styleable name="RoundIconTransition">
     <attr name="color" format="color" />
     <attr name="icon" format="reference" />
+    <attr name="tint" format="color" />
     <attr name="scale" format="integer" />
   </declare-styleable>
 </resources>

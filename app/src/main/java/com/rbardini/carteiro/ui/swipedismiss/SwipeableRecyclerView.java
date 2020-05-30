@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.util.UIUtils;
 
 import androidx.annotation.ColorInt;
@@ -92,7 +93,7 @@ public class SwipeableRecyclerView extends RecyclerView {
   }
 
   public void setLeaveBehindIcon(@DrawableRes int drawableId) {
-    mLeaveBehindIcon = UIUtils.getBitmapFromDrawable(getContext(), drawableId);
+    mLeaveBehindIcon = UIUtils.getBitmapFromDrawable(getContext(), drawableId, R.color.theme_background);
   }
 
   public void setEmptyView(View emptyView) {

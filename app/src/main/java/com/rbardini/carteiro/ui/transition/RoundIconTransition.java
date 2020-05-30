@@ -44,6 +44,7 @@ import static android.view.View.MeasureSpec.makeMeasureSpec;
 public class RoundIconTransition extends Transition {
   private static final String EXTRA_ROUND_ICON_COLOR = "EXTRA_ROUND_ICON_COLOR";
   private static final String EXTRA_ROUND_ICON_RES_ID = "EXTRA_ROUND_ICON_RES_ID";
+  private static final String EXTRA_ROUND_ICON_TINT = "EXTRA_ROUND_ICON_TINT";
   private static final String EXTRA_ROUND_ICON_SCALE_FACTOR = "EXTRA_ROUND_ICON_SCALE_FACTOR";
   private static final long DEFAULT_DURATION = 300L;
   private static final String PROP_BOUNDS = "carteiro:roundIconTransition:bounds";
@@ -53,11 +54,13 @@ public class RoundIconTransition extends Transition {
 
   private final int color;
   private final int icon;
+  private final int tint;
   private final int scale;
 
-  public RoundIconTransition(@ColorInt int iconColor, @DrawableRes int iconResId, int iconScaleFactor) {
+  public RoundIconTransition(@ColorInt int iconColor, @DrawableRes int iconResId, @ColorInt int tintColor, int iconScaleFactor) {
     color = iconColor;
     icon = iconResId;
+    tint = tintColor;
     scale = iconScaleFactor;
     setPathMotion(new GravityArcMotion());
     setDuration(DEFAULT_DURATION);
@@ -73,6 +76,7 @@ public class RoundIconTransition extends Transition {
       }
       color = a.getColor(R.styleable.RoundIconTransition_color, Color.TRANSPARENT);
       icon = a.getResourceId(R.styleable.RoundIconTransition_icon, 0);
+      tint = a.getResourceId(R.styleable.RoundIconTransition_tint, 0);
       scale = a.getInt(R.styleable.RoundIconTransition_scale, 1);
       setPathMotion(new GravityArcMotion());
       if (getDuration() < 0) {
@@ -86,9 +90,10 @@ public class RoundIconTransition extends Transition {
   /**
    * Configure {@code intent} with the extras needed to initialize this transition.
    */
-  public static void addExtras(@NonNull Intent intent, @ColorInt int iconColor, @DrawableRes int iconResId, int iconScaleFactor) {
+  public static void addExtras(@NonNull Intent intent, @ColorInt int iconColor, @DrawableRes int iconResId, @ColorInt int tintColor, int iconScaleFactor) {
     intent.putExtra(EXTRA_ROUND_ICON_COLOR, iconColor);
     intent.putExtra(EXTRA_ROUND_ICON_RES_ID, iconResId);
+    intent.putExtra(EXTRA_ROUND_ICON_TINT, tintColor);
     intent.putExtra(EXTRA_ROUND_ICON_SCALE_FACTOR, iconScaleFactor);
   }
 
@@ -104,8 +109,9 @@ public class RoundIconTransition extends Transition {
 
     final int color = intent.getIntExtra(EXTRA_ROUND_ICON_COLOR, Color.TRANSPARENT);
     final int icon = intent.getIntExtra(EXTRA_ROUND_ICON_RES_ID, -1);
+    final int tint = intent.getIntExtra(EXTRA_ROUND_ICON_TINT, Color.TRANSPARENT);
     final int scale = intent.getIntExtra(EXTRA_ROUND_ICON_SCALE_FACTOR, 1);
-    final RoundIconTransition sharedEnter = new RoundIconTransition(color, icon, scale);
+    final RoundIconTransition sharedEnter = new RoundIconTransition(color, icon, tint, scale);
     if (target != null) {
       sharedEnter.addTarget(target);
     }
@@ -171,6 +177,7 @@ public class RoundIconTransition extends Transition {
     final int iconLeft = (dialogBounds.width() - iconWidth) / 2;
     final int iconTop = (dialogBounds.height() - iconHeight) / 2;
     iconDrawable.setBounds(iconLeft, iconTop, iconLeft + iconWidth, iconTop + iconHeight);
+    iconDrawable.setTint(tint);
     if (!fromRoundIcon) iconDrawable.setAlpha(0);
     view.getOverlay().add(iconDrawable);
 

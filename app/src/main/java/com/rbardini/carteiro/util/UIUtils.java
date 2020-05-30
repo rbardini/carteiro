@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -76,8 +77,12 @@ public final class UIUtils {
     return DateUtils.getRelativeTimeSpanString(time, now, MINUTE_IN_MILLIS, FORMAT_ABBREV_RELATIVE);
   }
 
-  public static Bitmap getBitmapFromDrawable(Context context, @DrawableRes int drawableId) {
-    Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+  public static Bitmap getBitmapFromDrawable(Context context, @DrawableRes int drawableId, @ColorRes Integer tintColor) {
+    Drawable drawable = ContextCompat.getDrawable(context, drawableId).mutate();
+
+    if (tintColor != null) {
+      drawable.setTint(ContextCompat.getColor(context, tintColor));
+    }
 
     if (drawable instanceof BitmapDrawable) {
       return ((BitmapDrawable) drawable).getBitmap();
