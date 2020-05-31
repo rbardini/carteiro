@@ -1,5 +1,8 @@
 package com.rbardini.carteiro.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -239,7 +242,22 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   }
 
   private void setTitleBar() {
-    mLegend.setText(mShipment.getNumber());
+    final String number = mShipment.getNumber();
+
+    mLegend.setText(number);
+    mLegend.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View view) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(getString(R.string.hint_tracking_code), number);
+        clipboard.setPrimaryClip(clip);
+
+        UIUtils.showToast(RecordActivity.this, R.string.toast_tracking_code_copied);
+
+        return true;
+      }
+    });
+
     setActionBarTitle(mShipment.getDescription());
 
     CharSequence relativeDays = "";

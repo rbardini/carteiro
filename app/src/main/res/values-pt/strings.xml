@@ -101,6 +101,7 @@
   <string name="toast_item_already_exists">O objeto %s já está na lista de rastreamento.</string>
   <string name="toast_net_error">Oops! O serviço dos Correios está fora do ar, ou a conexão falhou :(</string>
   <string name="toast_unexpected_error">Oops! Algo de errado aconteceu :( Por favor, tente novamente mais tarde.</string>
+  <string name="toast_tracking_code_copied">Código de rastreamento copiado para a área de transferência.</string>
   <string name="toast_backup_created">Backup criado na pasta %s.</string>
   <string name="toast_backup_restored">Backup restaurado!</string>
   <string name="toast_backup_creation_fail">Falha ao criar backup: %s</string>

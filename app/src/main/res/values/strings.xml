@@ -101,6 +101,7 @@
   <string name="toast_item_already_exists">The item %s is already in the tracking list.</string>
   <string name="toast_net_error">Oops! The Correios service is offline, or the connection failed :(</string>
   <string name="toast_unexpected_error">Oops! Something wrong happened :( Please try again later.</string>
+  <string name="toast_tracking_code_copied">Tracking number copied to the clipboard.</string>
   <string name="toast_backup_created">Backup created in %s folder.</string>
   <string name="toast_backup_restored">Backup restored!</string>
   <string name="toast_backup_creation_fail">Backup creation failed: %s</string>
