@@ -11,7 +11,7 @@
     android:summary="@string/pref_theme_summary"
     android:entries="@array/theme_names"
     android:entryValues="@array/theme_values"
-    android:defaultValue="@string/theme_light" />
+    android:defaultValue="@string/theme_system" />
 
   <SwitchPreference android:key="@string/pref_key_use_adaptive_keyboard"
     android:title="@string/pref_use_adaptive_keyboard_title"

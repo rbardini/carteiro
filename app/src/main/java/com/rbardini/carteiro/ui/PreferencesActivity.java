@@ -363,8 +363,10 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_theme));
       String value = pref.getValue();
 
-      pref.setSummary(value.equals(getString(R.string.theme_dark))
-        ? R.string.pref_theme_dark : R.string.pref_theme_light);
+      pref.setSummary(value.equals(getString(R.string.theme_system))
+        ? R.string.pref_theme_system
+        : value.equals(getString(R.string.theme_dark)) ? R.string.pref_theme_dark : R.string.pref_theme_light
+      );
       UIUtils.setTheme(getActivity(), value);
     }
   }

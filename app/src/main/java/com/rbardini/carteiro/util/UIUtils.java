@@ -28,6 +28,9 @@ import androidx.core.content.ContextCompat;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
 import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 public final class UIUtils {
   public static void openURL(Context context, String url) {
@@ -129,7 +132,10 @@ public final class UIUtils {
   }
 
   public static void setTheme(Context context, String theme) {
-    AppCompatDelegate.setDefaultNightMode(theme.equals(context.getString(R.string.theme_dark))
-      ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    int mode = theme.equals(context.getString(R.string.theme_system))
+      ? MODE_NIGHT_FOLLOW_SYSTEM
+      : theme.equals(context.getString(R.string.theme_dark)) ? MODE_NIGHT_YES : MODE_NIGHT_NO;
+
+    AppCompatDelegate.setDefaultNightMode(mode);
   }
 }

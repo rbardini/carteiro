@@ -186,6 +186,7 @@
   <string name="pref_theme_summary">Escolher um tema</string>
   <string name="pref_theme_light">Claro</string>
   <string name="pref_theme_dark">Escuro</string>
+  <string name="pref_theme_system">Padrão do sistema</string>
   <string name="pref_use_adaptive_keyboard_title">Usar teclado adaptativo</string>
   <string name="pref_use_adaptive_keyboard_summary">Alterar layout do teclado automaticamente ao adicionar objeto</string>
 

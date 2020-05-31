@@ -13,6 +13,7 @@
   <!-- Theme names -->
   <string name="theme_light">light</string>
   <string name="theme_dark">dark</string>
+  <string name="theme_system">system</string>
 
   <!-- Transition names -->
   <string name="transition_add_item">transition_add_item</string>

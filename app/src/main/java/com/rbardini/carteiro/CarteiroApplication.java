@@ -43,10 +43,9 @@ public class CarteiroApplication extends Application {
 
   private void setupTheme() {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    String lightTheme = getString(R.string.theme_light);
-    String currentTheme = prefs.getString(getString(R.string.pref_key_theme), lightTheme);
+    String theme = prefs.getString(getString(R.string.pref_key_theme), getString(R.string.theme_system));
 
-    UIUtils.setTheme(this, currentTheme);
+    UIUtils.setTheme(this, theme);
 
     // Workaround for broken colors after WebView is created (https://stackoverflow.com/q/44035654)
     try {

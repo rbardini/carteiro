@@ -3,10 +3,12 @@
   <string-array name="theme_names">
     <item>@string/pref_theme_light</item>
     <item>@string/pref_theme_dark</item>
+    <item>@string/pref_theme_system</item>
   </string-array>
 
   <string-array name="theme_values">
     <item>@string/theme_light</item>
     <item>@string/theme_dark</item>
+    <item>@string/theme_system</item>
   </string-array>
 </resources>
