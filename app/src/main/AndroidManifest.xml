@@ -96,7 +96,7 @@
     </receiver>
 
     <provider android:name=".svc.SearchProvider"
-      android:authorities="com.rbardini.carteiro.SearchProvider" />
+      android:authorities="com.rbardini.carteiro.svc.SearchProvider" />
 
   </application>
 

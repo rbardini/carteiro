@@ -2,6 +2,7 @@ package com.rbardini.carteiro.ui;
 
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,7 +22,6 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public abstract class ShipmentActivity extends AppCompatActivity implements ShipmentListFragment.OnPostalListActionListener, ShipmentRenameDialogFragment.OnShipmentRenameListener {
@@ -60,9 +60,9 @@ public abstract class ShipmentActivity extends AppCompatActivity implements Ship
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuItem searchViewButton = menu.findItem(R.id.search_view_opt);
     if (searchViewButton != null) {
-      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewButton);
+      SearchView searchView = (SearchView) searchViewButton.getActionView();
       SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-      searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+      searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
     }
 
     return super.onCreateOptionsMenu(menu);

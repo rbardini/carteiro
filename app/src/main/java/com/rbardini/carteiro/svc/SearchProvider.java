@@ -10,7 +10,7 @@ import com.rbardini.carteiro.db.DatabaseHelper;
 import androidx.annotation.NonNull;
 
 public class SearchProvider extends ContentProvider {
-  public static final String AUTHORITY = "com.rbardini.carteiro.SearchProvider";
+  public static final String AUTHORITY = "com.rbardini.carteiro.svc.SearchProvider";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/activity_search");
 
   private DatabaseHelper dh;

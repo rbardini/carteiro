@@ -4,7 +4,7 @@
   android:hint="@string/search_hint"
   android:includeInGlobalSearch="true"
   android:searchSettingsDescription="@string/search_desc"
-  android:searchSuggestAuthority="com.rbardini.carteiro.SearchProvider"
+  android:searchSuggestAuthority="com.rbardini.carteiro.svc.SearchProvider"
   android:searchSuggestIntentAction="android.intent.action.VIEW"
   android:searchSuggestSelection="null"
   android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
