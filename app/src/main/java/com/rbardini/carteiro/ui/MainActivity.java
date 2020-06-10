@@ -6,13 +6,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.lapism.search.internal.SearchLayout;
+import com.lapism.search.widget.MaterialSearchView;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.model.Shipment;
@@ -26,7 +27,6 @@ import com.rbardini.carteiro.util.UIUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -60,8 +60,29 @@ public class MainActivity extends ShipmentActivity {
     mFragmentManager = getSupportFragmentManager();
     mHandler = new Handler();
 
-    setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    final MaterialSearchView materialSearchView = findViewById(R.id.material_search_view);
+    materialSearchView.setTextHint("Search for items");
+    materialSearchView.setOnNavigationClickListener(new SearchLayout.OnNavigationClickListener() {
+      @Override
+      public void onNavigationClick() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+      }
+    });
+    materialSearchView.setNavigationIconSupport(SearchLayout.NavigationIconSupport.MENU);
+    materialSearchView.setOnFocusChangeListener(new SearchLayout.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(boolean hasFocus) {
+        if (hasFocus) {
+          materialSearchView.setNavigationIconSupport(SearchLayout.NavigationIconSupport.ARROW);
+          materialSearchView.setMenuIconVisibility(View.GONE);
+          materialSearchView.setMicIconVisibility(View.VISIBLE);
+        } else {
+          materialSearchView.setNavigationIconSupport(SearchLayout.NavigationIconSupport.MENU);
+          materialSearchView.setMenuIconVisibility(View.VISIBLE);
+          materialSearchView.setMicIconVisibility(View.GONE);
+        }
+      }
+    });
 
     setupNavigationDrawer();
     setupAddButton();
@@ -95,23 +116,17 @@ public class MainActivity extends ShipmentActivity {
     handleNewIntent();
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.main_actions, menu);
-    return super.onCreateOptionsMenu(menu);
-  }
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    MenuItem shareItem = menu.findItem(R.id.share_opt);
-
-    try {
-      int listSize = mCurrentFragment.getListSize();
-      shareItem.setEnabled(listSize > 0);
-    } catch (Exception e) {}
-
-    return super.onPrepareOptionsMenu(menu);
-  }
+//  @Override
+//  public boolean onPrepareOptionsMenu(Menu menu) {
+//    MenuItem shareItem = menu.findItem(R.id.share_opt);
+//
+//    try {
+//      int listSize = mCurrentFragment.getListSize();
+//      shareItem.setEnabled(listSize > 0);
+//    } catch (Exception e) {}
+//
+//    return super.onPrepareOptionsMenu(menu);
+//  }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -137,7 +152,7 @@ public class MainActivity extends ShipmentActivity {
 
   @Override
   public void setTitle(CharSequence title) {
-    getSupportActionBar().setTitle(title);
+    // getSupportActionBar().setTitle(title);
   }
 
   @Override

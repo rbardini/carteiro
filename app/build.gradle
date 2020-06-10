@@ -49,6 +49,7 @@ dependencies {
   implementation "com.google.firebase:firebase-crashlytics:17.2.1"
   implementation "com.google.firebase:firebase-perf:19.0.8"
   implementation "com.google.zxing:android-integration:3.3.0"
+  implementation "com.lapism:search:2.1.3@aar"
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

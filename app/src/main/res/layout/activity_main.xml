@@ -10,20 +10,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
+      android:id="@+id/main_content"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical">
+      android:background="@color/theme_background" />
 
-      <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar" />
-
-      <FrameLayout
-        android:id="@+id/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/theme_background" />
-
-    </LinearLayout>
+    <com.lapism.search.widget.MaterialSearchView
+      android:id="@+id/material_search_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/fab"
