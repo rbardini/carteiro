@@ -46,7 +46,8 @@
     android:maxWidth="@dimen/drawer_max_width"
     app:headerLayout="@layout/drawer_header"
     app:menu="@menu/nav_drawer"
-    app:itemIconTint="@color/nav_drawer_icon_state"
-    app:itemTextColor="@color/nav_drawer_text_state" />
+    app:itemShapeFillColor="@color/nav_drawer_item_background"
+    app:itemIconTint="@color/nav_drawer_item_foreground"
+    app:itemTextColor="@color/nav_drawer_item_foreground" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

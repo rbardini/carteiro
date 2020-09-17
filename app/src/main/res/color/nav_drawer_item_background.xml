@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://github.com/material-components/material-components-android/tree/master/lib/java/com/google/android/material/navigation/res/color -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:color="?attr/colorSecondary" android:alpha="0.12" android:state_activated="true" />
+  <item android:color="?attr/colorSecondary" android:alpha="0.12" android:state_checked="true" />
+  <item android:color="@android:color/transparent" />
+</selector>
