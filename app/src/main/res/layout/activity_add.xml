@@ -20,7 +20,7 @@
     android:transitionName="@string/transition_add_item"
     android:clickable="true">
 
-    <androidx.appcompat.widget.Toolbar style="@style/ActionBar.Flat.Light"
+    <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar.Flat"
       android:background="@android:color/transparent" />
 
     <LinearLayout

@@ -2,21 +2,15 @@
 <resources>
 
   <!-- Widget -->
-  <style name="PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
-  <style name="ActionBar">
+  <style name="ActionBar" parent="Widget.MaterialComponents.Toolbar.Primary">
     <item name="android:id">@id/toolbar</item>
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">?attr/actionBarSize</item>
     <item name="android:background">@color/toolbar</item>
     <item name="android:elevation">4dp</item>
-    <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
-    <item name="popupTheme">@style/PopupTheme</item>
   </style>
   <style name="ActionBar.Flat">
     <item name="android:elevation">0dp</item>
-  </style>
-  <style name="ActionBar.Flat.Light">
-    <item name="android:theme">@style/ThemeOverlay.MaterialComponents.ActionBar</item>
   </style>
   <style name="TrkCodeField">
     <item name="android:layout_width">match_parent</item>
@@ -63,23 +57,6 @@
   </style>
   <style name="ListText.Info">
     <item name="android:textSize">@dimen/text_size_body</item>
-  </style>
-
-  <!-- Record Activity -->
-  <style name="RecordSubHeader">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:paddingLeft">@dimen/keyline_3</item>
-    <item name="android:paddingBottom">@dimen/keyline_1</item>
-    <item name="android:paddingRight">@dimen/keyline_1</item>
-  </style>
-  <style name="RecordHeading">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textColor">@color/white</item>
-  </style>
-  <style name="RecordHeading.Subtitle">
-    <item name="android:textAllCaps">true</item>
   </style>
 
 </resources>

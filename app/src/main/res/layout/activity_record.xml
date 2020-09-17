@@ -3,7 +3,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+  <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
     android:transitionName="@string/transition_record_app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -30,18 +30,27 @@
 
       </com.google.android.material.appbar.MaterialToolbar>
 
-      <LinearLayout style="@style/RecordSubHeader"
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize"
         android:paddingBottom="@dimen/keyline_3"
+        android:paddingStart="@dimen/keyline_3"
+        android:paddingEnd="@dimen/keyline_1"
         android:focusableInTouchMode="true">
 
-        <TextView style="@style/RecordHeading"
+        <TextView
           android:id="@+id/legend"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
           android:drawablePadding="@dimen/keyline_1_quarter" />
 
-        <TextView style="@style/RecordHeading.Subtitle"
-          android:id="@+id/subtitle" />
+        <TextView
+          android:id="@+id/subtitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textAllCaps="true" />
 
       </LinearLayout>
 
