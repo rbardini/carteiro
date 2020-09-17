@@ -19,7 +19,7 @@
     <!-- <item name="colorOnError" /> -->
 
     <!-- <item name="scrimBackground" /> -->
-    <item name="actionModeBackground">@color/theme_accent</item>
+    <item name="actionModeBackground">@color/toolbar</item>
     <item name="windowActionModeOverlay">true</item>
 
     <item name="android:windowAllowEnterTransitionOverlap">true</item>

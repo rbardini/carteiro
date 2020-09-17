@@ -22,6 +22,6 @@
   <color name="error_background">@color/md_red700</color>
   <color name="dialog_scrim">#99000000</color>
 
-  <!-- Fix status bar color on action mode -->
-  <color name="abc_input_method_navigation_guard" tools:override="true">@color/theme_accent_dark</color>
+  <!-- Fix status bar color on action mode (https://stackoverflow.com/a/38702953) -->
+  <color name="abc_input_method_navigation_guard" tools:override="true">@android:color/transparent</color>
 </resources>
