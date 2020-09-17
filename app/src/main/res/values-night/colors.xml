@@ -18,6 +18,7 @@
 
   <color name="toolbar">@color/theme_placeholder</color>
   <color name="fab">@color/toolbar</color>
+  <color name="spinner">@color/dark_surface_24dp</color>
   <color name="success_background">@color/md_green800</color>
   <color name="error_background">@color/md_red900</color>
 </resources>
