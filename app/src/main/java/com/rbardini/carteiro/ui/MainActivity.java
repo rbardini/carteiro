@@ -191,9 +191,9 @@ public class MainActivity extends ShipmentActivity {
 
         RoundIconTransition.addExtras(
           intent,
-          ContextCompat.getColor(MainActivity.this, R.color.theme_accent),
+          ContextCompat.getColor(MainActivity.this, R.color.fab),
           R.drawable.ic_add_white_24dp,
-          ContextCompat.getColor(MainActivity.this, R.color.theme_background),
+          ContextCompat.getColor(MainActivity.this, android.R.color.primary_text_dark),
           1
         );
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));

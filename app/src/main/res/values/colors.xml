@@ -17,6 +17,7 @@
   <color name="postal_status_returned">@color/md_red400</color>
 
   <color name="toolbar">@color/theme_primary</color>
+  <color name="fab">@color/theme_accent</color>
   <color name="success_background">@color/md_green500</color>
   <color name="error_background">@color/md_red700</color>
   <color name="dialog_scrim">#99000000</color>
