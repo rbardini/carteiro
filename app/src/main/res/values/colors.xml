@@ -5,6 +5,7 @@
   <color name="theme_accent">@color/md_blue500</color>
   <color name="theme_accent_dark">@color/md_blue700</color>
   <color name="theme_background">@color/md_grey50</color>
+  <color name="theme_background_elevated">@color/white</color>
   <color name="theme_placeholder">@color/md_bluegrey100</color>
 
   <color name="postal_status_all">@color/postal_status_in_transit</color>
@@ -18,7 +19,6 @@
 
   <color name="toolbar">@color/theme_primary</color>
   <color name="fab">@color/theme_accent</color>
-  <color name="spinner">@color/white</color>
   <color name="success_background">@color/md_green500</color>
   <color name="error_background">@color/md_red700</color>
   <color name="dialog_scrim">#99000000</color>

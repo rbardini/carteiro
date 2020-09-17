@@ -5,6 +5,7 @@
   <color name="theme_accent">@color/md_amber700</color>
   <color name="theme_accent_dark">@color/md_amber900</color>
   <color name="theme_background">@color/dark_surface</color>
+  <color name="theme_background_elevated">@color/dark_surface_24dp</color>
   <color name="theme_placeholder">@color/dark_surface_04dp</color>
 
   <color name="postal_status_all">@color/postal_status_in_transit</color>
@@ -18,7 +19,6 @@
 
   <color name="toolbar">@color/theme_placeholder</color>
   <color name="fab">@color/toolbar</color>
-  <color name="spinner">@color/dark_surface_24dp</color>
   <color name="success_background">@color/md_green800</color>
   <color name="error_background">@color/md_red900</color>
 </resources>
