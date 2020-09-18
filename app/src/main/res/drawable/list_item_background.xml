@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?attr/colorControlHighlight">
-  <item android:id="@android:id/mask" android:drawable="@color/white" />
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?colorSecondary">
+  <item android:id="@android:id/mask">
+    <color android:color="#42ffffff" />
+  </item>
+  <item>
+    <selector>
+      <item android:state_activated="true">
+        <color android:color="@color/selectable_background" />
+      </item>
+    </selector>
+  </item>
 </ripple>
