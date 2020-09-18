@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.rbardini.carteiro.R;
@@ -50,8 +51,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
   private RecordFragment mRecordFragment;
   private SROFragment mSROFragment;
 
-  private TextView mSubtitle;
-  private TextView mLegend;
   private ProgressBar mProgressBar;
 
   @Override
@@ -72,8 +71,6 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
       }
     });
 
-    mSubtitle = findViewById(R.id.subtitle);
-    mLegend = findViewById(R.id.legend);
     mProgressBar = findViewById(R.id.progress_bar);
 
     if (savedInstanceState != null) {
@@ -243,9 +240,20 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
   private void setTitleBar() {
     final String number = mShipment.getNumber();
+    final AppBarLayout appBar = findViewById(R.id.app_bar);
+    final View subheader = findViewById(R.id.subheader);
+    final TextView subtitle = findViewById(R.id.subtitle);
+    final TextView legend = findViewById(R.id.legend);
 
-    mLegend.setText(number);
-    mLegend.setOnLongClickListener(new View.OnLongClickListener() {
+    appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+      @Override
+      public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        subheader.setAlpha(1.0f - Math.abs(verticalOffset / (appBarLayout.getTotalScrollRange() * 0.5f)));
+      }
+    });
+
+    legend.setText(number);
+    legend.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View view) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -271,11 +279,11 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
       Log.w(TAG, "Could not get first postal activity_record for postal item " + mShipment.getNumber(), e);
 
     } finally {
-      mSubtitle.setText(getString(R.string.subtitle_record, relativeDays, mShipment.getService()).trim());
+      subtitle.setText(getString(R.string.subtitle_record, relativeDays, mShipment.getService()).trim());
       // TODO Set title bar again when postal records updated
     }
 
-    mLegend.setCompoundDrawablesWithIntrinsicBounds(0, 0, mShipment.getFlag(this), 0);
+    legend.setCompoundDrawablesWithIntrinsicBounds(0, 0, mShipment.getFlag(this), 0);
   }
 
   private void setActionBarTitle(CharSequence title) {

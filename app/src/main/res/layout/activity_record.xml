@@ -4,6 +4,7 @@
   android:layout_height="match_parent">
 
   <com.google.android.material.appbar.AppBarLayout android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+    android:id="@+id/app_bar"
     android:transitionName="@string/transition_record_app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -31,6 +32,7 @@
       </com.google.android.material.appbar.MaterialToolbar>
 
       <LinearLayout
+        android:id="@+id/subheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
