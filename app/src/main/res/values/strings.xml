@@ -215,6 +215,10 @@
   <string name="pref_rate_title">Rate Carteiro on Google Play</string>
   <string name="pref_privacy_title">Privacy policy</string>
 
+  <string name="pref_developer_title">Developer options</string>
+  <string name="pref_populate_list_title">Populate tracking list</string>
+  <string name="pref_notify_update_title">Notify item update</string>
+
   <!-- Search Activity -->
   <string name="title_search">Search</string>
   <string name="subtitle_search">Results</string>

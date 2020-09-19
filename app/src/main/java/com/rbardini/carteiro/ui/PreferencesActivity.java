@@ -335,7 +335,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     private void setupInitialCategoryPreference() {
-      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_initial_category));
+      ListPreference pref = findPreference(getString(R.string.pref_key_initial_category));
       Map<Integer, Integer> titleMap = Category.getTitleMap();
 
       CharSequence[] entries = new CharSequence[titleMap.size()];
@@ -355,12 +355,12 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     private void setInitialCategoryPreference() {
-      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_initial_category));
+      ListPreference pref = findPreference(getString(R.string.pref_key_initial_category));
       pref.setSummary(pref.getEntry());
     }
 
     private void setThemePreference() {
-      ListPreference pref = (ListPreference) findPreference(getString(R.string.pref_key_theme));
+      ListPreference pref = findPreference(getString(R.string.pref_key_theme));
       String value = pref.getValue();
 
       pref.setSummary(value.equals(getString(R.string.theme_system))

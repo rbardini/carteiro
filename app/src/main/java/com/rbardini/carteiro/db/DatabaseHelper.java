@@ -41,10 +41,10 @@ public class DatabaseHelper {
 
   private static final DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-  private static final String POSTAL_ITEM_TABLE = "Postal_Item";
-  private static final String POSTAL_RECORD_TABLE = "Postal_Record";
-  private static final String POSTAL_LIST_VIEW = "Postal_List";
-  private static final String DEL_POSTAL_RECORDS_TRIGGER = "Del_Postal_Records";
+  public static final String POSTAL_ITEM_TABLE = "Postal_Item";
+  public static final String POSTAL_RECORD_TABLE = "Postal_Record";
+  public static final String POSTAL_LIST_VIEW = "Postal_List";
+  public static final String DEL_POSTAL_RECORDS_TRIGGER = "Del_Postal_Records";
 
   private static final String SUGGEST_ID = BaseColumns._ID;
   private static final String SUGGEST_TITLE = SearchManager.SUGGEST_COLUMN_TEXT_1;
@@ -276,6 +276,13 @@ public class DatabaseHelper {
 
   public int deletePostalRecords(String cod) {
     int rows = db.delete(POSTAL_RECORD_TABLE, "cod = ?", new String[] {cod});
+    if (rows != 0) notifyDatabaseChanged();
+
+    return rows;
+  }
+
+  public int deleteAll(String table) {
+    int rows = db.delete(table, null, null);
     if (rows != 0) notifyDatabaseChanged();
 
     return rows;

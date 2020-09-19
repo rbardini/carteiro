@@ -215,6 +215,10 @@
   <string name="pref_rate_title">Avalie o Carteiro no Google Play</string>
   <string name="pref_privacy_title">Política de privacidade</string>
 
+  <string name="pref_developer_title">Opções do desenvolvedor</string>
+  <string name="pref_populate_list_title">Popular lista de rastreamento</string>
+  <string name="pref_notify_update_title">Notificar atualização de objeto</string>
+
   <!-- Search Activity -->
   <string name="title_search">Pesquisa</string>
   <string name="subtitle_search">Resultados</string>

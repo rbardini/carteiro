@@ -82,6 +82,7 @@ object NotificationUtils {
 
   fun cancelOngoingSyncNotification(context: Context) = getNotificationManager(context).cancel(NOTIFICATION_ID_ONGOING_SYNC)
 
+  @JvmStatic
   fun notifyShipmentUpdatesIfAllowed(context: Context, shipments: List<Shipment>) {
     if (shipments.isEmpty()) return
 
