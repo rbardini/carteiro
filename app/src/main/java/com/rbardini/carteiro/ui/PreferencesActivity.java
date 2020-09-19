@@ -266,7 +266,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       }
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    @TargetApi(26)
     private boolean showSystemNotificationSettings() {
       Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
         .putExtra(Settings.EXTRA_APP_PACKAGE, app.getPackageName());
