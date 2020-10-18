@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.rbardini.carteiro.model.Shipment
+import kotlin.math.min
 
 object AnalyticsUtils {
   object Event {
@@ -42,7 +43,7 @@ object AnalyticsUtils {
     // Event parameters can be up to 100 characters long, so enforce
     // a maximum number list size to not exceed the limit.
     val size = shipments.size
-    val max = Math.min(size, 6)
+    val max = min(size, 6)
     val numbers = mutableListOf<String>()
     for (i in 0 until max) numbers.add(shipments[i].number)
     if (size > max) numbers.add("...")

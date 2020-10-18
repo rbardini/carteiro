@@ -35,12 +35,12 @@ object SyncScheduler {
   @JvmStatic
   fun reschedule(context: Context) {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    val isScheduled = SyncScheduler.isScheduled(context)
+    val isScheduled = isScheduled(context)
     val autoSync = prefs.getBoolean(context.getString(R.string.pref_key_auto_sync), true)
 
     if (!isScheduled && autoSync) {
       Log.i(TAG, "Rescheduling sync...")
-      SyncScheduler.schedule(context)
+      schedule(context)
     }
   }
 

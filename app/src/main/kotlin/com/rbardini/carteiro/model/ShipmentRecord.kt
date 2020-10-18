@@ -10,5 +10,5 @@ data class ShipmentRecord(val date: Date, val status: String, val local: String?
 
   constructor(date: Date, status: String) : this(date, status, null, null)
 
-  fun getDescription() = status + if (info != null) ". " + info else ""
+  fun getDescription() = status + if (info != null) ". $info" else ""
 }

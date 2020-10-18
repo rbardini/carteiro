@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <style name="Theme.Carteiro" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     <!-- Color attributes -->
     <item name="colorPrimary">@color/theme_primary</item>

@@ -172,6 +172,8 @@ public class AddActivity extends AppCompatActivity {
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
     IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
     if (scanResult != null && data != null) {
       try {
@@ -187,6 +189,8 @@ public class AddActivity extends AppCompatActivity {
 
   @Override
   protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+
     setIntent(intent);
     handleIntent();
   }

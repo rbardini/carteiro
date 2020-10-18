@@ -50,7 +50,7 @@ public class ShipmentRenameDialogFragment extends AppCompatDialogFragment {
     }
   }
 
-  @Override @SuppressWarnings("unchecked")
+  @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Shipment shipment = (Shipment) getArguments().getSerializable(SHIPMENT_KEY);
     final Activity activity = getActivity();

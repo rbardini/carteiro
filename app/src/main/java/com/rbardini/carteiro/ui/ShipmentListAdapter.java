@@ -93,7 +93,7 @@ public class ShipmentListAdapter extends SwipeDismissAdapter {
   @Override
   public boolean addItem(int index, @NonNull Object item) {
     if (item instanceof Shipment) {
-      int adjustedIndex = Math.max(index < mShipments.size() ? index : mShipments.size(), 0);
+      int adjustedIndex = Math.max(Math.min(index, mShipments.size()), 0);
 
       mShipments.add(adjustedIndex, (Shipment) item);
       notifyItemInserted(adjustedIndex);

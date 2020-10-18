@@ -94,6 +94,8 @@ public class RecordActivity extends ShipmentActivity implements SROFragment.OnSt
 
   @Override
   protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+
     setIntent(intent);
     handleNewIntent();
     setFragment(false);

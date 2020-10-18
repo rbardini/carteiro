@@ -65,7 +65,7 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
     var hasError = false
 
     val oldRecordsMap = hashMapOf<String, MutableList<ShipmentRecord>>()
-    shipments.forEach { oldRecordsMap.put(it.number, it.records.toMutableList()) }
+    shipments.forEach { oldRecordsMap[it.number] = it.records.toMutableList() }
 
     NotificationUtils.notifyOngoingSyncIfAllowed(app)
 

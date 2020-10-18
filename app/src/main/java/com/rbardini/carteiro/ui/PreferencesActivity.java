@@ -103,7 +103,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
   }
 
   @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     switch (requestCode) {
       case Constants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
         if (grantResults.length == 0) {
