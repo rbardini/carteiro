@@ -547,7 +547,7 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     }
 
     private boolean showSystemBackupSettings() {
-      Intent intent = new Intent(Settings.ACTION_PRIVACY_SETTINGS);
+      Intent intent = new Intent(Settings.ACTION_SETTINGS);
 
       startActivity(intent);
       return true;
