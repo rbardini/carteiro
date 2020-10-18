@@ -44,6 +44,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:maxWidth="@dimen/drawer_max_width"
+    android:contentDescription="@string/add_btn"
     app:headerLayout="@layout/drawer_header"
     app:menu="@menu/nav_drawer"
     app:itemShapeFillColor="@color/nav_drawer_item_background"
