@@ -389,12 +389,17 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
 
     private void updateLastBackup() {
       Preference pref = findPreference(getString(R.string.pref_key_last_backup));
+      pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+          return showSystemBackupSettings();
+        }
+      });
+
       long lastBackupTimestamp = PreferenceManager.getDefaultSharedPreferences(getActivity())
         .getLong(getString(R.string.pref_key_last_backup), 0);
 
-      if (lastBackupTimestamp == 0) {
-        return;
-      }
+      if (lastBackupTimestamp == 0) return;
 
       String lastBackupRelative = DateUtils.getRelativeDateTimeString(
         getActivity(),
@@ -405,12 +410,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       ).toString();
 
       pref.setSummary(pref.getSummary() + "\n\n" + getString(R.string.pref_backup_last_notice, lastBackupRelative));
-      pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-        @Override
-        public boolean onPreferenceClick(Preference preference) {
-          return showSystemBackupSettings();
-        }
-      });
     }
 
     private void checkRequiredPermissions() {
