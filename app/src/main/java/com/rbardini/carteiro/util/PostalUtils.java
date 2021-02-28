@@ -44,7 +44,8 @@ public final class PostalUtils {
           Status.POSTADO,
           Status.POSTAGEM_DH,
           Status.POSTADO_DEPOIS_HORARIO_LIMITE,
-          Status.POSTADO_APOS_HORARIO_LIMITE
+          Status.POSTADO_APOS_HORARIO_LIMITE_AGENCIA,
+          Status.POSTADO_APOS_HORARIO_LIMITE_UNIDADE
       });
       map.put(AVAILABLE, new String[] {
           Status.AGUARDANDO_RETIRADA,
@@ -249,7 +250,8 @@ public final class PostalUtils {
     public static final String POSTADO = "Postado"; // New + old
     public static final String POSTAGEM_DH = "Postagem - DH";
     public static final String POSTADO_DEPOIS_HORARIO_LIMITE = "Postado depois do horário limite da agência";
-    public static final String POSTADO_APOS_HORARIO_LIMITE = "Postado após o horário limite da agência"; // New
+    public static final String POSTADO_APOS_HORARIO_LIMITE_AGENCIA = "Postado após o horário limite da agência"; // New
+    public static final String POSTADO_APOS_HORARIO_LIMITE_UNIDADE = "Postado após o horário limite da unidade"; // New
 
     // Available
     public static final String AGUARDANDO_RETIRADA = "Aguardando retirada";
@@ -363,6 +365,7 @@ public final class PostalUtils {
     // Other
     public static final String ENCAMINHADO = "Encaminhado";
     public static final String ENCAMINHADO_PARA = "Encaminhado para"; // New
+    public static final String EM_TRANSITO = "Em trânsito"; // New
     public static final String SAIU_UNIDADE_INTERNACIONAL = "Saiu da Unidade Internacional"; // New
     public static final String RECEBIDO_EM = "Recebido em"; // New
     public static final String RECEBIDO_UNIDADE_DISTRIBUICAO = "Recebido na unidade de distribuição"; // New + old
@@ -406,7 +409,8 @@ public final class PostalUtils {
       map.put(POSTADO, R.drawable.ic_postal_postado);
       map.put(POSTAGEM_DH, R.drawable.ic_postal_postado);
       map.put(POSTADO_DEPOIS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
-      map.put(POSTADO_APOS_HORARIO_LIMITE, R.drawable.ic_postal_postado);
+      map.put(POSTADO_APOS_HORARIO_LIMITE_AGENCIA, R.drawable.ic_postal_postado);
+      map.put(POSTADO_APOS_HORARIO_LIMITE_UNIDADE, R.drawable.ic_postal_postado);
 
       // Available
       map.put(AGUARDANDO_RETIRADA, R.drawable.ic_postal_aguardando_retirada);
@@ -516,6 +520,7 @@ public final class PostalUtils {
       // Other
       map.put(ENCAMINHADO, R.drawable.ic_postal_encaminhado);
       map.put(ENCAMINHADO_PARA, R.drawable.ic_postal_encaminhado);
+      map.put(EM_TRANSITO, R.drawable.ic_postal_encaminhado);
       map.put(SAIU_UNIDADE_INTERNACIONAL, R.drawable.ic_postal_encaminhado);
       map.put(RECEBIDO_EM, R.drawable.ic_postal_recebido);
       map.put(RECEBIDO_UNIDADE_DISTRIBUICAO, R.drawable.ic_postal_recebido);
