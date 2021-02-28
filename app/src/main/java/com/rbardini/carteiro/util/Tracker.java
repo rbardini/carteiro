@@ -13,7 +13,7 @@ abstract class Tracker {
   static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
 
   private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
-  private static final Pattern SEPARATOR_PATTERN = Pattern.compile("^(.+?) - ");
+  private static final Pattern SEPARATOR_PATTERN = Pattern.compile(" - (.+?)$");
   private static final Pattern OBJETO_PATTERN = Pattern.compile("^Objeto");
   private static final Pattern CONTEUDO_PATTERN = Pattern.compile("(e?/?(ou)?\\s?)conteúdo");
   private static final Pattern COMMA_PATTERN = Pattern.compile(",");
