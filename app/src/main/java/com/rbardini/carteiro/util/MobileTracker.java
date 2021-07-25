@@ -79,7 +79,7 @@ public final class MobileTracker extends Tracker {
       for (int i = objetos.length() - 1; i >= 0; i--) {
         JSONObject objeto = objetos.getJSONObject(i);
 
-        String cod = objeto.getString("numero");
+        String numero = objeto.getString("numero");
         JSONArray eventos = objeto.optJSONArray("evento");
         List<ShipmentRecord> records = new ArrayList<>();
 
@@ -111,10 +111,14 @@ public final class MobileTracker extends Tracker {
             }
 
             records.add(new ShipmentRecord(date, formatStatus(descricao), local, formatInfo(detalhe)));
+
+            if (!shallow) {
+              AnalyticsUtils.recordStatusFetch(context, numero, descricao);
+            }
           }
         }
 
-        Shipment shipment = shipmentMap.get(cod);
+        Shipment shipment = shipmentMap.get(numero);
         shipment.replaceRecords(records);
       }
 

@@ -10,6 +10,7 @@ import kotlin.math.min
 object AnalyticsUtils {
   object Event {
     const val ADD_ITEM = "add_item"
+    const val FETCH_STATUS = "fetch_status"
     const val SEARCH = FirebaseAnalytics.Event.SEARCH
     const val SHARE = FirebaseAnalytics.Event.SHARE
     const val VIEW_ITEM = FirebaseAnalytics.Event.VIEW_ITEM
@@ -98,8 +99,17 @@ object AnalyticsUtils {
   @JvmStatic
   fun recordShare(context: Context, shipments: List<Shipment>) {
     val bundle = buildShipmentsBundle(shipments)
-    bundle.putString(Param.CONTENT_TYPE,  Value.CONTENT_TYPE_SHIPMENT_LIST)
+    bundle.putString(Param.CONTENT_TYPE, Value.CONTENT_TYPE_SHIPMENT_LIST)
 
     logEvent(context, Event.SHARE, bundle)
+  }
+
+  @JvmStatic
+  fun recordStatusFetch(context: Context, number: String, status: String) {
+    val bundle = Bundle()
+    bundle.putString(Param.ITEM_ID, number)
+    bundle.putString(Param.ITEM_NAME, status)
+
+    logEvent(context, Event.FETCH_STATUS, bundle)
   }
 }
