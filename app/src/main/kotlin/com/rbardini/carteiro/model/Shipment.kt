@@ -62,7 +62,7 @@ data class Shipment @JvmOverloads constructor(
   fun getService() = PostalUtils.Service.getService(number)
 
   fun getFlag(context: Context): Int {
-    val countryCode = number.substring(11, 13).toLowerCase(Locale.getDefault())
+    val countryCode = number.substring(11, 13).lowercase(Locale.getDefault())
     return context.resources.getIdentifier("flag_$countryCode", "drawable", context.applicationInfo.packageName)
   }
 }

@@ -93,7 +93,7 @@ class SyncTask(private val app: Application, private val intent: Intent?) : Asyn
       }
 
     } catch (e: Exception) {
-      Log.e(TAG, e.message)
+      Log.e(TAG, e.message.toString())
       hasError = true
     }
 

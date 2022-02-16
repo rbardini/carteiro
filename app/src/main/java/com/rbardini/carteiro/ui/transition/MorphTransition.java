@@ -94,7 +94,7 @@ public class MorphTransition extends ChangeBounds {
     if (endValues.view instanceof ViewGroup) {
       final ViewGroup vg = (ViewGroup) endValues.view;
       final long duration = getDuration() / 2;
-      float offset = vg.getHeight() / 3;
+      float offset = vg.getHeight() / 3f;
       for (int i = 0; i < vg.getChildCount(); i++) {
         View v = vg.getChildAt(i);
         v.setTranslationY(offset);

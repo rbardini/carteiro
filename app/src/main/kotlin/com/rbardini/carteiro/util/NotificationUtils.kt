@@ -72,7 +72,7 @@ object NotificationUtils {
     val notification = getBaseNotificationBuilder(context, NOTIFICATION_CHANNEL_ID_ONGOING_SYNC)
       .setSmallIcon(R.drawable.ic_stat_sync)
       .setContentTitle(context.getString(R.string.notf_title_syncing))
-      .setContentIntent(PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_CANCEL_CURRENT))
+      .setContentIntent(PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT))
       .setTicker(context.getString(R.string.notf_title_syncing))
       .setProgress(0, 0, true)
       .setOngoing(true)
@@ -159,7 +159,7 @@ object NotificationUtils {
 
     return getBaseNotificationBuilder(context, NOTIFICATION_CHANNEL_ID_ITEM_UPDATE)
       .setSmallIcon(R.drawable.ic_stat_notify)
-      .setContentIntent(stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT))
+      .setContentIntent(stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
       .setAutoCancel(true)
       .setGroup(NOTIFICATION_GROUP_KEY_UPDATE)
   }
@@ -170,7 +170,7 @@ object NotificationUtils {
   private fun getSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
 
   private fun getNotificationActionIntent(context: Context, intent: Intent, requestCode: Int, action: String) =
-    PendingIntent.getActivity(context, requestCode, Intent(intent).setAction(action), PendingIntent.FLAG_UPDATE_CURRENT)
+    PendingIntent.getActivity(context, requestCode, Intent(intent).setAction(action), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
   private fun shouldNotifyOnGoingSync(context: Context) =
     getSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_notify_sync), false)

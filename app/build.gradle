@@ -5,13 +5,12 @@ apply plugin: "com.google.firebase.firebase-perf"
 apply plugin: "kotlin-android"
 
 android {
-  compileSdkVersion 29
-  buildToolsVersion '29.0.3'
+  compileSdkVersion 32
 
   defaultConfig {
     applicationId "com.rbardini.carteiro"
     minSdkVersion 23
-    targetSdkVersion 29
+    targetSdkVersion 32
     versionCode 43
     versionName "4.0.0"
   }
@@ -20,7 +19,7 @@ android {
     main.java.srcDirs += "src/main/kotlin"
   }
 
-  lintOptions {
+  lint {
     abortOnError false
   }
 
@@ -39,17 +38,16 @@ android {
 }
 
 dependencies {
-  implementation "androidx.preference:preference:1.1.1"
+  implementation "androidx.preference:preference-ktx:1.2.0"
   implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-  implementation "com.android.volley:volley:1.2.0"
+  implementation "com.android.volley:volley:1.2.1"
   implementation "com.github.mcginty:material-colors:1.1.0"
-  implementation "com.google.android:flexbox:1.1.0"
-  implementation "com.google.android.material:material:1.5.0-alpha01"
-  implementation "com.google.firebase:firebase-analytics:19.0.0"
-  implementation "com.google.firebase:firebase-crashlytics:18.2.0"
-  implementation "com.google.firebase:firebase-perf:20.0.2"
+  implementation "com.google.android.flexbox:flexbox:3.0.0"
+  implementation "com.google.android.material:material:1.6.0-alpha02"
+  implementation "com.google.firebase:firebase-analytics:20.1.0"
+  implementation "com.google.firebase:firebase-crashlytics:18.2.8"
+  implementation "com.google.firebase:firebase-perf:20.0.5"
   implementation "com.google.zxing:android-integration:3.3.0"
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply plugin: "com.google.gms.google-services"
