@@ -61,7 +61,8 @@ public final class PostalUtils {
       map.put(DELIVERED, new String[] {
           Status.ENTREGUE,
           Status.ENTREGUE_DESTINATARIO,
-          Status.ENTREGA_EFETUADA
+          Status.ENTREGA_EFETUADA,
+          Status.ENTREGUE_CAIXA_INTELIGENTE
       });
       map.put(IRREGULAR, new String[] {
           Status.DESTINATARIO_DESCONHECIDO_ENDERECO,
@@ -268,6 +269,7 @@ public final class PostalUtils {
     public static final String ENTREGUE = "Entregue";
     public static final String ENTREGUE_DESTINATARIO = "Entregue ao destinatário"; // New
     public static final String ENTREGA_EFETUADA = "Entrega Efetuada";
+    public static final String ENTREGUE_CAIXA_INTELIGENTE = "Entregue na Caixa de Correios Inteligente";
 
     // Irregular
     public static final String DESTINATARIO_DESCONHECIDO_ENDERECO = "Destinatário desconhecido no endereço";
@@ -427,6 +429,7 @@ public final class PostalUtils {
       map.put(ENTREGUE, R.drawable.ic_postal_entregue);
       map.put(ENTREGUE_DESTINATARIO, R.drawable.ic_postal_entregue);
       map.put(ENTREGA_EFETUADA, R.drawable.ic_postal_entregue);
+      map.put(ENTREGUE_CAIXA_INTELIGENTE, R.drawable.ic_postal_entregue);
 
       // Irregular
       map.put(DESTINATARIO_DESCONHECIDO_ENDERECO, R.drawable.ic_postal_destinatario_desconhecido);
