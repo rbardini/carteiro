@@ -4,7 +4,6 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
-import android.os.Build
 import android.preference.PreferenceManager
 import android.util.Log
 import com.rbardini.carteiro.R
@@ -21,12 +20,7 @@ object SyncScheduler {
     val builder = JobInfo.Builder(JOB_ID, component)
       .setRequiredNetworkType(getNetworkType(context))
       .setPersisted(true)
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      builder.setPeriodic(SYNC_INTERVAL_MILLIS, SYNC_FLEX_MILLIS)
-    } else {
-      builder.setPeriodic(SYNC_INTERVAL_MILLIS)
-    }
+      .setPeriodic(SYNC_INTERVAL_MILLIS, SYNC_FLEX_MILLIS)
 
     getScheduler(context).schedule(builder.build())
     Log.i(TAG, "Sync scheduled")

@@ -8,8 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioAttributes
-import android.net.Uri
-import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.Settings
 import android.text.Html
@@ -43,8 +41,6 @@ object NotificationUtils {
 
   @JvmStatic
   fun createNotificationChannels(context: Context) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-
     val notificationManager = getNotificationManager(context)
     if (notificationManager.notificationChannels.isNotEmpty()) return
 
@@ -115,15 +111,6 @@ object NotificationUtils {
       .addAction(Notification.Action.Builder(R.drawable.ic_share_white_24dp, context.getString(R.string.opt_share),
           getNotificationActionIntent(context, intent, requestCode, RecordActivity.ACTION_SHARE)).build())
 
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-      val prefs = getSharedPreferences(context)
-      val ringtone = getNotificationRingtoneValue(context)
-
-      notification.setSound(Uri.parse(ringtone))
-      if (prefs.getBoolean(context.getString(R.string.pref_key_lights), true)) notification.setLights(Color.YELLOW, 1000, 1200)
-      if (prefs.getBoolean(context.getString(R.string.pref_key_vibrate), true)) notification.setDefaults(Notification.DEFAULT_VIBRATE)
-    }
-
     getNotificationManager(context).notify(NOTIFICATION_TAG_SINGLE_ITEM_UPDATE, requestCode, notification.build())
   }
 
@@ -151,8 +138,7 @@ object NotificationUtils {
     getNotificationManager(context).notify(NOTIFICATION_ID_UPDATE_SUMMARY, notification.build())
   }
 
-  private fun getBaseNotificationBuilder(context: Context, channelId: String) =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(context, channelId) else Notification.Builder(context)
+  private fun getBaseNotificationBuilder(context: Context, channelId: String) = Notification.Builder(context, channelId)
 
   private fun getBaseShipmentUpdateNotificationBuilder(context: Context, intent: Intent, requestCode: Int): Notification.Builder {
     val stackBuilder = TaskStackBuilder.create(context).addNextIntentWithParentStack(intent)

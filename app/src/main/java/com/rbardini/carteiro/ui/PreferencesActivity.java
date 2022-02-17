@@ -1,7 +1,6 @@
 package com.rbardini.carteiro.ui;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.graphics.PorterDuff;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
@@ -228,10 +226,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.preferences_notification, rootKey);
       addPreferencesFromResource(R.xml.preferences_notification_indication);
-
-      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-        updateNotificationSoundPreference();
-      }
     }
 
     @Override
@@ -266,7 +260,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       }
     }
 
-    @TargetApi(26)
     private boolean showSystemNotificationSettings() {
       Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
         .putExtra(Settings.EXTRA_APP_PACKAGE, app.getPackageName());

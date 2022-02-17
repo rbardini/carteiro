@@ -3,20 +3,9 @@
 
   <PreferenceCategory android:title="@string/pref_indication_category">
 
-    <Preference android:key="@string/pref_key_ringtone"
-      android:title="@string/pref_ringtone_title"
-      android:summary="@string/pref_ringtone_summary"
-      android:dependency="@string/pref_key_notify" />
-
-    <SwitchPreference android:key="@string/pref_key_lights"
-      android:title="@string/pref_lights_title"
-      android:defaultValue="true"
-      android:dependency="@string/pref_key_notify" />
-
-    <SwitchPreference android:key="@string/pref_key_vibrate"
-      android:title="@string/pref_vibrate_title"
-      android:defaultValue="true"
-      android:dependency="@string/pref_key_notify" />
+    <Preference android:key="@string/pref_key_notification_settings"
+      android:title="@string/pref_notification_settings_title"
+      android:summary="@string/pref_notification_settings_summary" />
 
   </PreferenceCategory>
 
