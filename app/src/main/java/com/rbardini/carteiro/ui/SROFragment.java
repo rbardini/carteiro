@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.rbardini.carteiro.R;
@@ -16,7 +17,7 @@ public class SROFragment extends Fragment {
   public static final String TAG = "SROFragment";
 
   private static final String COD_KEY = "cod";
-  private static final String SRO_URL = "https://www2.correios.com.br/sistemas/rastreamento/newprint.cfm";
+  private static final String SRO_URL = "https://rastreamento.correios.com.br/app/index.php";
 
   interface OnStateChangeListener {
     void onProgress(int progress);
@@ -44,7 +45,7 @@ public class SROFragment extends Fragment {
     try {
       listener = (OnStateChangeListener) activity;
     } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString() + " must implement OnStateChangeListener");
+      throw new ClassCastException(activity + " must implement OnStateChangeListener");
     }
   }
 
@@ -59,6 +60,10 @@ public class SROFragment extends Fragment {
         listener.onProgress(progress);
       }
     });
+
+    WebSettings settings = mWebView.getSettings();
+    settings.setDomStorageEnabled(true);
+    settings.setJavaScriptEnabled(true);
 
     String postData = "objetos=" + getArguments().getString(COD_KEY);
     mWebView.postUrl(SRO_URL, postData.getBytes());
