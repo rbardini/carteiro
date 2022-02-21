@@ -16,7 +16,6 @@
   <string name="skip_btn">Skip</string>
   <string name="rename_btn">Rename</string>
   <string name="install_btn">Install</string>
-  <string name="backup_btn">Create</string>
   <string name="restore_btn">Restore</string>
   <string name="undo_btn">Undo</string>
   <string name="check_btn">Check</string>
@@ -102,13 +101,11 @@
   <string name="toast_net_error">Oops! The Correios service is offline, or the connection failed :(</string>
   <string name="toast_unexpected_error">Oops! Something wrong happened :( Please try again later.</string>
   <string name="toast_tracking_code_copied">Tracking number copied to the clipboard.</string>
-  <string name="toast_backup_created">Backup created in %s folder.</string>
+  <string name="toast_backup_select">Select backup file</string>
+  <string name="toast_backup_created">Backup created!</string>
   <string name="toast_backup_restored">Backup restored!</string>
   <string name="toast_backup_creation_fail">Backup creation failed: %s</string>
   <string name="toast_backup_restore_fail">Backup restore failed: %s</string>
-  <string name="toast_backup_not_found">No backups found.</string>
-  <string name="toast_external_storage_write_error">External storage unmounted or without write access.</string>
-  <string name="toast_external_storage_read_error">External storage unmounted or without read access.</string>
 
   <!-- Context Menu -->
   <string name="opt_search">Search</string>
@@ -128,10 +125,8 @@
 
   <!-- Dialogs -->
   <string name="title_alert_rename">Rename %s</string>
-  <string name="msg_alert_create_backup">Enter the name for the backup file:</string>
-  <string name="title_alert_select_backup">Select a backup</string>
   <string name="title_alert_restore_backup">Restore backup?</string>
-  <string name="msg_alert_restore_backup"><![CDATA[Are you sure you want to restore the following backup?<br/><br/><b>%s</b><br/><br/>Your current tracking list will be replaced.]]></string>
+  <string name="msg_alert_restore_backup">Your current tracking list will be replaced.</string>
 
   <!-- Record Activity -->
   <string name="title_record">Item history</string>

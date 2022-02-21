@@ -91,32 +91,29 @@ public class DatabaseHelper {
     db.setTransactionSuccessful();
   }
 
-  public File exportDatabase(Context context, File destFile) throws IOException {
+  public void exportDatabase(Context context, FileOutputStream stream) throws IOException {
     oh.close();
 
-    if (!IOUtils.isExternalStorageWritable()) return null;
+    if (!IOUtils.isExternalStorageWritable()) throw new IOException("External storage unwritable");
 
     File currentDb = context.getDatabasePath(DB_NAME);
-    IOUtils.copyFile(new FileInputStream(currentDb), new FileOutputStream(destFile));
+    IOUtils.copyFile(new FileInputStream(currentDb), stream);
 
     db = oh.getWritableDatabase();
-
-    return destFile;
   }
 
-  public File importDatabase(Context context, File database) throws IOException {
+  public void importDatabase(Context context, FileInputStream stream) throws IOException {
     oh.close();
 
-    if (!IOUtils.isExternalStorageReadable()) return null;
+    if (!IOUtils.isExternalStorageReadable()) throw new IOException("External storage unreadable");
+    if (!IOUtils.isValidSQLite3File(stream)) throw new IOException("Invalid database");
 
     File currentDb = context.getDatabasePath(DB_NAME);
-    IOUtils.copyFile(new FileInputStream(database), new FileOutputStream(currentDb));
+    IOUtils.copyFile(stream, new FileOutputStream(currentDb));
 
     db = oh.getWritableDatabase();
 
     notifyDatabaseChanged();
-
-    return database;
   }
 
   private void notifyDatabaseChanged() {

@@ -1,6 +1,7 @@
 package com.rbardini.carteiro.ui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,12 +14,10 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.Settings;
-import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
@@ -31,8 +30,8 @@ import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
-import java.io.File;
-import java.io.FilenameFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,6 +53,11 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
 public class PreferencesActivity extends AppCompatActivity implements OnPreferenceStartFragmentCallback {
+  private static final int PICK_NOTIFICATION_RINGTONE_REQUEST = 0;
+  private static final int PICK_CREATE_BACKUP_FILE_REQUEST = 1;
+  private static final int PICK_RESTORE_BACKUP_FILE_REQUEST = 2;
+  private static final String BACKUP_FILE_MIME_TYPE = "application/octet-stream";
+
   private static CarteiroApplication app;
   private static DatabaseHelper dh;
 
@@ -102,6 +106,8 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
 
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     switch (requestCode) {
       case Constants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
         if (grantResults.length == 0) {
@@ -215,8 +221,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
   }
 
   public static class NotificationPreferences extends PreferencesFragment {
-    private static final int PICK_NOTIFICATION_RINGTONE_REQUEST = 0;
-
     @Override
     int getTitleId() {
       return R.string.pref_notification_title;
@@ -380,6 +384,62 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       setupRestorePreference();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+      super.onActivityResult(requestCode, resultCode, resultData);
+
+      if (resultCode != Activity.RESULT_OK) return;
+
+      final Context context = getActivity();
+      final Uri uri = resultData.getData();
+      final String path = uri.getPath();
+      final String name = path.substring(path.lastIndexOf("/") + 1);
+
+      switch (requestCode) {
+        case PICK_CREATE_BACKUP_FILE_REQUEST:
+          String createResult = null;
+
+          try {
+            ParcelFileDescriptor fd = context.getContentResolver().openFileDescriptor(uri, "w");
+            FileOutputStream stream = new FileOutputStream(fd.getFileDescriptor());
+
+            dh.exportDatabase(app.getApplicationContext(), stream);
+            createResult = getString(R.string.toast_backup_created);
+          } catch (Exception e) {
+            createResult = getString(R.string.toast_backup_creation_fail, e.getMessage());
+          } finally {
+            UIUtils.showToast(context, createResult);
+          }
+          break;
+
+        case PICK_RESTORE_BACKUP_FILE_REQUEST:
+          new AlertDialog.Builder(context)
+            .setTitle(R.string.title_alert_restore_backup)
+            .setMessage(R.string.msg_alert_restore_backup)
+            .setPositiveButton(R.string.restore_btn, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                String restoreResult = null;
+
+                try {
+                  ParcelFileDescriptor fd = context.getContentResolver().openFileDescriptor(uri, "r");
+                  FileInputStream stream = new FileInputStream(fd.getFileDescriptor());
+
+                  dh.importDatabase(context, stream);
+                  restoreResult = getString(R.string.toast_backup_restored);
+                } catch (Exception e) {
+                  restoreResult = getString(R.string.toast_backup_restore_fail, e.getMessage());
+                } finally {
+                  UIUtils.showToast(context, restoreResult);
+                }
+              }
+            })
+            .setNegativeButton(R.string.negative_btn, null)
+            .show();
+          break;
+      }
+    }
+
     private void updateLastBackup() {
       Preference pref = findPreference(getString(R.string.pref_key_last_backup));
       pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -413,11 +473,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
       }
     }
 
-    private String getDatabaseFileExtension() {
-      String dbName = DatabaseHelper.DB_NAME;
-      return dbName.substring(dbName.lastIndexOf("."));
-    }
-
     private void setupCreatePreference() {
       Preference pref = findPreference(getString(R.string.pref_key_create_backup));
 
@@ -425,44 +480,15 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
           @Override
           public boolean onPreferenceClick(Preference preference) {
-            final View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup, null);
-            final EditText backupNameField = dialogView.findViewById(R.id.backup_name);
-            final Context context = getActivity();
-            final String[] currentName = DatabaseHelper.DB_NAME.split("\\.");
+            final String[] dbName = DatabaseHelper.DB_NAME.split("\\.");
+            final String backupName = dbName[0] + '-' + IOUtils.SAFE_DATE_FORMAT.format(new Date()) + '.' + dbName[1];
 
-            // Add current timestamp to the suggested backup filename to avoid collision
-            backupNameField.append(currentName[0] + '-' + IOUtils.SAFE_DATE_FORMAT.format(new Date()) + '.' + currentName[1]);
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
+              .addCategory(Intent.CATEGORY_OPENABLE)
+              .setType(BACKUP_FILE_MIME_TYPE)
+              .putExtra(Intent.EXTRA_TITLE, backupName);
 
-            new AlertDialog.Builder(context)
-              .setTitle(R.string.pref_create_backup_title)
-              .setView(dialogView)
-              .setPositiveButton(R.string.backup_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  File destDir = IOUtils.getExternalStoragePublicAppDocumentsDirectory();
-                  String backupName = backupNameField.getText().toString();
-                  String backupResult = null;
-
-                  // Add database file extension to the backup filename in case the user has removed it
-                  String dbExt = getDatabaseFileExtension();
-                  if (!backupName.endsWith(dbExt)) backupName += dbExt;
-
-                  File backupFile = IOUtils.createFile(destDir, backupName);
-
-                  try {
-                    backupFile = dh.exportDatabase(app.getApplicationContext(), backupFile);
-                    backupResult = backupFile == null ? getString(R.string.toast_backup_creation_fail, getString(R.string.toast_external_storage_write_error))
-                        : getString(R.string.toast_backup_created, destDir.getParentFile().getName());
-                  } catch (Exception e) {
-                    backupResult = getString(R.string.toast_backup_creation_fail, e.getMessage());
-                  } finally {
-                    UIUtils.showToast(context, backupResult);
-                  }
-                }
-              })
-              .setNegativeButton(R.string.negative_btn, null)
-              .show();
-
+            startActivityForResult(intent, PICK_CREATE_BACKUP_FILE_REQUEST);
             return true;
           }
         });
@@ -474,65 +500,14 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
 
       if (pref != null) {
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-          final Context context = getActivity();
-
           @Override
           public boolean onPreferenceClick(Preference preference) {
-            if (!IOUtils.isExternalStorageReadable()) {
-              UIUtils.showToast(context, R.string.toast_external_storage_read_error);
-              return true;
-            }
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+              .addCategory(Intent.CATEGORY_OPENABLE)
+              .setType(BACKUP_FILE_MIME_TYPE);
 
-            final File documentsDir = IOUtils.getExternalStoragePublicAppDocumentsDirectory();
-            final String[] backupFiles = documentsDir.list(new FilenameFilter() {
-              @Override
-              public boolean accept(File dir, String filename) {
-                return filename.endsWith(getDatabaseFileExtension());
-              }
-            });
-
-            if (backupFiles == null || backupFiles.length < 1) {
-              UIUtils.showToast(context, R.string.toast_backup_not_found);
-              return true;
-            }
-
-            new AlertDialog.Builder(context)
-              .setTitle(R.string.title_alert_select_backup)
-              .setItems(backupFiles, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  final String backupName = backupFiles[which];
-
-                  new AlertDialog.Builder(context)
-                    .setTitle(R.string.title_alert_restore_backup)
-                    .setMessage(Html.fromHtml(getString(R.string.msg_alert_restore_backup, backupName)))
-                    .setPositiveButton(R.string.restore_btn, new DialogInterface.OnClickListener() {
-                      @Override
-                      public void onClick(DialogInterface dialog, int which) {
-                        File backupFile = IOUtils.createFile(documentsDir, backupName);
-                        String restoreResult = null;
-
-                        try {
-                          backupFile = dh.importDatabase(context, backupFile);
-
-                          if (backupFile == null) {
-                            restoreResult = getString(R.string.toast_backup_restore_fail, getString(R.string.toast_external_storage_read_error));
-                          } else {
-                            restoreResult = getString(R.string.toast_backup_restored);
-                          }
-                        } catch (Exception e) {
-                          restoreResult = getString(R.string.toast_backup_restore_fail, e.getMessage());
-                        } finally {
-                          UIUtils.showToast(context, restoreResult);
-                        }
-                      }
-                    })
-                    .setNegativeButton(R.string.negative_btn, null)
-                    .show();
-                }
-              })
-              .show();
-
+            startActivityForResult(intent, PICK_RESTORE_BACKUP_FILE_REQUEST);
+            UIUtils.showToast(getActivity(), R.string.toast_backup_select);
             return true;
           }
         });

@@ -2,19 +2,17 @@ package com.rbardini.carteiro.util;
 
 import android.os.Environment;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public final class IOUtils {
   public static final DateFormat SAFE_DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss", Locale.getDefault());
-  private static final String DOCUMENTS_DIR = "Documents";
-  private static final String APP_DIR = "Carteiro";
 
   public static boolean isExternalStorageWritable() {
     String storageState = Environment.getExternalStorageState();
@@ -24,17 +22,6 @@ public final class IOUtils {
   public static boolean isExternalStorageReadable() {
     String storageState = Environment.getExternalStorageState();
     return Environment.MEDIA_MOUNTED.equals(storageState) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(storageState);
-  }
-
-  public static File getExternalStoragePublicAppDocumentsDirectory() {
-    File documentsDir = new File(Environment.getExternalStoragePublicDirectory(DOCUMENTS_DIR), APP_DIR);
-    if (!documentsDir.isDirectory()) documentsDir.mkdirs();
-
-    return documentsDir;
-  }
-
-  public static File createFile(File destDir, String fileName) {
-    return new File(destDir, fileName);
   }
 
   public static void copyFile(FileInputStream fromFile, FileOutputStream toFile) throws IOException {
@@ -51,5 +38,14 @@ public final class IOUtils {
         if (toChannel != null) toChannel.close();
       }
     }
+  }
+
+  public static boolean isValidSQLite3File(FileInputStream stream) throws IOException {
+    byte[] buffer = new byte[16];
+
+    stream.read(buffer, 0, buffer.length);
+    String header = new String(buffer, StandardCharsets.UTF_8);
+
+    return header.equals("SQLite format 3\u0000");
   }
 }

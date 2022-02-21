@@ -16,7 +16,6 @@
   <string name="skip_btn">Pular</string>
   <string name="rename_btn">Renomear</string>
   <string name="install_btn">Instalar</string>
-  <string name="backup_btn">Criar</string>
   <string name="restore_btn">Restaurar</string>
   <string name="undo_btn">Desfazer</string>
   <string name="check_btn">Checar</string>
@@ -102,13 +101,11 @@
   <string name="toast_net_error">Oops! O serviço dos Correios está fora do ar, ou a conexão falhou :(</string>
   <string name="toast_unexpected_error">Oops! Algo de errado aconteceu :( Por favor, tente novamente mais tarde.</string>
   <string name="toast_tracking_code_copied">Código de rastreamento copiado para a área de transferência.</string>
-  <string name="toast_backup_created">Backup criado na pasta %s.</string>
+  <string name="toast_backup_select">Selecione o arquivo de backup</string>
+  <string name="toast_backup_created">Backup criado!</string>
   <string name="toast_backup_restored">Backup restaurado!</string>
   <string name="toast_backup_creation_fail">Falha ao criar backup: %s</string>
   <string name="toast_backup_restore_fail">Falha ao restaurar backup: %s</string>
-  <string name="toast_backup_not_found">Nenhum backup encontrado.</string>
-  <string name="toast_external_storage_write_error">Armazenamento externo não montado ou sem acesso de escrita.</string>
-  <string name="toast_external_storage_read_error">Armazenamento externo não montado ou sem acesso de leitura.</string>
 
   <!-- Context Menu -->
   <string name="opt_search">Pesquisar</string>
@@ -128,10 +125,8 @@
 
   <!-- Dialogs -->
   <string name="title_alert_rename">Renomear %s</string>
-  <string name="msg_alert_create_backup">Digite o nome do arquivo de backup:</string>
-  <string name="title_alert_select_backup">Escolha um backup</string>
   <string name="title_alert_restore_backup">Restaurar backup?</string>
-  <string name="msg_alert_restore_backup"><![CDATA[Tem certeza que deseja restaurar o seguinte backup?<br/><br/><b>%s</b><br/><br/>Sua lista de rastreamento atual será substituída.]]></string>
+  <string name="msg_alert_restore_backup">Sua lista de rastreamento atual será substituída.</string>
 
   <!-- Record Activity -->
   <string name="title_record">Histórico do objeto</string>
