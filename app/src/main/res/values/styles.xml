@@ -7,9 +7,6 @@
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">?attr/actionBarSize</item>
     <item name="android:background">@color/toolbar</item>
-    <item name="android:elevation">4dp</item>
-  </style>
-  <style name="ActionBar.Flat">
     <item name="android:elevation">0dp</item>
   </style>
   <style name="TrkCodeField">

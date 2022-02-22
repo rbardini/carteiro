@@ -29,7 +29,7 @@
     app:layout_constraintWidth_max="280dp"
     >
 
-    <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar.Flat"
+    <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar"
       android:background="@android:color/transparent" />
 
     <LinearLayout
