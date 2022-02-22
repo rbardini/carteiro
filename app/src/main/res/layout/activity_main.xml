@@ -15,7 +15,8 @@
       android:layout_height="match_parent"
       android:orientation="vertical">
 
-      <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar" />
+      <com.google.android.material.appbar.MaterialToolbar style="@style/ActionBar"
+        app:titleCentered="true" />
 
       <FrameLayout
         android:id="@+id/main_content"
