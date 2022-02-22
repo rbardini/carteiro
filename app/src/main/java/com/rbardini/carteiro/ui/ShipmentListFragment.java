@@ -141,12 +141,6 @@ public class ShipmentListFragment extends ShipmentFragment implements SwipeDismi
     recyclerView.setLeaveBehindColor(ContextCompat.getColor(mActivity, shouldDeleteItems ? R.color.error_background : R.color.success_background));
     recyclerView.setLeaveBehindPadding(getResources().getDimensionPixelSize(R.dimen.icon));
     recyclerView.setLeaveBehindIcon(shouldDeleteItems ? R.drawable.ic_delete_white_24dp : R.drawable.ic_archive_white_24dp);
-    recyclerView.addItemDecoration(new InsetDividerItemDecoration(
-      recyclerView.getContext(),
-      layoutManager.getOrientation(),
-      getResources().getDimensionPixelSize(R.dimen.keyline_3),
-      getResources().getDimensionPixelSize(R.dimen.keyline_1)
-    ));
 
     mListener.onPostalListAttached(this);
 
