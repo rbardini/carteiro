@@ -128,10 +128,6 @@ public class MainActivity extends ShipmentActivity {
         }
         return true;
 
-      case R.id.share_opt:
-        UIUtils.shareItems(this, mCurrentFragment.getList());
-        return true;
-
       default:
         return super.onOptionsItemSelected(item);
     }
