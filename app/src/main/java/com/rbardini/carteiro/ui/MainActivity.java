@@ -3,6 +3,8 @@ package com.rbardini.carteiro.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -186,12 +188,13 @@ public class MainActivity extends ShipmentActivity {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
+        TypedArray attrs = getTheme().obtainStyledAttributes(new int[] {android.R.attr.textColorPrimary});
 
         RoundIconTransition.addExtras(
           intent,
           ContextCompat.getColor(MainActivity.this, R.color.fab),
           R.drawable.ic_add_white_24dp,
-          ContextCompat.getColor(MainActivity.this, android.R.color.primary_text_dark),
+          attrs.getColor(0, Color.BLACK),
           1
         );
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, fab, getString(R.string.transition_add_item));
