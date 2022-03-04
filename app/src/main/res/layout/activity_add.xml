@@ -19,7 +19,7 @@
     android:paddingTop="@dimen/keyline_1_half"
     android:paddingStart="@dimen/keyline_1_half"
     android:paddingEnd="@dimen/keyline_1_half"
-    android:elevation="@dimen/dialog_elevation"
+    android:elevation="@dimen/md_elevation_dialog"
     android:transitionName="@string/transition_add_item"
     android:clickable="true"
     app:layout_constraintTop_toTopOf="parent"

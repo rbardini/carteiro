@@ -3,8 +3,8 @@
   <style name="Theme.Carteiro" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     <!-- Color attributes -->
     <item name="colorPrimary">@color/theme_primary</item>
-    <item name="colorPrimaryDark">@color/theme_primary_dark</item>
     <item name="colorPrimaryVariant">@color/theme_primary_dark</item>
+    <item name="colorPrimaryDark">@color/toolbar</item>
     <item name="colorOnPrimary">?android:attr/textColorPrimary</item>
     <item name="colorSecondary">@color/theme_accent</item>
     <!-- <item name="colorSecondaryVariant" /> -->

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-  <color name="theme_primary">@color/md_amber500</color>
-  <color name="theme_primary_dark">@color/md_amber700</color>
-  <color name="theme_accent">@color/md_blue500</color>
-  <color name="theme_accent_dark">@color/md_blue700</color>
-  <color name="theme_background">@color/md_grey50</color>
-  <color name="theme_background_elevated">@color/white</color>
-  <color name="theme_placeholder">@color/md_bluegrey100</color>
+<resources>
+  <color name="theme_primary">@color/md_blue500</color>
+  <color name="theme_primary_dark">@color/md_blue700</color>
+  <color name="theme_accent">@color/md_brown500</color>
+  <color name="theme_accent_dark">@color/md_brown700</color>
+  <color name="theme_background">@color/md_amber50</color>
+  <color name="theme_background_elevated">@color/md_white</color>
+  <color name="theme_placeholder">@color/md_orange100</color>
+
+  <color name="toolbar">@color/md_amber100</color>
+  <color name="fab">@color/theme_placeholder</color>
+  <color name="success_background">@color/md_green500</color>
+  <color name="error_background">@color/md_red600</color>
 
   <color name="postal_status_all">@color/postal_status_in_transit</color>
   <color name="postal_status_posted">@color/md_brown400</color>
@@ -17,12 +22,5 @@
   <color name="postal_status_unknown">@color/md_bluegrey400</color>
   <color name="postal_status_returned">@color/md_red400</color>
 
-  <color name="toolbar">@color/theme_primary</color>
-  <color name="fab">@color/theme_accent</color>
-  <color name="success_background">@color/md_green500</color>
-  <color name="error_background">@color/md_red700</color>
   <color name="dialog_scrim">#99000000</color>
-
-  <!-- Fix status bar color on action mode (https://stackoverflow.com/a/38702953) -->
-  <color name="abc_input_method_navigation_guard" tools:override="true">@android:color/transparent</color>
 </resources>
