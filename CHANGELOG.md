@@ -1,3 +1,11 @@
+# 5.0.0
+- Melhorias de design—novos esquemas de cores e interface mais limpa ✨
+- Uso do seletor de arquivos ao criar/restaurar backups
+- Atualização da URL da página do SRO
+- Atualização das listas de status e serviços postais
+- Correção de bugs
+- Remoção do suporte a Android 7.1.1 ou inferior
+
 # 4.0.0
 - Melhorias de design—maior contraste e tema escuro mais escuro 🌒
 - Adição de opção padrão do sistema à lista de temas
