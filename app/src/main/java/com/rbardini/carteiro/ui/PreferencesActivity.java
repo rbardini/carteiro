@@ -10,8 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -26,7 +24,6 @@ import com.rbardini.carteiro.svc.SyncScheduler;
 import com.rbardini.carteiro.util.AnalyticsUtils;
 import com.rbardini.carteiro.util.Constants;
 import com.rbardini.carteiro.util.IOUtils;
-import com.rbardini.carteiro.util.NotificationUtils;
 import com.rbardini.carteiro.util.PostalUtils.Category;
 import com.rbardini.carteiro.util.UIUtils;
 
@@ -53,7 +50,6 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
 public class PreferencesActivity extends AppCompatActivity implements OnPreferenceStartFragmentCallback {
-  private static final int PICK_NOTIFICATION_RINGTONE_REQUEST = 0;
   private static final int PICK_CREATE_BACKUP_FILE_REQUEST = 1;
   private static final int PICK_RESTORE_BACKUP_FILE_REQUEST = 2;
   private static final String BACKUP_FILE_MIME_TYPE = "application/octet-stream";
@@ -236,32 +232,11 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
     public boolean onPreferenceTreeClick(Preference preference) {
       final String key = preference.getKey();
 
-      if (key.equals(getString(R.string.pref_key_ringtone))) {
-        return showNotificationRingtonePicker();
-      }
-
       if (key.equals(getString(R.string.pref_key_notification_settings))) {
         return showSystemNotificationSettings();
       }
 
       return super.onPreferenceTreeClick(preference);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-
-      if (requestCode == PICK_NOTIFICATION_RINGTONE_REQUEST && data != null) {
-        Uri ringtone = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-        String value = ringtone == null ? "" : ringtone.toString();
-
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-          .edit()
-          .putString(getString(R.string.pref_key_ringtone), value)
-          .apply();
-
-        updateNotificationSoundPreference();
-      }
     }
 
     private boolean showSystemNotificationSettings() {
@@ -270,36 +245,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
 
       startActivity(intent);
       return true;
-    }
-
-    private boolean showNotificationRingtonePicker() {
-      String value = NotificationUtils.getNotificationRingtoneValue(getActivity());
-
-      Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
-        .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
-        .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
-        .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
-        .putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)
-        .putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, value.isEmpty() ? null : Uri.parse(value));
-
-      startActivityForResult(intent, PICK_NOTIFICATION_RINGTONE_REQUEST);
-      return true;
-    }
-
-    private void updateNotificationSoundPreference() {
-      Preference pref = findPreference(getString(R.string.pref_key_ringtone));
-      String value = NotificationUtils.getNotificationRingtoneValue(getActivity());
-
-      updateNotificationSoundPreference(pref, Uri.parse(value));
-    }
-
-    private void updateNotificationSoundPreference(Preference preference, Uri uri) {
-      Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), uri);
-      String ringtoneTitle = null;
-
-      if (ringtone != null) ringtoneTitle = ringtone.getTitle(getActivity());
-
-      preference.setSummary(ringtoneTitle);
     }
   }
 
@@ -392,8 +337,6 @@ public class PreferencesActivity extends AppCompatActivity implements OnPreferen
 
       final Context context = getActivity();
       final Uri uri = resultData.getData();
-      final String path = uri.getPath();
-      final String name = path.substring(path.lastIndexOf("/") + 1);
 
       switch (requestCode) {
         case PICK_CREATE_BACKUP_FILE_REQUEST:

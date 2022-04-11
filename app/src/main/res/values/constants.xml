@@ -39,9 +39,6 @@
   <string name="pref_key_notify_favorites">notifyfavorites</string>
   <string name="pref_key_notify_available">notifyavailable</string>
   <string name="pref_key_notify_delivered">notifydelivered</string>
-  <string name="pref_key_ringtone">ringtone</string>
-  <string name="pref_key_lights">lights</string>
-  <string name="pref_key_vibrate">vibrate</string>
   <string name="pref_key_notification_settings">notificationsettings</string>
   <string name="pref_key_initial_category">initialcategory</string>
   <string name="pref_key_theme">theme</string>
