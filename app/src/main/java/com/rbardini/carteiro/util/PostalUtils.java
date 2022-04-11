@@ -154,7 +154,8 @@ public final class PostalUtils {
       });
       map.put(RETURNED, new String[] {
           Status.DISTRIBUIDO_AO_REMETENTE,
-          Status.DEVOLVIDO_AO_REMETENTE
+          Status.DEVOLVIDO_AO_REMETENTE,
+          Status.ENTREGUE_AO_REMETENTE
       });
 
       return map;
@@ -363,6 +364,7 @@ public final class PostalUtils {
     // Returned
     public static final String DISTRIBUIDO_AO_REMETENTE = "Distribuido ao Remetente";
     public static final String DEVOLVIDO_AO_REMETENTE = "Devolvido ao remetente"; // New + old
+    public static final String ENTREGUE_AO_REMETENTE = "Entregue ao remetente";
 
     // Other
     public static final String ENCAMINHADO = "Encaminhado";
@@ -519,6 +521,7 @@ public final class PostalUtils {
       // Returned
       map.put(DISTRIBUIDO_AO_REMETENTE, R.drawable.ic_postal_entregue);
       map.put(DEVOLVIDO_AO_REMETENTE, R.drawable.ic_postal_entregue);
+      map.put(ENTREGUE_AO_REMETENTE, R.drawable.ic_postal_entregue);
 
       // Other
       map.put(ENCAMINHADO, R.drawable.ic_postal_encaminhado);
