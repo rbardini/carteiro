@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public final class PostalUtils {
-  public static final String HEALTH_URL = "http://downdetector.com.br/fora-do-ar/correios";
+  public static final String HEALTH_URL = "https://downdetector.com.br/fora-do-ar/correios/";
 
   public static final class Category {
     public static final int ALL         = 0x1;
