@@ -15,7 +15,6 @@
   <string name="always_btn">Always</string>
   <string name="skip_btn">Skip</string>
   <string name="rename_btn">Rename</string>
-  <string name="install_btn">Install</string>
   <string name="restore_btn">Restore</string>
   <string name="undo_btn">Undo</string>
   <string name="check_btn">Check</string>
@@ -58,9 +57,6 @@
   <string name="msg_alert_net_error">The Correios service is offline, or the connection failed.\n\nDon\'t worry, we will try again in the next the automatic syncs :)</string>
   <string name="msg_alert_delivered_item">The item has already been delivered to its addressee. Newer status updates are unlikely.</string>
   <string name="msg_alert_returned_item">The item has already been returned to its sender. Newer status updates are unlikely.</string>
-
-  <string name="title_alert_barcode_install">Install Barcode Scanner?</string>
-  <string name="msg_alert_barcode_install">The app is required to read barcodes and QR codes.</string>
 
   <string name="msg_alert_cod_not_found">Tracking number not found. Check if the page has information about the item.</string>
 

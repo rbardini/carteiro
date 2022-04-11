@@ -15,7 +15,6 @@
   <string name="always_btn">Sempre</string>
   <string name="skip_btn">Pular</string>
   <string name="rename_btn">Renomear</string>
-  <string name="install_btn">Instalar</string>
   <string name="restore_btn">Restaurar</string>
   <string name="undo_btn">Desfazer</string>
   <string name="check_btn">Checar</string>
@@ -58,9 +57,6 @@
   <string name="msg_alert_net_error">O serviço dos Correios está fora do ar, ou a conexão falhou.\n\nNão se preocupe, tentaremos novamente nas próximas sincronizações automáticas :)</string>
   <string name="msg_alert_delivered_item">O objeto já foi entregue ao seu destinatário. Novas mudanças de status são improváveis.</string>
   <string name="msg_alert_returned_item">O objeto já foi devolvido ao seu remetente. Novas mudanças de status são improváveis.</string>
-
-  <string name="title_alert_barcode_install">Instalar Barcode Scanner?</string>
-  <string name="msg_alert_barcode_install">O aplicativo é necessário para a leitura de códigos de barra e QR codes.</string>
 
   <string name="msg_alert_cod_not_found">Código de rastreamento não encontrado. Verifique se a página possui informações sobre o objeto.</string>
 

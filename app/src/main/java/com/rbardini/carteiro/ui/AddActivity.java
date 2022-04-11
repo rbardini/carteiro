@@ -1,10 +1,8 @@
 package com.rbardini.carteiro.ui;
 
-import android.app.AlertDialog;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -28,8 +26,8 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 import com.rbardini.carteiro.CarteiroApplication;
 import com.rbardini.carteiro.R;
 import com.rbardini.carteiro.db.DatabaseHelper;
@@ -46,6 +44,7 @@ import com.rbardini.carteiro.util.validator.TrackingCodeValidator;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -83,6 +82,8 @@ public class AddActivity extends AppCompatActivity {
   private AsyncTask<?, ?, ?> mFetchShipmentTask;
   private DatabaseHelper dh;
 
+  private ActivityResultLauncher<ScanOptions> mBarcodeLauncher;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -113,6 +114,8 @@ public class AddActivity extends AppCompatActivity {
 
     if (savedInstanceState != null) mShipment = (Shipment) savedInstanceState.getSerializable(SHIPMENT_KEY);
     dh = ((CarteiroApplication) getApplication()).getDatabaseHelper();
+
+    mBarcodeLauncher = setupBarcodeScanner();
 
     setupTransition();
     setupFormFields();
@@ -171,23 +174,6 @@ public class AddActivity extends AppCompatActivity {
   }
 
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-    if (scanResult != null && data != null) {
-      try {
-        String contents = data.getStringExtra("SCAN_RESULT");
-        String cod = validateCod(contents);
-        mTrackingNumberField.setText(cod);
-        mItemNameField.requestFocus();
-      } catch (Exception e) {
-        UIUtils.showToast(this, e.getMessage());
-      }
-    }
-  }
-
-  @Override
   protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
 
@@ -196,15 +182,10 @@ public class AddActivity extends AppCompatActivity {
   }
 
   private void scanBarcode() {
-    IntentIntegrator scan = new IntentIntegrator(this);
-    AlertDialog install = scan.initiateScan();
+    ScanOptions options = new ScanOptions();
+    options.setBeepEnabled(false);
 
-    if (install != null) {
-      install.setTitle(R.string.title_alert_barcode_install);
-      install.setMessage(getString(R.string.msg_alert_barcode_install));
-      install.getButton(DialogInterface.BUTTON_POSITIVE).setText(R.string.install_btn);
-      install.getButton(DialogInterface.BUTTON_NEGATIVE).setText(R.string.negative_btn);
-    }
+    mBarcodeLauncher.launch(options);
   }
 
   public void onAddClick(View v) {
@@ -352,6 +333,22 @@ public class AddActivity extends AppCompatActivity {
   private void resetConfirmation() {
     mActionBar.setTitle(R.string.title_add);
     mContentText.setText(null);
+  }
+
+  private ActivityResultLauncher<ScanOptions> setupBarcodeScanner() {
+    return registerForActivityResult(new ScanContract(), result -> {
+      String contents = result.getContents();
+
+      if (result.getContents() != null) {
+        try {
+          String cod = validateCod(contents);
+          mTrackingNumberField.setText(cod);
+          mItemNameField.requestFocus();
+        } catch (Exception e) {
+          UIUtils.showToast(this, e.getMessage());
+        }
+      }
+    });
   }
 
   private void setupTransition() {
