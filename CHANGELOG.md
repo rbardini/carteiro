@@ -1,3 +1,7 @@
+# 5.1.0
+- Inclusão de leitor de código de barras próprio
+- Atualização da lista de status
+
 # 5.0.0
 - Melhorias de design—novos esquemas de cores e interface mais limpa ✨
 - Uso do seletor de arquivos ao criar/restaurar backups
