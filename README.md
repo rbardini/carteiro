@@ -1,6 +1,6 @@
 # Carteiro
 
-📦 A beautifully designed, free Android package tracking app for the Brazilian postal service.
+🧢 A beautifully designed, free Android package tracking app for the Brazilian postal service.
 
 | ![][1] | ![][2] | ![][3] | ![][4] | ![][5] | ![][6] | ![][7] |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
