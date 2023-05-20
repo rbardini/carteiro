@@ -1,16 +1,14 @@
 # Carteiro
 
+[![Google Play](https://img.shields.io/static/v1?logo=google-play&label=Google+Play&message=com.rbardini.carteiro+(unpublished))](https://play.google.com/store/apps/details?id=com.rbardini.carteiro)
+
 🧢 A beautifully designed, free Android package tracking app for the Brazilian postal service.
+
+> **Note**<br>
+> Carteiro has been discontinued, see [announcement](https://carteiro.app/blog/aposentando-o-carteiro/).
 
 | ![][1] | ![][2] | ![][3] | ![][4] | ![][5] | ![][6] | ![][7] |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-
-<a href="https://play.google.com/store/apps/details?id=com.rbardini.carteiro">
-  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="240" />
-</a>
-
-> **Note**
-> Carteiro has been discontinued, see [announcement](https://carteiro.app/blog/aposentando-o-carteiro/).
 
 ## Features
 
